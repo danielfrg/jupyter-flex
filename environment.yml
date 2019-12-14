@@ -8,3 +8,4 @@ dependencies:
   - ipywidgets
   - bqplot
   - pandas
+  - pandas-datareader
