@@ -1,0 +1,10 @@
+name: voila-flex
+dependencies:
+  - python=3
+  - jupyter
+  - notebook
+  - jupyterlab
+  - voila
+  - ipywidgets
+  - bqplot
+  - pandas
