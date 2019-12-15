@@ -6,6 +6,8 @@ dependencies:
   - jupyterlab
   - voila
   - ipywidgets
+  # Used by examples
   - bqplot
   - pandas
   - pandas-datareader
+  - jupyter_bokeh

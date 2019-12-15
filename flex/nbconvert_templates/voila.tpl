@@ -33,7 +33,7 @@
 {% set _ = params.update({"flex_section_direction": "row"}) %}
 {% endif %}
 
-{%- macro render_chart(chart) -%}
+{%- macro render_chart(chart, class="") -%}
 {# Render a chart as a card with optional title and footer #}
 {% if "cell" in chart %}
     {% set cell = chart.cell %}
@@ -44,7 +44,7 @@
             {{ super() }}
         </div>
     {% else %}
-        <div class="card" style="flex: {{ chart.size }} {{ chart.size }} 0px;">
+        <div class="card {{ class }}" style="flex: {{ chart.size }} {{ chart.size }} 0px;">
             {# The cell Title #}
             <div class="card-header">{{ chart.header }}</div>
 
@@ -111,14 +111,14 @@
         "kernelId": "{{ kernel_id }}"
     }
 </script>
-{% set cell_count = nb.cells|length %}
-{#
-Voila is using Jinjas Template.generate method to not render the whole template in one go.
+{% set cell_count = nb.cells | length %}
+{# Voila is using Jinjas Template.generate method to not render the whole template in one go.
 The current implementation of Jinja will however not yield template snippets if we call a blocks super()
 Therefore it is important to have the cell loop in the template.
-The issue for Jinja is: https://github.com/pallets/jinja/issues/1044
-#}
-{% set _ = structure.update({"pages": []}) %}
+The issue for Jinja is: https://github.com/pallets/jinja/issues/1044 #}
+
+{# Generate the structure of the dashboard on the structure variable#}
+{% set _ = structure.update({"meta": [], "pages": []}) %}
 {% set vars = {"current_page": {}, "current_section": {}, "current_chart": {} } %}
 
 {%- for cell in cell_generator(nb, kernel_id) -%}
@@ -132,14 +132,52 @@ The issue for Jinja is: https://github.com/pallets/jinja/issues/1044
     {% set cell_tags = cell.get("metadata", {}).get("tags", []) %}
 
     {% if cell_type == "markdown" %}
+        {% set h2_title = macros.startswith_strip(cell_source, "## ") %}
+        {% if h2_title | trim | length %}
+            {# If there is no h1 and notebook starts with h2 #}
+            {% if not vars.current_page %}
+                {% set _ = vars.update({"current_page": {"title": "", "direction": params.flex_direction, "sections": []} }) %}
+            {% endif %}
+
+            {% if vars.current_chart %}
+                {% set _ = vars.current_section["charts"].append(vars.current_chart) %}
+                {% set _ = vars.update({"current_chart": {}}) %}
+            {% endif %}
+
+            {% if vars.current_section %}
+                {% set _ = vars.current_page["sections"].append(vars.current_section) %}
+            {% endif %}
+
+            {# New section: TODO overwrite of section direction using tags #}
+            {% set _ = vars.update({"current_section": {"title": h2_title, "tags": cell_tags, "charts": []}}) %}
+
+            {% set _ = vars.current_section.update({"direction": params.flex_section_direction}) %}
+            {% set orientation = macros.find_item_startswith(cell_tags, "orientation=") %}
+            {% if orientation | trim | length %}
+                {% set orientation = orientation["orientation=" | length:] | trim %}
+                {% if orientation == "columns" %}
+                    {% set _ = vars.current_section.update({"direction": "row"}) %}
+                {% elif orientation == "rows" %}
+                    {% set _ = vars.current_section.update({"direction": "column"}) %}
+                {% endif %}
+            {% endif %}
+
+            {% set _ = vars.current_section.update({"size": "500"}) %}
+            {% set size = macros.find_item_startswith(cell_tags, "size=") %}
+            {% if size | trim | length %}
+                {% set size = size["size=" | length:] | trim %}
+                {% set _ = vars.current_section.update({"size": size}) %}
+            {% endif %}
+        {% endif %}
+
         {% set h3_title = macros.startswith_strip(cell_source, "### ") %}
         {% if h3_title | trim | length %}
             {# If there is no h1 or h2 and notebook starts with h3 #}
             {% if not vars.current_page %}
-                {% set _ = vars.update({"current_page": {"title": "", "sections": []} }) %}
+                {% set _ = vars.update({"current_page": {"title": "", "direction": params.flex_direction, "sections": []} }) %}
             {% endif %}
             {% if not vars.current_section %}
-                {% set _ = vars.update({"current_section": {"header": "", "tags": [], "charts": []}}) %}
+                {% set _ = vars.update({"current_section": {"title": "", "direction": params.flex_direction, "tags": [], "charts": []}}) %}
             {% endif %}
 
             {% if vars.current_chart %}
@@ -152,15 +190,16 @@ The issue for Jinja is: https://github.com/pallets/jinja/issues/1044
 
     {% if cell_type == "code" %}
         {% set show = macros.find_item_startswith(cell_tags, "show") %}
-        {% set hidden = macros.find_item_startswith(cell_tags, "hidden") %}
+        {% set meta = macros.find_item_startswith(cell_tags, "meta") %}
 
-        {% if show | trim | length or hidden | trim | length %}
+        {% if show | trim | length or meta | trim | length %}
             {% if show | trim | length %}
                 {% set _ = vars.current_chart.update({"cell": cell}) %}
             {% endif %}
 
-            {% if hidden | trim | length %}
-                {% set _ = vars.current_chart.update({"cell": cell, "display": "none"}) %}
+            {% if meta | trim | length %}
+                {% set _ = structure.meta.append({"cell": cell, "display": "none"}) %}
+                {% continue %}
             {% endif %}
 
             {% set _ = vars.current_chart.update({"tags": cell_tags}) %}
@@ -193,12 +232,16 @@ The issue for Jinja is: https://github.com/pallets/jinja/issues/1044
             <span class="navbar-brand">{{ params.title }}</span>
         </nav>
 
+        {% for chart in structure.meta %}
+            {{ render_chart(chart) }}
+        {% endfor %}
+
         {% for page in structure.pages %}
             <div class="container-fluid d-flex flex-{{ params.flex_direction }} dashboard-container">
             {% for section in page.sections %}
-                <div class="d-flex flex-{{ params.flex_direction }} section">
+                <div class="d-flex flex-{{ section.direction }} section section-{{ section.direction }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
                 {% for chart in section.charts %}
-                    {{ render_chart(chart) }}
+                    {{ render_chart(chart, class="card-" + section.direction) }}
                 {% endfor %}
                 </div>
             {% endfor %}
@@ -221,17 +264,17 @@ The issue for Jinja is: https://github.com/pallets/jinja/issues/1044
 
     <script>
         var counter = 0;
-        var looper = setInterval(function() {
-            var nodelist = document.querySelectorAll(".js-plotly-plot")
-            var plots = Array.from(nodelist)
-            plots.map(function (obj){ obj.style.height = "100%"; })
+var looper = setInterval(function() {
+    var nodelist = document.querySelectorAll(".js-plotly-plot")
+    var plots = Array.from(nodelist)
+    plots.map(function (obj){ obj.style.height = "100%"; })
 
-            window.dispatchEvent(new Event("resize"));
-            if (counter >= 25) {
-                clearInterval(looper);
-            }
-            counter++;
-        }, 200);
+    window.dispatchEvent(new Event("resize"));
+    if (counter >= 25) {
+        clearInterval(looper);
+    }
+    counter++;
+}, 200);
     </script>
 </body>
 {%- endblock body_footer -%}
