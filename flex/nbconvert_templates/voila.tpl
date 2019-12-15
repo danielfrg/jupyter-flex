@@ -28,8 +28,8 @@
 {% set _ = params.update({"flex_direction": "row"}) %}
 {% set _ = params.update({"flex_section_direction": "row"}) %}
 {% elif params["orientation"] == "rows" %}
-{% set _ = params.update({"flex_direction": "columns"}) %}
-{% set _ = params.update({"flex_section_direction": "columns"}) %}
+{% set _ = params.update({"flex_direction": "column"}) %}
+{% set _ = params.update({"flex_section_direction": "column"}) %}
 {% endif %}
 
 {%- macro startswith_strip(text, chars) -%}
@@ -52,29 +52,30 @@
 
 {%- macro render_chart(chart) -%}
 {# Render a chart as a card with optional title and footer #}
-{% set cell = chart.cell %}
+{% if "cell" in chart %}
+    {% set cell = chart.cell %}
 
-{% block any_cell scoped %}
-{% if chart.get("display", "") == "none" %}
-    <div style="display: none;">
-        {{ super() }}
-    </div>
-{% else %}
-    <div class="card" style="flex: {{ chart.size }} {{ chart.size }} 0px;">
-        {# The cell Title #}
-        <div class="card-header">{{ chart.header }}</div>
+    {% block any_cell scoped %}
+    {% if chart.get("display", "") == "none" %}
+        <div style="display: none;">
+            {{ super() }}
+        </div>
+    {% else %}
+        <div class="card" style="flex: {{ chart.size }} {{ chart.size }} 0px;">
+            {# The cell Title #}
+            <div class="card-header">{{ chart.header }}</div>
 
-        {# The cell content #}
-        <div class="card-body"></div>
+            {# The cell content #}
+            <div class="card-body">{{ super() }}</div>
 
-        {# The cell footer #}
-        {% if chart.footer %}
-            <div class="card-footer text-muted">{{ chart.footer }}</div>
-        {% endif %}
-    </div>
+            {# The cell footer #}
+            {% if chart.footer %}
+                <div class="card-footer text-muted">{{ chart.footer }}</div>
+            {% endif %}
+        </div>
+    {% endif %}
+    {% endblock %}
 {% endif %}
-{% endblock %}
-
 {% endmacro %}
 
 {# This block overrides the default behaviour of directly starting the kernel and executing the notebook #}
@@ -172,7 +173,7 @@ The issue for Jinja is: https://github.com/pallets/jinja/issues/1044
 
         {% if show | trim | length or hidden | trim | length %}
             {% if show | trim | length %}
-                {% set _ = vars.current_chart.update({"cell": "XXXXX"}) %}
+                {% set _ = vars.current_chart.update({"cell": cell}) %}
             {% endif %}
 
             {% if hidden | trim | length %}
@@ -205,9 +206,6 @@ The issue for Jinja is: https://github.com/pallets/jinja/issues/1044
 
 {%- block body_content -%}
     <div id="application" style="display: none">
-        {{ "-------------------------: STRUCTURE: " }}<br>
-        {{ structure }}
-
         <nav class="navbar navbar-default navbar-fixed-top">
             <span class="navbar-brand">{{ params.title }}</span>
         </nav>
