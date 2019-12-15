@@ -1,0 +1,17 @@
+{%- macro startswith_strip(text, chars) -%}
+{# Print text if it starts with a set of characters and strip those from the text #}
+{%- if text.startswith(chars) -%}
+    {{ text[chars | length:] | trim }}
+{%- endif -%}
+{%- endmacro -%}
+
+{%- macro find_item_startswith(list, chars, default="") -%}
+{# Iterate list and print if one value starts with the target characters #}
+{%- for item in list %}
+    {%- if item.startswith(chars) -%}
+        {{ item }}
+        {%- break -%}
+    {%- endif -%}
+{%- endfor -%}
+{{ default }}
+{%- endmacro -%}

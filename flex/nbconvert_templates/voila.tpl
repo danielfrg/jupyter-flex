@@ -1,4 +1,5 @@
 {%- extends "base.tpl" -%}
+{% import "macros.j2" as macros %}
 
 {# Global variables #}
 {% set structure = {} %}
@@ -26,29 +27,11 @@
 {# Set Flex direction based on orientation #}
 {% if params["orientation"] == "columns" %}
 {% set _ = params.update({"flex_direction": "row"}) %}
-{% set _ = params.update({"flex_section_direction": "row"}) %}
+{% set _ = params.update({"flex_section_direction": "column"}) %}
 {% elif params["orientation"] == "rows" %}
 {% set _ = params.update({"flex_direction": "column"}) %}
-{% set _ = params.update({"flex_section_direction": "column"}) %}
+{% set _ = params.update({"flex_section_direction": "row"}) %}
 {% endif %}
-
-{%- macro startswith_strip(text, chars) -%}
-{# Print text if it starts with a set of characters and strip those from the text #}
-{%- if text.startswith(chars) -%}
-    {{ text[chars | length:] | trim }}
-{%- endif -%}
-{%- endmacro -%}
-
-{%- macro find_item_startswith(list, chars, default="") -%}
-{# Iterate list and print if one value starts with the target characters #}
-{%- for item in list %}
-    {%- if item.startswith(chars) -%}
-        {{ item }}
-        {%- break -%}
-    {%- endif -%}
-{%- endfor -%}
-{{ default }}
-{%- endmacro -%}
 
 {%- macro render_chart(chart) -%}
 {# Render a chart as a card with optional title and footer #}
@@ -149,7 +132,7 @@ The issue for Jinja is: https://github.com/pallets/jinja/issues/1044
     {% set cell_tags = cell.get("metadata", {}).get("tags", []) %}
 
     {% if cell_type == "markdown" %}
-        {% set h3_title = startswith_strip(cell_source, "### ") %}
+        {% set h3_title = macros.startswith_strip(cell_source, "### ") %}
         {% if h3_title | trim | length %}
             {# If there is no h1 or h2 and notebook starts with h3 #}
             {% if not vars.current_page %}
@@ -168,8 +151,8 @@ The issue for Jinja is: https://github.com/pallets/jinja/issues/1044
     {% endif %}
 
     {% if cell_type == "code" %}
-        {% set show = find_item_startswith(cell_tags, "show") %}
-        {% set hidden = find_item_startswith(cell_tags, "hidden") %}
+        {% set show = macros.find_item_startswith(cell_tags, "show") %}
+        {% set hidden = macros.find_item_startswith(cell_tags, "hidden") %}
 
         {% if show | trim | length or hidden | trim | length %}
             {% if show | trim | length %}
@@ -183,9 +166,9 @@ The issue for Jinja is: https://github.com/pallets/jinja/issues/1044
             {% set _ = vars.current_chart.update({"tags": cell_tags}) %}
 
             {% set _ = vars.current_chart.update({"size": "500"}) %}
-            {% set size = find_item_startswith(cell_tags, "size=") %}
+            {% set size = macros.find_item_startswith(cell_tags, "size=") %}
             {% if size | trim | length %}
-                {% set size = startswith_strip(size, "size=") | trim %}
+                {% set size = macros.startswith_strip(size, "size=") | trim %}
                 {% set _ = vars.current_chart.update({"size": size}) %}
             {% endif %}
         {% endif %}
