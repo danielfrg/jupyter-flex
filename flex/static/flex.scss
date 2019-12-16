@@ -39,8 +39,14 @@ body {
 .dashboard-container {
     width: 100%;
     height: calc(100% - 51px);
-    padding: 0.5rem;
+    padding: 0;
     // padding: 0.5rem 0 0 0.5rem;
+
+    .sidebar {
+        background-color: rgba(39, 128, 227, 0.1);
+        border-right: 1px solid #e2e2e2;
+        padding: 15px;
+    }
 
     .section {
         width: 100%;

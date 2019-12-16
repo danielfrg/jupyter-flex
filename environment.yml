@@ -11,3 +11,4 @@ dependencies:
   - pandas
   - pandas-datareader
   - jupyter_bokeh
+  - scikit-learn

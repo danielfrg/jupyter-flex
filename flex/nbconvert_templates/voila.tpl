@@ -37,28 +37,32 @@
 {# Render a chart as a card with optional title and footer #}
 {% if "cell" in chart %}
     {% set cell = chart.cell %}
-
     {% block any_cell scoped %}
-    {% if chart.get("display", "") == "none" %}
-        <div style="display: none;">
+        {% if chart.get("display", "") == "none" %}
+            <div style="display: none;">
+                {{ super() }}
+            </div>
+        {% elif chart.get("type", "") == "inputs" %}
+            <form>
             {{ super() }}
-        </div>
-    {% else %}
-        <div class="card {{ class }}" style="flex: {{ chart.size }} {{ chart.size }} 0px;">
-            {# The cell Title #}
-            <div class="card-header">{{ chart.header }}</div>
+            </form>
+        {% else %}
+            <div class="card {{ class }}" style="flex: {{ chart.size }} {{ chart.size }} 0px;">
+                {# The cell Title #}
+                <div class="card-header">{{ chart.header }}</div>
 
-            {# The cell content #}
-            <div class="card-body">{{ super() }}</div>
+                {# The cell content #}
+                <div class="card-body">{{ super() }}</div>
 
-            {# The cell footer #}
-            {% if chart.footer %}
-                <div class="card-footer text-muted">{{ chart.footer }}</div>
-            {% endif %}
-        </div>
-    {% endif %}
+                {# The cell footer #}
+                {% if chart.footer %}
+                    <div class="card-footer text-muted">{{ chart.footer }}</div>
+                {% endif %}
+            </div>
+        {% endif %}
     {% endblock %}
 {% endif %}
+
 {% endmacro %}
 
 {# This block overrides the default behaviour of directly starting the kernel and executing the notebook #}
@@ -66,20 +70,24 @@
 {% endblock before_notebook_execute %}
 
 {% block header %}
-<head>
+<html>
     <meta charset="utf-8">
     <title>{{ params.title }}</title>
 
     <link href="{{ resources.base_url }}voila/static/bootstrap.min.css" rel="stylesheet">
     <link href="{{ resources.base_url }}voila/static/flex.min.css" rel="stylesheet">
-
     <script src="{{ resources.base_url }}voila/static/require.min.js"></script>
-</head>
+</html>
 {% endblock %}
 
 {%- block body -%}
 
 {%- block body_header -%}
+
+<style>
+{% include "overwrite.min.css" %}
+</style>
+
 <div id="voila_body_loop">
     <div id="loading">
         <div class="container-fluid d-flex flex-row loading">
@@ -136,19 +144,26 @@ The issue for Jinja is: https://github.com/pallets/jinja/issues/1044 #}
         {% if h2_title | trim | length %}
             {# If there is no h1 and notebook starts with h2 #}
             {% if not vars.current_page %}
-                {% set _ = vars.update({"current_page": {"title": "", "direction": params.flex_direction, "sections": []} }) %}
+                {% set _ = vars.update({"current_page": {"title": "", "direction": params.flex_direction, "sections": [], "sidebar": {} } }) %}
             {% endif %}
 
+            {# Add the current chart to the current section before defining a new one #}
             {% if vars.current_chart %}
                 {% set _ = vars.current_section["charts"].append(vars.current_chart) %}
                 {% set _ = vars.update({"current_chart": {}}) %}
             {% endif %}
 
+            {# Add current section to page before defining a new one #}
             {% if vars.current_section %}
-                {% set _ = vars.current_page["sections"].append(vars.current_section) %}
+                {% set is_sidebar = macros.find_item_startswith(vars.current_section.tags, "sidebar") %}
+                {% if is_sidebar | length | trim %}
+                    {% set _ = vars.current_page.update({"sidebar": vars.current_section}) %}
+                {% else %}
+                    {% set _ = vars.current_page["sections"].append(vars.current_section) %}
+                {% endif %}
             {% endif %}
 
-            {# New section: TODO overwrite of section direction using tags #}
+            {# Create new section and use tags to override defaults #}
             {% set _ = vars.update({"current_section": {"title": h2_title, "tags": cell_tags, "charts": []}}) %}
 
             {% set _ = vars.current_section.update({"direction": params.flex_section_direction}) %}
@@ -189,17 +204,22 @@ The issue for Jinja is: https://github.com/pallets/jinja/issues/1044 #}
     {% endif %}
 
     {% if cell_type == "code" %}
-        {% set show = macros.find_item_startswith(cell_tags, "show") %}
         {% set meta = macros.find_item_startswith(cell_tags, "meta") %}
+        {% set inputs = macros.find_item_startswith(cell_tags, "inputs") %}
+        {% set show = macros.find_item_startswith(cell_tags, "show") %}
 
-        {% if show | trim | length or meta | trim | length %}
-            {% if show | trim | length %}
-                {% set _ = vars.current_chart.update({"cell": cell}) %}
-            {% endif %}
-
+        {% if meta | trim | length or inputs | trim | length or show | trim | length %}
             {% if meta | trim | length %}
                 {% set _ = structure.meta.append({"cell": cell, "display": "none"}) %}
                 {% continue %}
+            {% endif %}
+
+            {% if inputs | trim | length %}
+                {% set _ = vars.current_chart.update({"cell": cell, "type": "inputs"}) %}
+            {% endif %}
+
+            {% if show | trim | length %}
+                {% set _ = vars.current_chart.update({"cell": cell}) %}
             {% endif %}
 
             {% set _ = vars.current_chart.update({"tags": cell_tags}) %}
@@ -228,6 +248,7 @@ The issue for Jinja is: https://github.com/pallets/jinja/issues/1044 #}
 
 {%- block body_content -%}
     <div id="application" style="display: none">
+        {{ structure }}
         <nav class="navbar navbar-default navbar-fixed-top">
             <span class="navbar-brand">{{ params.title }}</span>
         </nav>
@@ -237,7 +258,17 @@ The issue for Jinja is: https://github.com/pallets/jinja/issues/1044 #}
         {% endfor %}
 
         {% for page in structure.pages %}
+
             <div class="container-fluid d-flex flex-{{ params.flex_direction }} dashboard-container">
+
+            {% if page.sidebar %}
+                <div class="col-xl-2 bd-sidebar sidebar">
+                    {% for chart in page.sidebar.charts %}
+                        {{ render_chart(chart) }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
             {% for section in page.sections %}
                 <div class="d-flex flex-{{ section.direction }} section section-{{ section.direction }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
                 {% for chart in section.charts %}
@@ -264,17 +295,17 @@ The issue for Jinja is: https://github.com/pallets/jinja/issues/1044 #}
 
     <script>
         var counter = 0;
-var looper = setInterval(function() {
-    var nodelist = document.querySelectorAll(".js-plotly-plot")
-    var plots = Array.from(nodelist)
-    plots.map(function (obj){ obj.style.height = "100%"; })
+        var looper = setInterval(function() {
+            var nodelist = document.querySelectorAll(".js-plotly-plot")
+            var plots = Array.from(nodelist)
+            plots.map(function (obj){ obj.style.height = "100%"; })
 
-    window.dispatchEvent(new Event("resize"));
-    if (counter >= 25) {
-        clearInterval(looper);
-    }
-    counter++;
-}, 200);
+            window.dispatchEvent(new Event("resize"));
+            if (counter >= 25) {
+                clearInterval(looper);
+            }
+            counter++;
+        }, 200);
     </script>
 </body>
 {%- endblock body_footer -%}
