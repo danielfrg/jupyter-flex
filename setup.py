@@ -139,14 +139,14 @@ print("Data Files:")
 print(data_files)
 
 setup(
-    name="voila-flex",
+    name="jupyter-flex",
     version="0.1.0",
     description="Voila Flex Dashboards",
     data_files=data_files,
     include_package_data=True,
     author="Daniel Rodriguez",
     author_email="df.rodriguez143@gmail.com",
-    url="https://github.com/danielfrg/voila-flex",
+    url="https://github.com/danielfrg/jupyter-flex",
     python_requires=">=3.0,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*",
     install_requires=requirements,
     keywords=[

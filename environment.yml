@@ -1,4 +1,6 @@
-name: voila-flex
+name: jupyter-flex
+channels:
+  - conda-forge
 dependencies:
   - python=3
   - pip
@@ -8,12 +10,16 @@ dependencies:
   - voila
   - nbconvert
   - ipywidgets
-  - nodejs
+  - libsass
+  - mkdocs
   # Used by examples
-  - bqplot
   - pandas
+  - plotly
+  - bokeh
+  - bqplot
   - pandas-datareader
-  - jupyter_bokeh
   - scikit-learn
   - pip:
+    - mkdocs-material
+    - jupyter_bokeh
     - colorlover
