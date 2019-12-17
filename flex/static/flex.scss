@@ -39,24 +39,53 @@ body {
 .dashboard-container {
     width: 100%;
     height: calc(100% - 51px);
-    padding: 0.5rem;
-    // padding: 0.5rem 0 0 0.5rem;
+    padding: 0;
+
+    .sidebar {
+        background-color: rgba(39, 128, 227, 0.1);
+        border-right: 1px solid #e2e2e2;
+        padding: 15px;
+    }
+
+    .sections {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+    }
 
     .section {
         width: 100%;
         height: 100%;
 
         &.section-row {
-            padding: 0 0 0.5rem 0;
+            padding-bottom: 0.5rem;
+            padding-right: 0.5rem;
+
+            &:first-child {
+                padding-top: 0.5rem;
+                padding-left: 0.5rem;
+            }
+
             &:last-child {
-                padding: 0 0 0 0;
+                padding-right: 0;
+            }
+
+            &:only-child {
+                padding-right: 0.5rem;
             }
         }
 
         &.section-column {
-            padding: 0 0.5rem 0 0;
+            padding-bottom: 0.5rem;
+            padding-right: 0.5rem;
+
+            &:first-child {
+                padding-top: 0.5rem;
+                padding-left: 0.5rem;
+            }
+
             &:last-child {
-                padding: 0 0 0 0;
+                padding-top: 0.5rem;
             }
         }
     }
@@ -67,19 +96,21 @@ body {
     width: 100%;
     height: 100%;
 
-    // Read as cars inside a row section
+    // Read as cards inside a row section
     &.card-row {
-        margin: 0 0.5rem 0 0;
+        margin-right: 0.5rem;
+
         &:last-child {
-            margin: 0 0 0 0;
+            margin-right: 0;
         }
     }
 
-    // Read as cars inside a columns section
+    // Read as cards inside a columns section
     &.card-column {
-        margin: 0 0 0.5rem 0;
+        margin-bottom: 0.5rem;
+
         &:last-child {
-            margin: 0 0 0 0;
+            margin-bottom: 0;
         }
     }
 
@@ -89,6 +120,8 @@ body {
         height: 100%;
     }
 }
+
+// Modify default ouput of cells
 
 table.dataframe {
     border: none;
@@ -124,6 +157,12 @@ table.dataframe {
     * + table {margin-top: 1em;}
 }
 
+.js-plotly-plot {
+    width: 100%;
+    height: 100%;
+}
+
 .bk-root {
+    width: 100%;
     height: 100%;
 }
