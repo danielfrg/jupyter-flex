@@ -154,9 +154,10 @@ The issue for Jinja is: https://github.com/pallets/jinja/issues/1044 #}
             {% endif %}
 
             {# Add current section to page before defining a new one #}
+
             {% if vars.current_section %}
                 {% set is_sidebar = macros.find_item_startswith(vars.current_section.tags, "sidebar") %}
-                {% if is_sidebar | length | trim %}
+                {% if is_sidebar | trim | length %}
                     {% set _ = vars.current_page.update({"sidebar": vars.current_section}) %}
                 {% else %}
                     {% set _ = vars.current_page["sections"].append(vars.current_section) %}
@@ -206,9 +207,9 @@ The issue for Jinja is: https://github.com/pallets/jinja/issues/1044 #}
     {% if cell_type == "code" %}
         {% set meta = macros.find_item_startswith(cell_tags, "meta") %}
         {% set inputs = macros.find_item_startswith(cell_tags, "inputs") %}
-        {% set show = macros.find_item_startswith(cell_tags, "show") %}
+        {% set chart = macros.find_item_startswith(cell_tags, "chart") %}
 
-        {% if meta | trim | length or inputs | trim | length or show | trim | length %}
+        {% if meta | trim | length or inputs | trim | length or chart | trim | length %}
             {% if meta | trim | length %}
                 {% set _ = structure.meta.append({"cell": cell, "display": "none"}) %}
                 {% continue %}
@@ -218,7 +219,7 @@ The issue for Jinja is: https://github.com/pallets/jinja/issues/1044 #}
                 {% set _ = vars.current_chart.update({"cell": cell, "type": "inputs"}) %}
             {% endif %}
 
-            {% if show | trim | length %}
+            {% if chart | trim | length %}
                 {% set _ = vars.current_chart.update({"cell": cell}) %}
             {% endif %}
 
@@ -247,8 +248,9 @@ The issue for Jinja is: https://github.com/pallets/jinja/issues/1044 #}
 {%- endblock body_loop -%}
 
 {%- block body_content -%}
+
     <div id="application" style="display: none">
-        {{ structure }}
+
         <nav class="navbar navbar-default navbar-fixed-top">
             <span class="navbar-brand">{{ params.title }}</span>
         </nav>
@@ -259,23 +261,24 @@ The issue for Jinja is: https://github.com/pallets/jinja/issues/1044 #}
 
         {% for page in structure.pages %}
 
-            <div class="container-fluid d-flex flex-{{ params.flex_direction }} dashboard-container">
+            <div class="dashboard-container container-fluid d-flex">
+                {% if page.sidebar %}
+                    <div class="col-xl-2 bd-sidebar sidebar">
+                        {% for chart in page.sidebar.charts %}
+                            {{ render_chart(chart) }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
 
-            {% if page.sidebar %}
-                <div class="col-xl-2 bd-sidebar sidebar">
-                    {% for chart in page.sidebar.charts %}
-                        {{ render_chart(chart) }}
+                <div class="container-fluid d-flex flex-{{ params.flex_direction }} sections">
+                    {% for section in page.sections %}
+                        <div class="d-flex flex-{{ section.direction }} section section-{{ section.direction }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
+                        {% for chart in section.charts %}
+                            {{ render_chart(chart, class="card-" + section.direction) }}
+                        {% endfor %}
+                        </div>
                     {% endfor %}
                 </div>
-            {% endif %}
-
-            {% for section in page.sections %}
-                <div class="d-flex flex-{{ section.direction }} section section-{{ section.direction }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
-                {% for chart in section.charts %}
-                    {{ render_chart(chart, class="card-" + section.direction) }}
-                {% endfor %}
-                </div>
-            {% endfor %}
             </div>
         {% endfor %}
     </div>

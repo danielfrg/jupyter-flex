@@ -12,3 +12,5 @@ dependencies:
   - pandas-datareader
   - jupyter_bokeh
   - scikit-learn
+  - pip:
+    - colorlover

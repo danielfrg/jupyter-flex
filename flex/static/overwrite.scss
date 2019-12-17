@@ -7,13 +7,15 @@ form {
 .jupyter-widgets {
     margin: 0;
 
-    .widget-dropdown, .widget-text {
-        // This is a copy of bootstrap .form-group
-        margin-bottom: 1rem;
-        // border: 1px solid red;
+    &.jp-OutputArea-output {
+        height: 100%;
+    }
 
+    .widget-dropdown, .widget-text {
         width: 100%;
         height: 100%;
+        // This is a copy of bootstrap .form-group
+        margin-bottom: 1rem;
     }
 
     div[class*="widget-inline"] {
@@ -28,12 +30,12 @@ form {
         margin-right: 0 !important;
         width: 100% !important;
         flex-shrink: 0 !important;
-
-        // height: 100% !important;
-        // line-height: 0 !important;
     }
 
     select, input[type="number"] {
+        flex: 1 1;
+        height: 24px;
+
         // This is a copy of bootstrap .form-control
         display: block;
         width: 100%;
@@ -46,8 +48,5 @@ form {
         border: 1px solid #ced4da;
         border-radius: .25rem;
         transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-
-        height: 24px;
-        flex: 1 1;
     }
 }
