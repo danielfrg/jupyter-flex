@@ -131,5 +131,4 @@ dmypy.json
 # This project
 examples/*.html
 flex/static/flex.css
-flex/static/overwrite*.css
-flex/nbconvert_templates/flex.min.css
+flex/static/flex-overwrite*.css

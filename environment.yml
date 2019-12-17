@@ -5,6 +5,7 @@ dependencies:
   - notebook
   - jupyterlab
   - voila
+  - nbconvert
   - ipywidgets
   # Used by examples
   - bqplot

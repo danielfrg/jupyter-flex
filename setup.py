@@ -6,6 +6,17 @@ from setuptools import setup
 from setuptools.command.develop import develop
 
 
+this_dir = os.path.abspath(os.path.dirname(__file__))
+
+def read_file(filename):
+    filepath = os.path.join(this_dir, filename)
+    with open(filepath) as file:
+        return file.read()
+
+
+requirements = read_file("requirements.txt").splitlines()
+
+
 def get_home_dir():
     """Get the real path of the home directory
     Taken from jupyter_core/paths.py
@@ -67,20 +78,22 @@ def user_dir():
 
 class DevelopCmd(develop):
     prefix_targets = [
-        ("voila/templates", "flex"),
+        ("voila/templates", "flex", "flex"),
+        ("nbconvert/templates/html", "flex/nbconvert_templates", ""),
     ]
 
     def run(self):
-        # Default is environment/share/jupyter
-        target_dir = os.path.join(sys.prefix, "share", "jupyter")
+        # Default location is `{environment}/share/jupyter`
+        prefix_dir = os.path.join(sys.prefix, "share", "jupyter")
         # If --user then install it to the correct OS location
         if "--user" in sys.prefix:
-            target_dir = user_dir()
+            prefix_dir = user_dir()
 
-        for prefix_target, name in self.prefix_targets:
-            source = os.path.join(name)
-            target = os.path.join(target_dir, prefix_target, name)
+        for prefix_target, source, name in self.prefix_targets:
+            source = os.path.abspath(source)
+            target = os.path.join(prefix_dir, prefix_target, name).rstrip(os.path.sep)
             target_subdir = os.path.dirname(target)
+            print("!!!!", prefix_target, target_subdir, source, name)
             if not os.path.exists(target_subdir):
                 os.makedirs(target_subdir)
             try:
@@ -88,21 +101,41 @@ class DevelopCmd(develop):
             except:
                 pass
 
-            rel_source = os.path.relpath(os.path.abspath(source), os.path.abspath(target_subdir))
-            print("Linking", rel_source, "->", target)
-            os.symlink(rel_source, target)
+            print("Linking", source, "->", target)
+            os.symlink(source, target)
 
         super(DevelopCmd, self).run()
 
 
-# WARNING: all files generates during setup.py will not end up in the source distribution
+# Create data_files
 data_files = []
-# Add all the templates
+
+# Voila files get added to `share/jupyter/voila/flex/{}`
+def voila_prefix(*args):
+    return os.path.join("share", "jupyter", "voila", "templates", *args)
+
 for (dirpath, dirnames, filenames) in os.walk("flex/"):
     if filenames:
-        data_files.append((dirpath, [os.path.join(dirpath, filename) for filename in filenames]))
+        files = [voila_prefix(dirpath, filename) for filename in filenames]
+        data_files.append((voila_prefix(dirpath), files))
 
+# NBConvert files are added to `share/jupyter/nbconvert/html/{}`
+# We prefix the files `flex-` for conflicts with other templates
+def nbconvert_prefix(*args):
+    return os.path.join("share", "jupyter", "nbconvert", "templates", "html", *args)
 
+for (dirpath, dirnames, filenames) in os.walk("flex/nbconvert_templates/"):
+    dirpath = ""  # Remove the nbconvert_templates
+    if filenames:
+        files = []
+        for filename in filenames:
+            fname, ext = os.path.splitext(filename)
+            print(fname)
+            filename = filename if fname.startswith("flex") else "flex-{}{}".format(fname, ext)
+            files.append(nbconvert_prefix(filename))
+        data_files.append((nbconvert_prefix(dirpath), files))
+
+print("Data Files:")
 print(data_files)
 
 setup(
@@ -110,18 +143,20 @@ setup(
     version="0.1.0",
     description="Voila Flex Dashboards",
     data_files=data_files,
-    install_requires=["voila>=0.1.11,<0.2"],
     include_package_data=True,
     author="Daniel Rodriguez",
     author_email="df.rodriguez143@gmail.com",
     url="https://github.com/danielfrg/voila-flex",
+    python_requires=">=3.0,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*",
+    install_requires=requirements,
     keywords=[
         "ipython",
         "jupyter",
         "widgets",
-        "voila"
+        "voila",
+        "nbconvert"
     ],
     cmdclass={
         "develop": DevelopCmd,
-   },
+   }
 )
