@@ -133,7 +133,7 @@ node_modules
 
 # This project
 examples/*.html
-flex/nbconvert_templates/*.css
-flex/nbconvert_templates/*.js
 flex/static/*.css
 flex/static/*.js
+flex/nbconvert_templates/*.css
+flex/nbconvert_templates/*.js
