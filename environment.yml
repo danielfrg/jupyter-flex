@@ -1,12 +1,14 @@
 name: voila-flex
 dependencies:
   - python=3
+  - pip
   - jupyter
   - notebook
   - jupyterlab
   - voila
   - nbconvert
   - ipywidgets
+  - nodejs
   # Used by examples
   - bqplot
   - pandas
