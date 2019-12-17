@@ -128,8 +128,12 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# npm
+node_modules
+
 # This project
 examples/*.html
-flex/static/flex.css
-flex/static/overwrite*.css
-flex/nbconvert_templates/flex.min.css
+flex/static/*.css
+flex/static/*.js
+flex/nbconvert_templates/*.css
+flex/nbconvert_templates/*.js
