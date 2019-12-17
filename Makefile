@@ -28,6 +28,7 @@ copy-static:  ## Copy static assets to nbconvert_templates
 python:  ## TODO
 
 clean:  ## Remove temp .css/.js
+	@rm -f flex/static/flex*.js
 	@rm -f flex/static/flex*.css
 	@rm -f flex/nbconvert_templates/*.js
 	@rm -f flex/nbconvert_templates/*.css
