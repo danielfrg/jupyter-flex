@@ -1,4 +1,5 @@
 {% set flex_extends_from = "base.tpl" %}
+{% set flex_app_initial_display = "none" %}
 {%- extends "flex-base.tpl" -%}
 
 {%- block header -%}
@@ -22,3 +23,88 @@
     {%- endblock html_head -%}
     </head>
 {%- endblock header -%}
+
+
+{%- block body_header -%}
+    <div id="voila_body_loop">
+        <div id="loading">
+            <div class="container-fluid d-flex flex-row loading">
+                <div class="text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <p id="loading_text">Executing notebook</p>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var voila_process = function(cell_index, cell_count) {
+                var el = document.getElementById("loading_text")
+                el.innerHTML = "Executing cell " + cell_index + " of " + cell_count
+            }
+        </script>
+{%- endblock body_header -%}
+
+
+{% block execute_cells %}
+    {%- with kernel_id = kernel_start() -%}
+    <script id="jupyter-config-data" type="application/json">
+    {
+        "baseUrl": "{{resources.base_url}}",
+        "kernelId": "{{kernel_id}}"
+    }
+    </script>
+
+    {% set cell_count = nb.cells | length %}
+    {# Voila is using Jinjas Template.generate method to not render the whole template in one go.
+    The current implementation of Jinja will however not yield template snippets if we call a blocks super()
+    Therefore it is important to have the cell loop in the template.
+    The issue for Jinja is: https://github.com/pallets/jinja/issues/1044 #}
+
+    {# Generate the structure of the dashboard on the structure variable#}
+
+    {%- for cell in cell_generator(nb, kernel_id) -%}
+        {% set cellloop = loop %}
+        <script>
+            voila_process({{ cellloop.index }}, {{ cell_count }})
+        </script>
+    {%- endfor -%}
+
+    {% endwith %}
+{% endblock %}
+
+
+{% block after_body_loop %}
+    </div> <!-- voila_body_loop -->
+{% endblock %}
+
+
+{%- block body_footer -%}
+    <script type="text/javascript">
+        (function() {
+        // Remove the loading element
+        var el = document.getElementById("loading")
+        el.parentNode.removeChild(el)
+        // Show the app
+        el = document.getElementById("application")
+        el.style.display = "unset"
+        })();
+    </script>
+
+    <script>
+        var counter = 0;
+        var looper = setInterval(function() {
+            var nodelist = document.querySelectorAll(".js-plotly-plot")
+            var plots = Array.from(nodelist)
+            plots.map(function (obj){ obj.style.height = "100%"; })
+
+            window.dispatchEvent(new Event("resize"));
+            if (counter >= 25) {
+                clearInterval(looper);
+            }
+            counter++;
+        }, 200);
+    </script>
+</body>
+{%- endblock body_footer -%}
