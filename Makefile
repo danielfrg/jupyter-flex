@@ -39,8 +39,8 @@ upload-test:  ## Upload package to pypi test repository
 
 .PHONY: clean
 clean:  ## Remove build files
-	@rm -f dist
-	@rm -f site
+	@rm -rf dist
+	@rm -rf site
 	@rm -f jupyter_flex/static/*.js
 	@rm -f jupyter_flex/static/*.css
 	@rm -f jupyter_flex/nbconvert_templates/*.js

@@ -10,11 +10,18 @@ nav:
 theme:
   name: 'material'
   custom_dir: 'docs/theme'
+  favicon: 'assets/img/favicon.ico'
   palette:
     primary: 'orange'
     accent: 'red'
   logo:
     icon: 'dashboard'
+
+extra_css:
+  - assets/css/custom.css
+
+extra_javascript:
+  - 'assets/js/require.min.js'
 
 repo_name: 'danielfrg/jupyter-flex'
 repo_url: 'https://github.com/danielfrg/jupyter-flex'
@@ -23,5 +30,5 @@ plugins:
   - search
   - mkdocs-jupyter
 
-extra_javascript:
-  - 'javascripts/require.min.js'
+markdown_extensions:
+  - admonition

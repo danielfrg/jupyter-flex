@@ -11,7 +11,7 @@
 
         {%- block html_head_js -%}
             <script src="{{ resources.base_url }}voila/static/require.min.js"
-                integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA="
+                integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg="
                 crossorigin="anonymous">
             </script>
         {%- endblock html_head_js -%}
