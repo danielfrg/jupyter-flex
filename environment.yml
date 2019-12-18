@@ -7,6 +7,7 @@ dependencies:
   - jupyter
   - notebook
   - jupyterlab
+  - ipython
   - voila
   - nbconvert
   - ipywidgets
@@ -20,6 +21,8 @@ dependencies:
   - pandas-datareader
   - scikit-learn
   - pip:
+    - versioneer
     - mkdocs-material
+    - mkdocs-jupyter
     - jupyter_bokeh
     - colorlover

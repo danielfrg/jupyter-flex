@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    requirejs.config({paths:  {'plotly': ['https://cdn.plot.ly/plotly-latest.min']}},);
+</script>
+{% endblock %}
