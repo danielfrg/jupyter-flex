@@ -30,7 +30,7 @@
         <div id="loading">
             <div class="container-fluid d-flex flex-row loading">
                 <div class="text-center">
-                    <div class="spinner-border" role="status">
+                    <div class="spinner-grow" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>
                     <p id="loading_text">Executing notebook</p>

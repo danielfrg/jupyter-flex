@@ -7,12 +7,13 @@ MAKEFLAGS += --no-builtin-rules
 
 all: help
 
-build: download-assets sassc copy-static python
+assets: download-assets sassc copy-static  ## Download and place assets
+build: assets python  ## Build Python package
 
 download-assets:  ## Download .css/.js assets
 	@curl -o jupyter_flex/static/jquery.min.js https://code.jquery.com/jquery-3.4.1.min.js
 	@curl -o jupyter_flex/static/require.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
-	@curl -o jupyter_flex/static/bootstrap.min.css https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css
+	@curl -o jupyter_flex/static/bootstrap.min.css https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css
 
 sassc:  ## Compile SCSS assets
 	@pysassc --style=compressed jupyter_flex/static/flex.scss jupyter_flex/static/flex.min.css
@@ -41,6 +42,7 @@ upload-test:  ## Upload package to pypi test repository
 clean:  ## Remove build files
 	@rm -rf dist
 	@rm -rf site
+	@rm -r examples/**/*.html
 	@rm -f jupyter_flex/static/*.js
 	@rm -f jupyter_flex/static/*.css
 	@rm -f jupyter_flex/nbconvert_templates/*.js
