@@ -8,30 +8,6 @@
 {% set default_title = nb.metadata.get("title", "") or resources["metadata"]["name"] %}
 {% set params = {"title": default_title, "orientation": "columns"} %}
 
-{# Overwrite parameters if there is a cell tagged "parameters" like papermill #}
-{% for cell in nb.cells %}
-    {% set tags = cell.metadata.get("tags", []) %}
-    {% if "parameters" in tags %}
-        {% for line in cell["source"].split("\n") %}
-            {% if line | trim | length %}
-                {% if line.split("=") | length == 2 %}
-                    {% set key = line.split("=")[0] | trim  %}
-                    {% set value = line.split("=")[1] | replace("\\\"", "|?|") | replace("\"", " ") | replace("|?|", "\"") | trim %}
-                    {% set _ = params.update( {key: value })  %}
-                {% endif %}
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-{% endfor %}
-
-{# Set Flex direction based on orientation param #}
-{% if params["orientation"] == "columns" %}
-    {% set _ = params.update({"page_flex_direction": "row"}) %}
-    {% set _ = params.update({"section_flex_direction": "column"}) %}
-{% elif params["orientation"] == "rows" %}
-    {% set _ = params.update({"page_flex_direction": "column"}) %}
-    {% set _ = params.update({"section_flex_direction": "row"}) %}
-{% endif %}
 
 {%- macro render_chart(chart, class="") -%}
 {# Render a chart as a card with optional title and footer #}
@@ -72,6 +48,32 @@
 
 {%- block body -%}
 
+{# Overwrite parameters if there is a cell tagged "parameters" like papermill #}
+{% for cell in nb.cells %}
+    {% set tags = cell.metadata.get("tags", []) %}
+    {% if "parameters" in tags %}
+        {% for line in cell["source"].split("\n") %}
+            {% if line | trim | length %}
+                {% if line.split("=") | length == 2 %}
+                    {% set key = line.split("=")[0] | trim  %}
+                    {% set value = line.split("=")[1] | replace("\\\"", "|?|") | replace("\"", " ") | replace("|?|", "\"") | trim %}
+                    {% set _ = params.update({key: value})  %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endfor %}
+
+{# Set Flex direction based on orientation param #}
+{% if params["orientation"] == "rows" %}
+    {% set _ = params.update({"page_flex_direction": "column"}) %}
+    {% set _ = params.update({"section_flex_direction": "row"}) %}
+{% else %}
+    {# Catch all is the default of orientation=column #}
+    {% set _ = params.update({"page_flex_direction": "row"}) %}
+    {% set _ = params.update({"section_flex_direction": "column"}) %}
+{% endif %}
+
 {%- block body_header -%}
 {%- endblock body_header -%}
 
@@ -109,7 +111,6 @@
 
                 {# Add current section to page before defining a new one #}
                 {% if vars.current_section and vars.current_section.charts %}
-                    {{ vars.current_section }}<br>
                     {% set is_sidebar = macros.find_item_startswith(vars.current_section.tags, "sidebar") %}
                     {% if is_sidebar | trim | length %}
                         {% set _ = vars.current_page.update({"sidebar": vars.current_section}) %}
@@ -144,12 +145,10 @@
             {% if h3_title | trim | length %}
                 {# If there is no h1 or h2 and notebook starts with h3 #}
                 {% if not vars.current_page %}
-                    {% set _ = vars.update({"current_page": {"title": "", "direction": params.page_flex_direction, "sections": []} }) %}
+                    {% set _ = vars.update({"current_page": {"title": "", "direction": params.page_flex_direction, "sections": [], "sidebar": {}} }) %}
                 {% endif %}
                 {% if not vars.current_section %}
-                    {{ vars.current_section }}<br>
                     {% set _ = vars.update({"current_section": {"title": "", "direction": params.section_flex_direction, "size": "500", "tags": [], "charts": []}}) %}
-                    {{ vars.current_section }}<br>
                 {% endif %}
 
                 {% if vars.current_chart %}
@@ -239,7 +238,7 @@
                     </div>
                 {% endif %}
 
-                <div class="container-fluid d-flex flex-{{ params.flex_direction }} sections">
+                <div class="container-fluid d-flex flex-{{ params.page_flex_direction }} sections">
                     {% for section in page.sections %}
                         <div class="d-flex flex-{{ section.direction }} section section-{{ section.direction }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
                         {% for chart in section.charts %}
