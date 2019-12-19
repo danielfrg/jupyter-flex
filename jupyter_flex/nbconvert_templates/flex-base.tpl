@@ -2,11 +2,11 @@
 {% import "flex-macros.j2" as macros %}
 
 {# Global variables #}
-{% set structure = {} %}
+{% set dashboard = {} %}
 
 {# Default parameters for the dashboard #}
 {% set default_title = nb.metadata.get("title", "") or resources["metadata"]["name"] %}
-{% set params = {"orientation": "columns", "title": default_title} %}
+{% set params = {"title": default_title, "orientation": "columns"} %}
 
 {# Overwrite parameters if there is a cell tagged "parameters" like papermill #}
 {% for cell in nb.cells %}
@@ -24,13 +24,13 @@
     {% endif %}
 {% endfor %}
 
-{# Set Flex direction based on orientation #}
+{# Set Flex direction based on orientation param #}
 {% if params["orientation"] == "columns" %}
-{% set _ = params.update({"flex_direction": "row"}) %}
-{% set _ = params.update({"flex_section_direction": "column"}) %}
+    {% set _ = params.update({"page_flex_direction": "row"}) %}
+    {% set _ = params.update({"section_flex_direction": "column"}) %}
 {% elif params["orientation"] == "rows" %}
-{% set _ = params.update({"flex_direction": "column"}) %}
-{% set _ = params.update({"flex_section_direction": "row"}) %}
+    {% set _ = params.update({"page_flex_direction": "column"}) %}
+    {% set _ = params.update({"section_flex_direction": "row"}) %}
 {% endif %}
 
 {%- macro render_chart(chart, class="") -%}
@@ -81,10 +81,10 @@
     {% endblock %}
 
     {# ------------------------------------------------------------------------- #}
-    {# Create structure variable by iterating the notebook cells  #}
+    {# Create dashboard structure variable by iterating the notebook cells  #}
     {# ------------------------------------------------------------------------- #}
 
-    {% set _ = structure.update({"meta": [], "pages": []}) %}
+    {% set _ = dashboard.update({"meta": [], "pages": []}) %}
     {% set vars = {"current_page": {}, "current_section": {}, "current_chart": {} } %}
 
     {% for cell in nb.cells %}
@@ -93,11 +93,12 @@
         {% set cell_tags = cell.get("metadata", {}).get("tags", []) %}
 
         {% if cell_type == "markdown" %}
+
             {% set h2_title = macros.startswith_strip(cell_source, "## ") %}
             {% if h2_title | trim | length %}
                 {# If there is no h1 and notebook starts with h2 #}
                 {% if not vars.current_page %}
-                    {% set _ = vars.update({"current_page": {"title": "", "direction": params.flex_direction, "sections": [], "sidebar": {} } }) %}
+                    {% set _ = vars.update({"current_page": {"title": "", "direction": params.page_flex_direction, "sections": [], "sidebar": {} } }) %}
                 {% endif %}
 
                 {# Add the current chart to the current section before defining a new one #}
@@ -107,7 +108,8 @@
                 {% endif %}
 
                 {# Add current section to page before defining a new one #}
-                {% if vars.current_section %}
+                {% if vars.current_section and vars.current_section.charts %}
+                    {{ vars.current_section }}<br>
                     {% set is_sidebar = macros.find_item_startswith(vars.current_section.tags, "sidebar") %}
                     {% if is_sidebar | trim | length %}
                         {% set _ = vars.current_page.update({"sidebar": vars.current_section}) %}
@@ -117,7 +119,7 @@
                 {% endif %}
 
                 {# Create new section and use tags to override defaults #}
-                {% set _ = vars.update({"current_section": {"title": h2_title, "direction": params.flex_section_direction, "size": "500", "tags": cell_tags, "charts": []}}) %}
+                {% set _ = vars.update({"current_section": {"title": h2_title, "direction": params.section_flex_direction, "size": "500", "tags": cell_tags, "charts": []}}) %}
 
                 {# Overwrite direction if there is an orientation tag #}
                 {% set orientation = macros.find_item_startswith(cell_tags, "orientation=") %}
@@ -142,10 +144,12 @@
             {% if h3_title | trim | length %}
                 {# If there is no h1 or h2 and notebook starts with h3 #}
                 {% if not vars.current_page %}
-                    {% set _ = vars.update({"current_page": {"title": "", "direction": params.flex_direction, "sections": []} }) %}
+                    {% set _ = vars.update({"current_page": {"title": "", "direction": params.page_flex_direction, "sections": []} }) %}
                 {% endif %}
                 {% if not vars.current_section %}
-                    {% set _ = vars.update({"current_section": {"title": "", "direction": params.flex_section_direction, "size": "500", "tags": [], "charts": []}}) %}
+                    {{ vars.current_section }}<br>
+                    {% set _ = vars.update({"current_section": {"title": "", "direction": params.section_flex_direction, "size": "500", "tags": [], "charts": []}}) %}
+                    {{ vars.current_section }}<br>
                 {% endif %}
 
                 {% if vars.current_chart %}
@@ -165,14 +169,14 @@
             {% if (meta | trim | length) or (inputs | trim | length) or (chart | trim | length) %}
                 {# Create current_page and current_section if notebook starts with a tagged cell #}
                 {% if not vars.current_page %}
-                    {% set _ = vars.update({"current_page": {"title": "", "direction": params.flex_direction, "sections": [], "sidebar": {} } }) %}
+                    {% set _ = vars.update({"current_page": {"title": "", "direction": params.page_flex_direction, "sections": [], "sidebar": {} } }) %}
                 {% endif %}
                 {% if not vars.current_section %}
-                    {% set _ = vars.update({"current_section": {"title": "", "direction": params.flex_section_direction, "size": "500", "tags": [], "charts": []}}) %}
+                    {% set _ = vars.update({"current_section": {"title": "", "direction": params.section_flex_direction, "size": "500", "tags": [], "charts": []}}) %}
                 {% endif %}
 
                 {% if meta | trim | length %}
-                    {% set _ = structure.meta.append({"cell": cell, "display": "none"}) %}
+                    {% set _ = dashboard.meta.append({"cell": cell, "display": "none"}) %}
                     {% continue %}
                 {% endif %}
 
@@ -200,7 +204,7 @@
     {# Add final page and section #}
     {% set _ = vars.current_section["charts"].append(vars.current_chart) %}
     {% set _ = vars.current_page["sections"].append(vars.current_section) %}
-    {% set _ = structure["pages"].append(vars.current_page) %}
+    {% set _ = dashboard["pages"].append(vars.current_page) %}
 
 
     {% block after_body_loop %}
@@ -208,7 +212,7 @@
 {%- endblock body_loop -%}
 
 {# ------------------------------------------------------------------------- #}
-{# Write the HTML base on the structure #}
+{# Write the HTML base on the dashboard structure #}
 {# ------------------------------------------------------------------------- #}
 {%- block body_content -%}
     <style>
@@ -220,11 +224,11 @@
             <span class="navbar-brand">{{ params.title }}</span>
         </nav>
 
-        {% for chart in structure.meta %}
+        {% for chart in dashboard.meta %}
             {{ render_chart(chart) }}
         {% endfor %}
 
-        {% for page in structure.pages %}
+        {% for page in dashboard.pages %}
 
             <div class="dashboard-container container-fluid d-flex">
                 {% if page.sidebar %}

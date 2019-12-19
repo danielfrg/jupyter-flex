@@ -42,7 +42,7 @@ upload-test:  ## Upload package to pypi test repository
 clean:  ## Remove build files
 	@rm -rf dist
 	@rm -rf site
-	@rm -r examples/**/*.html
+	@rm -f examples/**/*.html
 	@rm -f jupyter_flex/static/*.js
 	@rm -f jupyter_flex/static/*.css
 	@rm -f jupyter_flex/nbconvert_templates/*.js

@@ -11,45 +11,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-    /* We need this styles here because Jinja variables resources is not available */
-    html, body {
-        height: 100%;
-    }
-
-    body {
-        background: #f2f2f2;
-        display: flex;
-        -ms-flex-align: center;
-        align-items: center;
-        margin: 0;
-        color: #212529;
-        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-    }
-
-    .page {
-        width: 100%;
-        height: 100%;
-        display: flex;
-    }
-
-    h1 {
-        font-size: 2rem;
-        margin-bottom: .5rem;
-        font-weight: 500;
-        line-height: 1.2;
-    }
-
-    .text-center {
-        width: 100%;
-        max-width: 720px;
-        padding: 15px;
-        margin: auto;
-        text-align: center;
-    }
-</style>
-
     {% block stylesheets %}
+        <link href="{{ base_url }}voila/static/bootstrap.min.css" rel="stylesheet">
+        <link href="{{ base_url }}voila/static/flex.min.css" rel="stylesheet">
     {% endblock %}
 
     {% block meta %}
