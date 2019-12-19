@@ -27,7 +27,7 @@
 {# Set Flex direction based on orientation #}
 {% if params["orientation"] == "columns" %}
 {% set _ = params.update({"flex_direction": "row"}) %}
-{% set _ = params.update({"flex_section_direction": "column"}) %}
+{% set _ = params.update({"flex_section_direction": "row"}) %}
 {% elif params["orientation"] == "rows" %}
 {% set _ = params.update({"flex_direction": "column"}) %}
 {% set _ = params.update({"flex_section_direction": "row"}) %}

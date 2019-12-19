@@ -29,10 +29,12 @@ repo_url: 'https://github.com/danielfrg/jupyter-flex'
 plugins:
   - search
   - mkdocs-jupyter
+  - git-revision-date-localized:
+      type: timeago
 
 markdown_extensions:
+  - meta
   - admonition
   - codehilite
-  - meta
   - toc:
       permalink: true

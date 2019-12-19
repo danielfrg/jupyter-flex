@@ -1,11 +1,22 @@
+.md-header[data-md-state=shadow] {
+    box-shadow: none;
+    transition: none;
+}
+
 [data-md-color-primary=orange] .md-header, [data-md-color-primary=orange] .md-hero {
     background-color: #F37626;
 }
 
 /* Accent color overwrite */
-[data-md-color-primary=white] .md-typeset a {
-    color: #F37626;
+.md-typeset a{
+    color: #F37626 !important;
 }
+
+.md-typeset a:hover {
+    color: #F37626 !important;
+    text-decoration: underline;
+}
+
 .md-typeset .superfences-tabs>label:hover {
     color: #F37626 !important;
 }
@@ -20,4 +31,8 @@
 
 pre code::-webkit-scrollbar-thumb:hover, .codehilite pre::-webkit-scrollbar-thumb:hover {
     background-color: #F37626 !important;
+}
+
+.md-typeset [id]:target .headerlink {
+    color: #F37626 !important;
 }

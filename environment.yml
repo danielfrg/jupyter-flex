@@ -13,6 +13,7 @@ dependencies:
   - ipywidgets
   - libsass
   - mkdocs
+  - pygments
   # Used by examples
   - pandas
   - plotly
@@ -24,5 +25,7 @@ dependencies:
     - versioneer
     - mkdocs-material
     - mkdocs-jupyter
+    - mkdocs-git-revision-date-localized-plugin
+    - pymdown-extensions
     - jupyter_bokeh
     - colorlover
