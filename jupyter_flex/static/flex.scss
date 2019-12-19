@@ -65,14 +65,14 @@ body {
         &.section-row {
             padding-bottom: 0.5rem;
             padding-right: 0.5rem;
+            padding-left: 0.5rem;
 
             &:first-child {
                 padding-top: 0.5rem;
-                padding-left: 0.5rem;
             }
 
             &:last-child {
-                padding-right: 0;
+                // padding-right: 0;
             }
 
             &:only-child {
