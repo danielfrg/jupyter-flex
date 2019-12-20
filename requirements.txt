@@ -3,8 +3,8 @@ nbconvert
 ipywidgets
 libsass
 mkdocs
-mkdocs-jupyter
 mkdocs-material
+mkdocs-jupyter
 pymdown-extensions
 pygments
 # Used by examples
