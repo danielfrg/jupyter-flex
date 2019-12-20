@@ -5,7 +5,7 @@ copyright: Daniel Rodriguez
 nav:
 - Home: index.md
 - Getting started: getting-started.ipynb
-- Voila: voila-widgets.nbconvert.bu.ipynb
+- Voila: voila-ipywidgets.ipynb
 - Layout: layout.md
 
 theme:
@@ -22,6 +22,7 @@ extra_css:
   - assets/css/custom.css
 
 extra_javascript:
+  - 'assets/js/custom.js'
   - 'assets/js/require.min.js'
 
 repo_name: 'danielfrg/jupyter-flex'
@@ -31,8 +32,6 @@ plugins:
   - search
   - mkdocs-jupyter:
       execute: false
-  - git-revision-date-localized:
-      type: timeago
 
 markdown_extensions:
   - meta

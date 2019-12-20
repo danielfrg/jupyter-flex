@@ -12,6 +12,7 @@ Inspired by [Flex Dashboards](https://rmarkdown.rstudio.com/flexdashboard/).
 
 ## Installation
 
+<p class="code-header">Terminal</p>
 ```
-pip install jupyter-flex
+$ pip install jupyter-flex
 ```

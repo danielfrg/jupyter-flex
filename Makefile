@@ -52,6 +52,7 @@ env:  ## Create virtualenv
 
 .PHONY: docs
 docs:  ## Build docs
+	@cd docs && jupyter-nbconvert *.ipynb --to html --execute --inplace --ExecutePreprocessor.store_widget_state=True
 	mkdocs build
 
 .PHONY: serve-docs

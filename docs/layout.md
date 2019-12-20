@@ -5,7 +5,3 @@
 - Charts are defined by level 3 markdown headers (`###`)
 - Only cells tagged with `chart` will show in the sections
 - The default is a single column section
-
-
-!!! Note
-    pasdasdf

@@ -1,3 +1,4 @@
+/* Header */
 .md-header[data-md-state=shadow] {
     box-shadow: none;
     transition: none;
@@ -42,4 +43,24 @@ pre code::-webkit-scrollbar-thumb:hover, .codehilite pre::-webkit-scrollbar-thum
 
 .md-typeset [id]:target .headerlink {
     color: #F37626 !important;
+}
+
+/* Terminal */
+
+p.code-header {
+    color: #3c3c3c;
+    background-color: rgba(219, 219, 219, 0.8);
+    margin: 1em 0 -1.2em;
+    padding: 0.1em 1em;
+    font-size: 0.9em;
+    font-family: "Roboto Mono","Courier New",Courier,monospace;
+}
+
+pre .code-noselect {
+    color: #aaa;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    /* padding-right: 6px; */
 }

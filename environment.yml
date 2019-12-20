@@ -26,7 +26,6 @@ dependencies:
     - versioneer
     - mkdocs-material
     - mkdocs-jupyter
-    - mkdocs-git-revision-date-localized-plugin
     - pymdown-extensions
     - jupyter_bokeh
     - colorlover
