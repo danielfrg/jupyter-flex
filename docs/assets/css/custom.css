@@ -45,6 +45,35 @@ pre code::-webkit-scrollbar-thumb:hover, .codehilite pre::-webkit-scrollbar-thum
     color: #F37626 !important;
 }
 
+/* Image grid */
+
+
+.image-grid-row {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+}
+
+figure.image-card {
+    display: flex;
+    flex-direction: column;
+	align-items: center;
+    width: 300px;
+    margin: 5px;
+}
+
+.image-card img {
+    margin: auto;
+    vertical-align: middle;
+}
+
+.image-card figcaption {
+    color: #676767;
+    font-size: 13px;
+    text-align: center;
+    margin-top: 10px;
+}
+
 /* Terminal */
 
 p.code-header {

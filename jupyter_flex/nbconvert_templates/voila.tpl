@@ -10,10 +10,18 @@
         <title>{{ params.title }}</title>
 
         {%- block html_head_js -%}
-            <script src="{{ resources.base_url }}voila/static/require.min.js"
-                integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg="
-                crossorigin="anonymous">
-            </script>
+            {%- block html_head_js_jquery -%}
+                <script src="{{ resources.base_url }}voila/static/jquery.min.js"
+                    integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg="
+                    crossorigin="anonymous">
+                </script>
+            {%- endblock html_head_js_jquery -%}
+            {%- block html_head_js_requirejs -%}
+                <script src="{{ resources.base_url }}voila/static/require.min.js"
+                    integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg="
+                    crossorigin="anonymous">
+                </script>
+            {%- endblock html_head_js_requirejs -%}
             {% include "ipywidgets.html" %}
         {%- endblock html_head_js -%}
 

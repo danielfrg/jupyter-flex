@@ -40,6 +40,7 @@ upload-test:  ## Upload package to pypi test repository
 clean:  ## Remove build files
 	@rm -rf dist
 	@rm -rf site
+	@rm -rf docs/examples
 	@rm -f examples/**/*.html
 	@rm -f jupyter_flex/static/*.js
 	@rm -f jupyter_flex/static/*.css
@@ -52,8 +53,9 @@ env:  ## Create virtualenv
 
 .PHONY: docs
 docs:  ## Build docs
-	@cd docs && jupyter-nbconvert *.ipynb --to html --execute --inplace --ExecutePreprocessor.store_widget_state=True
-	mkdocs build
+	# @cd docs && jupyter-nbconvert *.ipynb --to notebook --execute --ExecutePreprocessor.store_widget_state=True --inplace
+	@cd examples && jupyter-nbconvert *.ipynb --template=flex --to html --execute --ExecutePreprocessor.store_widget_state=True --output-dir=../docs/examples
+	# mkdocs build
 
 .PHONY: serve-docs
 serve-docs:  ## Serve docs

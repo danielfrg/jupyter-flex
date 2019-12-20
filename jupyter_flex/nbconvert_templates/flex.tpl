@@ -9,13 +9,17 @@
         <meta charset="utf-8">
         <title>{{ params.title }}</title>
 
-        {%- block html_head_js -%}
-            <script>
-            {% include "flex-require.min.js" %}
-            </script>
-            <script>
-            {% include "flex-jquery.min.js" %}
-            </script>
+        {% block html_head_js %}
+            {%- block html_head_js_jquery -%}
+                <script>
+                {% include "flex-jquery.min.js" %}
+                </script>
+            {%- endblock html_head_js_jquery -%}
+            {%- block html_head_js_requirejs -%}
+                <script>
+                {% include "flex-require.min.js" %}
+                </script>
+            {%- endblock html_head_js_requirejs -%}
         {%- endblock html_head_js -%}
 
         {%- block html_head_css -%}
