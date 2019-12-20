@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <title>
+      {% block title %}Voila{% endblock %}
+    </title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block stylesheets %}
+        <link href="{{ base_url }}voila/static/bootstrap.min.css" rel="stylesheet">
+        <link href="{{ base_url }}voila/static/flex.min.css" rel="stylesheet">
+    {% endblock %}
+
+    {% block meta %}
+    {% endblock %}
+</head>
+
+<body data-base-url="{{ base_url }}voila/">
+
+    <noscript>
+        <div class="text-center">
+            <h1>{% trans %}Voila requires JavaScript.<br>Please enable it to proceed.{% endtrans %}</h1>
+            <style>
+                .page { display: none; }
+            </style>
+        </div>
+    </noscript>
+
+    <div class="page">
+        {% block body %}
+        {% endblock %}
+    </div>
+
+    {% block scripts %}
+    {% endblock %}
+</body>
+</html>

@@ -1,0 +1,41 @@
+site_name: Jupyter-flex
+site_url: https://github.com/danielfrg/jupyter-flex
+copyright: Daniel Rodriguez
+
+nav:
+- Home: index.md
+- Getting started: getting-started.ipynb
+- Voila: voila-ipywidgets.ipynb
+- Layout: layout.md
+
+theme:
+  name: 'material'
+  custom_dir: 'docs/theme'
+  favicon: 'assets/img/favicon.ico'
+  palette:
+    primary: 'orange'
+    accent: 'red'
+  logo:
+    icon: 'dashboard'
+
+extra_css:
+  - assets/css/custom.css
+
+extra_javascript:
+  - 'assets/js/custom.js'
+  - 'assets/js/require.min.js'
+
+repo_name: 'danielfrg/jupyter-flex'
+repo_url: 'https://github.com/danielfrg/jupyter-flex'
+
+plugins:
+  - search
+  - mkdocs-jupyter:
+      execute: false
+
+markdown_extensions:
+  - meta
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true

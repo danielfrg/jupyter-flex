@@ -1,4 +1,4 @@
-# Jupyter-Flex: Easy interactive dashboards for Jupyter
+# jupyter-flex: Easy interactive dashboards for Jupyter
 
 Quickly create interactive dashboards using Jupyter Notebooks.
 

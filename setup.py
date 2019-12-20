@@ -1,20 +1,16 @@
 import os
 import sys
 import tempfile
-import contextlib
 from setuptools import setup
+from setuptools import find_packages
 from setuptools.command.develop import develop
 
 
-this_dir = os.path.abspath(os.path.dirname(__file__))
-
 def read_file(filename):
+    this_dir = os.path.abspath(os.path.dirname(__file__))
     filepath = os.path.join(this_dir, filename)
     with open(filepath) as file:
         return file.read()
-
-
-requirements = read_file("requirements.txt").splitlines()
 
 
 def get_home_dir():
@@ -78,8 +74,8 @@ def user_dir():
 
 class DevelopCmd(develop):
     prefix_targets = [
-        ("voila/templates", "flex", "flex"),
-        ("nbconvert/templates/html", "flex/nbconvert_templates", ""),
+        ("voila/templates", "jupyter_flex", "flex"),
+        ("nbconvert/templates/html", "jupyter_flex/nbconvert_templates", ""),
     ]
 
     def run(self):
@@ -93,7 +89,6 @@ class DevelopCmd(develop):
             source = os.path.abspath(source)
             target = os.path.join(prefix_dir, prefix_target, name).rstrip(os.path.sep)
             target_subdir = os.path.dirname(target)
-            print("!!!!", prefix_target, target_subdir, source, name)
             if not os.path.exists(target_subdir):
                 os.makedirs(target_subdir)
             try:
@@ -114,7 +109,7 @@ data_files = []
 def voila_prefix(*args):
     return os.path.join("share", "jupyter", "voila", "templates", *args)
 
-for (dirpath, dirnames, filenames) in os.walk("flex/"):
+for (dirpath, dirnames, filenames) in os.walk("jupyter_flex/"):
     if filenames:
         files = [voila_prefix(dirpath, filename) for filename in filenames]
         data_files.append((voila_prefix(dirpath), files))
@@ -142,21 +137,18 @@ setup(
     name="jupyter-flex",
     version="0.1.0",
     description="Voila Flex Dashboards",
-    data_files=data_files,
-    include_package_data=True,
+    long_description=read_file("README.md"),
+    long_description_content_type="text/markdown",
     author="Daniel Rodriguez",
     author_email="df.rodriguez143@gmail.com",
     url="https://github.com/danielfrg/jupyter-flex",
+    license="Apache 2.0",
     python_requires=">=3.0,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*",
-    install_requires=requirements,
-    keywords=[
-        "ipython",
-        "jupyter",
-        "widgets",
-        "voila",
-        "nbconvert"
-    ],
-    cmdclass={
-        "develop": DevelopCmd,
-   }
+    install_requires=read_file("requirements.txt").splitlines(),
+    keywords=["jupyter", "ipython", "widgets", "voila", "nbconvert", "dashboards"],
+    packages=find_packages(),
+    include_package_data=True,
+    data_files=data_files,
+    zip_safe=False,
+    cmdclass={"develop": DevelopCmd},
 )

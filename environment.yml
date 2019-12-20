@@ -7,19 +7,25 @@ dependencies:
   - jupyter
   - notebook
   - jupyterlab
+  - ipython
   - voila
   - nbconvert
   - ipywidgets
   - libsass
   - mkdocs
+  - pygments
   # Used by examples
   - pandas
+  - matplotlib
   - plotly
   - bokeh
   - bqplot
   - pandas-datareader
   - scikit-learn
   - pip:
+    - versioneer
     - mkdocs-material
+    - mkdocs-jupyter
+    - pymdown-extensions
     - jupyter_bokeh
     - colorlover

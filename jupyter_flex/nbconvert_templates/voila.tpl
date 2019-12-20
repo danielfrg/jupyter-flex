@@ -11,9 +11,10 @@
 
         {%- block html_head_js -%}
             <script src="{{ resources.base_url }}voila/static/require.min.js"
-                integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA="
+                integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg="
                 crossorigin="anonymous">
             </script>
+            {% include "ipywidgets.html" %}
         {%- endblock html_head_js -%}
 
         {%- block html_head_css -%}
@@ -30,7 +31,7 @@
         <div id="loading">
             <div class="container-fluid d-flex flex-row loading">
                 <div class="text-center">
-                    <div class="spinner-border" role="status">
+                    <div class="spinner-grow" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>
                     <p id="loading_text">Executing notebook</p>

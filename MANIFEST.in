@@ -1,0 +1,8 @@
+include versioneer.py
+include jupyter_flex/_version.py
+include README.rst
+include LICENSE.txt
+include requirements.txt
+include jupyter_flex/nbconvert_templates/*
+include jupyter_flex/static/*
+include jupyter_flex/templates/*
