@@ -1,0 +1,9 @@
+# Requirements for netlify build
+nbconvert
+ipywidgets
+libsass
+mkdocs
+mkdocs-material
+mkdocs-jupyter
+pymdown-extensions
+pygments
