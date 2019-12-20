@@ -2,11 +2,11 @@
 
 Use Jupyter Notebooks to quickly create interactive dashboards.
 
+- Use [nbconvert](https://nbconvert.readthedocs.io/en/latest/) to create static reports
 - Use [Voila](https://github.com/voila-dashboards/voila) to start a live Jupyter Kernel for fully dynamic applications
 - Support for [ipywidgets](https://ipywidgets.readthedocs.io/en/latest/)
-- Flexible and easy to specify row and column-based layouts
-- Use Markdown headers and Jupyter Notebook cell tags to define the dashboard
-- Use [nbconvert](https://nbconvert.readthedocs.io/en/latest/) to create static reports with the same layout
+- Flexible and easy way to specify row and column based layouts
+- Use Markdown headers and Jupyter Notebook cell tags to define the dashboard components
 
 Inspired by [Flex Dashboards](https://rmarkdown.rstudio.com/flexdashboard/).
 
@@ -38,7 +38,7 @@ Inspired by [Flex Dashboards](https://rmarkdown.rstudio.com/flexdashboard/).
     <!-- <a href="/examples/time-series.html"> -->
         <img src="/assets/img/iris-clustering.png" alt="Jupyter-flex: Iris Clustering">
     <!-- </a> -->
-    <figcaption>Iris clustering (runs in binder)</figcaption>
+    <figcaption>Iris clustering (requires voila)</figcaption>
   </figure>
 </div>
 

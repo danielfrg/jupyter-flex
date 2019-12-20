@@ -24,6 +24,7 @@ dependencies:
   - scikit-learn
   - pip:
     - versioneer
+    - twine
     - mkdocs-material
     - mkdocs-jupyter
     - pymdown-extensions

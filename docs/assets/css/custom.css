@@ -45,6 +45,10 @@ pre code::-webkit-scrollbar-thumb:hover, .codehilite pre::-webkit-scrollbar-thum
     color: #F37626 !important;
 }
 
+button.md-clipboard:hover:before {
+    color: #F37626 !important;
+}
+
 /* Image grid */
 
 
