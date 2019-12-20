@@ -1,5 +1,7 @@
 # jupyter-flex: Easy interactive dashboards for Jupyter
 
+[![Docs](https://api.netlify.com/api/v1/badges/cba69018-b4a3-4015-9b9c-7f936304afa2/deploy-status)](https://jupyter-flex.netlify.com/)
+
 Quickly create interactive dashboards using Jupyter Notebooks.
 
 Dashboards can be completly dynamic and backed by a running Jupyter Kernel using [Voila](https://github.com/voila-dashboards/voila)
