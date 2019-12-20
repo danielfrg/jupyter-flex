@@ -4,8 +4,8 @@ copyright: Daniel Rodriguez
 
 nav:
 - Home: index.md
-# - Getting started: getting-started.ipynb
-- Voila: voila-widgets.ipynb
+- Getting started: getting-started.ipynb
+- Voila: voila-widgets.nbconvert.bu.ipynb
 - Layout: layout.md
 
 theme:
