@@ -1,3 +1,18 @@
-jupyter
-voila>=0.1.11
+# Requirements for netlify build
 nbconvert
+ipywidgets
+libsass
+mkdocs
+mkdocs-material
+mkdocs-jupyter
+pymdown-extensions
+pygments
+# Used by examples
+pandas
+matplotlib
+plotly
+bokeh
+bqplot
+pandas-datareader
+scikit-learn
+colorlover
