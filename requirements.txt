@@ -7,3 +7,12 @@ mkdocs-material
 mkdocs-jupyter
 pymdown-extensions
 pygments
+# Used by examples
+pandas
+matplotlib
+plotly
+bokeh
+bqplot
+pandas-datareader
+scikit-learn
+colorlover
