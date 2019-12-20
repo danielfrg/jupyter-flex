@@ -4,7 +4,8 @@ copyright: Daniel Rodriguez
 
 nav:
 - Home: index.md
-- Getting Started: getting-started.ipynb
+# - Getting started: getting-started.ipynb
+- Voila: voila-widgets.ipynb
 - Layout: layout.md
 
 theme:
@@ -28,7 +29,8 @@ repo_url: 'https://github.com/danielfrg/jupyter-flex'
 
 plugins:
   - search
-  - mkdocs-jupyter
+  - mkdocs-jupyter:
+      execute: false
   - git-revision-date-localized:
       type: timeago
 

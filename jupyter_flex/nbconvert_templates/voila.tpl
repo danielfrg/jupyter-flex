@@ -14,6 +14,7 @@
                 integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg="
                 crossorigin="anonymous">
             </script>
+            {% include "ipywidgets.html" %}
         {%- endblock html_head_js -%}
 
         {%- block html_head_css -%}

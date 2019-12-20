@@ -17,11 +17,9 @@ download-assets:  ## Download .css/.js assets
 
 sassc:  ## Compile SCSS assets
 	@pysassc --style=compressed jupyter_flex/static/flex.scss jupyter_flex/static/flex.min.css
-	@pysassc --style=compressed jupyter_flex/static/flex-overwrite.scss jupyter_flex/static/flex-overwrite.min.css
 
 copy-static:  ## Copy static assets to nbconvert_templates
 	@cp jupyter_flex/static/flex.min.css jupyter_flex/nbconvert_templates/flex.min.css
-	@cp jupyter_flex/static/flex-overwrite.min.css jupyter_flex/nbconvert_templates/flex-overwrite.min.css
 	@cp jupyter_flex/static/bootstrap.min.css jupyter_flex/nbconvert_templates/flex-bootstrap.min.css
 	@cp jupyter_flex/static/jquery.min.js jupyter_flex/nbconvert_templates/flex-jquery.min.js
 	@cp jupyter_flex/static/require.min.js jupyter_flex/nbconvert_templates/flex-require.min.js

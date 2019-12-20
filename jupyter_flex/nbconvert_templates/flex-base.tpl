@@ -214,9 +214,6 @@
 {# Write the HTML base on the dashboard structure #}
 {# ------------------------------------------------------------------------- #}
 {%- block body_content -%}
-    <style>
-        {% include "flex-overwrite.min.css" %}
-    </style>
 
     <div id="application" style="display: {{ flex_app_initial_display }}">
         <nav class="navbar navbar-default navbar-fixed-top">

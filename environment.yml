@@ -16,6 +16,7 @@ dependencies:
   - pygments
   # Used by examples
   - pandas
+  - matplotlib
   - plotly
   - bokeh
   - bqplot
