@@ -56,7 +56,7 @@ docs:  ## Build docs
 	pwd && ls -la
 	# @cd docs && jupyter-nbconvert *.ipynb --to notebook --execute --ExecutePreprocessor.store_widget_state=True --inplace
 	# @cd examples && jupyter-nbconvert *.ipynb --template=flex --to html --execute --ExecutePreprocessor.store_widget_state=True --output-dir=../docs/examples
-	# mkdocs build
+	mkdocs build -c /opt/build/repo/mkdocs.yml
 
 .PHONY: serve-docs
 serve-docs:  ## Serve docs
