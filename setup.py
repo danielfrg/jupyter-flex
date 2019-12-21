@@ -1,6 +1,7 @@
 import os
 import sys
-import tempfile
+import glob
+import shutil
 from setuptools import setup
 from setuptools import find_packages
 from setuptools.command.develop import develop
@@ -13,77 +14,17 @@ def read_file(filename):
         return file.read()
 
 
-def get_home_dir():
-    """Get the real path of the home directory
-    Taken from jupyter_core/paths.py
-    """
-    homedir = os.path.expanduser('~')
-    # Next line will make things work even when /home/ is a symlink to
-    # /usr/home as it is on FreeBSD, for example
-    homedir = os.path.realpath(homedir)
-    return homedir
-
-
-_dtemps = {}
-def _mkdtemp_once(name):
-    """Make or reuse a temporary directory.
-    If this is called with the same name in the same process, it will return
-    the same directory.
-    Taken from jupyter_core/paths.py
-    """
-    try:
-        return _dtemps[name]
-    except KeyError:
-        d = _dtemps[name] = tempfile.mkdtemp(prefix=name + '-')
-        return d
-
-
-def jupyter_config_dir():
-    """Get the Jupyter config directory for this platform and user.
-    Returns JUPYTER_CONFIG_DIR if defined, else ~/.jupyter
-    """
-    homedir = get_home_dir()
-
-    if os.environ.get("JUPYTER_NO_CONFIG"):
-        return _mkdtemp_once("jupyter-clean-cfg")
-
-    if os.environ.get("JUPYTER_CONFIG_DIR"):
-        return os.environ["JUPYTER_CONFIG_DIR"]
-
-    return os.path.join(homedir, ".jupyter")
-
-
-def user_dir():
-    homedir = get_home_dir()
-
-    if sys.platform == "darwin":
-        return os.path.join(homedir, "Library", "Jupyter")
-    elif os.name == "nt":
-        appdata = os.environ.get("APPDATA", None)
-        if appdata:
-            return os.path.join(appdata, "jupyter")
-        else:
-            return os.path.join(jupyter_config_dir(), "data")
-    else:
-        # Linux, non-OS X Unix, AIX, etc.
-        xdg = os.environ.get("XDG_DATA_HOME", None)
-        if not xdg:
-            xdg = os.path.join(homedir, ".local", "share")
-        return os.path.join(xdg, "jupyter")
-
-
 class DevelopCmd(develop):
+    """The DevelopCmd will create symlinks for nbconvert and voila
+    to `sys.prefix/share/jupyter`
+    """
     prefix_targets = [
         ("voila/templates", "jupyter_flex", "flex"),
         ("nbconvert/templates/html", "jupyter_flex/nbconvert_templates", ""),
     ]
 
     def run(self):
-        # Default location is `{environment}/share/jupyter`
         prefix_dir = os.path.join(sys.prefix, "share", "jupyter")
-        # If --user then install it to the correct OS location
-        if "--user" in sys.prefix:
-            prefix_dir = user_dir()
 
         for prefix_target, source, name in self.prefix_targets:
             source = os.path.abspath(source)
@@ -93,7 +34,8 @@ class DevelopCmd(develop):
                 os.makedirs(target_subdir)
             try:
                 os.remove(target)
-            except:
+            except Exception as e:
+                print("Error:", e)
                 pass
 
             print("Linking", source, "->", target)
@@ -101,37 +43,37 @@ class DevelopCmd(develop):
 
         super(DevelopCmd, self).run()
 
+# -----------------------------------------------------------------------------
+# Create the files for the data_files
+# It takes the files on the module and copies them under `share`
 
-# Create data_files
 data_files = []
 
-# Voila files get added to `share/jupyter/voila/flex/{}`
-def voila_prefix(*args):
-    return os.path.join("share", "jupyter", "voila", "templates", *args)
+# Create data_files
+if os.path.exists("share"):
+    shutil.rmtree("share")
 
-for (dirpath, dirnames, filenames) in os.walk("jupyter_flex/"):
-    if filenames:
-        files = [voila_prefix(dirpath, filename) for filename in filenames]
-        data_files.append((voila_prefix(dirpath), files))
+# Voila files
+voila_prefix = "share/jupyter/voila/templates/flex"
+os.makedirs(voila_prefix)
+shutil.copytree("jupyter_flex/nbconvert_templates", os.path.join(voila_prefix, "nbconvert_templates"))
+shutil.copytree("jupyter_flex/static", os.path.join(voila_prefix, "static"))
+shutil.copytree("jupyter_flex/templates", os.path.join(voila_prefix, "templates"))
 
-# NBConvert files are added to `share/jupyter/nbconvert/html/{}`
-# We prefix the files `flex-` for conflicts with other templates
-def nbconvert_prefix(*args):
-    return os.path.join("share", "jupyter", "nbconvert", "templates", "html", *args)
+# nbconvert files
+nbconvert_prefix = "share/jupyter/nbconvert/templates/html"
+os.makedirs(nbconvert_prefix)
+for file in glob.glob(r"jupyter_flex/nbconvert_templates/*"):
+    if os.path.basename(file).startswith("flex"):
+        shutil.copy(file, nbconvert_prefix)
 
-for (dirpath, dirnames, filenames) in os.walk("flex/nbconvert_templates/"):
-    dirpath = ""  # Remove the nbconvert_templates
-    if filenames:
-        files = []
-        for filename in filenames:
-            fname, ext = os.path.splitext(filename)
-            print(fname)
-            filename = filename if fname.startswith("flex") else "flex-{}{}".format(fname, ext)
-            files.append(nbconvert_prefix(filename))
-        data_files.append((nbconvert_prefix(dirpath), files))
+for root, dirs, files in os.walk("share"):
+    root_files = [os.path.join(root, i) for i in files]
+    data_files.append((root, root_files))
 
 print("Data Files:")
 print(data_files)
+
 
 setup(
     name="jupyter-flex",

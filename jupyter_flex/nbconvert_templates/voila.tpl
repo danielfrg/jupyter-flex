@@ -22,7 +22,7 @@
                     crossorigin="anonymous">
                 </script>
             {%- endblock html_head_js_requirejs -%}
-            {% include "ipywidgets.html" %}
+            {% include "flex-ipywidgets.html" %}
         {%- endblock html_head_js -%}
 
         {%- block html_head_css -%}

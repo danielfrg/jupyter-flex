@@ -39,6 +39,7 @@ upload-test:  ## Upload package to pypi test repository
 .PHONY: clean
 clean:  ## Remove build files
 	@rm -rf dist
+	@rm -rf share
 	@rm -rf site
 	@rm -rf docs/examples
 	@rm -f examples/**/*.html
