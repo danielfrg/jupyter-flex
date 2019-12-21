@@ -9,6 +9,7 @@ dependencies:
   - ipython
   - voila
   - nbconvert
+  - jupyter-flex
   - ipywidgets
   - libsass
   - mkdocs
