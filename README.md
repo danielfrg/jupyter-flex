@@ -1,6 +1,6 @@
 # jupyter-flex: Easy interactive dashboards for Jupyter
 
-[![PyPI version](https://badge.fury.io/py/mkdocs-jupyter.svg)](https://pypi.org/project/jupyter-flex/)
+[![PyPI version](https://badge.fury.io/py/jupyter-flex.svg)](https://pypi.org/project/jupyter-flex/)
 [![Docs](https://api.netlify.com/api/v1/badges/cba69018-b4a3-4015-9b9c-7f936304afa2/deploy-status)](https://jupyter-flex.netlify.com/)
 
 Quickly create interactive dashboards using Jupyter Notebooks.
