@@ -5,7 +5,40 @@ import shutil
 from setuptools import setup
 from setuptools import find_packages
 from setuptools.command.develop import develop
+import versioneer
 
+# -----------------------------------------------------------------------------
+# Create the files for the data_files
+# It takes the files on the module and copies them under `share`
+
+data_files = []
+
+# Create data_files
+if os.path.exists("share"):
+    shutil.rmtree("share")
+
+# Voila files
+voila_prefix = "share/jupyter/voila/templates/flex"
+os.makedirs(voila_prefix)
+shutil.copytree("jupyter_flex/nbconvert_templates", os.path.join(voila_prefix, "nbconvert_templates"))
+shutil.copytree("jupyter_flex/static", os.path.join(voila_prefix, "static"))
+shutil.copytree("jupyter_flex/templates", os.path.join(voila_prefix, "templates"))
+
+# nbconvert files
+nbconvert_prefix = "share/jupyter/nbconvert/templates/html"
+os.makedirs(nbconvert_prefix)
+for file in glob.glob(r"jupyter_flex/nbconvert_templates/*"):
+    if os.path.basename(file).startswith("flex"):
+        shutil.copy(file, nbconvert_prefix)
+
+for root, dirs, files in os.walk("share"):
+    root_files = [os.path.join(root, i) for i in files]
+    data_files.append((root, root_files))
+
+print("Data Files:")
+print(data_files)
+
+# -----------------------------------------------------------------------------
 
 def read_file(filename):
     this_dir = os.path.abspath(os.path.dirname(__file__))
@@ -43,41 +76,12 @@ class DevelopCmd(develop):
 
         super(DevelopCmd, self).run()
 
-# -----------------------------------------------------------------------------
-# Create the files for the data_files
-# It takes the files on the module and copies them under `share`
-
-data_files = []
-
-# Create data_files
-if os.path.exists("share"):
-    shutil.rmtree("share")
-
-# Voila files
-voila_prefix = "share/jupyter/voila/templates/flex"
-os.makedirs(voila_prefix)
-shutil.copytree("jupyter_flex/nbconvert_templates", os.path.join(voila_prefix, "nbconvert_templates"))
-shutil.copytree("jupyter_flex/static", os.path.join(voila_prefix, "static"))
-shutil.copytree("jupyter_flex/templates", os.path.join(voila_prefix, "templates"))
-
-# nbconvert files
-nbconvert_prefix = "share/jupyter/nbconvert/templates/html"
-os.makedirs(nbconvert_prefix)
-for file in glob.glob(r"jupyter_flex/nbconvert_templates/*"):
-    if os.path.basename(file).startswith("flex"):
-        shutil.copy(file, nbconvert_prefix)
-
-for root, dirs, files in os.walk("share"):
-    root_files = [os.path.join(root, i) for i in files]
-    data_files.append((root, root_files))
-
-print("Data Files:")
-print(data_files)
-
+cmdclass = versioneer.get_cmdclass()
+cmdclass["develop"] = DevelopCmd
 
 setup(
     name="jupyter-flex",
-    version="0.1.0",
+    version=versioneer.get_version(),
     description="Voila Flex Dashboards",
     long_description=read_file("README.md"),
     long_description_content_type="text/markdown",
@@ -92,5 +96,5 @@ setup(
     include_package_data=True,
     data_files=data_files,
     zip_safe=False,
-    cmdclass={"develop": DevelopCmd},
+    cmdclass=cmdclass,
 )
