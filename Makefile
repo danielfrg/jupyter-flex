@@ -55,7 +55,7 @@ env:  ## Create virtualenv
 .PHONY: docs
 docs:  ## Build docs
 	@cd docs && jupyter-nbconvert *.ipynb --to notebook --execute --ExecutePreprocessor.store_widget_state=True --inplace
-	# @cd examples && jupyter-nbconvert *.ipynb --template=flex --to html --execute --ExecutePreprocessor.store_widget_state=True --output-dir=../docs/examples
+	@cd examples && jupyter-nbconvert *.ipynb --template=flex --to html --execute --ExecutePreprocessor.store_widget_state=True --output-dir=../docs/examples
 	mkdocs build --config-file $(CURDIR)/mkdocs.yml
 
 .PHONY: serve-docs
