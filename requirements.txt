@@ -1,6 +1,7 @@
 # Requirements for netlify build
 nbconvert
 ipywidgets
+jupyter-flex
 libsass
 mkdocs
 mkdocs-material
