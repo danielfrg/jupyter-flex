@@ -9,7 +9,6 @@ dependencies:
   - ipython
   - voila
   - nbconvert
-  - jupyter-flex
   - ipywidgets
   - libsass
   - mkdocs
@@ -23,6 +22,7 @@ dependencies:
   - pandas-datareader
   - scikit-learn
   - pip:
+    - jupyter-flex
     - versioneer
     - twine
     - mkdocs-material
