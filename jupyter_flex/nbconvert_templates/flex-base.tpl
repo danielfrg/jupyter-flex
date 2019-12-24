@@ -235,7 +235,7 @@
                     {% for section in page.sections %}
                         <div class="d-flex flex-{{ section.direction }} section section-{{ section.direction }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
 
-                            {% if "tablist" in section.tags %}
+                            {% if "tabs" in section.tags %}
                                 {% set section_name = section.title | lower | replace(" ", "-") %}
                                 {% set nav_fill = "" if "no-nav-fill" in section.tags else "nav-fill" %}
                                 {% set fade = "" if "no-fade" in section.tags else "fade" %}
