@@ -64,7 +64,7 @@ body {
         padding: 15px 0 15px 15px;
     }
 
-    .sections {
+    .single-page {
         width: 100%;
         height: 100%;
         padding: 0;
@@ -75,6 +75,7 @@ body {
         height: 100%;
 
         &.section-row {
+            // This are for orientation=rows
             padding-top: 0.5rem;
 
             &:first-child {
@@ -92,6 +93,7 @@ body {
         }
 
         &.section-column {
+            // This are for orientation=rows -> flex direction=column
             padding-left: 0.5rem;
 
             &:first-child {

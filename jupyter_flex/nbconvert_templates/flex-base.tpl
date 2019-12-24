@@ -86,7 +86,7 @@
     {# ------------------------------------------------------------------------- #}
 
     {% set _ = dashboard.update({"meta": [], "pages": []}) %}
-    {% set vars = {"current_page": {}, "current_section": {}, "current_chart": {} } %}
+    {% set vars = {"current_page": {}, "current_page_dir": params.page_flex_direction, "current_section": {}, "current_section_dir": params.section_flex_direction, "current_chart": {} } %}
 
     {% for cell in nb.cells %}
         {% set cell_type = cell["cell_type"] %}
@@ -97,41 +97,47 @@
 
             {% set h1_title = macros.startswith_strip(cell_source, "# ") %}
             {% if h1_title | trim | length %}
-                {# Add the current chart to the current section before defining a new page #}
+                {# Add the current chart to the current section #}
                 {% if vars.current_chart %}
                     {% set _ = vars.current_section["charts"].append(vars.current_chart) %}
-                    {% set _ = vars.update({"current_chart": {}}) %}
                 {% endif %}
 
-                {# Add current section to page before defining a new one #}
+                {# Add current section to page #}
                 {% if vars.current_section and vars.current_section.charts %}
                     {% set _ = vars.current_page["sections"].append(vars.current_section) %}
-                    {% set _ = vars.update({"current_section": {"title": h2_title, "direction": params.section_flex_direction, "size": "500", "tags": cell_tags, "charts": []}}) %}
                 {% endif %}
 
                 {# Add current page to dashboard before defining a new one #}
                 {% if vars.current_page and vars.current_page.sections %}
                     {% set _ = dashboard["pages"].append(vars.current_page) %}
                 {% endif %}
-                {% set _ = vars.update({"current_page": {"title": h1_title, "direction": params.page_flex_direction, "sections": [], "sidebar": {} } }) %}
+
+                {# Define new current objects#}
 
                 {# Overwrite direction if there is an orientation tag #}
                 {% set orientation = macros.find_item_startswith(cell_tags, "orientation=") %}
                 {% if orientation | trim | length %}
                     {% set orientation = orientation["orientation=" | length:] | trim %}
-                    {% if orientation == "columns" %}
-                        {% set _ = vars.current_page.update({"direction": "row"}) %}
-                    {% elif orientation == "rows" %}
-                        {% set _ = vars.current_page.update({"direction": "column"}) %}
+                    {% if orientation == "rows" %}
+                        {% set _ = vars.update({"current_page_dir": "column"}) %}
+                        {% set _ = vars.update({"current_section_dir": "row"}) %}
+                    {% else %}
+                        {# Default is "columns" #}
+                        {% set _ = vars.update({"current_page_dir": "row"}) %}
+                        {% set _ = vars.update({"current_section_dir": "column"}) %}
                     {% endif %}
                 {% endif %}
+
+                {% set _ = vars.update({"current_page": {"title": h1_title, "direction": vars.current_page_dir, "sections": [], "sidebar": {} } }) %}
+                {% set _ = vars.update({"current_section": {"title": "", "direction": vars.current_section_dir, "size": "500", "tags": cell_tags, "charts": []}}) %}
+                {% set _ = vars.update({"current_chart": {}}) %}
             {% endif %}
 
             {% set h2_title = macros.startswith_strip(cell_source, "## ") %}
             {% if h2_title | trim | length %}
                 {# If there is no h1 and notebook starts with h2 #}
                 {% if not vars.current_page %}
-                    {% set _ = vars.update({"current_page": {"title": "", "direction": params.page_flex_direction, "sections": [], "sidebar": {} } }) %}
+                    {% set _ = vars.update({"current_page": {"title": "", "direction": vars.current_page_dir, "sections": [], "sidebar": {} } }) %}
                 {% endif %}
 
                 {# Add the current chart to the current section before defining a new one #}
@@ -151,7 +157,7 @@
                 {% endif %}
 
                 {# Create new section and use tags to override defaults #}
-                {% set _ = vars.update({"current_section": {"title": h2_title, "direction": params.section_flex_direction, "size": "500", "tags": cell_tags, "charts": []}}) %}
+                {% set _ = vars.update({"current_section": {"title": h2_title, "direction": vars.current_section_dir, "size": "500", "tags": cell_tags, "charts": []}}) %}
 
                 {# Overwrite direction if there is an orientation tag #}
                 {% set orientation = macros.find_item_startswith(cell_tags, "orientation=") %}
@@ -176,10 +182,10 @@
             {% if h3_title | trim | length %}
                 {# If there is no h1 or h2 and notebook starts with h3 #}
                 {% if not vars.current_page %}
-                    {% set _ = vars.update({"current_page": {"title": "", "direction": params.page_flex_direction, "sections": [], "sidebar": {}} }) %}
+                    {% set _ = vars.update({"current_page": {"title": "", "direction": vars.current_page_dir, "sections": [], "sidebar": {}} }) %}
                 {% endif %}
                 {% if not vars.current_section %}
-                    {% set _ = vars.update({"current_section": {"title": "", "direction": params.section_flex_direction, "size": "500", "tags": [], "charts": []}}) %}
+                    {% set _ = vars.update({"current_section": {"title": "", "direction": vars.current_section_dir, "size": "500", "tags": [], "charts": []}}) %}
                 {% endif %}
 
                 {% if vars.current_chart %}
@@ -208,7 +214,7 @@
                     {% set _ = vars.update({"current_page": {"title": "", "direction": params.page_flex_direction, "sections": [], "sidebar": {} } }) %}
                 {% endif %}
                 {% if not vars.current_section %}
-                    {% set _ = vars.update({"current_section": {"title": "", "direction": params.section_flex_direction, "size": "500", "tags": [], "charts": []}}) %}
+                    {% set _ = vars.update({"current_section": {"title": "", "direction": vars.current_section_dir, "size": "500", "tags": [], "charts": []}}) %}
                 {% endif %}
 
                 {% if meta | trim | length %}
@@ -285,7 +291,7 @@
                             </div>
                         {% endif %}
 
-                        <div class="container-fluid d-flex flex-{{ page.direction }} sections">
+                        <div class="container-fluid d-flex flex-{{ page.direction }} single-page">
                             {% for section in page.sections %}
                                 <div class="d-flex flex-{{ section.direction }} section section-{{ section.direction }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
 
