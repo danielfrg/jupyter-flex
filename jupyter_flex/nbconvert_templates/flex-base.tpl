@@ -244,19 +244,20 @@
 {%- block body_content -%}
 
     <div id="application" style="display: {{ flex_app_initial_display }}">
-        <nav class="navbar navbar-default navbar-fixed-top navbar-expand-lg">
+        <nav class="navbar navbar-default navbar-expand-lg navbar-fixed-top">
             <span class="navbar-brand">{{ params.title }}</span>
 
             {% if dashboard.pages | length > 1 %}
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#pagesNavbar" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
+                <div class="collapse navbar-collapse" id="pagesNavbar">
+                    <ul class="navbar-nav nav mr-auto">
                         {% for page in dashboard.pages %}
                             {% set page_slug = page.title | lower | replace(" ", "-") %}
                             {% set active = "active" if loop.index == 1 else "" %}
-                            <li class="nav-item {{ active }}"><a class="nav-link" href="#{{ page_slug }}" data-toggle="tab" aria-expanded="true">{{ page.title }}</a></li>
+                            {% set aira_selected = "true" if loop.index == 1 else "false" %}
+                            <li class="nav-item {{ active }}"><a class="nav-link" href="#{{ page_slug }}" data-toggle="tab" role="tab" aria-controls="{{ page_slug }}" aria-expanded="true">{{ page.title }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>
