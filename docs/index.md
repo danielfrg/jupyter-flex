@@ -32,7 +32,7 @@ Inspired by [Flex Dashboards](https://rmarkdown.rstudio.com/flexdashboard/).
     <a href="/examples/iris-plots.html">
         <img src="/assets/img/iris-plots.png" alt="Jupyter-flex: Iris Plots">
     </a>
-    <figcaption>NBA Scoring</figcaption>
+    <figcaption>Iris plots</figcaption>
   </figure>
   <figure class="image-card">
     <!-- <a href="/examples/time-series.html"> -->

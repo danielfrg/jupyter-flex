@@ -5,8 +5,8 @@ copyright: Daniel Rodriguez
 nav:
 - Home: index.md
 - Getting started: getting-started.ipynb
-- Voila: voila-ipywidgets.ipynb
-# - Layout: layout.md
+- Layout: layout.ipynb
+- Voila & Widgets: voila-ipywidgets.ipynb
 
 theme:
   name: 'material'
