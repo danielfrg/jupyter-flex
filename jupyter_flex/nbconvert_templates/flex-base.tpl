@@ -154,7 +154,13 @@
                 {% if vars.current_chart %}
                     {% set _ = vars.current_section["charts"].append(vars.current_chart) %}
                 {% endif %}
-                {% set _ = vars.update({"current_chart": {"header": h3_title}}) %}
+                {% set _ = vars.update({"current_chart": {"header": h3_title, "size": "500", "tags": cell_tags}}) %}
+
+                {% set size = macros.find_item_startswith(cell_tags, "size=") %}
+                {% if size | trim | length %}
+                    {% set size = macros.startswith_strip(size, "size=") | trim %}
+                    {% set _ = vars.current_chart.update({"size": size}) %}
+                {% endif %}
             {% endif %}
 
         {% endif %}
@@ -185,15 +191,6 @@
 
                 {% if chart | trim | length %}
                     {% set _ = vars.current_chart.update({"cell": cell}) %}
-                {% endif %}
-
-                {% set _ = vars.current_chart.update({"tags": cell_tags}) %}
-
-                {% set _ = vars.current_chart.update({"size": "500"}) %}
-                {% set size = macros.find_item_startswith(cell_tags, "size=") %}
-                {% if size | trim | length %}
-                    {% set size = macros.startswith_strip(size, "size=") | trim %}
-                    {% set _ = vars.current_chart.update({"size": size}) %}
                 {% endif %}
             {% endif %}
 

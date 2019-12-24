@@ -44,11 +44,9 @@ body {
 .dashboard-container {
     width: 100%;
     height: calc(100% - 51px);
-    padding: 0;
+    padding: 0.5rem;
 
     .sidebar {
-        // background-color: #9e9e9e;
-        // border-right: 1px solid #e2e2e2;
         padding: 15px 0 15px 15px;
     }
 
@@ -63,34 +61,36 @@ body {
         height: 100%;
 
         &.section-row {
-            padding-bottom: 0.5rem;
-            padding-right: 0.5rem;
-            padding-left: 0.5rem;
+            padding-top: 0.5rem;
 
             &:first-child {
-                padding-top: 0.5rem;
-            }
-
-            &:last-child {
-                // padding-right: 0;
+                padding-top: 0;
             }
 
             &:only-child {
-                padding-right: 0.5rem;
+                padding: 0;
+            }
+
+            + .section-column {
+                padding-top: 0.5rem;
+                padding-left: 0;
             }
         }
 
         &.section-column {
-            padding-bottom: 0.5rem;
-            padding-right: 0.5rem;
+            padding-left: 0.5rem;
 
             &:first-child {
-                padding-top: 0.5rem;
-                padding-left: 0.5rem;
+                padding-left: 0;
             }
 
-            &:last-child {
-                padding-top: 0.5rem;
+            &:only-child {
+                padding: 0;
+            }
+
+            + .section-row {
+                padding-top: 0;
+                padding-left: 0.5rem;
             }
         }
     }
@@ -179,19 +179,10 @@ table.dataframe {
 
 // ipywidgets
 
-
 .jupyter-widgets {
-    // width: 99%;
-    // height: 99%;
 
     .widget-inline-hbox {
         width: 99%;
-        // flex-direction: column;
-
-        // .widget-label {
-        //     text-align: left;
-        //     width: 100%;
-        // }
 
         input, select {
             width: 100%;
