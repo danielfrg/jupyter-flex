@@ -6,23 +6,33 @@
 <html>
     <head>
     {%- block html_head -%}
-        <meta charset="utf-8">
         <title>{{ params.title }}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
         {%- block html_head_js -%}
             {%- block html_head_js_jquery -%}
                 <script src="{{ resources.base_url }}voila/static/jquery.min.js"
-                    integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg="
+                    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
                     crossorigin="anonymous">
                 </script>
             {%- endblock html_head_js_jquery -%}
+
+            {%- block html_head_js_bootstrap -%}
+                <script src="{{ resources.base_url }}voila/static/bootstrap.min.js"
+                    integrity="sha256-WqU1JavFxSAMcLP2WIOI+GB2zWmShMI82mTpLDcqFUg="
+                    crossorigin="anonymous">
+                </script>
+            {%- endblock html_head_js_bootstrap -%}
+
             {%- block html_head_js_requirejs -%}
                 <script src="{{ resources.base_url }}voila/static/require.min.js"
                     integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg="
                     crossorigin="anonymous">
                 </script>
             {%- endblock html_head_js_requirejs -%}
-            {% include "flex-ipywidgets.html" %}
+
+            {# {% include "flex-ipywidgets.html" %} #}
         {%- endblock html_head_js -%}
 
         {%- block html_head_css -%}
@@ -115,5 +125,6 @@
             counter++;
         }, 200);
     </script>
+
 </body>
 {%- endblock body_footer -%}

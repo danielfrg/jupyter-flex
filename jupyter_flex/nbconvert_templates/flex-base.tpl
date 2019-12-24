@@ -8,8 +8,7 @@
 {% set default_title = nb.metadata.get("title", "") or resources["metadata"]["name"] %}
 {% set params = {"title": default_title, "orientation": "columns"} %}
 
-
-{%- macro render_chart(chart, class="") -%}
+{%- macro render_chart(chart, header=true, class="") -%}
 {# Render a chart as a card with optional title and footer #}
     {% if "cell" in chart %}
         {% set cell = chart.cell %}
@@ -25,7 +24,7 @@
             {% else %}
                 <div class="card {{ class }}" style="flex: {{ chart.size }} {{ chart.size }} 0px;">
                     {# The cell Title #}
-                    {% if chart.header | trim | length %}
+                    {% if header and (chart.header | trim | length) %}
                         <div class="card-header">{{ chart.header }}</div>
                     {% endif %}
 
@@ -235,9 +234,38 @@
                 <div class="container-fluid d-flex flex-{{ params.page_flex_direction }} sections">
                     {% for section in page.sections %}
                         <div class="d-flex flex-{{ section.direction }} section section-{{ section.direction }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
-                        {% for chart in section.charts %}
-                            {{ render_chart(chart, class="card-" + section.direction) }}
-                        {% endfor %}
+
+                            {% if "tablist" in section.tags %}
+                                {% set section_name = section.title | lower | replace(" ", "-") %}
+                                {% set nav_fill = "" if "no-nav-fill" in section.tags else "nav-fill" %}
+                                {% set fade = "" if "no-fade" in section.tags else "fade" %}
+                                {% set li_items = [] %}
+                                {% set div_items = [] %}
+                                {% for chart in section.charts %}
+                                    {% set chart_name = chart.header | lower | replace(" ", "-") %}
+                                    {% set tab_name = (chart_name ~ "-tab") | lower | replace(" ", "-") %}
+                                    {% set _ = li_items.append('<li class="nav-item"> <a class="nav-link' ~ (" active" if loop.index == 1 else "") ~ '" id="' ~ tab_name ~ '" data-toggle="tab" href="#' ~ chart_name ~ '" role="tab" aria-controls="' ~ chart_name ~ '" aria-selected="' ~ ("true" if loop.index == 1 else "false") ~ '">' ~ chart.header ~ '</a> </li>') %}
+                                    {% set _ = div_items.append('<div class="tab-pane ' ~ fade ~ (" show active" if loop.index == 1 else "") ~ '" id="' ~ chart_name ~ '" role="tabpanel" aria-labelledby="' ~ tab_name ~ '">' ~ render_chart(chart, header=false) ~ '</div>') %}
+                                {% endfor %}
+
+                                <ul class="nav nav-tabs {{ nav_fill }}" id="{{ section_name }}-nav" role="tablist">
+                                    {% for li_item in li_items %}
+                                        {{ li_item }}
+                                    {% endfor %}
+                                </ul>
+
+                                <div class="tab-content" id="{{ section_name }}-tabs">
+                                    {% for div_item in div_items %}
+                                        {{ div_item }}
+                                    {% endfor %}
+                                </div>
+
+                            {% else %}
+                                {# Default: Just show each card #}
+                                {% for chart in section.charts %}
+                                    {{ render_chart(chart, class="card-" + section.direction) }}
+                                {% endfor %}
+                            {% endif %}
                         </div>
                     {% endfor %}
                 </div>

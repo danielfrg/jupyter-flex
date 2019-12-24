@@ -6,8 +6,9 @@
 <html>
     <head>
     {%- block html_head -%}
-        <meta charset="utf-8">
         <title>{{ params.title }}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
         {% block html_head_js %}
             {%- block html_head_js_jquery -%}
