@@ -53,10 +53,13 @@ env:  ## Create virtualenv
 	conda env create
 
 .PHONY: docs
-docs:  ## Build docs
+docs:  docs-examples  ## Build docs
 	@cd $(CURDIR)/docs && jupyter-nbconvert *.ipynb --to notebook --execute --ExecutePreprocessor.store_widget_state=True --inplace
-	@cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb --template=flex --to html --execute --ExecutePreprocessor.store_widget_state=True --output-dir=../docs/examples
 	mkdocs build --config-file $(CURDIR)/mkdocs.yml
+
+.PHONY: docs-examples
+docs-examples:  ## Do nbconvert on the examples as part of docs
+	@cd $(CURDIR)/examples && jupyter-nbconvert **/*.ipynb --template=flex --to html --execute --ExecutePreprocessor.store_widget_state=True --output-dir=../docs/examples
 
 .PHONY: serve-docs
 serve-docs:  ## Serve docs
