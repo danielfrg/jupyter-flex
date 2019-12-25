@@ -86,7 +86,7 @@
     {# ------------------------------------------------------------------------- #}
 
     {% set _ = dashboard.update({"meta": [], "pages": []}) %}
-    {% set vars = {"current_page": {}, "current_section": {}, "current_chart": {} } %}
+    {% set vars = {"current_page": {}, "current_page_dir": params.page_flex_direction, "current_section": {}, "current_section_dir": params.section_flex_direction, "current_chart": {} } %}
 
     {% for cell in nb.cells %}
         {% set cell_type = cell["cell_type"] %}
@@ -95,11 +95,49 @@
 
         {% if cell_type == "markdown" %}
 
+            {% set h1_title = macros.startswith_strip(cell_source, "# ") %}
+            {% if h1_title | trim | length %}
+                {# Add the current chart to the current section #}
+                {% if vars.current_chart %}
+                    {% set _ = vars.current_section["charts"].append(vars.current_chart) %}
+                {% endif %}
+
+                {# Add current section to page #}
+                {% if vars.current_section and vars.current_section.charts %}
+                    {% set _ = vars.current_page["sections"].append(vars.current_section) %}
+                {% endif %}
+
+                {# Add current page to dashboard before defining a new one #}
+                {% if vars.current_page and vars.current_page.sections %}
+                    {% set _ = dashboard["pages"].append(vars.current_page) %}
+                {% endif %}
+
+                {# Define new current objects#}
+
+                {# Overwrite direction if there is an orientation tag #}
+                {% set orientation = macros.find_item_startswith(cell_tags, "orientation=") %}
+                {% if orientation | trim | length %}
+                    {% set orientation = orientation["orientation=" | length:] | trim %}
+                    {% if orientation == "rows" %}
+                        {% set _ = vars.update({"current_page_dir": "column"}) %}
+                        {% set _ = vars.update({"current_section_dir": "row"}) %}
+                    {% else %}
+                        {# Default is "columns" #}
+                        {% set _ = vars.update({"current_page_dir": "row"}) %}
+                        {% set _ = vars.update({"current_section_dir": "column"}) %}
+                    {% endif %}
+                {% endif %}
+
+                {% set _ = vars.update({"current_page": {"title": h1_title, "direction": vars.current_page_dir, "sections": [], "sidebar": {} } }) %}
+                {% set _ = vars.update({"current_section": {"title": "", "direction": vars.current_section_dir, "size": "500", "tags": cell_tags, "charts": []}}) %}
+                {% set _ = vars.update({"current_chart": {}}) %}
+            {% endif %}
+
             {% set h2_title = macros.startswith_strip(cell_source, "## ") %}
             {% if h2_title | trim | length %}
                 {# If there is no h1 and notebook starts with h2 #}
                 {% if not vars.current_page %}
-                    {% set _ = vars.update({"current_page": {"title": "", "direction": params.page_flex_direction, "sections": [], "sidebar": {} } }) %}
+                    {% set _ = vars.update({"current_page": {"title": "", "direction": vars.current_page_dir, "sections": [], "sidebar": {} } }) %}
                 {% endif %}
 
                 {# Add the current chart to the current section before defining a new one #}
@@ -119,7 +157,7 @@
                 {% endif %}
 
                 {# Create new section and use tags to override defaults #}
-                {% set _ = vars.update({"current_section": {"title": h2_title, "direction": params.section_flex_direction, "size": "500", "tags": cell_tags, "charts": []}}) %}
+                {% set _ = vars.update({"current_section": {"title": h2_title, "direction": vars.current_section_dir, "size": "500", "tags": cell_tags, "charts": []}}) %}
 
                 {# Overwrite direction if there is an orientation tag #}
                 {% set orientation = macros.find_item_startswith(cell_tags, "orientation=") %}
@@ -144,10 +182,10 @@
             {% if h3_title | trim | length %}
                 {# If there is no h1 or h2 and notebook starts with h3 #}
                 {% if not vars.current_page %}
-                    {% set _ = vars.update({"current_page": {"title": "", "direction": params.page_flex_direction, "sections": [], "sidebar": {}} }) %}
+                    {% set _ = vars.update({"current_page": {"title": "", "direction": vars.current_page_dir, "sections": [], "sidebar": {}} }) %}
                 {% endif %}
                 {% if not vars.current_section %}
-                    {% set _ = vars.update({"current_section": {"title": "", "direction": params.section_flex_direction, "size": "500", "tags": [], "charts": []}}) %}
+                    {% set _ = vars.update({"current_section": {"title": "", "direction": vars.current_section_dir, "size": "500", "tags": [], "charts": []}}) %}
                 {% endif %}
 
                 {% if vars.current_chart %}
@@ -176,7 +214,7 @@
                     {% set _ = vars.update({"current_page": {"title": "", "direction": params.page_flex_direction, "sections": [], "sidebar": {} } }) %}
                 {% endif %}
                 {% if not vars.current_section %}
-                    {% set _ = vars.update({"current_section": {"title": "", "direction": params.section_flex_direction, "size": "500", "tags": [], "charts": []}}) %}
+                    {% set _ = vars.update({"current_section": {"title": "", "direction": vars.current_section_dir, "size": "500", "tags": [], "charts": []}}) %}
                 {% endif %}
 
                 {% if meta | trim | length %}
@@ -212,65 +250,92 @@
 {%- block body_content -%}
 
     <div id="application" style="display: {{ flex_app_initial_display }}">
-        <nav class="navbar navbar-default navbar-fixed-top">
+        <nav class="navbar navbar-default navbar-expand-lg navbar-fixed-top">
             <span class="navbar-brand">{{ params.title }}</span>
+
+            {% if dashboard.pages | length > 1 %}
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#pagesNavbar" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="pagesNavbar">
+                    <ul class="navbar-nav nav mr-auto">
+                        {% for page in dashboard.pages %}
+                            {% set page_slug = page.title | lower | replace(" ", "-") %}
+                            {% set active = "active" if loop.index == 1 else "" %}
+                            {% set aira_selected = "true" if loop.index == 1 else "false" %}
+                            <li class="nav-item {{ active }}"><a class="nav-link" href="#{{ page_slug }}" data-toggle="tab" role="tab" aria-controls="{{ page_slug }}" aria-expanded="true">{{ page.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
         </nav>
 
         {% for chart in dashboard.meta %}
             {{ render_chart(chart) }}
         {% endfor %}
 
-        {% for page in dashboard.pages %}
+        <div class="dashboard-container container-fluid d-flex">
+            <div class="tab-content page-tabs">
 
-            <div class="dashboard-container container-fluid d-flex">
-                {% if page.sidebar %}
-                    <div class="col-xl-2 bd-sidebar sidebar">
-                        {% for chart in page.sidebar.charts %}
-                            {{ render_chart(chart) }}
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                {% for page in dashboard.pages %}
+                    {% set page_slug = page.title | lower | replace(" ", "-") %}
+                    {% set active = "active" if loop.index == 1 else "" %}
 
-                <div class="container-fluid d-flex flex-{{ params.page_flex_direction }} sections">
-                    {% for section in page.sections %}
-                        <div class="d-flex flex-{{ section.direction }} section section-{{ section.direction }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
+                    <div class="page-wrapper tab-pane {{ active }}" id="{{ page_slug }}">
 
-                            {% if "tablist" in section.tags %}
-                                {% set section_name = section.title | lower | replace(" ", "-") %}
-                                {% set nav_fill = "" if "no-nav-fill" in section.tags else "nav-fill" %}
-                                {% set fade = "" if "no-fade" in section.tags else "fade" %}
-                                {% set li_items = [] %}
-                                {% set div_items = [] %}
-                                {% for chart in section.charts %}
-                                    {% set chart_name = chart.header | lower | replace(" ", "-") %}
-                                    {% set tab_name = (chart_name ~ "-tab") | lower | replace(" ", "-") %}
-                                    {% set _ = li_items.append('<li class="nav-item"> <a class="nav-link' ~ (" active" if loop.index == 1 else "") ~ '" id="' ~ tab_name ~ '" data-toggle="tab" href="#' ~ chart_name ~ '" role="tab" aria-controls="' ~ chart_name ~ '" aria-selected="' ~ ("true" if loop.index == 1 else "false") ~ '">' ~ chart.header ~ '</a> </li>') %}
-                                    {% set _ = div_items.append('<div class="tab-pane ' ~ fade ~ (" show active" if loop.index == 1 else "") ~ '" id="' ~ chart_name ~ '" role="tabpanel" aria-labelledby="' ~ tab_name ~ '">' ~ render_chart(chart, header=false) ~ '</div>') %}
+                        {% if page.sidebar %}
+                            <div class="col-xl-2 bd-sidebar sidebar">
+                                {% for chart in page.sidebar.charts %}
+                                    {{ render_chart(chart) }}
                                 {% endfor %}
+                            </div>
+                        {% endif %}
 
-                                <ul class="nav nav-tabs {{ nav_fill }}" id="{{ section_name }}-nav" role="tablist">
-                                    {% for li_item in li_items %}
-                                        {{ li_item }}
-                                    {% endfor %}
-                                </ul>
+                        <div class="container-fluid d-flex flex-{{ page.direction }} single-page">
+                            {% for section in page.sections %}
+                                <div class="d-flex flex-{{ section.direction }} section section-{{ section.direction }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
 
-                                <div class="tab-content" id="{{ section_name }}-tabs">
-                                    {% for div_item in div_items %}
-                                        {{ div_item }}
-                                    {% endfor %}
+                                    {% if "tabs" in section.tags %}
+                                        {% set section_slug = section.title | lower | replace(" ", "-") %}
+                                        {% set nav_fill = "" if " no-nav-fill" in section.tags else "nav-fill" %}
+                                        {% set fade = "" if " no-fade" in section.tags else "fade" %}
+                                        {% set li_items = [] %}
+                                        {% set div_items = [] %}
+                                        {% for chart in section.charts %}
+                                            {% set chart_slug = chart.header | lower | replace(" ", "-") %}
+                                            {% set tab_name = (chart_slug ~ "-tab") | lower | replace(" ", "-") %}
+                                            {% set active = " active" if loop.index == 1 else "" %}
+                                            {% set aria_selected = " true" if loop.index == 1 else "false" %}
+                                            {% set _ = li_items.append('<li class="nav-item"> <a class="nav-link' ~ active ~ '" id="' ~ tab_name ~ '" href="#' ~ chart_slug ~ '" data-toggle="tab" role="tab" aria-controls="' ~ chart_slug ~ '" aria-selected="' ~ aria_selected ~ '">' ~ chart.header ~ '</a> </li>') %}
+                                            {% set _ = div_items.append('<div class="tab-pane' ~ fade ~ active ~ '" id="' ~ chart_slug ~ '" role="tabpanel" aria-labelledby="' ~ tab_name ~ '">' ~ render_chart(chart, header=false) ~ '</div>') %}
+                                        {% endfor %}
+
+                                        <ul class="nav nav-tabs {{ nav_fill }}" id="{{ section_slug }}-nav" role="tablist">
+                                            {% for li_item in li_items %}
+                                                {{ li_item }}
+                                            {% endfor %}
+                                        </ul>
+
+                                        <div class="tab-content section-tabs" id="{{ section_slug }}-tabs">
+                                            {% for div_item in div_items %}
+                                                {{ div_item }}
+                                            {% endfor %}
+                                        </div>
+
+                                    {% else %}
+                                        {# Default: Just show each card #}
+                                        {% for chart in section.charts %}
+                                            {{ render_chart(chart, class="card-" + section.direction) }}
+                                        {% endfor %}
+                                    {% endif %}
                                 </div>
-
-                            {% else %}
-                                {# Default: Just show each card #}
-                                {% for chart in section.charts %}
-                                    {{ render_chart(chart, class="card-" + section.direction) }}
-                                {% endfor %}
-                            {% endif %}
+                            {% endfor %}{# page.sections #}
                         </div>
-                    {% endfor %}
-                </div>
-            </div>
-        {% endfor %}
+                    </div><!-- Page tab -->
+
+                {% endfor %}{# pages #}
+            </div><!-- tab-content page-tabs -->
+        </div><!-- Dashboard container -->
     </div>
 {%- endblock body_content -%}
 
