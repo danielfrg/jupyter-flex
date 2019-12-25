@@ -130,7 +130,7 @@
 
                 {% set _ = vars.update({"current_page": {"title": h1_title, "direction": vars.current_page_dir, "sections": [], "sidebar": {} } }) %}
                 {% set _ = vars.update({"current_section": {"title": "", "direction": vars.current_section_dir, "size": "500", "tags": cell_tags, "charts": []}}) %}
-                {% set _ = vars.update({"current_chart": {"header": "", "size": "500"}}) %}
+                {% set _ = vars.update({"current_chart": {}}) %}
             {% endif %}
 
             {% set h2_title = macros.startswith_strip(cell_source, "## ") %}
@@ -143,7 +143,7 @@
                 {# Add the current chart to the current section before defining a new one #}
                 {% if vars.current_chart %}
                     {% set _ = vars.current_section["charts"].append(vars.current_chart) %}
-                    {% set _ = vars.update({"current_chart": {"header": "", "size": "500"}}) %}
+                    {% set _ = vars.update({"current_chart": {}}) %}
                 {% endif %}
 
                 {# Add current section to page before defining a new one #}
