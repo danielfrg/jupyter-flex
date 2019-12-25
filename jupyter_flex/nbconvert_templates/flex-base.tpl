@@ -296,7 +296,12 @@
 
                         <div class="container-fluid d-flex flex-{{ page.direction }} single-page">
                             {% for section in page.sections %}
-                                <div class="d-flex flex-column section section-{{ section.direction }} tab-section" style="flex: {{ section.size }} {{ section.size }} 0px;">
+                                {% set section_direction = section.direction %}
+                                {% if "tabs" in section.tags %}
+                                    {% set section_direction = "column" %}
+                                {% endif %}
+
+                                <div class="d-flex flex-{{ section_direction }} section section-{{ section.direction }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
 
                                     {% if "tabs" in section.tags %}
                                         {% set section_slug = section.title | lower | replace(" ", "-") %}
