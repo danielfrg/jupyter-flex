@@ -112,7 +112,7 @@
                     {% set _ = dashboard["pages"].append(vars.current_page) %}
                 {% endif %}
 
-                {# Define new current objects#}
+                {# Define new current objects #}
 
                 {# Overwrite direction if there is an orientation tag #}
                 {% set orientation = macros.find_item_startswith(cell_tags, "orientation=") %}
@@ -130,7 +130,7 @@
 
                 {% set _ = vars.update({"current_page": {"title": h1_title, "direction": vars.current_page_dir, "sections": [], "sidebar": {} } }) %}
                 {% set _ = vars.update({"current_section": {"title": "", "direction": vars.current_section_dir, "size": "500", "tags": cell_tags, "charts": []}}) %}
-                {% set _ = vars.update({"current_chart": {}}) %}
+                {% set _ = vars.update({"current_chart": {"header": "", "size": "500"}}) %}
             {% endif %}
 
             {% set h2_title = macros.startswith_strip(cell_source, "## ") %}
@@ -143,7 +143,7 @@
                 {# Add the current chart to the current section before defining a new one #}
                 {% if vars.current_chart %}
                     {% set _ = vars.current_section["charts"].append(vars.current_chart) %}
-                    {% set _ = vars.update({"current_chart": {}}) %}
+                    {% set _ = vars.update({"current_chart": {"header": "", "size": "500"}}) %}
                 {% endif %}
 
                 {# Add current section to page before defining a new one #}
@@ -215,6 +215,9 @@
                 {% endif %}
                 {% if not vars.current_section %}
                     {% set _ = vars.update({"current_section": {"title": "", "direction": vars.current_section_dir, "size": "500", "tags": [], "charts": []}}) %}
+                {% endif %}
+                {% if not vars.current_chart %}
+                    {% set _ = vars.update({"current_chart": {"header": "", "size": "500", "tags": []}}) %}
                 {% endif %}
 
                 {% if meta | trim | length %}
