@@ -30,8 +30,8 @@ copy-static:  ## Copy static assets to nbconvert_templates
 python:  ## Build Python package
 	python setup.py sdist
 
-.PHONY: upload
-upload:  ## Upload package to pypi
+.PHONY: upload-pypi
+upload-pypi:  ## Upload package to pypi
 	twine upload dist/*.tar.gz
 
 .PHONY: upload-test
