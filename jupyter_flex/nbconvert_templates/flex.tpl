@@ -16,6 +16,13 @@
                 {% include "flex-jquery.min.js" %}
                 </script>
             {%- endblock html_head_js_jquery -%}
+
+            {%- block html_head_js_bootstrap -%}
+                <script>
+                {% include "flex-bootstrap.min.js" %}
+                </script>
+            {%- endblock html_head_js_bootstrap -%}
+
             {%- block html_head_js_requirejs -%}
                 <script>
                 {% include "flex-require.min.js" %}

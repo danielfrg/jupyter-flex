@@ -297,14 +297,14 @@
 
                                     {% if "tabs" in section.tags %}
                                         {% set section_slug = section.title | lower | replace(" ", "-") %}
-                                        {% set nav_fill = "" if " no-nav-fill" in section.tags else "nav-fill" %}
-                                        {% set fade = "" if " no-fade" in section.tags else "fade" %}
+                                        {% set nav_fill = "" if "no-nav-fill" in section.tags else " nav-fill" %}
+                                        {% set fade = "" if "no-fade" in section.tags else " fade" %}
                                         {% set li_items = [] %}
                                         {% set div_items = [] %}
                                         {% for chart in section.charts %}
                                             {% set chart_slug = chart.header | lower | replace(" ", "-") %}
                                             {% set tab_name = (chart_slug ~ "-tab") | lower | replace(" ", "-") %}
-                                            {% set active = " active" if loop.index == 1 else "" %}
+                                            {% set active = " active show" if loop.index == 1 else "" %}
                                             {% set aria_selected = " true" if loop.index == 1 else "false" %}
                                             {% set _ = li_items.append('<li class="nav-item"> <a class="nav-link' ~ active ~ '" id="' ~ tab_name ~ '" href="#' ~ chart_slug ~ '" data-toggle="tab" role="tab" aria-controls="' ~ chart_slug ~ '" aria-selected="' ~ aria_selected ~ '">' ~ chart.header ~ '</a> </li>') %}
                                             {% set _ = div_items.append('<div class="tab-pane' ~ fade ~ active ~ '" id="' ~ chart_slug ~ '" role="tabpanel" aria-labelledby="' ~ tab_name ~ '">' ~ render_chart(chart, header=false) ~ '</div>') %}
