@@ -1,4 +1,4 @@
 - `git commit -am 'Release 1.0.0'`
 - Tag version: `git tag 1.0.0`
 - Build: `make build`
-- Upload with twine: `make upload`
+- Upload with twine: `make upload-pypi`
