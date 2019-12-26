@@ -1,3 +1,3 @@
 [build]
   publish = "site"
-  command = "make netlify; sleep 180"
+  command = "make netlify; sleep 300; false"
