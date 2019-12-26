@@ -26,4 +26,4 @@ pip install jupyter-flex
 
 ## Learning More
 
-Learn more in the [Jupyter-flex documentation](https://jupyter-flex.netlify.com/).
+Learn more in the [Jupyter-flex documentation](https://jupyter-flex.extrapolations.dev).
