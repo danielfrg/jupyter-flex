@@ -8,7 +8,7 @@ MAKEFLAGS += --no-builtin-rules
 all: help
 
 build: assets python  ## Build Python package
-assets: download-assets sassc copy-assets  ## Download and place assets
+assets: download-assets sassc  ## Download and place assets
 
 download-assets:  ## Download .css/.js assets
 	@curl -o jupyter_flex/static/bootstrap.min.css https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css
@@ -19,14 +19,6 @@ download-assets:  ## Download .css/.js assets
 
 sassc:  ## Compile SCSS assets
 	@pysassc --style=compressed jupyter_flex/static/flex.scss jupyter_flex/static/flex.min.css
-
-copy-assets:  ## Copy static assets to nbconvert_templates
-	@cp jupyter_flex/static/flex.min.css jupyter_flex/nbconvert_templates/flex.min.css
-	@cp jupyter_flex/static/bootstrap.min.css jupyter_flex/nbconvert_templates/flex-bootstrap.min.css
-	@cp jupyter_flex/static/bootstrap.min.js jupyter_flex/nbconvert_templates/flex-bootstrap.min.js
-	@cp jupyter_flex/static/jquery.min.js jupyter_flex/nbconvert_templates/flex-jquery.min.js
-	@cp jupyter_flex/static/require.min.js jupyter_flex/nbconvert_templates/flex-require.min.js
-	@cp jupyter_flex/static/embed-amd.js jupyter_flex/nbconvert_templates/flex-embed-amd.js
 
 .PHONY: python
 python:  ## Build Python package
@@ -59,15 +51,17 @@ cleanall: clean  ## Clean everything (including downloaded assets)
 env:  ## Create virtualenv
 	conda env create
 
-.PHONY: docs
-docs:  docs-examples  ## Build docs
+.PHONY: netlify
+netlify:  ## Build docs
+	python setup.py develop
+	$(MAKE) docs-examples
 	@cd $(CURDIR)/docs && jupyter-nbconvert *.ipynb --to notebook --execute --ExecutePreprocessor.store_widget_state=True --inplace
 	mkdocs build --config-file $(CURDIR)/mkdocs.yml
 
 .PHONY: docs-examples
 docs-examples:  ## Run nbconvert on the examples
-	@cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb --template=flex --to html --execute --ExecutePreprocessor.store_widget_state=True --output-dir=../docs/examples
-	@cd $(CURDIR)/examples && jupyter-nbconvert **/*.ipynb --template=flex --to html --execute --ExecutePreprocessor.store_widget_state=True --output-dir=../docs/examples
+	@cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb --to flex --to html --execute --ExecutePreprocessor.store_widget_state=True --output-dir=../docs/examples
+	@cd $(CURDIR)/examples && jupyter-nbconvert **/*.ipynb --to flex --to html --execute --ExecutePreprocessor.store_widget_state=True --output-dir=../docs/examples
 
 .PHONY: serve-docs
 serve-docs:  ## Serve docs
