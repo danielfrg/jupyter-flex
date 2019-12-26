@@ -52,8 +52,8 @@ env:  ## Create virtualenv
 	conda env create
 
 .PHONY: netlify
-netlify:  ## Build docs
-	python setup.py develop
+netlify:  ## Build docs on Netlify
+	python setup.py install
 	$(MAKE) docs-examples
 	@cd $(CURDIR)/docs && jupyter-nbconvert *.ipynb --to notebook --execute --ExecutePreprocessor.store_widget_state=True --inplace
 	mkdocs build --config-file $(CURDIR)/mkdocs.yml
