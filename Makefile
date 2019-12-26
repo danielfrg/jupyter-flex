@@ -53,7 +53,9 @@ env:  ## Create virtualenv
 
 .PHONY: netlify
 netlify: assets  ## Build docs on Netlify
+	pip uninstall jupyter-flex
 	python setup.py install
+	pip freeze
 	$(MAKE) docs-examples
 	@cd $(CURDIR)/docs/ && jupyter-nbconvert *.ipynb --=notebook --execute --ExecutePreprocessor.store_widget_state=True --inplace
 	mkdocs build --config-file $(CURDIR)/mkdocs.yml
