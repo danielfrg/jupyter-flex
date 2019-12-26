@@ -208,7 +208,12 @@
             {% set inputs = macros.find_item_startswith(cell_tags, "inputs") %}
             {% set chart = macros.find_item_startswith(cell_tags, "chart") %}
 
-            {% if (meta | trim | length) or (inputs | trim | length) or (chart | trim | length) %}
+            {% if (meta | trim | length) %}
+                {# Meta cells dont create section or pages #}
+                {% set _ = dashboard.meta.append({"cell": cell, "display": "none"}) %}
+                {% continue %}
+
+            {% elif (inputs | trim | length) or (chart | trim | length) %}
                 {# Create current_page and current_section if notebook starts with a tagged cell #}
                 {% if not vars.current_page %}
                     {% set _ = vars.update({"current_page": {"title": "", "direction": params.page_flex_direction, "sections": [], "sidebar": {} } }) %}
@@ -218,11 +223,6 @@
                 {% endif %}
                 {% if not vars.current_chart %}
                     {% set _ = vars.update({"current_chart": {"header": "", "size": "500", "tags": []}}) %}
-                {% endif %}
-
-                {% if meta | trim | length %}
-                    {% set _ = dashboard.meta.append({"cell": cell, "display": "none"}) %}
-                    {% continue %}
                 {% endif %}
 
                 {% if inputs | trim | length %}
@@ -257,7 +257,7 @@
             <span class="navbar-brand">{{ params.title }}</span>
 
             {% if dashboard.pages | length > 1 %}
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#pagesNavbar" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#pagesNavbar" aria-controls="pagesNavbar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="pagesNavbar">
@@ -266,7 +266,7 @@
                             {% set page_slug = page.title | lower | replace(" ", "-") %}
                             {% set active = "active" if loop.index == 1 else "" %}
                             {% set aira_selected = "true" if loop.index == 1 else "false" %}
-                            <li class="nav-item {{ active }}"><a class="nav-link" href="#{{ page_slug }}" data-toggle="tab" role="tab" aria-controls="{{ page_slug }}" aria-expanded="true">{{ page.title }}</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#{{ page_slug }}" data-toggle="tab" role="tab" aria-controls="{{ page_slug }}" aria-expanded="true">{{ page.title }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>
