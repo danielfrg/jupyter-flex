@@ -55,16 +55,40 @@ body {
     }
 }
 
-.dashboard-container {
+.tab-content {
+    &.page-tabs {
+        // tab-content.page-tabs is the main dashboard container
+        width: 100%;
+        height: 100%;
+    }
+
+    &.section-tabs{
+        width: 100%;
+        height: 100%;
+        background-color: #FFF;
+        border-radius: .25rem;
+        border: 1px solid rgba(0, 0, 0, .125);
+        border-top: none;
+
+        .card {
+            border: none;
+            border-radius: 0;
+        }
+    }
+}
+
+.page-wrapper {
+    // This is the single page wrapper
     width: 100%;
     height: calc(100% - 51px);
     padding: 0.5rem;
 
     .sidebar {
         padding: 15px 0 15px 15px;
+        max-width: 250px;
     }
 
-    .single-page {
+    .page-content {
         width: 100%;
         height: 100%;
         padding: 0;
@@ -117,27 +141,6 @@ body {
         }
     }
 
-    .tab-content {
-
-        &.page-tabs {
-            width: 100%;
-            height: 100%;
-        }
-
-        &.section-tabs{
-            width: 100%;
-            height: 100%;
-            background-color: #FFF;
-            border-radius: .25rem;
-            border: 1px solid rgba(0, 0, 0, .125);
-            border-top: none;
-
-            .card {
-                border: none;
-                border-radius: 0;
-            }
-        }
-    }
 
 }
 
@@ -168,7 +171,7 @@ body {
         width: 100%;
         height: 100%;
 
-        img {
+        img, svg {
             width: 100%;
             height: 100%;
         }

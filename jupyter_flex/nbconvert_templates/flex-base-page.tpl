@@ -283,67 +283,63 @@
                 {% set page_slug = page.title | lower | replace(" ", "-") %}
                 {% set active = "active" if loop.index == 1 else "" %}
 
-                <div class="tab-pane {{ active }}" id="{{ page_slug }}">
+                <div class="page-wrapper tab-pane container-fluid d-flex {{ active }}" id="{{ page_slug }}">
 
-                    <div class="page-wrapper container-fluid d-flex">
+                    {% if page.sidebar %}
+                        <div class="col-xl-2 bd-sidebar sidebar">
+                            {% for chart in page.sidebar.charts %}
+                                {{ render_chart(chart) }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
 
-                        {% if page.sidebar %}
-                            <div class="col-xl-2 bd-sidebar sidebar">
-                                {% for chart in page.sidebar.charts %}
-                                    {{ render_chart(chart) }}
-                                {% endfor %}
-                            </div>
-                        {% endif %}
+                    <div class="container-fluid d-flex flex-{{ page.direction }} page-content">
+                        {% for section in page.sections %}
+                            {% set section_direction = section.direction %}
+                            {% if "tabs" in section.tags %}
+                                {% set section_direction = "column" %}
+                            {% endif %}
 
-                        <div class="page-content container-fluid d-flex flex-{{ page.direction }}">
-                            {% for section in page.sections %}
-                                {% set section_direction = section.direction %}
+                            <div class="d-flex flex-{{ section_direction }} section section-{{ section.direction }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
+
                                 {% if "tabs" in section.tags %}
-                                    {% set section_direction = "column" %}
+                                    {% set section_slug = section.title | lower | replace(" ", "-") %}
+                                    {% set nav_fill = "" if "no-nav-fill" in section.tags else " nav-fill" %}
+                                    {% set fade = "" if "no-fade" in section.tags else " fade" %}
+                                    {% set li_items = [] %}
+                                    {% set div_items = [] %}
+                                    {% for chart in section.charts %}
+                                        {% set chart_slug = chart.header | lower | replace(" ", "-") %}
+                                        {% set tab_name = (chart_slug ~ "-tab") | lower | replace(" ", "-") %}
+                                        {% set active = " active show" if loop.index == 1 else "" %}
+                                        {% set aria_selected = " true" if loop.index == 1 else "false" %}
+                                        {% set _ = li_items.append('<li class="nav-item"> <a class="nav-link' ~ active ~ '" id="' ~ tab_name ~ '" href="#' ~ chart_slug ~ '" data-toggle="tab" role="tab" aria-controls="' ~ chart_slug ~ '" aria-selected="' ~ aria_selected ~ '">' ~ chart.header ~ '</a> </li>') %}
+                                        {% set _ = div_items.append('<div class="tab-pane' ~ fade ~ active ~ '" id="' ~ chart_slug ~ '" role="tabpanel" aria-labelledby="' ~ tab_name ~ '">' ~ render_chart(chart, header=false) ~ '</div>') %}
+                                    {% endfor %}
+
+                                    <ul class="nav nav-tabs {{ nav_fill }}" id="{{ section_slug }}-nav" role="tablist">
+                                        {% for li_item in li_items %}
+                                            {{ li_item }}
+                                        {% endfor %}
+                                    </ul>
+
+                                    <div class="section-tabs tab-content" id="{{ section_slug }}-tabs">
+                                        {% for div_item in div_items %}
+                                            {{ div_item }}
+                                        {% endfor %}
+                                    </div>
+
+                                {% else %}
+                                    {# Default: Just show each card #}
+                                    {% for chart in section.charts %}
+                                        {{ render_chart(chart, class="card-" + section.direction) }}
+                                    {% endfor %}
                                 {% endif %}
+                            </div>
+                        {% endfor %}{# page.sections #}
+                    </div>
 
-                                <div class="d-flex flex-{{ section_direction }} section section-{{ section.direction }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
-
-                                    {% if "tabs" in section.tags %}
-                                        {% set section_slug = section.title | lower | replace(" ", "-") %}
-                                        {% set nav_fill = "" if "no-nav-fill" in section.tags else " nav-fill" %}
-                                        {% set fade = "" if "no-fade" in section.tags else " fade" %}
-                                        {% set li_items = [] %}
-                                        {% set div_items = [] %}
-                                        {% for chart in section.charts %}
-                                            {% set chart_slug = chart.header | lower | replace(" ", "-") %}
-                                            {% set tab_name = (chart_slug ~ "-tab") | lower | replace(" ", "-") %}
-                                            {% set active = " active show" if loop.index == 1 else "" %}
-                                            {% set aria_selected = " true" if loop.index == 1 else "false" %}
-                                            {% set _ = li_items.append('<li class="nav-item"> <a class="nav-link' ~ active ~ '" id="' ~ tab_name ~ '" href="#' ~ chart_slug ~ '" data-toggle="tab" role="tab" aria-controls="' ~ chart_slug ~ '" aria-selected="' ~ aria_selected ~ '">' ~ chart.header ~ '</a> </li>') %}
-                                            {% set _ = div_items.append('<div class="tab-pane' ~ fade ~ active ~ '" id="' ~ chart_slug ~ '" role="tabpanel" aria-labelledby="' ~ tab_name ~ '">' ~ render_chart(chart, header=false) ~ '</div>') %}
-                                        {% endfor %}
-
-                                        <ul class="nav nav-tabs {{ nav_fill }}" id="{{ section_slug }}-nav" role="tablist">
-                                            {% for li_item in li_items %}
-                                                {{ li_item }}
-                                            {% endfor %}
-                                        </ul>
-
-                                        <div class="section-tabs tab-content" id="{{ section_slug }}-tabs">
-                                            {% for div_item in div_items %}
-                                                {{ div_item }}
-                                            {% endfor %}
-                                        </div>
-
-                                    {% else %}
-                                        {# Default: Just show each card #}
-                                        {% for chart in section.charts %}
-                                            {{ render_chart(chart, class="card-" + section.direction) }}
-                                        {% endfor %}
-                                    {% endif %}
-                                </div>
-                            {% endfor %}{# page.sections #}
-                        </div><!-- page-content -->
-
-                    </div><!-- page-wrapper -->
-
-                </div><!-- tab-pane -->
+                </div><!-- page-wrapper -->
             {% endfor %}{# pages #}
         </div><!-- tab-content page-tabs -->
     </div>

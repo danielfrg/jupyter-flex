@@ -32,7 +32,9 @@
                 </script>
             {%- endblock html_head_js_requirejs -%}
 
-            {# {% include "flex-ipywidgets.html" %} #}
+            {%- block html_head_js_ipywidgets -%}
+                {% include "flex-ipywidgets.html" %}
+            {%- endblock html_head_js_ipywidgets -%}
         {%- endblock html_head_js -%}
 
         {%- block html_head_css -%}

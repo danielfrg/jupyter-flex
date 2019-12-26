@@ -1,0 +1,19 @@
+{
+    "liveSassCompile.settings.formats":[
+        {
+            "format": "expanded",
+            "extensionName": ".css",
+            "savePath": null
+        },
+        {
+            "format": "compressed",
+            "extensionName": ".min.css",
+            "savePath": null
+        },
+        {
+            "format": "compressed",
+            "extensionName": ".min.css",
+            "savePath": "/jupyter_flex/nbconvert_templates"
+        }
+    ],
+}

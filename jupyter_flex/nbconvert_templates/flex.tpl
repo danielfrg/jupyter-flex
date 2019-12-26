@@ -28,6 +28,10 @@
                 {% include "flex-require.min.js" %}
                 </script>
             {%- endblock html_head_js_requirejs -%}
+
+            {%- block html_head_js_ipywidgets -%}
+                {% include "flex-ipywidgets.html" %}
+            {%- endblock html_head_js_ipywidgets -%}
         {%- endblock html_head_js -%}
 
         {%- block html_head_css -%}
