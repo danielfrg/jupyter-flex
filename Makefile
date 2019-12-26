@@ -7,8 +7,8 @@ MAKEFLAGS += --no-builtin-rules
 
 all: help
 
-assets: download-assets sassc copy-static  ## Download and place assets
 build: assets python  ## Build Python package
+assets: download-assets sassc copy-assets  ## Download and place assets
 
 download-assets:  ## Download .css/.js assets
 	@curl -o jupyter_flex/static/jquery.min.js https://code.jquery.com/jquery-3.4.1.min.js
@@ -19,7 +19,7 @@ download-assets:  ## Download .css/.js assets
 sassc:  ## Compile SCSS assets
 	@pysassc --style=compressed jupyter_flex/static/flex.scss jupyter_flex/static/flex.min.css
 
-copy-static:  ## Copy static assets to nbconvert_templates
+copy-assets:  ## Copy static assets to nbconvert_templates
 	@cp jupyter_flex/static/flex.min.css jupyter_flex/nbconvert_templates/flex.min.css
 	@cp jupyter_flex/static/bootstrap.min.css jupyter_flex/nbconvert_templates/flex-bootstrap.min.css
 	@cp jupyter_flex/static/bootstrap.min.js jupyter_flex/nbconvert_templates/flex-bootstrap.min.js
@@ -45,10 +45,13 @@ clean:  ## Remove build files
 	@rm -rf site
 	@rm -rf docs/examples
 	@rm -f examples/**/*.html
-	@rm -f jupyter_flex/static/*.js
-	@rm -f jupyter_flex/static/*.css
 	@rm -f jupyter_flex/nbconvert_templates/*.js
 	@rm -f jupyter_flex/nbconvert_templates/*.css
+
+.PHONY: cleanall
+cleanall: clean  ## Clean everything (including downloaded assets)
+	@rm -f jupyter_flex/static/*.js
+	@rm -f jupyter_flex/static/*.css
 
 .PHONY: env
 env:  ## Create virtualenv
