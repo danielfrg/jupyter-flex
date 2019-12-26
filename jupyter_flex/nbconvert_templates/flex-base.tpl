@@ -253,14 +253,14 @@
 {%- block body_content -%}
 
     <div id="application" style="display: {{ flex_app_initial_display }}">
-        <nav class="navbar navbar-default navbar-expand-lg navbar-fixed-top">
+        <nav class="navbar navbar-default navbar-expand-sm navbar-fixed-top">
             <span class="navbar-brand">{{ params.title }}</span>
 
             {% if dashboard.pages | length > 1 %}
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#pagesNavbar" aria-controls="pagesNavbar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="pagesNavbar">
+                <div class="navbar-collapse navbar-expand-sm collapse" id="pagesNavbar">
                     <ul class="navbar-nav nav mr-auto">
                         {% for page in dashboard.pages %}
                             {% set page_slug = page.title | lower | replace(" ", "-") %}
