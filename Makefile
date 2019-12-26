@@ -55,14 +55,14 @@ env:  ## Create virtualenv
 netlify:  ## Build docs on Netlify
 	python setup.py install
 	$(MAKE) docs-examples
-	@cd $(CURDIR)/docs && jupyter-nbconvert *.ipynb --to notebook --execute --ExecutePreprocessor.store_widget_state=True --inplace
+	@jupyter-nbconvert cd $(CURDIR)/docs/*.ipynb --to notebook --execute --ExecutePreprocessor.store_widget_state=True --inplace
 	mkdocs build --config-file $(CURDIR)/mkdocs.yml
 
 .PHONY: docs-examples
 docs-examples:  ## Run nbconvert on the examples
-	@cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb --to flex --to html --execute --ExecutePreprocessor.store_widget_state=True --output-dir=../docs/examples
-	@cd $(CURDIR)/examples && jupyter-nbconvert **/*.ipynb --to flex --to html --execute --ExecutePreprocessor.store_widget_state=True --output-dir=../docs/examples
-
+	@jupyter-nbconvert $(CURDIR)/examples/*.ipynb --to flex --execute --ExecutePreprocessor.store_widget_state=True --output-dir=./docs/examples
+	@jupyter-nbconvert $(CURDIR)/examples/**/*.ipynb --to flex --execute --ExecutePreprocessor.store_widget_state=True --output-dir=./docs/examples
+#
 .PHONY: serve-docs
 serve-docs:  ## Serve docs
 	mkdocs serve
