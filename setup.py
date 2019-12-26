@@ -13,7 +13,6 @@ import versioneer
 
 data_files = []
 
-# Create data_files
 if os.path.exists("share"):
     shutil.rmtree("share")
 
@@ -23,13 +22,6 @@ os.makedirs(voila_prefix)
 shutil.copytree("jupyter_flex/nbconvert_templates", os.path.join(voila_prefix, "nbconvert_templates"))
 shutil.copytree("jupyter_flex/static", os.path.join(voila_prefix, "static"))
 shutil.copytree("jupyter_flex/templates", os.path.join(voila_prefix, "templates"))
-
-# nbconvert files
-nbconvert_prefix = "share/jupyter/nbconvert/templates/html"
-os.makedirs(nbconvert_prefix)
-for file in glob.glob(r"jupyter_flex/nbconvert_templates/*"):
-    if os.path.basename(file).startswith("flex"):
-        shutil.copy(file, nbconvert_prefix)
 
 for root, dirs, files in os.walk("share"):
     root_files = [os.path.join(root, i) for i in files]
@@ -48,12 +40,11 @@ def read_file(filename):
 
 
 class DevelopCmd(develop):
-    """The DevelopCmd will create symlinks for nbconvert and voila
-    to `sys.prefix/share/jupyter`
+    """The DevelopCmd will create symlinks for voila under:
+        `sys.prefix/share/jupyter`
     """
     prefix_targets = [
         ("voila/templates", "jupyter_flex", "flex"),
-        ("nbconvert/templates/html", "jupyter_flex/nbconvert_templates", ""),
     ]
 
     def run(self):
@@ -97,4 +88,9 @@ setup(
     data_files=data_files,
     zip_safe=False,
     cmdclass=cmdclass,
+    entry_points = {
+        'nbconvert.exporters': [
+            'flex = jupyter_flex:NBConvertFlexExporter',
+        ],
+    },
 )

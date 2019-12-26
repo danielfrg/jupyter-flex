@@ -1,3 +1,3 @@
 [build]
   publish = "site"
-  command = "make docs"
+  command = "make netlify"

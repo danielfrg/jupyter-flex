@@ -1,2 +1,2 @@
 voila>=0.1.11
-nbconvert
+nbconvert>=4.2

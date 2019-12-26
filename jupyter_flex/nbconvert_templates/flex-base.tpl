@@ -1,5 +1,5 @@
 {%- extends flex_extends_from -%}
-{% import "flex-macros.j2" as macros %}
+{% import "macros.j2" as macros %}
 
 {# Global variables #}
 {% set dashboard = {} %}
