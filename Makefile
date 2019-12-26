@@ -11,10 +11,11 @@ build: assets python  ## Build Python package
 assets: download-assets sassc copy-assets  ## Download and place assets
 
 download-assets:  ## Download .css/.js assets
-	@curl -o jupyter_flex/static/jquery.min.js https://code.jquery.com/jquery-3.4.1.min.js
-	@curl -o jupyter_flex/static/require.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
 	@curl -o jupyter_flex/static/bootstrap.min.css https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css
 	@curl -o jupyter_flex/static/bootstrap.min.js https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js
+	@curl -o jupyter_flex/static/jquery.min.js https://code.jquery.com/jquery-3.4.1.min.js
+	@curl -o jupyter_flex/static/require.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
+	@curl -o jupyter_flex/static/embed-amd.js https://unpkg.com/@jupyter-widgets/html-manager@0.18.4/dist/embed-amd.js
 
 sassc:  ## Compile SCSS assets
 	@pysassc --style=compressed jupyter_flex/static/flex.scss jupyter_flex/static/flex.min.css
@@ -25,6 +26,7 @@ copy-assets:  ## Copy static assets to nbconvert_templates
 	@cp jupyter_flex/static/bootstrap.min.js jupyter_flex/nbconvert_templates/flex-bootstrap.min.js
 	@cp jupyter_flex/static/jquery.min.js jupyter_flex/nbconvert_templates/flex-jquery.min.js
 	@cp jupyter_flex/static/require.min.js jupyter_flex/nbconvert_templates/flex-require.min.js
+	@cp jupyter_flex/static/embed-amd.js jupyter_flex/nbconvert_templates/flex-embed-amd.js
 
 .PHONY: python
 python:  ## Build Python package

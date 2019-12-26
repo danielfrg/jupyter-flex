@@ -32,9 +32,13 @@
                 </script>
             {%- endblock html_head_js_requirejs -%}
 
-            {%- block html_head_js_ipywidgets -%}
-                {% include "flex-ipywidgets.html" %}
-            {%- endblock html_head_js_ipywidgets -%}
+            {%- block html_head_js_embed_amd -%}
+                <script src="{{ resources.base_url }}voila/static/embed-amd.js"
+                    integrity="sha256-WNABv12QeAkbjAaH+iionmx/fdlzbSK5eJsjUtg4Ldc="
+                    crossorigin="anonymous">
+                </script>
+            {%- endblock html_head_js_embed_amd -%}
+
         {%- endblock html_head_js -%}
 
         {%- block html_head_css -%}

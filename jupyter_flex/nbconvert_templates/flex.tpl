@@ -24,14 +24,14 @@
             {%- endblock html_head_js_bootstrap -%}
 
             {%- block html_head_js_requirejs -%}
-                <script>
-                {% include "flex-require.min.js" %}
-                </script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" crossorigin="anonymous"></script>
             {%- endblock html_head_js_requirejs -%}
 
-            {%- block html_head_js_ipywidgets -%}
-                {% include "flex-ipywidgets.html" %}
-            {%- endblock html_head_js_ipywidgets -%}
+            {%- block html_head_js_embed_amd -%}
+                {# For this one to be included we would need a include_raw filter#}
+                <script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+            {%- endblock html_head_js_embed_amd -%}
+
         {%- endblock html_head_js -%}
 
         {%- block html_head_css -%}
