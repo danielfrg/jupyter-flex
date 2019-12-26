@@ -59,7 +59,7 @@ body {
     &.page-tabs {
         // tab-content.page-tabs is the main dashboard container
         width: 100%;
-        height: 100%;
+        height: calc(100% - 51px);
     }
 
     &.section-tabs{
@@ -80,7 +80,7 @@ body {
 .page-wrapper {
     // This is the single page wrapper
     width: 100%;
-    height: calc(100% - 51px);
+    height: 100%;
     padding: 0.5rem;
 
     .sidebar {
