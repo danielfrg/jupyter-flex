@@ -53,7 +53,7 @@ env:  ## Create virtualenv
 
 .PHONY: netlify
 netlify: assets  ## Build docs on Netlify
-	pip uninstall jupyter-flex
+	pip uninstall -y jupyter-flex
 	python setup.py install
 	pip freeze
 	$(MAKE) docs-examples
