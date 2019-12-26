@@ -57,13 +57,13 @@ netlify: assets  ## Build docs on Netlify
 	python setup.py install
 	pip freeze
 	$(MAKE) docs-examples
-	@cd $(CURDIR)/docs/ && jupyter-nbconvert *.ipynb --to=notebook --execute --ExecutePreprocessor.store_widget_state=True --inplace
+	@cd $(CURDIR)/docs/ && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True
 	mkdocs build --config-file $(CURDIR)/mkdocs.yml
 
 .PHONY: docs-examples
 docs-examples:  ## Run nbconvert on the examples
-	@cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb --to=flex --execute --ExecutePreprocessor.store_widget_state=True --output-dir=./docs/examples
-	@cd $(CURDIR)/examples && jupyter-nbconvert **/*.ipynb --to=flex --execute --ExecutePreprocessor.store_widget_state=True --output-dir=./docs/examples
+	@cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb --to=flex --output-dir=../docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+	@cd $(CURDIR)/examples && jupyter-nbconvert **/*.ipynb --to=flex --output-dir=../docs/examples --execute --ExecutePreprocessor.store_widget_state=True
 
 .PHONY: serve-docs
 serve-docs:  ## Serve docs
