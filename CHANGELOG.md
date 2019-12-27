@@ -1,5 +1,12 @@
 # Jupyter-flex Change Log
 
+## 0.3.0
+
+- Created a custom NBConvert Exporter: jupyter_flex.NBConvertFlexExporter
+- Added option to link to the source notebook
+- Widgets placeholders now show up on nbconvert html docs
+- Fixed multiple navbar CSS issues
+
 ## 0.2.0
 
 - Support for tab section columns and rows
