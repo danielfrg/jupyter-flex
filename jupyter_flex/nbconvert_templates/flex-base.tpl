@@ -8,6 +8,40 @@
 {% set default_title = nb.metadata.get("title", "") or resources["metadata"]["name"] %}
 {% set params = {"title": default_title, "orientation": "columns"} %}
 
+{# Overwrite parameters if there is a cell tagged "parameters" #}
+{# We only look at params prefixed with flex_ #}
+{% for cell in nb.cells %}
+    {% set tags = cell.metadata.get("tags", []) %}
+    {% if "parameters" in tags %}
+        {% for line in cell["source"].split("\n") %}
+            {% if line | trim | length %}
+                {% if line.startswith("flex_") %}
+                    {% if line.split("=") | length == 2 %}
+                        {% set key = line.split("=")[0] | trim  %}
+                        {% set key = key["flex_" | length:]  %}
+                        {% set value = line.split("=")[1] | replace("\\\"", "|?|") | replace("\"", " ") | replace("|?|", "\"") | trim %}
+                        {% set _ = params.update({key: value})  %}
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endfor %}
+
+{# Set default flex-direction based on orientation param #}
+{% if params["orientation"] == "rows" %}
+    {% set _ = params.update({"page_flex_direction": "column"}) %}
+    {% set _ = params.update({"section_flex_direction": "row"}) %}
+{% else %}
+    {# Catch all is the default of orientation=column #}
+    {% set _ = params.update({"page_flex_direction": "row"}) %}
+    {% set _ = params.update({"section_flex_direction": "column"}) %}
+{% endif %}
+
+{# ------------------------------------------------------------------------- #}
+{# Macros (that need to be in this file) #}
+{# ------------------------------------------------------------------------- #}
+
 {%- macro render_chart(chart, header=true, class="") -%}
 {# Render a chart as a card with optional title and footer #}
     {% if "cell" in chart %}
@@ -46,32 +80,6 @@
 {# ------------------------------------------------------------------------- #}
 
 {%- block body -%}
-
-{# Overwrite parameters if there is a cell tagged "parameters" like papermill #}
-{% for cell in nb.cells %}
-    {% set tags = cell.metadata.get("tags", []) %}
-    {% if "parameters" in tags %}
-        {% for line in cell["source"].split("\n") %}
-            {% if line | trim | length %}
-                {% if line.split("=") | length == 2 %}
-                    {% set key = line.split("=")[0] | trim  %}
-                    {% set value = line.split("=")[1] | replace("\\\"", "|?|") | replace("\"", " ") | replace("|?|", "\"") | trim %}
-                    {% set _ = params.update({key: value})  %}
-                {% endif %}
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-{% endfor %}
-
-{# Set Flex direction based on orientation param #}
-{% if params["orientation"] == "rows" %}
-    {% set _ = params.update({"page_flex_direction": "column"}) %}
-    {% set _ = params.update({"section_flex_direction": "row"}) %}
-{% else %}
-    {# Catch all is the default of orientation=column #}
-    {% set _ = params.update({"page_flex_direction": "row"}) %}
-    {% set _ = params.update({"section_flex_direction": "column"}) %}
-{% endif %}
 
 {%- block body_header -%}
 {%- endblock body_header -%}
@@ -255,6 +263,7 @@
 {# ------------------------------------------------------------------------- #}
 {# Write the HTML base on the dashboard structure #}
 {# ------------------------------------------------------------------------- #}
+
 {%- block body_content -%}
 
     <div id="application" style="display: {{ flex_app_initial_display }}">
@@ -269,18 +278,20 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navPages">
-                    {% if dashboard.pages | length > 1 %}
                         <ul class="nav navbar-nav mr-auto">
                             {% for page in dashboard.pages %}
                                 {% set page_slug = page.title | lower | replace(" ", "-") %}
                                 {% set active = "active" if loop.index == 1 else "" %}
                                 {% set aira_selected = "true" if loop.index == 1 else "false" %}
-                                <li class="nav-item"><a class="nav-link {{ active }}" href="#{{ page_slug }}" data-toggle="tab" role="tab" aria-controls="{{ page_slug }}" aria-expanded="true">{{ page.title }}</a></li>
+                                <li class="nav-item"><a onclick="flex_nav_click();" class="nav-link {{ active }}" href="#{{ page_slug }}" data-toggle="tab" role="tab" aria-controls="{{ page_slug }}" aria-expanded="true">{{ page.title }}</a></li>
                             {% endfor %}
                         </ul>
-                    {% endif %}
 
-                    {% set source_code = params.get("flex_source_code", "") %}
+                    {% set source_code = params.get("source_code", "") %}
+                    {% set author = params.get("author", "") %}
+                        {% if author | trim | length %}
+                            <span class="navbar-text">{{ author }}</span>
+                        {% endif %}
                     <ul class="navbar-nav">
                         {% if source_code | trim | length %}
                             <li class="nav-item">

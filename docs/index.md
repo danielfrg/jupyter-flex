@@ -32,13 +32,24 @@ Inspired by [Flex Dashboards](https://rmarkdown.rstudio.com/flexdashboard/).
     <a href="/examples/iris-plots.html">
         <img src="/assets/img/iris-plots.png" alt="Jupyter-flex: Iris Plots">
     </a>
-    <figcaption>Iris plots</figcaption>
+    <figcaption>Iris plots (Bokeh) </figcaption>
   </figure>
+  <figure class="image-card">
+    <a href="/examples/plotly-plots.html">
+        <img src="/assets/img/plotly-plots.png" alt="Jupyter-flex: Plotly Plots">
+    </a>
+    <figcaption>Plotly plots</figcaption>
+  </figure>
+</div>
+
+<div class="image-grid-row">
   <figure class="image-card">
     <!-- <a href="/examples/time-series.html"> -->
         <img src="/assets/img/iris-clustering.png" alt="Jupyter-flex: Iris Clustering">
     <!-- </a> -->
     <figcaption>Iris clustering (requires voila)</figcaption>
+  </figure>
+  <figure class="image-card">
   </figure>
 </div>
 

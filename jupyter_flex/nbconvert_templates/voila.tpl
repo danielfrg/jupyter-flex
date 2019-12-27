@@ -3,10 +3,13 @@
 {%- extends "flex-base.tpl" -%}
 
 {%- block header -%}
+
 <html>
     <head>
     {%- block html_head -%}
-        <title>{{ params.title }}</title>
+        {% block html_head_title %}
+            <title>{{ params.title }}</title>
+        {% endblock html_head_title %}
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" type="image/ico" href="voila/static/favicon.ico"/>
@@ -119,20 +122,6 @@
         })();
     </script>
 
-    <script>
-        var counter = 0;
-        var looper = setInterval(function() {
-            var nodelist = document.querySelectorAll(".js-plotly-plot")
-            var plots = Array.from(nodelist)
-            plots.map(function (obj){ obj.style.height = "100%"; })
-
-            window.dispatchEvent(new Event("resize"));
-            if (counter >= 25) {
-                clearInterval(looper);
-            }
-            counter++;
-        }, 200);
-    </script>
-
+    <script src="{{ resources.base_url }}voila/static/flex.js"></script>
 </body>
 {%- endblock body_footer -%}

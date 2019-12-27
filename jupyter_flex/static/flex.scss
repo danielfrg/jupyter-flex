@@ -276,9 +276,20 @@ body {
         overflow-x: hidden;
         overflow-y: hidden;
 
-        img, svg {
+        img {
             width: 100%;
             height: 100%;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .plot-container.plotly .modebar-container svg {
+            // Fix plotly toolbar (icons are svgs)
+            width: 1em;
+            height: 1em;
         }
     }
 
