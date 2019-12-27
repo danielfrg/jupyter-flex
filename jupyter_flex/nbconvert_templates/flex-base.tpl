@@ -25,7 +25,7 @@
                 <div class="card {{ class }}" style="flex: {{ chart.size }} {{ chart.size }} 0px;">
                     {# The cell Title #}
                     {% if header and (chart.header | trim | length) %}
-                        <div class="card-header">{{ chart.header }}</div>
+                        <div class="card-header"><h6>{{ chart.header }}</h6></div>
                     {% endif %}
 
                     {# The cell content #}
@@ -33,7 +33,7 @@
 
                     {# The cell footer #}
                     {% if chart.footer %}
-                        <div class="card-footer text-muted">{{ chart.footer }}</div>
+                        <div class="card-footer text-muted">{{ chart.footer.source }}</div>
                     {% endif %}
                 </div>
             {% endif %}
@@ -200,6 +200,11 @@
                 {% endif %}
             {% endif %}
 
+            {% set footer = macros.find_item_startswith(cell_tags, "footer") %}
+            {% if (footer | trim | length) %}
+                {% set _ = vars.current_chart.update({"footer": cell}) %}
+            {% endif %}
+
         {% endif %}
 
         {% if cell_type == "code" %}
@@ -312,13 +317,15 @@
                         <div class="page-content container-fluid d-flex flex-{{ page.direction }}">
                             {% for section in page.sections %}
                                 {% set section_direction = section.direction %}
-                                {% if "tabs" in section.tags %}
+                                {% set is_tabbed = "tabs" in section.tags %}
+                                {% set section_tabs = "section-tabs" if is_tabbed else "" %}
+                                {% if is_tabbed %}
                                     {% set section_direction = "column" %}
                                 {% endif %}
 
-                                <div class="d-flex flex-{{ section_direction }} section section-{{ section.direction }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
+                                <div class="d-flex flex-{{ section_direction }} section section-{{ section.direction }} {{ section_tabs }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
 
-                                    {% if "tabs" in section.tags %}
+                                    {% if is_tabbed %}
                                         {% set section_slug = section.title | lower | replace(" ", "-") %}
                                         {% set nav_fill = "" if "no-nav-fill" in section.tags else " nav-fill" %}
                                         {% set fade = "" if "no-fade" in section.tags else " fade" %}
@@ -333,13 +340,13 @@
                                             {% set _ = div_items.append('<div class="tab-pane' ~ fade ~ active ~ '" id="' ~ chart_slug ~ '" role="tabpanel" aria-labelledby="' ~ tab_name ~ '">' ~ render_chart(chart, header=false) ~ '</div>') %}
                                         {% endfor %}
 
-                                        <ul class="nav nav-tabs {{ nav_fill }}" id="{{ section_slug }}-nav" role="tablist">
+                                        <ul class="nav nav-tabs nav-bordered {{ nav_fill }}" id="{{ section_slug }}-nav" role="tablist">
                                             {% for li_item in li_items %}
                                                 {{ li_item }}
                                             {% endfor %}
                                         </ul>
 
-                                        <div class="section-tabs tab-content" id="{{ section_slug }}-tabs">
+                                        <div class="tab-content" id="{{ section_slug }}-tabs">
                                             {% for div_item in div_items %}
                                                 {{ div_item }}
                                             {% endfor %}

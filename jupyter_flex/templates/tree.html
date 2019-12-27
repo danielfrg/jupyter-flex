@@ -4,29 +4,26 @@
 
 {% block body %}
 
-    <main role="main" class="container filetree">
+    <main role="main" class="container my-3 p-4 filetree">
+        <h6 class="">Select Notebook</h6>
 
-        <div class="my-3 p-3 bg-white rounded shadow-sm">
-            <h6 class="border-bottom border-gray pb-2 mb-0">Select Notebook</h6>
+        <div class="list-group">
+            {% if breadcrumbs | length > 1: %}
+                <a class="list-group-item" href="{{ breadcrumbs[-2][0] }}"><i class="material-icons">folder</i>../</a>
+            {% endif %}
 
-            <ul class="voila-notebooks">
-                {% if breadcrumbs | length > 1: %}
-                    <li><a href="{{ breadcrumbs[-2][0] }}"><i class="fa fa-folder"></i>..</a></li>
+            {% set files = contents.content | list %}
+
+            {% for content in files | sort(attribute="name") %}
+                {% if content.type == "directory" %}
+                    <a class="list-group-item" href="{{ base_url }}voila/tree/{{ content.path }}"><i class="material-icons">folder</i>{{ content.name }}</a>
                 {% endif %}
-
-                {% set files = contents.content | list %}
-
-                {% for content in files %}
-                    {% if content.type == 'directory' %}
-                        <li><a href="{{ base_url }}voila/tree/{{ content.path }}"><i class="fa fa-folder"></i>{{ content.name }}</a></li>
-                    {% endif %}
-                    {% endfor %}
-                {% for content in files %}
-                    {% if content.type in ['notebook', 'file'] %}
-                        <li><a href="{{ base_url }}voila/render/{{ content.path }}"><i class="fa fa-book"></i>{{ content.name }}</a></li>
-                    {% endif %}
                 {% endfor %}
-            </ul>
+            {% for content in files | sort(attribute="name") %}
+                {% if content.type in ["notebook", "file"] %}
+                    <a class="list-group-item" href="{{ base_url }}voila/render/{{ content.path }}"><i class="material-icons">code</i>{{ content.name }}</a>
+                {% endif %}
+            {% endfor %}
         </div>
   </main>
 

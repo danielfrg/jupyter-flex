@@ -13,8 +13,8 @@ theme:
   custom_dir: 'docs/theme'
   favicon: 'assets/img/favicon.ico'
   palette:
-    primary: 'orange'
-    accent: 'red'
+    primary: 'black'
+    accent: 'blue'
   logo:
     icon: 'dashboard'
 
