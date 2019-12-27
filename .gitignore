@@ -134,5 +134,4 @@ examples/**/*.html
 docs/examples/**/*.html
 jupyter_flex/static/*.js
 jupyter_flex/static/*.css
-jupyter_flex/nbconvert_templates/*.js
-jupyter_flex/nbconvert_templates/*.css
+!jupyter_flex/static/flex.js

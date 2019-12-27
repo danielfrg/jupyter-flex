@@ -9,51 +9,48 @@
         <title>{{ params.title }}</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" type="image/ico" href="voila/static/favicon.ico"/>
+        {% set favicon = params.get("favicon", "") %}
+        {% if favicon | trim | length %}
+            <link id="favicon" rel="shortcut icon" type="image/png" href="data:image/png;base64,{{ include_base64_img(favicon) }}" width="30" height="30">
+        {% endif %}
 
         {% block html_head_js %}
             {%- block html_head_js_jquery -%}
-                <script>{{ include_file("static/jquery.min.js") }}</script>
+                <script>{{ include_template("static/jquery.min.js") }}</script>
             {%- endblock html_head_js_jquery -%}
 
             {%- block html_head_js_bootstrap -%}
-                <script>{{ include_file("static/bootstrap.min.js") }}</script>
+                <script>{{ include_template("static/bootstrap.min.js") }}</script>
             {%- endblock html_head_js_bootstrap -%}
 
             {%- block html_head_js_requirejs -%}
-                <script>{{ include_file("static/require.min.js") }}</script>
+                <script>{{ include_template("static/require.min.js") }}</script>
             {%- endblock html_head_js_requirejs -%}
 
             {%- block html_head_js_embed_amd -%}
-                <script>{{ include_file("static/embed-amd.js") }}</script>
+                <script>{{ include_template("static/embed-amd.js") }}</script>
             {%- endblock html_head_js_embed_amd -%}
 
         {%- endblock html_head_js -%}
 
         {%- block html_head_css -%}
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-            <style>{{ include_file("static/bootstrap.min.css") }}</style>
-            <style>{{ include_file("static/flex.min.css") }}</style>
+            <style>{{ include_template("static/bootstrap.min.css") }}</style>
+            <style>{{ include_template("static/flex.min.css") }}</style>
         {%- endblock html_head_css -%}
     {%- endblock html_head -%}
     </head>
 {%- endblock header -%}
 
-{%- block body_footer -%}
-    <script>
-        var counter = 0;
-        var looper = setInterval(function() {
-            var nodelist = document.querySelectorAll(".js-plotly-plot")
-            var plots = Array.from(nodelist)
-            plots.map(function (obj){ obj.style.height = "100%"; })
+{% block navbar_logo %}
+{% set logo = params.get("logo", "") %}
+{% if logo | trim | length %}
+    <img class="logo" src="data:image/png;base64,{{ include_base64_img(logo) }}" width="30" height="30">
+{% endif %}
+{% endblock navbar_logo %}
 
-            window.dispatchEvent(new Event("resize"));
-            if (counter >= 25) {
-                clearInterval(looper);
-            }
-            counter++;
-        }, 200);
-    </script>
+{%- block body_footer -%}
+    <script>{{ include_template("static/flex.js") }}</script>
 </body>
 {%- endblock body_footer -%}
 

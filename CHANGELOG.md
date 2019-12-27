@@ -1,5 +1,11 @@
 # Jupyter-flex Change Log
 
+## [Unreleased]
+
+- Standardize parameters with flex_ prefix
+- Add flex_author, flex_logo, flex_favicon params
+- Change default theme
+
 ## 0.3.0
 
 - Created a custom NBConvert Exporter: jupyter_flex.NBConvertFlexExporter

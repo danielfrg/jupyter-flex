@@ -2,6 +2,7 @@ include versioneer.py
 include jupyter_flex/_version.py
 include README.rst
 include LICENSE.txt
+include CHANGELOG.md
 include requirements.package.txt
 include jupyter_flex/nbconvert_templates/*
 include jupyter_flex/static/*

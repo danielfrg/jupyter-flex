@@ -17,3 +17,4 @@ bqplot
 pandas-datareader
 scikit-learn
 colorlover
+statsmodels

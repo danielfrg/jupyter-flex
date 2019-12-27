@@ -1,5 +1,6 @@
-/* Header */
-
+table code {
+    word-break: normal !important;
+}
 
 /* Image grid */
 
