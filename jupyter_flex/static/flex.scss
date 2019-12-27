@@ -1,6 +1,11 @@
 body {
     height: 100%;
-    background: #f2f2f2;
+    font-size: .9rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #333;
+    text-align: left;
+    background-color: #fafbfe;
 }
 
 .loading {
@@ -22,8 +27,66 @@ body {
 }
 
 .filetree {
+    box-shadow: 0 0 10px 0 rgba(154, 161, 171, .35);
+    border-radius: 0.25rem;
+    background: #FFF;
+    padding: 10px;
+
+    h6 {
+        color: #6c757d;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: .02em;
+        font-size: .9rem;
+        margin-top: 0;
+    }
+
+    .list-group {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #eef2f7;
+        border-radius: 0.25rem;
+
+        .list-group-item {
+            border: none;
+            border-bottom: 1px solid #eef2f7;
+            width: 100%;
+            color: #495057;
+            text-align: inherit;
+            text-decoration: none;
+            line-height: 0;
+
+            &:hover {
+                text-decoration: none;
+                background-color: #f8f9fa;
+            }
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+
+        i.material-icons {
+            font-size: 18px;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+    }
+
     ul.voila-notebooks {
-        margin-top: 10px;
+        margin: 10px 0;
+        padding: 0;
+        color: #6c757d;
+        list-style: none;
+
+        li {
+            padding: 7px 15px;
+            border-bottom: 1px solid #eef2f7;
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
     }
 }
 
@@ -34,7 +97,7 @@ body {
     color: #FFF;
 
     .container-fluid {
-        background-color: #F37626 !important;
+        background-color: #373e48 !important;
         padding: .35rem 1rem;
     }
 
@@ -42,8 +105,8 @@ body {
         margin-right: .5rem
     }
 
-    .nav-link.active {
-        font-weight: 600;
+    .navbar-brand {
+        font-weight: 300;
     }
 
     i.material-icons {
@@ -53,25 +116,11 @@ body {
     }
 }
 
-.tab-content {
-    &.page-tabs {
+.page-tabs {
+    &.tab-content {
         // tab-content.page-tabs is the main dashboard container
         width: 100%;
         height: calc(100% - 51px);
-    }
-
-    &.section-tabs{
-        width: 100%;
-        height: 100%;
-        background-color: #FFF;
-        border-radius: .25rem;
-        border: 1px solid rgba(0, 0, 0, .125);
-        border-top: none;
-
-        .card {
-            border: none;
-            border-radius: 0;
-        }
     }
 }
 
@@ -79,10 +128,11 @@ body {
     // This is the single page wrapper
     width: 100%;
     height: 100%;
-    padding: 0.5rem;
+    padding: 1rem;
 
     .sidebar {
-        padding: 0.5rem 0.5rem 0.5rem 0;
+        padding: 0;
+        margin: 0 1rem 0 0;
         width: 250px;
         max-width: 250px;
         min-width: 250px;
@@ -97,40 +147,77 @@ body {
     .section {
         width: 100%;
         height: 100%;
+        border: none;
+        border-radius: .25rem;
 
         &.section-row {
             // This are for orientation=rows
-            padding-top: 0.5rem;
+            margin-top: 1rem;
 
             &:first-child {
-                padding-top: 0;
+                margin-top: 0;
             }
 
             &:only-child {
-                padding: 0;
+                margin: 0;
             }
 
             + .section-column {
-                padding-top: 0.5rem;
-                padding-left: 0;
+                margin-top: 1rem;
+                margin-left: 0;
             }
         }
 
         &.section-column {
             // This are for orientation=rows -> flex direction=column
-            padding-left: 0.5rem;
+            margin-left: 1rem;
 
             &:first-child {
-                padding-left: 0;
+                margin-left: 0;
             }
 
             &:only-child {
-                padding: 0;
+                margin: 0;
             }
 
             + .section-row {
-                padding-top: 0;
-                padding-left: 0.5rem;
+                margin-top: 0;
+                margin-left: 1rem;
+            }
+        }
+
+        &.section-tabs {
+            box-shadow: 0 0 10px 0 rgba(154, 161, 171, .35);
+
+            .nav-bordered {
+                border: none;
+                border-bottom: 2px solid rgba(152,166,173,.2);
+                background: #FFF;
+
+                li.nav-item {
+                    margin-bottom: -2px;
+
+                    a {
+                        border: none;
+                        background-color: #FFF;
+
+                        &.active {
+                            border-bottom: 2px solid #536de6;
+                        }
+                    }
+                }
+            }
+
+            .tab-content {
+                width: 100%;
+                height: 100%;
+                background-color: #FFF;
+
+                .card {
+                    // Cards inside tabs
+                    border: none;
+                    box-shadow: none;
+                }
             }
         }
     }
@@ -145,22 +232,40 @@ body {
 .card {
     width: 100%;
     height: 100%;
+    border: none;
+    box-shadow: 0 0 10px 0 rgba(154, 161, 171, .35);
+    color: #6c757d;
 
-    // Read as cards inside a row section
+    // cards inside a row section
     &.card-row {
-        margin-right: 0.5rem;
+        margin-right: 1rem;
 
         &:last-child {
             margin-right: 0;
         }
     }
 
-    // Read as cards inside a columns section
+    // cards inside a columns section
     &.card-column {
-        margin-bottom: 0.5rem;
+        margin-bottom: 1rem;
 
         &:last-child {
             margin-bottom: 0;
+        }
+    }
+
+    .card-header {
+        color: #6c757d;
+        background: #FFF;
+        margin-top: 0;
+        margin-bottom: 0;
+        border: none;
+
+        h6 {
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: .02em;
         }
     }
 
@@ -175,6 +280,10 @@ body {
             width: 100%;
             height: 100%;
         }
+    }
+
+    .card-footer {
+        color: #98a6ad;
     }
 }
 
