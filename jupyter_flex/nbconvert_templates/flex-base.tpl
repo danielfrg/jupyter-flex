@@ -259,10 +259,10 @@
                 <span class="navbar-brand">{{ params.title }}</span>
 
                 {% if dashboard.pages | length > 1 %}
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navPages" aria-controls="navPages" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarText">
+                    <div class="collapse navbar-collapse" id="navPages">
                         <ul class="nav navbar-nav mr-auto">
                             {% for page in dashboard.pages %}
                                 {% set page_slug = page.title | lower | replace(" ", "-") %}
