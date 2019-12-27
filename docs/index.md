@@ -10,6 +10,13 @@ Use Jupyter Notebooks to quickly create interactive dashboards.
 
 Inspired by [Flex Dashboards](https://rmarkdown.rstudio.com/flexdashboard/).
 
+## Installation
+
+<p class="code-header">Terminal</p>
+```
+$ pip install jupyter-flex
+```
+
 ## Examples
 
 <div class="image-grid-row">
@@ -53,12 +60,7 @@ Inspired by [Flex Dashboards](https://rmarkdown.rstudio.com/flexdashboard/).
   </figure>
 </div>
 
-## Installation
-
-<p class="code-header">Terminal</p>
-```
-$ pip install jupyter-flex
-```
+Source for all examples can be found [on Github](https://github.com/danielfrg/jupyter-flex/tree/master/examples).
 
 ## Learning More
 

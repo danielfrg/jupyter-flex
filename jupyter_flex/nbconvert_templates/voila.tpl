@@ -49,6 +49,11 @@
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
             <link href="{{ resources.base_url }}voila/static/bootstrap.min.css" rel="stylesheet">
             <link href="{{ resources.base_url }}voila/static/flex.min.css" rel="stylesheet">
+
+            {% set custom_css = params.get("custom_css", "") %}
+            {% if custom_css | trim | length %}
+                <link href="{{ resources.base_url }}voila/files/{{ custom_css }}" rel="stylesheet">
+            {% endif %}
         {%- endblock html_head_css -%}
     {%- endblock html_head -%}
     </head>

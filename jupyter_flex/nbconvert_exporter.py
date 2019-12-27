@@ -15,11 +15,19 @@ def include_template(ctx, name):
 
 
 @jinja2.contextfunction
-def include_base64_img(ctx, name):
+def include_external_file(ctx, name):
+    """Include an encoded base64 image
+    """
+    with open(os.path.abspath(name), "r") as f:
+        content = f.read()
+    return jinja2.Markup(content)
+
+
+@jinja2.contextfunction
+def include_external_base64_img(ctx, name):
     """Include an encoded base64 image
     """
     import base64
-    print(os.path.abspath(name))
     with open(os.path.abspath(name), "rb") as f:
         encoded_string = base64.b64encode(f.read())
     return jinja2.Markup(encoded_string.decode())
@@ -47,8 +55,9 @@ class NBConvertFlexExporter(HTMLExporter):
 
     def __init__(self, *args, **kwargs):
         super(HTMLExporter, self).__init__(*args, **kwargs)
-        self.environment.globals['include_template'] = include_template
-        self.environment.globals['include_base64_img'] = include_base64_img
+        self.environment.globals["include_template"] = include_template
+        self.environment.globals["include_external_file"] = include_external_file
+        self.environment.globals["include_external_base64_img"] = include_external_base64_img
 
     def default_filters(self):
         for pair in super(HTMLExporter, self).default_filters():

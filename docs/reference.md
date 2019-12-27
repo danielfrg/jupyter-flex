@@ -6,8 +6,6 @@ Reference for all parameters, layouts and tags.
 
 To change the dashboard parameters tag one code cell with the `parameters`.
 
-This is the same tag used by [papermill](https://github.com/nteract/papermill) so you can use it as part of you pipeline.
-
 | Param | Description | Default |
 |---|---|---|
 | `flex_title` | Title for the dashboard | nbconvert: notebook file name<br>voila: *"Notebook"* |
@@ -16,6 +14,19 @@ This is the same tag used by [papermill](https://github.com/nteract/papermill) s
 | `flex_author` | Author name to be added on the navbar | `None` |
 | `flex_logo` | Path relative to the notebook with an image to add left of the title | `None` |
 | `flex_favicon` | Path relative to the notebook with an image to use as favicon | `None` |
+| `flex_custom_css` | Path relative to the notebook with a `.css` file to be included | `None` |
+
+!!! info "Tag name"
+    The `parameter` tag is same tag used by [papermill](https://github.com/nteract/papermill) so you can use it as part of you pipeline.
+
+!!! warning "voila and `flex_custom_css`"
+    By default Voila doesn't serve all files, see [Serving static files](https://voila.readthedocs.io/en/latest/customize.html#serving-static-files).
+
+    If you are using `flex_custom_css` with voila you need to run it with:
+
+    ```
+    voila --template=flex --VoilaConfiguration.file_whitelist="['.*']" notebook.ipynb
+    ```
 
 ## Layout
 

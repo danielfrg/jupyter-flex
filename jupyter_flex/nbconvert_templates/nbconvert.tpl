@@ -11,7 +11,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% set favicon = params.get("favicon", "") %}
         {% if favicon | trim | length %}
-            <link id="favicon" rel="shortcut icon" type="image/png" href="data:image/png;base64,{{ include_base64_img(favicon) }}" width="30" height="30">
+            <link id="favicon" rel="shortcut icon" type="image/png" href="data:image/png;base64,{{ include_external_base64_img(favicon) }}" width="30" height="30">
         {% endif %}
 
         {% block html_head_js %}
@@ -37,6 +37,11 @@
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
             <style>{{ include_template("static/bootstrap.min.css") }}</style>
             <style>{{ include_template("static/flex.min.css") }}</style>
+
+            {% set custom_css = params.get("custom_css", "") %}
+            {% if custom_css | trim | length %}
+                <style>{{ include_external_file(custom_css) }}</style>
+            {% endif %}
         {%- endblock html_head_css -%}
     {%- endblock html_head -%}
     </head>
@@ -45,7 +50,7 @@
 {% block navbar_logo %}
 {% set logo = params.get("logo", "") %}
 {% if logo | trim | length %}
-    <img class="logo" src="data:image/png;base64,{{ include_base64_img(logo) }}" width="30" height="30">
+    <img class="logo" src="data:image/png;base64,{{ include_external_base64_img(logo) }}" width="30" height="30">
 {% endif %}
 {% endblock navbar_logo %}
 
