@@ -21,6 +21,7 @@ dependencies:
   - bqplot
   - pandas-datareader
   - scikit-learn
+  - statsmodels
   - pip:
     - jupyter-flex
     - versioneer
