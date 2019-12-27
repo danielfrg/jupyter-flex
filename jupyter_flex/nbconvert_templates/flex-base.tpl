@@ -258,11 +258,12 @@
             <div class="container-fluid">
                 <span class="navbar-brand">{{ params.title }}</span>
 
-                {% if dashboard.pages | length > 1 %}
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navPages" aria-controls="navPages" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navPages">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navPages" aria-controls="navPages" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navPages">
+                    {% if dashboard.pages | length > 1 %}
                         <ul class="nav navbar-nav mr-auto">
                             {% for page in dashboard.pages %}
                                 {% set page_slug = page.title | lower | replace(" ", "-") %}
@@ -271,8 +272,17 @@
                                 <li class="nav-item"><a class="nav-link {{ active }}" href="#{{ page_slug }}" data-toggle="tab" role="tab" aria-controls="{{ page_slug }}" aria-expanded="true">{{ page.title }}</a></li>
                             {% endfor %}
                         </ul>
-                    </div>
-                {% endif %}
+                    {% endif %}
+
+                    {% set source_code = params.get("flex_source_code", "") %}
+                    <ul class="navbar-nav">
+                        {% if source_code | trim | length %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ source_code }}" target="_blank" rel="noopener" aria-label="Source Code">Source Code</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
         </nav>
 
