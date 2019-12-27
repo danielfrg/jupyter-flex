@@ -28,31 +28,64 @@ body {
 }
 
 .navbar {
-    background-color: #F37626 !important;
     height: 51px;
+    padding: 0;
+    z-index: 999;
+    color: #FFF;
 
-    .navbar-brand {
-        color: #fff;
-        font-weight: 300;
-
-        &:hover {
-            color: #fff !important;
-        }
+    .container-fluid {
+        background-color: #F37626 !important;
+        padding: .35rem 1rem;
     }
 
-    .navbar-nav {
-        li {
-            a {
-                color: #FFF;
-            }
+//     .navbar-brand {
+//         color: #fff;
+//         font-weight: 300;
 
-            &:not(.active) a {
-                &:hover {
-                    color: #DDD;
-                }
-            }
-        }
-    }
+//         &:hover {
+//             color: #fff !important;
+//         }
+//     }
+
+//     .navbar-nav {
+//         li {
+//             a {
+//                 color: #FFF;
+//             }
+
+//             &:not(.active) a {
+//                 &:hover {
+//                     color: #DDD;
+//                 }
+//             }
+//         }
+//     }
+
+//     .navbar-collapse {
+//         background: #F37626;
+//         margin: 0 1rem;
+//         height: 100%;
+//         width: 100%;
+//         max-height: 340px;
+//     }
+
+//     .navbar-toggler {
+//         border-color: rgba(255, 255, 255, .2);
+//         padding: .50rem .75rem;
+
+//         .line {
+//             width: 22px;
+//             height: 2px;
+//             background-color: rgba(255, 255, 255, 0.9);
+//             display: block;
+//             margin: 0 0 4px;
+//             border-radius: 1px;
+
+//             &:last-child {
+//                 margin: 0;
+//             }
+//         }
+//     }
 }
 
 .tab-content {

@@ -253,24 +253,27 @@
 {%- block body_content -%}
 
     <div id="application" style="display: {{ flex_app_initial_display }}">
-        <nav class="navbar navbar-default navbar-expand-sm navbar-fixed-top">
-            <span class="navbar-brand">{{ params.title }}</span>
 
-            {% if dashboard.pages | length > 1 %}
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#pagesNavbar" aria-controls="pagesNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse navbar-expand-sm collapse" id="pagesNavbar">
-                    <ul class="navbar-nav nav mr-auto">
-                        {% for page in dashboard.pages %}
-                            {% set page_slug = page.title | lower | replace(" ", "-") %}
-                            {% set active = "active" if loop.index == 1 else "" %}
-                            {% set aira_selected = "true" if loop.index == 1 else "false" %}
-                            <li class="nav-item"><a class="nav-link" href="#{{ page_slug }}" data-toggle="tab" role="tab" aria-controls="{{ page_slug }}" aria-expanded="true">{{ page.title }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
+        <nav class="navbar navbar-expand-md navbar-dark">
+            <div class="container-fluid">
+                <span class="navbar-brand">{{ params.title }}</span>
+
+                {% if dashboard.pages | length > 1 %}
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarText">
+                        <ul class="nav navbar-nav mr-auto">
+                            {% for page in dashboard.pages %}
+                                {% set page_slug = page.title | lower | replace(" ", "-") %}
+                                {% set active = "active" if loop.index == 1 else "" %}
+                                {% set aira_selected = "true" if loop.index == 1 else "false" %}
+                                <li class="nav-item"><a class="nav-link {{ active }}" href="#{{ page_slug }}" data-toggle="tab" role="tab" aria-controls="{{ page_slug }}" aria-expanded="true">{{ page.title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
         </nav>
 
         {% for chart in dashboard.meta %}
