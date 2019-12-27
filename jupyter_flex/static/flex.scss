@@ -38,54 +38,19 @@ body {
         padding: .35rem 1rem;
     }
 
-//     .navbar-brand {
-//         color: #fff;
-//         font-weight: 300;
+    .logo {
+        margin-right: .5rem
+    }
 
-//         &:hover {
-//             color: #fff !important;
-//         }
-//     }
+    .nav-link.active {
+        font-weight: 600;
+    }
 
-//     .navbar-nav {
-//         li {
-//             a {
-//                 color: #FFF;
-//             }
-
-//             &:not(.active) a {
-//                 &:hover {
-//                     color: #DDD;
-//                 }
-//             }
-//         }
-//     }
-
-//     .navbar-collapse {
-//         background: #F37626;
-//         margin: 0 1rem;
-//         height: 100%;
-//         width: 100%;
-//         max-height: 340px;
-//     }
-
-//     .navbar-toggler {
-//         border-color: rgba(255, 255, 255, .2);
-//         padding: .50rem .75rem;
-
-//         .line {
-//             width: 22px;
-//             height: 2px;
-//             background-color: rgba(255, 255, 255, 0.9);
-//             display: block;
-//             margin: 0 0 4px;
-//             border-radius: 1px;
-
-//             &:last-child {
-//                 margin: 0;
-//             }
-//         }
-//     }
+    i.material-icons {
+        font-size: 18px;
+        vertical-align: middle;
+        margin-right: 5px;
+    }
 }
 
 .tab-content {

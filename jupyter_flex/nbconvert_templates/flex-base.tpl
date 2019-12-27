@@ -256,6 +256,7 @@
 
         <nav class="navbar navbar-expand-md navbar-dark">
             <div class="container-fluid">
+                <!-- <img class="logo" src="voila/files/logo.ico" width="30" height="30"> -->
                 <span class="navbar-brand">{{ params.title }}</span>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navPages" aria-controls="navPages" aria-expanded="false" aria-label="Toggle navigation">
@@ -278,7 +279,7 @@
                     <ul class="navbar-nav">
                         {% if source_code | trim | length %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ source_code }}" target="_blank" rel="noopener" aria-label="Source Code">Source Code</a>
+                                <a class="nav-link" href="{{ source_code }}" target="_blank" rel="noopener" aria-label="Source Code"><i class="material-icons">code</i> Source Code</a>
                             </li>
                         {% endif %}
                     </ul>

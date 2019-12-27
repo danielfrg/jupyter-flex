@@ -9,6 +9,7 @@
         <title>{{ params.title }}</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" type="image/ico" href="voila/static/favicon.ico"/>
 
         {%- block html_head_js -%}
             {%- block html_head_js_jquery -%}
@@ -42,6 +43,7 @@
         {%- endblock html_head_js -%}
 
         {%- block html_head_css -%}
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
             <link href="{{ resources.base_url }}voila/static/bootstrap.min.css" rel="stylesheet">
             <link href="{{ resources.base_url }}voila/static/flex.min.css" rel="stylesheet">
         {%- endblock html_head_css -%}
