@@ -7,9 +7,22 @@ from nbconvert.exporters.html import HTMLExporter
 
 
 @jinja2.contextfunction
-def include_file(ctx, name):
+def include_template(ctx, name):
+    """Include a file relative to this file
+    """
     env = ctx.environment
     return jinja2.Markup(env.loader.get_source(env, name)[0])
+
+
+@jinja2.contextfunction
+def include_base64_img(ctx, name):
+    """Include an encoded base64 image
+    """
+    import base64
+    print(os.path.abspath(name))
+    with open(os.path.abspath(name), "rb") as f:
+        encoded_string = base64.b64encode(f.read())
+    return jinja2.Markup(encoded_string.decode())
 
 
 class NBConvertFlexExporter(HTMLExporter):
@@ -34,7 +47,8 @@ class NBConvertFlexExporter(HTMLExporter):
 
     def __init__(self, *args, **kwargs):
         super(HTMLExporter, self).__init__(*args, **kwargs)
-        self.environment.globals['include_file'] = include_file
+        self.environment.globals['include_template'] = include_template
+        self.environment.globals['include_base64_img'] = include_base64_img
 
     def default_filters(self):
         for pair in super(HTMLExporter, self).default_filters():

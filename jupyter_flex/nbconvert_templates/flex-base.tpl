@@ -270,7 +270,9 @@
 
         <nav class="navbar navbar-expand-md navbar-dark">
             <div class="container-fluid">
-                <!-- <img class="logo" src="voila/files/logo.ico" width="30" height="30"> -->
+                {% block navbar_logo %}
+                {% endblock navbar_logo %}
+
                 <span class="navbar-brand">{{ params.title }}</span>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navPages" aria-controls="navPages" aria-expanded="false" aria-label="Toggle navigation">
@@ -280,10 +282,12 @@
                 <div class="collapse navbar-collapse" id="navPages">
                         <ul class="nav navbar-nav mr-auto">
                             {% for page in dashboard.pages %}
-                                {% set page_slug = page.title | lower | replace(" ", "-") %}
-                                {% set active = "active" if loop.index == 1 else "" %}
-                                {% set aira_selected = "true" if loop.index == 1 else "false" %}
-                                <li class="nav-item"><a onclick="flex_nav_click();" class="nav-link {{ active }}" href="#{{ page_slug }}" data-toggle="tab" role="tab" aria-controls="{{ page_slug }}" aria-expanded="true">{{ page.title }}</a></li>
+                                {% if page.title %}
+                                    {% set page_slug = page.title | lower | replace(" ", "-") %}
+                                    {% set active = "active" if loop.index == 1 else "" %}
+                                    {% set aira_selected = "true" if loop.index == 1 else "false" %}
+                                    <li class="nav-item"><a onclick="flex_nav_click();" class="nav-link {{ active }}" href="#{{ page_slug }}" data-toggle="tab" role="tab" aria-controls="{{ page_slug }}" aria-expanded="true">{{ page.title }}</a></li>
+                                {% endif %}
                             {% endfor %}
                         </ul>
 

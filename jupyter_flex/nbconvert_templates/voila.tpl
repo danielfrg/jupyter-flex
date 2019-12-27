@@ -76,6 +76,12 @@
         </script>
 {%- endblock body_header -%}
 
+{% block navbar_logo %}
+{% set logo = params.get("logo", "") %}
+{% if logo | trim | length %}
+    <img class="logo" src="{{ resources.base_url }}voila/files/{{ logo }}" width="30" height="30">
+{% endif %}
+{% endblock navbar_logo %}
 
 {% block execute_cells %}
     {%- with kernel_id = kernel_start() -%}

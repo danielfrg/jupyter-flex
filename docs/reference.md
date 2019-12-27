@@ -14,6 +14,8 @@ This is the same tag used by [papermill](https://github.com/nteract/papermill) s
 | `flex_orientation` | Orientation for the sections | `columns`, each section as one column<br>Default section orientation is `rows`, each chart as a row |
 | `flex_source_code` | Link to the source Notebook on the navbar | `None` |
 | `flex_author` | Author name to be added on the navbar | `None` |
+| `flex_logo` | Path relative to the notebook with an image to add left of the title | `None` |
+| `flex_favicon` | Path relative to the notebook with an image to use as favicon | `None` |
 
 ## Layout
 
