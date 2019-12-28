@@ -42,37 +42,48 @@
 {# Macros (that need to be in this file) #}
 {# ------------------------------------------------------------------------- #}
 
-{%- macro render_chart(chart, header=true, class="") -%}
-{# Render a chart as a card with optional title and footer #}
-    {% if "cell" in chart %}
-        {% set cell = chart.cell %}
-        {% block any_cell scoped %}
-            {% if chart.get("display", "") == "none" %}
-                <div style="display: none;">
-                    {{ super() }}
-                </div>
-            {% elif chart.get("type", "") == "inputs" %}
-                <form>
-                {{ super() }}
-                </form>
-            {% else %}
-                <div class="card {{ class }}" style="flex: {{ chart.size }} {{ chart.size }} 0px;">
-                    {# The cell Title #}
-                    {% if header and (chart.header | trim | length) %}
-                        <div class="card-header"><h6>{{ chart.header }}</h6></div>
-                    {% endif %}
+{%- macro render_card(card, header=true, wrapper="", class="") -%}
+{# Render cells as a card with optional title and footer #}
+    {% if card.cells | length %}
+       {% if card.get("wrapper", "") == "form" %}
+            <form>
+                {% for cell in card.cells %}
+                    {{ render_cell(cell) }}
+                {% endfor %}
+            </form>
+        {% else %}
+            <div class="card {{ class }}" style="flex: {{ card.size }} {{ card.size }} 0px;">
+                {# The cell Title #}
+                {% if header and (card.header | trim | length) %}
+                    <div class="card-header"><h6>{{ card.header }}</h6></div>
+                {% endif %}
 
-                    {# The cell content #}
-                    <div class="card-body">{{ super() }}</div>
-
-                    {# The cell footer #}
-                    {% if chart.footer %}
-                        <div class="card-footer text-muted">{{ chart.footer.source }}</div>
-                    {% endif %}
+                {# The cell content #}
+                <div class="card-body d-flex flex-column">
+                    {% for cell in card.cells %}
+                        {{ render_cell(cell) }}
+                    {% endfor %}
                 </div>
-            {% endif %}
-        {% endblock %}
+
+                {# The cell footer #}
+                {% if card.footer %}
+                    <div class="card-footer text-muted">{{ render_cell(card.footer) }}</div>
+                {% endif %}
+            </div>
+        {% endif %}
     {% endif %}
+{% endmacro %}
+
+{% macro render_cell(cell, display="") %}
+{% block any_cell scoped %}
+    {% if display == "none" %}
+        <div style="display: none;">
+        {{ super() }}
+        </div>
+    {% else %}
+        {{ super() }}
+    {% endif %}
+{% endblock %}
 {% endmacro %}
 
 {# ------------------------------------------------------------------------- #}
@@ -93,8 +104,13 @@
     {# Create dashboard structure variable by iterating the notebook cells  #}
     {# ------------------------------------------------------------------------- #}
 
-    {% set _ = dashboard.update({"meta": [], "pages": []}) %}
-    {% set vars = {"current_page": {}, "current_page_dir": params.page_flex_direction, "current_section": {}, "current_section_dir": params.section_flex_direction, "current_chart": {} } %}
+    {% set _ = dashboard.update({"meta": [], "pages": [] }) %}
+    {% set vars = {} %}
+    {% set _ = vars.update({"current_page": {} }) %}
+    {% set _ = vars.update({"current_page_dir": params.page_flex_direction}) %}
+    {% set _ = vars.update({"current_section": {} }) %}
+    {% set _ = vars.update({"current_section_dir": params.section_flex_direction}) %}
+    {% set _ = vars.update({"current_card": {} }) %}
 
     {% for cell in nb.cells %}
         {% set cell_type = cell["cell_type"] %}
@@ -105,13 +121,13 @@
 
             {% set h1_title = macros.startswith_strip(cell_source, "# ") %}
             {% if h1_title | trim | length %}
-                {# Add the current chart to the current section #}
-                {% if vars.current_chart %}
-                    {% set _ = vars.current_section["charts"].append(vars.current_chart) %}
+                {# Add the current card to the current section #}
+                {% if vars.current_card %}
+                    {% set _ = vars.current_section["cards"].append(vars.current_card) %}
                 {% endif %}
 
                 {# Add current section to page #}
-                {% if vars.current_section and vars.current_section.charts %}
+                {% if vars.current_section and vars.current_section.cards %}
                     {% set _ = vars.current_page["sections"].append(vars.current_section) %}
                 {% endif %}
 
@@ -137,8 +153,8 @@
                 {% endif %}
 
                 {% set _ = vars.update({"current_page": {"title": h1_title, "direction": vars.current_page_dir, "sections": [], "sidebar": {} } }) %}
-                {% set _ = vars.update({"current_section": {"title": "", "direction": vars.current_section_dir, "size": "500", "tags": cell_tags, "charts": []}}) %}
-                {% set _ = vars.update({"current_chart": {}}) %}
+                {% set _ = vars.update({"current_section": {"title": "", "direction": vars.current_section_dir, "size": "500", "tags": cell_tags, "cards": []}}) %}
+                {% set _ = vars.update({"current_card": {}}) %}
             {% endif %}
 
             {% set h2_title = macros.startswith_strip(cell_source, "## ") %}
@@ -148,14 +164,14 @@
                     {% set _ = vars.update({"current_page": {"title": "", "direction": vars.current_page_dir, "sections": [], "sidebar": {} } }) %}
                 {% endif %}
 
-                {# Add the current chart to the current section before defining a new one #}
-                {% if vars.current_chart %}
-                    {% set _ = vars.current_section["charts"].append(vars.current_chart) %}
-                    {% set _ = vars.update({"current_chart": {}}) %}
+                {# Add the current card to the current section before defining a new one #}
+                {% if vars.current_card %}
+                    {% set _ = vars.current_section["cards"].append(vars.current_card) %}
+                    {% set _ = vars.update({"current_card": {}}) %}
                 {% endif %}
 
                 {# Add current section to page before defining a new one #}
-                {% if vars.current_section and vars.current_section.charts %}
+                {% if vars.current_section and vars.current_section.cards %}
                     {% set is_sidebar = macros.find_item_startswith(vars.current_section.tags, "sidebar") %}
                     {% if is_sidebar | trim | length %}
                         {% set _ = vars.current_page.update({"sidebar": vars.current_section}) %}
@@ -165,7 +181,7 @@
                 {% endif %}
 
                 {# Create new section and use tags to override defaults #}
-                {% set _ = vars.update({"current_section": {"title": h2_title, "direction": vars.current_section_dir, "size": "500", "tags": cell_tags, "charts": []}}) %}
+                {% set _ = vars.update({"current_section": {"title": h2_title, "direction": vars.current_section_dir, "size": "500", "tags": cell_tags, "cards": []}}) %}
 
                 {# Overwrite direction if there is an orientation tag #}
                 {% set orientation = macros.find_item_startswith(cell_tags, "orientation=") %}
@@ -193,75 +209,70 @@
                     {% set _ = vars.update({"current_page": {"title": "", "direction": vars.current_page_dir, "sections": [], "sidebar": {}} }) %}
                 {% endif %}
                 {% if not vars.current_section %}
-                    {% set _ = vars.update({"current_section": {"title": "", "direction": vars.current_section_dir, "size": "500", "tags": [], "charts": []}}) %}
+                    {% set _ = vars.update({"current_section": {"title": "", "direction": vars.current_section_dir, "size": "500", "tags": [], "cards": []}}) %}
                 {% endif %}
 
-                {% if vars.current_chart %}
-                    {% set _ = vars.current_section["charts"].append(vars.current_chart) %}
+                {% if vars.current_card %}
+                    {% set _ = vars.current_section["cards"].append(vars.current_card) %}
                 {% endif %}
-                {% set _ = vars.update({"current_chart": {"header": h3_title, "size": "500", "tags": cell_tags}}) %}
+                {% set _ = vars.update({"current_card": {"header": h3_title, "size": "500", "tags": cell_tags, "cells": []}}) %}
 
                 {% set size = macros.find_item_startswith(cell_tags, "size=") %}
                 {% if size | trim | length %}
                     {% set size = macros.startswith_strip(size, "size=") | trim %}
-                    {% set _ = vars.current_chart.update({"size": size}) %}
+                    {% set _ = vars.current_card.update({"size": size}) %}
                 {% endif %}
             {% endif %}
 
-            {% set footer = macros.find_item_startswith(cell_tags, "footer") %}
-            {% if (footer | trim | length) %}
-                {% set _ = vars.current_chart.update({"footer": cell}) %}
+            {% set is_text = macros.find_item_startswith(cell_tags, "text") %}
+            {% if (is_text | trim | length) %}
+                {% set _ = vars.current_card.cells.append(cell) %}
             {% endif %}
 
-        {% endif %}
+            {% set is_footer = macros.find_item_startswith(cell_tags, "footer") %}
+            {% if (is_footer | trim | length) %}
+                {% set _ = vars.current_card.update({"footer": cell}) %}
+            {% endif %}
 
-        {% if cell_type == "code" %}
+        {% elif cell_type == "code" %}
+            {% set is_meta = macros.find_item_startswith(cell_tags, "meta") %}
+            {% set is_inputs = macros.find_item_startswith(cell_tags, "inputs") %}
+            {% set is_chart = macros.find_item_startswith(cell_tags, "chart") %}
 
-            {% set meta = macros.find_item_startswith(cell_tags, "meta") %}
-            {% set inputs = macros.find_item_startswith(cell_tags, "inputs") %}
-            {% set chart = macros.find_item_startswith(cell_tags, "chart") %}
-
-            {% if (meta | trim | length) %}
+            {% if (is_meta | trim | length) %}
                 {# Meta cells dont create section or pages #}
-                {% set _ = dashboard.meta.append({"cell": cell, "display": "none"}) %}
+                {% set _ = dashboard.meta.append(cell) %}
                 {% continue %}
 
-            {% elif (inputs | trim | length) or (chart | trim | length) %}
+            {% elif (is_inputs | trim | length) or (is_chart | trim | length) %}
                 {# Create current_page and current_section if notebook starts with a tagged cell #}
                 {% if not vars.current_page %}
                     {% set _ = vars.update({"current_page": {"title": "", "direction": params.page_flex_direction, "sections": [], "sidebar": {} } }) %}
                 {% endif %}
                 {% if not vars.current_section %}
-                    {% set _ = vars.update({"current_section": {"title": "", "direction": vars.current_section_dir, "size": "500", "tags": [], "charts": []}}) %}
+                    {% set _ = vars.update({"current_section": {"title": "", "direction": vars.current_section_dir, "size": "500", "tags": [], "cards": []}}) %}
                 {% endif %}
-                {% if not vars.current_chart %}
-                    {% set _ = vars.update({"current_chart": {"header": "", "size": "500", "tags": []}}) %}
-                {% endif %}
-
-                {% if inputs | trim | length %}
-                    {% set _ = vars.current_chart.update({"cell": cell, "type": "inputs"}) %}
+                {% if not vars.current_card %}
+                    {% set _ = vars.update({"current_card": {"header": "", "cells": [], "size": "500", "tags": []}}) %}
                 {% endif %}
 
-                {% if chart | trim | length %}
-                    {% set _ = vars.current_chart.update({"cell": cell}) %}
-                {% endif %}
+                {% set _ = vars.current_card.cells.append(cell) %}
             {% endif %}
 
         {% endif %}
     {% endfor %}
 
     {# Add final page and section #}
-    {% set _ = vars.current_section["charts"].append(vars.current_chart) %}
+    {% set _ = vars.current_section["cards"].append(vars.current_card) %}
     {% set _ = vars.current_page["sections"].append(vars.current_section) %}
     {% set _ = dashboard["pages"].append(vars.current_page) %}
-
 
     {% block after_body_loop %}
     {% endblock %}
 {%- endblock body_loop -%}
 
 {# ------------------------------------------------------------------------- #}
-{# Write the HTML base on the dashboard structure #}
+{# Write the HTML from the dashboard structure #}
 {# ------------------------------------------------------------------------- #}
 
 {%- block body_content -%}
@@ -307,8 +318,8 @@
             </div>
         </nav>
 
-        {% for chart in dashboard.meta %}
-            {{ render_chart(chart) }}
+        {% for cell in dashboard.meta %}
+            {{ render_cell(cell, display="none") }}
         {% endfor %}
 
         <div class="page-tabs tab-content">
@@ -323,8 +334,8 @@
 
                         {% if page.sidebar %}
                             <div class="col-xl-2 bd-sidebar sidebar">
-                                {% for chart in page.sidebar.charts %}
-                                    {{ render_chart(chart) }}
+                                {% for card in page.sidebar.cards %}
+                                    {{ render_card(card, wrapper="form") }}
                                 {% endfor %}
                             </div>
                         {% endif %}
@@ -346,13 +357,13 @@
                                         {% set fade = "" if "no-fade" in section.tags else " fade" %}
                                         {% set li_items = [] %}
                                         {% set div_items = [] %}
-                                        {% for chart in section.charts %}
-                                            {% set chart_slug = chart.header | lower | replace(" ", "-") %}
-                                            {% set tab_name = (chart_slug ~ "-tab") | lower | replace(" ", "-") %}
+                                        {% for card in section.cards %}
+                                            {% set card_slug = card.header | lower | replace(" ", "-") %}
+                                            {% set tab_name = (card_slug ~ "-tab") | lower | replace(" ", "-") %}
                                             {% set active = " active show" if loop.index == 1 else "" %}
                                             {% set aria_selected = " true" if loop.index == 1 else "false" %}
-                                            {% set _ = li_items.append('<li class="nav-item"> <a class="nav-link' ~ active ~ '" id="' ~ tab_name ~ '" href="#' ~ chart_slug ~ '" data-toggle="tab" role="tab" aria-controls="' ~ chart_slug ~ '" aria-selected="' ~ aria_selected ~ '">' ~ chart.header ~ '</a> </li>') %}
-                                            {% set _ = div_items.append('<div class="tab-pane' ~ fade ~ active ~ '" id="' ~ chart_slug ~ '" role="tabpanel" aria-labelledby="' ~ tab_name ~ '">' ~ render_chart(chart, header=false) ~ '</div>') %}
+                                            {% set _ = li_items.append('<li class="nav-item"> <a class="nav-link' ~ active ~ '" id="' ~ tab_name ~ '" href="#' ~ card_slug ~ '" data-toggle="tab" role="tab" aria-controls="' ~ card_slug ~ '" aria-selected="' ~ aria_selected ~ '">' ~ card.header ~ '</a> </li>') %}
+                                            {% set _ = div_items.append('<div class="tab-pane' ~ fade ~ active ~ '" id="' ~ card_slug ~ '" role="tabpanel" aria-labelledby="' ~ tab_name ~ '">' ~ render_card(card, header=false) ~ '</div>') %}
                                         {% endfor %}
 
                                         <ul class="nav nav-tabs nav-bordered {{ nav_fill }}" id="{{ section_slug }}-nav" role="tablist">
@@ -369,8 +380,8 @@
 
                                     {% else %}
                                         {# Default: Just show each card #}
-                                        {% for chart in section.charts %}
-                                            {{ render_chart(chart, class="card-" + section.direction) }}
+                                        {% for card in section.cards %}
+                                            {{ render_card(card, class="card-" + section.direction) }}
                                         {% endfor %}
                                     {% endif %}
                                 </div>

@@ -236,6 +236,11 @@ body {
     box-shadow: 0 0 10px 0 rgba(154, 161, 171, .35);
     color: #6c757d;
 
+    a {
+        color: #6c757d;
+        text-decoration: underline;
+    }
+
     // cards inside a row section
     &.card-row {
         margin-right: 1rem;
@@ -271,11 +276,17 @@ body {
     }
 
     .card-body {
-        padding: 0.5rem;
+        padding: .5rem 1.25rem;
         width: 100%;
         height: 100%;
         overflow-x: hidden;
         overflow-y: hidden;
+
+        .jp-CodeCell {
+            width: 100%;
+            // height: 100%;
+            flex-grow: 1;
+        }
 
         img {
             width: 100%;
@@ -295,7 +306,11 @@ body {
     }
 
     .card-footer {
-        color: #98a6ad;
+
+
+        p:last-child {
+            margin-bottom: 0;
+        }
     }
 }
 
