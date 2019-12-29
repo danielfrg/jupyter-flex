@@ -16,7 +16,7 @@ To change the dashboard parameters tag one code cell with the `parameters`.
 | `flex_favicon` | Path relative to the notebook with an image to use as favicon | `None` |
 | `flex_custom_css` | Path relative to the notebook with a `.css` file to be included | `None` |
 
-!!! info "Tag name"
+!!! info "The `parameter` tag"
     The `parameter` tag is same tag used by [papermill](https://github.com/nteract/papermill) so you can use it as part of you pipeline.
 
 !!! warning "voila and `flex_custom_css`"

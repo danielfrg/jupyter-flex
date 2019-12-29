@@ -52,7 +52,8 @@
                 {% endfor %}
             </form>
         {% else %}
-            <div class="card {{ class }}" style="flex: {{ card.size }} {{ card.size }} 0px;">
+            {% set extra_classes = macros.join_all_items_with_prefix(card.tags, "class=", " ") %}
+            <div class="card {{ class }} {{ extra_classes }}" style="flex: {{ card.size }} {{ card.size }} 0px;">
                 {# The cell Title #}
                 {% if header and (card.header | trim | length) %}
                     <div class="card-header"><h6>{{ card.header }}</h6></div>
@@ -106,11 +107,11 @@
 
     {% set _ = dashboard.update({"meta": [], "pages": [] }) %}
     {% set vars = {} %}
-    {% set _ = vars.update({"current_page": {} }) %}
     {% set _ = vars.update({"current_page_dir": params.page_flex_direction}) %}
-    {% set _ = vars.update({"current_section": {} }) %}
     {% set _ = vars.update({"current_section_dir": params.section_flex_direction}) %}
-    {% set _ = vars.update({"current_card": {} }) %}
+    {% set _ = vars.update({"current_page": {} }) %}
+    {% set _ = vars.update({"current_section": {} }) %}
+    {% set _ = vars.update({"current_card": {"cells": []} }) %}
 
     {% for cell in nb.cells %}
         {% set cell_type = cell["cell_type"] %}
@@ -119,15 +120,15 @@
 
         {% if cell_type == "markdown" %}
 
-            {% set h1_title = macros.startswith_strip(cell_source, "# ") %}
+            {% set h1_title = macros.startswith_and_strip(cell_source, "# ") %}
             {% if h1_title | trim | length %}
                 {# Add the current card to the current section #}
-                {% if vars.current_card %}
+                {% if vars.current_card.cells %}
                     {% set _ = vars.current_section["cards"].append(vars.current_card) %}
                 {% endif %}
 
                 {# Add current section to page #}
-                {% if vars.current_section and vars.current_section.cards %}
+                {% if vars.current_section.cards and vars.current_section.cards %}
                     {% set _ = vars.current_page["sections"].append(vars.current_section) %}
                 {% endif %}
 
@@ -152,12 +153,12 @@
                     {% endif %}
                 {% endif %}
 
-                {% set _ = vars.update({"current_page": {"title": h1_title, "direction": vars.current_page_dir, "sections": [], "sidebar": {} } }) %}
+                {% set _ = vars.update({"current_page": {"title": h1_title, "direction": vars.current_page_dir, "sections": [], "sidebar": {}, "tags": cell_tags } }) %}
                 {% set _ = vars.update({"current_section": {"title": "", "direction": vars.current_section_dir, "size": "500", "tags": cell_tags, "cards": []}}) %}
-                {% set _ = vars.update({"current_card": {}}) %}
+                {% set _ = vars.update({"current_card": {"cells": []}}) %}
             {% endif %}
 
-            {% set h2_title = macros.startswith_strip(cell_source, "## ") %}
+            {% set h2_title = macros.startswith_and_strip(cell_source, "## ") %}
             {% if h2_title | trim | length %}
                 {# If there is no h1 and notebook starts with h2 #}
                 {% if not vars.current_page %}
@@ -165,9 +166,9 @@
                 {% endif %}
 
                 {# Add the current card to the current section before defining a new one #}
-                {% if vars.current_card %}
+                {% if vars.current_card.cells %}
                     {% set _ = vars.current_section["cards"].append(vars.current_card) %}
-                    {% set _ = vars.update({"current_card": {}}) %}
+                    {% set _ = vars.update({"current_card": {"cells": []}}) %}
                 {% endif %}
 
                 {# Add current section to page before defining a new one #}
@@ -202,7 +203,7 @@
                 {% endif %}
             {% endif %}
 
-            {% set h3_title = macros.startswith_strip(cell_source, "### ") %}
+            {% set h3_title = macros.startswith_and_strip(cell_source, "### ") %}
             {% if h3_title | trim | length %}
                 {# If there is no h1 or h2 and notebook starts with h3 #}
                 {% if not vars.current_page %}
@@ -219,7 +220,7 @@
 
                 {% set size = macros.find_item_startswith(cell_tags, "size=") %}
                 {% if size | trim | length %}
-                    {% set size = macros.startswith_strip(size, "size=") | trim %}
+                    {% set size = macros.startswith_and_strip(size, "size=") | trim %}
                     {% set _ = vars.current_card.update({"size": size}) %}
                 {% endif %}
             {% endif %}
@@ -330,7 +331,8 @@
 
                 <div class="tab-pane {{ active }}" id="{{ page_slug }}">
 
-                    <div class="page-wrapper container-fluid d-flex">
+                    {% set page_extra_classes = macros.join_all_items_with_prefix(page.tags, "class=", " ") %}
+                    <div class="page-wrapper container-fluid d-flex {{ page_extra_classes }}">
 
                         {% if page.sidebar %}
                             <div class="col-xl-2 bd-sidebar sidebar">
@@ -345,11 +347,13 @@
                                 {% set section_direction = section.direction %}
                                 {% set is_tabbed = "tabs" in section.tags %}
                                 {% set section_tabs = "section-tabs" if is_tabbed else "" %}
+                                {% set section_extra_classes = macros.join_all_items_with_prefix(section.tags, "class=", " ") %}
                                 {% if is_tabbed %}
                                     {% set section_direction = "column" %}
                                 {% endif %}
 
-                                <div class="d-flex flex-{{ section_direction }} section section-{{ section.direction }} {{ section_tabs }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
+
+                                <div class="d-flex flex-{{ section_direction }} section section-{{ section.direction }} {{ section_tabs }} {{ section_extra_classes }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
 
                                     {% if is_tabbed %}
                                         {% set section_slug = section.title | lower | replace(" ", "-") %}
