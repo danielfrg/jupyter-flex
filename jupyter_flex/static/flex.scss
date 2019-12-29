@@ -282,9 +282,15 @@ body {
         overflow-x: hidden;
         overflow-y: hidden;
 
+        .code_cell {
+            width: 100%;
+            height: 100%;
+            flex-grow: 1;
+        }
+
         .jp-CodeCell {
             width: 100%;
-            // height: 100%;
+            height: 100%;
             flex-grow: 1;
         }
 
@@ -349,6 +355,8 @@ table.dataframe {
     }
     * + table {margin-top: 1em;}
 }
+
+// Plotting libraries
 
 .js-plotly-plot {
     width: 100%;
