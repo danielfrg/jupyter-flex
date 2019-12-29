@@ -6,6 +6,7 @@
 - Added flex_author, flex_logo, flex_favicon parameters
 - Added option to include a custom.css file using flex_custom_css
 - Added option to have multiple outputs per card, including markdown cells
+- Added option to add custom CSS classes using `class={value}` tags
 - Changed default theme
 
 ## 0.3.0
