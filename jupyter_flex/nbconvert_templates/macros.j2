@@ -19,7 +19,7 @@
 
 {%- macro find_item_startswith(list, prefx, default="") -%}
 {# Iterate list and print if one value starts with the target characters #}
-{%- for item in list %}
+{%- for item in list -%}
     {%- if item.startswith(prefx) -%}
         {{ item }}
         {%- break -%}
