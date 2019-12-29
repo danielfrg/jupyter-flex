@@ -111,7 +111,7 @@
     {% set _ = vars.update({"current_section_dir": params.section_flex_direction}) %}
     {% set _ = vars.update({"current_page": {} }) %}
     {% set _ = vars.update({"current_section": {} }) %}
-    {% set _ = vars.update({"current_card": {"cells": []} }) %}
+    {% set _ = vars.update({"current_card": {} }) %}
 
     {% for cell in nb.cells %}
         {% set cell_type = cell["cell_type"] %}
@@ -123,12 +123,12 @@
             {% set h1_title = macros.startswith_and_strip(cell_source, "# ") %}
             {% if h1_title | trim | length %}
                 {# Add the current card to the current section #}
-                {% if vars.current_card.cells %}
+                {% if vars.current_card %}
                     {% set _ = vars.current_section["cards"].append(vars.current_card) %}
                 {% endif %}
 
                 {# Add current section to page #}
-                {% if vars.current_section.cards and vars.current_section.cards %}
+                {% if vars.current_section and vars.current_section %}
                     {% set _ = vars.current_page["sections"].append(vars.current_section) %}
                 {% endif %}
 
@@ -137,9 +137,9 @@
                     {% set _ = dashboard["pages"].append(vars.current_page) %}
                 {% endif %}
 
-                {# Define new current objects #}
+                {# Define new current_* objects #}
 
-                {# Overwrite direction if there is an orientation tag #}
+                {# Overwrite default orientation (if tag) #}
                 {% set orientation = macros.find_item_startswith(cell_tags, "orientation=") %}
                 {% if orientation | trim | length %}
                     {% set orientation = orientation["orientation=" | length:] | trim %}
@@ -153,26 +153,26 @@
                     {% endif %}
                 {% endif %}
 
-                {% set _ = vars.update({"current_page": {"title": h1_title, "direction": vars.current_page_dir, "sections": [], "sidebar": {}, "tags": cell_tags } }) %}
-                {% set _ = vars.update({"current_section": {"title": "", "direction": vars.current_section_dir, "size": "500", "tags": cell_tags, "cards": []}}) %}
-                {% set _ = vars.update({"current_card": {"cells": []}}) %}
+                {% set _ = vars.update({"current_page": {"title": h1_title, "sections": [], "sidebar": {}, "direction": vars.current_page_dir, "tags": cell_tags } }) %}
+                {% set _ = vars.update({"current_section": {} }) %}
+                {% set _ = vars.update({"current_card": {} }) %}
             {% endif %}
 
             {% set h2_title = macros.startswith_and_strip(cell_source, "## ") %}
             {% if h2_title | trim | length %}
-                {# If there is no h1 and notebook starts with h2 #}
+                {# If there is no h1 (notebook starts with h2) #}
                 {% if not vars.current_page %}
-                    {% set _ = vars.update({"current_page": {"title": "", "direction": vars.current_page_dir, "sections": [], "sidebar": {} } }) %}
+                    {% set _ = vars.update({"current_page": {"title": "", "sections": [], "sidebar": {}, "direction": vars.current_page_dir, "tags": [] } }) %}
                 {% endif %}
 
                 {# Add the current card to the current section before defining a new one #}
-                {% if vars.current_card.cells %}
+                {% if vars.current_card %}
                     {% set _ = vars.current_section["cards"].append(vars.current_card) %}
-                    {% set _ = vars.update({"current_card": {"cells": []}}) %}
+                    {% set _ = vars.update({"current_card": {} }) %}
                 {% endif %}
 
                 {# Add current section to page before defining a new one #}
-                {% if vars.current_section and vars.current_section.cards %}
+                {% if vars.current_section %}
                     {% set is_sidebar = macros.find_item_startswith(vars.current_section.tags, "sidebar") %}
                     {% if is_sidebar | trim | length %}
                         {% set _ = vars.current_page.update({"sidebar": vars.current_section}) %}
@@ -182,9 +182,9 @@
                 {% endif %}
 
                 {# Create new section and use tags to override defaults #}
-                {% set _ = vars.update({"current_section": {"title": h2_title, "direction": vars.current_section_dir, "size": "500", "tags": cell_tags, "cards": []}}) %}
+                {% set _ = vars.update({"current_section": {"title": h2_title, "cards": [], "direction": vars.current_section_dir, "size": "500", "tags": cell_tags}}) %}
 
-                {# Overwrite direction if there is an orientation tag #}
+                {# Overwrite default orientation (if tag) #}
                 {% set orientation = macros.find_item_startswith(cell_tags, "orientation=") %}
                 {% if orientation | trim | length %}
                     {% set orientation = orientation["orientation=" | length:] | trim %}
@@ -195,7 +195,7 @@
                     {% endif %}
                 {% endif %}
 
-                {# Overwrite size if there is a size tag #}
+                {# Overwrite default size (if tag) #}
                 {% set size = macros.find_item_startswith(cell_tags, "size=") %}
                 {% if size | trim | length %}
                     {% set size = size["size=" | length:] | trim %}
@@ -205,19 +205,23 @@
 
             {% set h3_title = macros.startswith_and_strip(cell_source, "### ") %}
             {% if h3_title | trim | length %}
-                {# If there is no h1 or h2 and notebook starts with h3 #}
+                {# If there is no h1 or h2 (notebook starts with h3) #}
                 {% if not vars.current_page %}
-                    {% set _ = vars.update({"current_page": {"title": "", "direction": vars.current_page_dir, "sections": [], "sidebar": {}} }) %}
+                    {% set _ = vars.update({"current_page": {"title": "", "sections": [], "sidebar": {}, "direction": vars.current_page_dir, "tags": [] } }) %}
                 {% endif %}
                 {% if not vars.current_section %}
-                    {% set _ = vars.update({"current_section": {"title": "", "direction": vars.current_section_dir, "size": "500", "tags": [], "cards": []}}) %}
+                    {% set _ = vars.update({"current_section": {"title": "", "cards": [], "direction": vars.current_section_dir, "size": "500", "tags": []} }) %}
                 {% endif %}
 
+                {# If there is a card we add it to the section #}
                 {% if vars.current_card %}
                     {% set _ = vars.current_section["cards"].append(vars.current_card) %}
                 {% endif %}
-                {% set _ = vars.update({"current_card": {"header": h3_title, "size": "500", "tags": cell_tags, "cells": []}}) %}
 
+                {# Create current_card with values from this cell #}
+                {% set _ = vars.update({"current_card": {"header": h3_title, "cells": [], "size": "500", "tags": cell_tags}}) %}
+
+                {# Overwrite default size (if tag) #}
                 {% set size = macros.find_item_startswith(cell_tags, "size=") %}
                 {% if size | trim | length %}
                     {% set size = macros.startswith_and_strip(size, "size=") | trim %}
@@ -226,13 +230,26 @@
             {% endif %}
 
             {% set is_text = macros.find_item_startswith(cell_tags, "text") %}
-            {% if (is_text | trim | length) %}
-                {% set _ = vars.current_card.cells.append(cell) %}
-            {% endif %}
-
             {% set is_footer = macros.find_item_startswith(cell_tags, "footer") %}
-            {% if (is_footer | trim | length) %}
-                {% set _ = vars.current_card.update({"footer": cell}) %}
+            {% if (is_text | trim | length) or (is_footer | trim | length) %}
+                {# Create current_* objects if notebook starts with a tagged cell #}
+                {% if not vars.current_page %}
+                    {% set _ = vars.update({"current_page": {"title": "", "direction": params.page_flex_direction, "sections": [], "sidebar": {} } }) %}
+                {% endif %}
+                {% if not vars.current_section %}
+                    {% set _ = vars.update({"current_section": {"title": "", "cards": [], "direction": vars.current_section_dir, "size": "500", "tags": []}}) %}
+                {% endif %}
+                {% if not vars.current_card %}
+                    {% set _ = vars.update({"current_card": {"header": "", "cells": [], "size": "500", "tags": []}}) %}
+                {% endif %}
+
+                {% if (is_text | trim | length) %}
+                    {% set _ = vars.current_card.cells.append(cell) %}
+                {% endif %}
+
+                {% if (is_footer | trim | length) %}
+                    {% set _ = vars.current_card.update({"footer": cell}) %}
+                {% endif %}
             {% endif %}
 
         {% elif cell_type == "code" %}
@@ -246,12 +263,12 @@
                 {% continue %}
 
             {% elif (is_inputs | trim | length) or (is_chart | trim | length) %}
-                {# Create current_page and current_section if notebook starts with a tagged cell #}
+                {# Create current_* objects if notebook starts with a tagged cell #}
                 {% if not vars.current_page %}
                     {% set _ = vars.update({"current_page": {"title": "", "direction": params.page_flex_direction, "sections": [], "sidebar": {} } }) %}
                 {% endif %}
                 {% if not vars.current_section %}
-                    {% set _ = vars.update({"current_section": {"title": "", "direction": vars.current_section_dir, "size": "500", "tags": [], "cards": []}}) %}
+                    {% set _ = vars.update({"current_section": {"title": "", "cards": [], "direction": vars.current_section_dir, "size": "500", "tags": []}}) %}
                 {% endif %}
                 {% if not vars.current_card %}
                     {% set _ = vars.update({"current_card": {"header": "", "cells": [], "size": "500", "tags": []}}) %}
@@ -259,8 +276,8 @@
 
                 {% set _ = vars.current_card.cells.append(cell) %}
             {% endif %}
-
         {% endif %}
+
     {% endfor %}
 
     {# Add final page and section #}
