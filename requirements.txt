@@ -1,3 +1,4 @@
+# This is used by Netlify and should match environment.yml
 notebook
 jupyterlab
 nbconvert
@@ -22,7 +23,7 @@ pandas-datareader
 scikit-learn
 statsmodels
 colorlover
-#
+# Other
 jupyter-flex
 mkdocs-jupyter
 jupyter_bokeh
