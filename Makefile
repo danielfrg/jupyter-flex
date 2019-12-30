@@ -39,6 +39,7 @@ clean:  ## Remove build files
 	@rm -rf share
 	@rm -rf site
 	@rm -rf docs/examples
+	@rm -f examples/*.html
 	@rm -f examples/**/*.html
 	@rm -f jupyter_flex/nbconvert_templates/*.js
 	@rm -f jupyter_flex/nbconvert_templates/*.css
