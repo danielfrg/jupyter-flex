@@ -58,6 +58,7 @@ netlify: assets  ## Build docs on Netlify
 	pip uninstall -y jupyter-flex
 	python setup.py install
 	pip freeze
+	python -c "import bokeh.sampledata; bokeh.sampledata.download()"
 	$(MAKE) docs-examples
 	@cd $(CURDIR)/docs/ && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True
 	mkdocs build --config-file $(CURDIR)/mkdocs.yml
