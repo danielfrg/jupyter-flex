@@ -52,11 +52,16 @@ $ pip install jupyter-flex
 <div class="image-grid-row">
   <figure class="image-card">
     <!-- <a href="/examples/time-series.html"> -->
+        <img src="/assets/img/movie-explorer.png" alt="Jupyter-flex: Movie Explorer">
+    <!-- </a> -->
+    <figcaption>Movie Explorer (requires voila)</figcaption>
+  </figure>
+
+  <figure class="image-card">
+    <!-- <a href="/examples/time-series.html"> -->
         <img src="/assets/img/iris-clustering.png" alt="Jupyter-flex: Iris Clustering">
     <!-- </a> -->
     <figcaption>Iris clustering (requires voila)</figcaption>
-  </figure>
-  <figure class="image-card">
   </figure>
 </div>
 
