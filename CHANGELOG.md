@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## 0.4.0
+
 - Standardized all parameters with a flex_ prefix
 - Added flex_author, flex_logo, flex_favicon parameters
 - Added option to include a custom.css file using flex_custom_css
