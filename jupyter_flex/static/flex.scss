@@ -133,19 +133,17 @@ body {
     .sidebar {
         padding: 0;
         margin: 0 1rem 0 0;
-        width: 250px;
-        max-width: 250px;
-        min-width: 250px;
-
-        .card-body {
-            overflow-y: auto;
-        }
+        width: 30%;
+        max-width: 100%;
+        min-width: 300px;
+        flex: 250 250 0px;
     }
 
-    .page-content {
+    .page-sections {
         width: 100%;
         height: 100%;
         padding: 0;
+        flex: 750 750 0px;
     }
 
     .section {
@@ -269,6 +267,7 @@ body {
         margin-top: 0;
         margin-bottom: 0;
         border: none;
+        padding-bottom: 0.5rem;
 
         h6 {
             text-transform: uppercase;
@@ -282,9 +281,9 @@ body {
     .card-body {
         padding: .5rem 1.25rem;
         width: 100%;
+        flex: 1 1 0;
         height: 100%;
-        overflow-x: hidden;
-        overflow-y: hidden;
+        overflow: auto;
 
         .code_cell {
             width: 100%;

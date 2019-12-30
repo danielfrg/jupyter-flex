@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Section sidebars now can have multiple cards
+
 ## 0.4.0
 
 - Standardized all parameters with a flex_ prefix

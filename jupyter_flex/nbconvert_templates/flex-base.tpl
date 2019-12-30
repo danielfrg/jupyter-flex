@@ -45,33 +45,25 @@
 {%- macro render_card(card, header=true, wrapper="", class="") -%}
 {# Render cells as a card with optional title and footer #}
     {% if card.cells | length %}
-       {% if card.get("wrapper", "") == "form" %}
-            <form>
+        {% set extra_classes = macros.join_all_items_with_prefix(card.tags, "class=", " ") %}
+        <div class="card {{ class }} {{ extra_classes }}" style="flex: {{ card.size }} {{ card.size }} 0px;">
+            {# The cell Title #}
+            {% if header and (card.header | trim | length) %}
+                <div class="card-header"><h6>{{ card.header }}</h6></div>
+            {% endif %}
+
+            {# The cell content #}
+            <div class="card-body d-flex flex-column">
                 {% for cell in card.cells %}
                     {{ render_cell(cell) }}
                 {% endfor %}
-            </form>
-        {% else %}
-            {% set extra_classes = macros.join_all_items_with_prefix(card.tags, "class=", " ") %}
-            <div class="card {{ class }} {{ extra_classes }}" style="flex: {{ card.size }} {{ card.size }} 0px;">
-                {# The cell Title #}
-                {% if header and (card.header | trim | length) %}
-                    <div class="card-header"><h6>{{ card.header }}</h6></div>
-                {% endif %}
-
-                {# The cell content #}
-                <div class="card-body d-flex flex-column">
-                    {% for cell in card.cells %}
-                        {{ render_cell(cell) }}
-                    {% endfor %}
-                </div>
-
-                {# The cell footer #}
-                {% if card.footer %}
-                    <div class="card-footer text-muted">{{ render_cell(card.footer) }}</div>
-                {% endif %}
             </div>
-        {% endif %}
+
+            {# The cell footer #}
+            {% if card.footer %}
+                <div class="card-footer text-muted">{{ render_cell(card.footer) }}</div>
+            {% endif %}
+        </div>
     {% endif %}
 {% endmacro %}
 
@@ -360,17 +352,17 @@
                 <div class="tab-pane {{ active }}" id="{{ page_slug }}">
 
                     {% set page_extra_classes = macros.join_all_items_with_prefix(page.tags, "class=", " ") %}
-                    <div class="page-wrapper container-fluid d-flex {{ page_extra_classes }}">
+                    <div class="page-wrapper container-fluid d-flex flex-row {{ page_extra_classes }}">
 
                         {% if page.sidebar %}
-                            <div class="col-xl-2 bd-sidebar sidebar">
+                            <div class="d-flex flex-column sidebar section section-column">
                                 {% for card in page.sidebar.cards %}
-                                    {{ render_card(card, wrapper="form") }}
+                                    {{ render_card(card, class="card-column") }}
                                 {% endfor %}
                             </div>
                         {% endif %}
 
-                        <div class="page-content container-fluid d-flex flex-{{ page.direction }}">
+                        <div class="page-sections container-fluid d-flex flex-{{ page.direction }}">
                             {% for section in page.sections %}
                                 {% set section_direction = section.direction %}
                                 {% set is_tabbed = "tabs" in section.tags %}
@@ -379,7 +371,6 @@
                                 {% if is_tabbed %}
                                     {% set section_direction = "column" %}
                                 {% endif %}
-
 
                                 <div class="d-flex flex-{{ section_direction }} section section-{{ section.direction }} {{ section_tabs }} {{ section_extra_classes }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
 
