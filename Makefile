@@ -46,7 +46,7 @@ clean:  ## Remove build files
 
 .PHONY: cleanall
 cleanall: clean  ## Clean everything (including downloaded assets)
-	@rm -f jupyter_flex/static/*.js
+	@ls jupyter_flex/static/*.js | grep -v flex.js | xargs rm
 	@rm -f jupyter_flex/static/*.css
 
 .PHONY: env
