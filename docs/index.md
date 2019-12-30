@@ -42,7 +42,7 @@ $ pip install jupyter-flex
     <figcaption>Plotly plots</figcaption>
   </figure>
   <figure class="image-card">
-    <a href="/examples/iris-plots.html">
+    <a href="/examples/iris-plots-bokeh.html">
         <img src="/assets/img/iris-plots-bokeh.png" alt="Jupyter-flex: Iris Plots Bokeh">
     </a>
     <figcaption>Iris plots (Bokeh) </figcaption>
