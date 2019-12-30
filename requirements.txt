@@ -11,7 +11,6 @@ mkdocs
 mkdocs-material
 libsass
 pygments
-pymdown-extensions
 # Used by examples
 pandas
 scipy
@@ -24,6 +23,7 @@ scikit-learn
 statsmodels
 colorlover
 # Other
-jupyter-flex
+pymdown-extensions
 mkdocs-jupyter
 jupyter_bokeh
+jupyter-flex

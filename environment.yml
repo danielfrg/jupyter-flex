@@ -2,7 +2,7 @@ name: jupyter-flex
 channels:
   - conda-forge
 dependencies:
-  - python=3
+  - python=3.7
   - pip
   - notebook
   - jupyterlab
@@ -16,7 +16,6 @@ dependencies:
   - mkdocs-material
   - libsass
   - pygments
-  - pymdown-extensions
   # Used by examples
   - pandas
   - scipy
@@ -29,6 +28,7 @@ dependencies:
   - statsmodels
   - colorlover
   - pip:
-    - jupyter-flex
+    - pymdown-extensions
     - mkdocs-jupyter
     - jupyter_bokeh
+    - jupyter-flex
