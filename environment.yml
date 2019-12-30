@@ -6,15 +6,20 @@ dependencies:
   - pip
   - notebook
   - jupyterlab
-  - ipython
-  - voila
   - nbconvert
+  - voila
   - ipywidgets
-  - libsass
+  - versioneer
+  - twine
+  # Docs
   - mkdocs
+  - mkdocs-material
+  - libsass
   - pygments
+  - pymdown-extensions
   # Used by examples
   - pandas
+  - scipy
   - matplotlib
   - plotly
   - bokeh
@@ -22,12 +27,8 @@ dependencies:
   - pandas-datareader
   - scikit-learn
   - statsmodels
+  - colorlover
   - pip:
     - jupyter-flex
-    - versioneer
-    - twine
-    - mkdocs-material
     - mkdocs-jupyter
-    - pymdown-extensions
     - jupyter_bokeh
-    - colorlover

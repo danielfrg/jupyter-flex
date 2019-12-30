@@ -1,20 +1,28 @@
-# Requirements for netlify build
+notebook
+jupyterlab
 nbconvert
+voila
 ipywidgets
-jupyter-flex
-libsass
+versioneer
+twine
+# Docs
 mkdocs
 mkdocs-material
-mkdocs-jupyter
-pymdown-extensions
+libsass
 pygments
+pymdown-extensions
 # Used by examples
 pandas
+scipy
 matplotlib
 plotly
 bokeh
 bqplot
 pandas-datareader
 scikit-learn
-colorlover
 statsmodels
+colorlover
+#
+jupyter-flex
+mkdocs-jupyter
+jupyter_bokeh
