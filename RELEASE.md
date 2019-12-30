@@ -1,6 +1,7 @@
 ## How to releae a new version
 
-Update `CHANGELOG.md`.
+- Update `CHANGELOG.md`
+- Update links that go to binder.org to use the new tag in README.md and docs
 
 ```
 export VERSION=1.0.0

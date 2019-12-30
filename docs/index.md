@@ -36,6 +36,22 @@ $ pip install jupyter-flex
 
 <div class="image-grid-row">
   <figure class="image-card">
+    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.4.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fmovie-explorer.ipynb">
+        <img src="/assets/img/movie-explorer.png" alt="Jupyter-flex: Movie Explorer">
+    </a>
+    <figcaption>Movie Explorer (launches in mybinder.org)</figcaption>
+  </figure>
+
+  <figure class="image-card">
+    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.4.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Firis-clustering.ipynb">
+        <img src="/assets/img/iris-clustering.png" alt="Jupyter-flex: Iris Clustering">
+    </a>
+    <figcaption>Iris clustering (launches in mybinder.org)</figcaption>
+  </figure>
+</div>
+
+<div class="image-grid-row">
+  <figure class="image-card">
     <a href="/examples/plotly-plots.html">
         <img src="/assets/img/plotly-plots.png" alt="Jupyter-flex: Plotly Plots">
     </a>
@@ -46,22 +62,6 @@ $ pip install jupyter-flex
         <img src="/assets/img/iris-plots-bokeh.png" alt="Jupyter-flex: Iris Plots Bokeh">
     </a>
     <figcaption>Iris plots (Bokeh) </figcaption>
-  </figure>
-</div>
-
-<div class="image-grid-row">
-  <figure class="image-card">
-    <!-- <a href="/examples/time-series.html"> -->
-        <img src="/assets/img/movie-explorer.png" alt="Jupyter-flex: Movie Explorer">
-    <!-- </a> -->
-    <figcaption>Movie Explorer (requires voila)</figcaption>
-  </figure>
-
-  <figure class="image-card">
-    <!-- <a href="/examples/time-series.html"> -->
-        <img src="/assets/img/iris-clustering.png" alt="Jupyter-flex: Iris Clustering">
-    <!-- </a> -->
-    <figcaption>Iris clustering (requires voila)</figcaption>
   </figure>
 </div>
 

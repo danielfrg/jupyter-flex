@@ -2,7 +2,7 @@
 
 [![PyPI version](https://badge.fury.io/py/jupyter-flex.svg)](https://pypi.org/project/jupyter-flex/)
 [![Docs](https://api.netlify.com/api/v1/badges/cba69018-b4a3-4015-9b9c-7f936304afa2/deploy-status)](https://jupyter-flex.extrapolations.dev/)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/danielfrg/jupyter-flex/master)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.4.0)
 
 Use Jupyter Notebooks to quickly create interactive dashboards.
 
@@ -16,7 +16,7 @@ Inspired by [Flex Dashboards](https://rmarkdown.rstudio.com/flexdashboard/).
 
 <a href="https://jupyter-flex.extrapolations.dev/examples/nba-scoring.html"><img src="https://jupyter-flex.extrapolations.dev/assets/img/nba-scoring.png" alt="Jupyter-flex: NBA Scoring" width=276></a>
 <a href="https://jupyter-flex.extrapolations.dev/examples/iris-plots-bokeh.html"><img src="https://jupyter-flex.extrapolations.dev/assets/img/iris-plots-bokeh.png" alt="Jupyter-flex: Iris plots (Bokeh)"  width=276></a>
-<a href="#"><img src="https://jupyter-flex.extrapolations.dev/assets/img/movie-explorer.png" alt="Jupyter-flex: Iris Plots"  width=276></a>
+<a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.4.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fmovie-explorer.ipynb"><img src="https://jupyter-flex.extrapolations.dev/assets/img/movie-explorer.png" alt="Jupyter-flex: Iris Plots"  width=276></a>
 
 ## Installation
 
