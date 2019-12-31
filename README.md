@@ -15,8 +15,8 @@ Use Jupyter Notebooks to quickly create interactive dashboards.
 Inspired by [Flex Dashboards](https://rmarkdown.rstudio.com/flexdashboard/).
 
 <a href="https://jupyter-flex.extrapolations.dev/examples/nba-scoring.html"><img src="https://jupyter-flex.extrapolations.dev/assets/img/nba-scoring.png" alt="Jupyter-flex: NBA Scoring" width=276></a>
-<a href="https://jupyter-flex.extrapolations.dev/examples/iris-plots-bokeh.html"><img src="https://jupyter-flex.extrapolations.dev/assets/img/iris-plots-bokeh.png" alt="Jupyter-flex: Iris plots (Bokeh)"  width=276></a>
-<a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.4.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fmovie-explorer.ipynb"><img src="https://jupyter-flex.extrapolations.dev/assets/img/movie-explorer.png" alt="Jupyter-flex: Iris Plots"  width=276></a>
+<a href="https://jupyter-flex.extrapolations.dev/examples/bokeh-plots.html"><img src="https://jupyter-flex.extrapolations.dev/assets/img/bokeh-plots.png" alt="Jupyter-flex: Bokeh plots"  width=276></a>
+<a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.4.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fmovie-explorer.ipynb"><img src="https://jupyter-flex.extrapolations.dev/assets/img/movie-explorer.png" alt="Jupyter-flex: Bokeh plots"  width=276></a>
 
 ## Installation
 
