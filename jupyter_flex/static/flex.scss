@@ -371,9 +371,33 @@ table.dataframe {
     height: 100%;
 }
 
+.bqplot {
+    width: 100% !important;
+    height: 100% !important;
+}
+
 // ipywidgets
 
-.jupyter-widgets {
+.jp-OutputArea-output.jupyter-widgets {
+    width: 100%;
+    height: 100%;
+
+    .widget-container {
+        width: 100%;
+        height: 100%;
+
+        .bqplot {
+            flex: 1 1 0;
+        }
+
+        .widget-inline-hbox {
+            flex: 0;
+        }
+
+        .widget-inline-vbox {
+            flex: 0;
+        }
+    }
 
     .widget-inline-hbox {
         width: 99%;

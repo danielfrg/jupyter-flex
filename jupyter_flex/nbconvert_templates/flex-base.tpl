@@ -44,27 +44,27 @@
 
 {%- macro render_card(card, header=true, wrapper="", class="") -%}
 {# Render cells as a card with optional title and footer #}
-    {% if card.cells | length %}
-        {% set extra_classes = macros.join_all_items_with_prefix(card.tags, "class=", " ") %}
-        <div class="card {{ class }} {{ extra_classes }}" style="flex: {{ card.size }} {{ card.size }} 0px;">
-            {# The cell Title #}
-            {% if header and (card.header | trim | length) %}
-                <div class="card-header"><h6>{{ card.header }}</h6></div>
-            {% endif %}
+    {% set extra_classes = macros.join_all_items_with_prefix(card.tags, "class=", " ") %}
+    <div class="card {{ class }} {{ extra_classes }}" style="flex: {{ card.size }} {{ card.size }} 0px;">
+        {# The cell Title #}
+        {% if header and (card.header | trim | length) %}
+            <div class="card-header"><h6>{{ card.header }}</h6></div>
+        {% endif %}
 
-            {# The cell content #}
-            <div class="card-body d-flex flex-column">
+        {# The cell content #}
+        <div class="card-body d-flex flex-column">
+            {% if card.cells | length %}
                 {% for cell in card.cells %}
                     {{ render_cell(cell) }}
                 {% endfor %}
-            </div>
-
-            {# The cell footer #}
-            {% if card.footer %}
-                <div class="card-footer text-muted">{{ render_cell(card.footer) }}</div>
             {% endif %}
         </div>
-    {% endif %}
+
+        {# The cell footer #}
+        {% if card.footer %}
+            <div class="card-footer text-muted">{{ render_cell(card.footer) }}</div>
+        {% endif %}
+    </div>
 {% endmacro %}
 
 {% macro render_cell(cell, display="") %}

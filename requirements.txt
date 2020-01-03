@@ -25,5 +25,6 @@ colorlover
 # Other
 pymdown-extensions
 mkdocs-jupyter
+mkdocs-minify-plugin
 jupyter_bokeh
 jupyter-flex

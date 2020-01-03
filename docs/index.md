@@ -36,6 +36,21 @@ $ pip install jupyter-flex
 
 <div class="image-grid-row">
   <figure class="image-card">
+    <a href="/examples/plotly-plots.html">
+        <img src="/assets/img/plotly-plots.png" alt="Jupyter-flex: Plotly Plots">
+    </a>
+    <figcaption>Plotly plots</figcaption>
+  </figure>
+  <figure class="image-card">
+    <a href="/examples/bokeh-plots.html">
+        <img src="/assets/img/bokeh-plots.png" alt="Jupyter-flex: Bokeh Plots">
+    </a>
+    <figcaption>Bokeh plots</figcaption>
+  </figure>
+</div>
+
+<div class="image-grid-row">
+  <figure class="image-card">
     <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.4.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fmovie-explorer.ipynb">
         <img src="/assets/img/movie-explorer.png" alt="Jupyter-flex: Movie Explorer">
     </a>
@@ -52,20 +67,18 @@ $ pip install jupyter-flex
 
 <div class="image-grid-row">
   <figure class="image-card">
-    <a href="/examples/plotly-plots.html">
-        <img src="/assets/img/plotly-plots.png" alt="Jupyter-flex: Plotly Plots">
+    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/master?urlpath=%2Fvoila%2Frender%2Fexamples%bqplot-plots.ipynb">
+        <img src="/assets/img/bqplot-plots.png" alt="Jupyter-flex: bqplot">
     </a>
-    <figcaption>Plotly plots</figcaption>
+    <figcaption>bqplot plots (launches in mybinder.org)</figcaption>
   </figure>
+
   <figure class="image-card">
-    <a href="/examples/bokeh-plots.html">
-        <img src="/assets/img/bokeh-plots.png" alt="Jupyter-flex: Bokeh Plots">
-    </a>
-    <figcaption>Bokeh plots</figcaption>
   </figure>
 </div>
 
-Source for all examples can be found [on Github](https://github.com/danielfrg/jupyter-flex/tree/master/examples).
+!!! info
+    Source for all examples can be found [on Github](https://github.com/danielfrg/jupyter-flex/tree/master/examples).
 
 ## Learning More
 
