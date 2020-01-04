@@ -94,10 +94,10 @@ body {
     height: 51px;
     padding: 0;
     z-index: 999;
+    background-color: #373e48 !important;
     color: #FFF;
 
     .container-fluid {
-        background-color: #373e48 !important;
         padding: .35rem 1rem;
     }
 
@@ -116,11 +116,67 @@ body {
     }
 }
 
-.page-tabs {
-    &.tab-content {
-        // tab-content.page-tabs is the main dashboard container
-        width: 100%;
-        height: calc(100% - 51px);
+#dashboard {
+    .content-wrapper {
+        padding: 0;
+
+        .row {
+            width: 100%;
+            height: calc(100% - 51px);
+            margin: 0
+        }
+    }
+
+    .global-sidebar {
+        background-color: #373e48 !important;
+        color: #FFF;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 100;
+        padding: 48px 0 0;
+        box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+
+        .section {
+            width: 100%;
+            height: 100%;
+            padding: 1.25rem;
+
+            .card {
+                box-shadow: none;
+                background-color: transparent;
+                color: #FFF;
+            }
+
+            .card-header {
+                background-color: #373e48 !important;
+                color: #FFF;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .card-body {
+                padding: 0;
+            }
+
+            .jupyter-widgets, .widget-label, .widget-readout, .widget-label-basic {
+                color: #FFF;
+
+                button {
+                    color: #000;
+                }
+            }
+        }
+    }
+
+    main.page-tabs {
+        padding: 0;
+
+        &.tab-content {
+            width: 100%;
+            height: 100%;
+        }
     }
 }
 
@@ -317,13 +373,6 @@ body {
             width: 100%;
             height: 100%;
 
-            // canvas.marks {
-            //     width: 100% !important;
-            //     max-width: 100% !important;
-            //     height: auto !important;
-            //     max-height: auto !important;
-            // }
-
             &.has-actions {
                 width: calc(100% - 38px);
                 padding-right: 0;
@@ -406,11 +455,10 @@ table.dataframe {
 
 .jp-OutputArea-output.jupyter-widgets {
     width: 100%;
-    height: 100%;
+    margin: 0;
 
     .widget-container {
         width: 100%;
-        height: 100%;
 
         .bqplot {
             flex: 1 1 0;
@@ -426,14 +474,10 @@ table.dataframe {
     }
 
     .widget-inline-hbox {
-        width: 99%;
+        width: 98%;
+    }
 
-        input, select {
-            width: 100%;
-        }
-
-        .slider-container {
-            width: 80%;
-        }
+    .widget-play {
+        min-height: 28px;
     }
 }

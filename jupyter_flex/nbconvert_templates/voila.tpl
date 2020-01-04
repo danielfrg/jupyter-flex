@@ -128,7 +128,7 @@
         var el = document.getElementById("loading")
         el.parentNode.removeChild(el)
         // Show the app
-        el = document.getElementById("application")
+        el = document.getElementById("dashboard")
         el.style.display = "unset"
         })();
     </script>

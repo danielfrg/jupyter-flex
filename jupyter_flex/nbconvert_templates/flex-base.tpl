@@ -97,7 +97,7 @@
     {# Create dashboard structure variable by iterating the notebook cells  #}
     {# ------------------------------------------------------------------------- #}
 
-    {% set _ = dashboard.update({"meta": [], "pages": [] }) %}
+    {% set _ = dashboard.update({"meta": [], "pages": [], "sidebar": {} }) %}
     {% set vars = {} %}
     {% set _ = vars.update({"current_page_dir": params.page_flex_direction}) %}
     {% set _ = vars.update({"current_section_dir": params.section_flex_direction}) %}
@@ -126,7 +126,12 @@
 
                 {# Add current page to dashboard before defining a new one #}
                 {% if vars.current_page and vars.current_page.sections %}
-                    {% set _ = dashboard["pages"].append(vars.current_page) %}
+                    {% set is_sidebar = macros.find_item_startswith(vars.current_page.tags, "sidebar") %}
+                    {% if is_sidebar %}
+                        {% set _ = dashboard.update({"sidebar": vars.current_page}) %}
+                    {% else %}
+                        {% set _ = dashboard["pages"].append(vars.current_page) %}
+                    {% endif %}
                 {% endif %}
 
                 {# Define new current_* objects #}
@@ -287,7 +292,12 @@
 
 {%- block body_content -%}
 
-    <div id="application" style="display: {{ flex_app_initial_display }}">
+    {% for cell in dashboard.meta %}
+        {{ render_cell(cell, display="none") }}
+    {% endfor %}
+
+    <div id="dashboard" style="display: {{ flex_app_initial_display }}">
+        {% set vars = {} %}
 
         <nav class="navbar navbar-expand-md navbar-dark">
             <div class="container-fluid">
@@ -339,11 +349,22 @@
             </div>
         </nav>
 
-        {% for cell in dashboard.meta %}
-            {{ render_cell(cell, display="none") }}
-        {% endfor %}
+        <div class="container-fluid content-wrapper">
+        <div class="row">
 
-        <div class="page-tabs tab-content">
+        {% set _ = vars.update({"sidebar_classes": ""}) %}
+        {% if dashboard.sidebar %}
+            <nav class="col-md-2 global-sidebar">
+                <div class="d-flex flex-column section">
+                    {% for card in dashboard.sidebar.sections[0].cards %}
+                        {{ render_card(card, class="card-global-sidebar") }}
+                    {% endfor %}
+                </div>
+            </nav>
+            {% set _ = vars.update({"sidebar_classes": "col-md-9 ml-sm-auto col-lg-10 "}) %}
+        {% endif %}
+
+        <main role="main" class="{{ vars.sidebar_classes }}page-tabs tab-content">
 
             {% for page in dashboard.pages %}
                 {% set page_slug = page.title | lower | replace(" ", "-") %}
@@ -375,6 +396,7 @@
                                 <div class="d-flex flex-{{ section_direction }} section section-{{ section.direction }} {{ section_tabs }} {{ section_extra_classes }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
 
                                     {% if is_tabbed %}
+                                        {# Tabbed section: Show each card as a tab #}
                                         {% set section_slug = section.title | lower | replace(" ", "-") %}
                                         {% set nav_fill = "" if "no-nav-fill" in section.tags else " nav-fill" %}
                                         {% set fade = "" if "no-fade" in section.tags else " fade" %}
@@ -402,7 +424,7 @@
                                         </div>
 
                                     {% else %}
-                                        {# Default: Just show each card #}
+                                        {# Default: Show each card #}
                                         {% for card in section.cards %}
                                             {{ render_card(card, class="card-" + section.direction) }}
                                         {% endfor %}
@@ -415,8 +437,11 @@
 
                 </div><!-- tab-pane -->
             {% endfor %}{# pages #}
-        </div><!-- tab-content page-tabs -->
-    </div>
+        </main><!-- tab-content page-tabs -->
+
+        </div>
+        </div>
+    </div><!-- #dashboard -->
 {%- endblock body_content -%}
 
 {%- block body_footer -%}
