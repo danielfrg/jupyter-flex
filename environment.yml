@@ -23,10 +23,12 @@ dependencies:
   - plotly
   - bokeh
   - bqplot
+  - altair
   - pandas-datareader
   - scikit-learn
   - statsmodels
   - colorlover
+  - vega_datasets
   - pip:
     - pymdown-extensions
     - mkdocs-jupyter

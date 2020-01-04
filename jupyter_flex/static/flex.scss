@@ -279,11 +279,11 @@ body {
     }
 
     .card-body {
-        padding: .5rem 1.25rem;
         width: 100%;
-        flex: 1 1 0;
         height: 100%;
+        flex: 1 1 0;
         overflow: auto;
+        padding: .5rem 1.25rem;
 
         .code_cell {
             width: 100%;
@@ -312,10 +312,36 @@ body {
             width: 1em;
             height: 1em;
         }
+
+        .vega-embed {
+            width: 100%;
+            height: 100%;
+
+            // canvas.marks {
+            //     width: 100% !important;
+            //     max-width: 100% !important;
+            //     height: auto !important;
+            //     max-height: auto !important;
+            // }
+
+            &.has-actions {
+                width: calc(100% - 38px);
+                padding-right: 0;
+
+                summary {
+                    margin-right: -38px;
+                }
+            }
+
+            summary svg {
+                // Fix altair toolbar (icons are svgs)
+                width: 14px;
+                height: 14px;
+            }
+        }
     }
 
     .card-footer {
-
 
         p:last-child {
             margin-bottom: 0;

@@ -4,6 +4,7 @@ var counter = 0;
 
 var plot_resize = function() {
     var looper = setInterval(function() {
+        console.log(1);
         var nodelist = document.querySelectorAll(".js-plotly-plot")
         var plots = Array.from(nodelist)
         plots.map(function (obj){ obj.style.width = "100%"; })
@@ -11,6 +12,7 @@ var plot_resize = function() {
 
         if (nodelist.length > 0) {
             window.dispatchEvent(new Event("resize"));
+            console.log("resize")
         }
 
         var nodelist = document.querySelectorAll(".bqplot")
@@ -20,6 +22,15 @@ var plot_resize = function() {
 
         if (nodelist.length > 0) {
             window.dispatchEvent(new Event("resize"));
+            console.log("resize")
+        }
+
+        var nodelist = document.querySelectorAll(".vega-embed")
+        var plots = Array.from(nodelist)
+
+        if (nodelist.length > 0) {
+            window.dispatchEvent(new Event("resize"));
+            console.log("resize")
         }
 
         if (counter >= 25) {
@@ -27,6 +38,8 @@ var plot_resize = function() {
         }
         counter++;
     }, 200);
+
+    looper();
 }
 
 
