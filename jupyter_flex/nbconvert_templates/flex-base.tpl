@@ -309,14 +309,16 @@
                 {% set author = params.get("author", "") %}
                 {% set source_code = params.get("source_code", "") %}
 
-                {% set one_page_with_title = {"exists": false} %}
-                {% for page in dashboard.pages %}
-                    {% if page.title %}
-                        {% set _ = one_page_with_title.update({"exists": true}) %}
-                    {% endif %}
-                {% endfor %}
+                {% set _ = vars.update({"show_pages": false}) %}
+                {% if dashboard.pages | length > 1 %}
+                    {% for page in dashboard.pages %}
+                        {% if page.title %}
+                            {% set _ = vars.update({"show_pages": true}) %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
 
-                {% if one_page_with_title.exists or author or source_code %}
+                {% if vars.show_pages or author or source_code %}
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navPages" aria-controls="navPages" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -324,14 +326,16 @@
 
                 <div class="collapse navbar-collapse" id="navPages">
                     <ul class="nav navbar-nav mr-auto">
-                        {% for page in dashboard.pages %}
-                            {% if page.title %}
-                                {% set page_slug = page.title | lower | replace(" ", "-") %}
-                                {% set active = "active" if loop.index == 1 else "" %}
-                                {% set aira_selected = "true" if loop.index == 1 else "false" %}
-                                <li class="nav-item"><a onclick="flex_nav_click();" class="nav-link {{ active }}" href="#{{ page_slug }}" data-toggle="tab" role="tab" aria-controls="{{ page_slug }}" aria-expanded="true">{{ page.title }}</a></li>
-                            {% endif %}
-                        {% endfor %}
+                        {% if vars.show_pages%}
+                            {% for page in dashboard.pages %}
+                                {% if page.title %}
+                                    {% set page_slug = page.title | lower | replace(" ", "-") %}
+                                    {% set active = "active" if loop.index == 1 else "" %}
+                                    {% set aira_selected = "true" if loop.index == 1 else "false" %}
+                                    <li class="nav-item"><a onclick="flex_nav_click();" class="nav-link {{ active }}" href="#{{ page_slug }}" data-toggle="tab" role="tab" aria-controls="{{ page_slug }}" aria-expanded="true">{{ page.title }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                     </ul>
 
                     {% if author | trim | length %}
