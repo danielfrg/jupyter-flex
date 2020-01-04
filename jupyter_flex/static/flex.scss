@@ -388,10 +388,15 @@ body {
                 height: 14px;
             }
         }
+
+        .q-grid-container{
+            .filter-icon{
+                margin-top: 7px;
+            }
+        }
     }
 
     .card-footer {
-
         p:last-child {
             margin-bottom: 0;
         }

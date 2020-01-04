@@ -28,6 +28,7 @@ plotly
 bqplot
 bokeh
 jupyter_bokeh
+qgrid
 pandas-datareader
 colorlover
 vega_datasets
