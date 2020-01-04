@@ -21,31 +21,33 @@ $ pip install jupyter-flex
 
 <div class="image-grid-row">
   <figure class="image-card">
-    <a href="/examples/nba-scoring.html">
-        <img src="/assets/img/nba-scoring.png" alt="Jupyter-flex: NBA Scoring">
+    <a href="/examples/altair.html">
+        <img src="/assets/img/plots/altair.png" alt="Jupyter-flex: altair">
     </a>
-    <figcaption>NBA Scoring</figcaption>
+    <figcaption>Altair plots</figcaption>
   </figure>
+
   <figure class="image-card">
-    <a href="/examples/time-series.html">
-        <img src="/assets/img/time-series.png" alt="Jupyter-flex: Time Series">
+    <a href="/examples/plotly.html">
+        <img src="/assets/img/plots/plotly.png" alt="Jupyter-flex: Plotly Plots">
     </a>
-    <figcaption>Time Series</figcaption>
+    <figcaption>Plotly plots</figcaption>
   </figure>
 </div>
 
 <div class="image-grid-row">
   <figure class="image-card">
-    <a href="/examples/plotly-plots.html">
-        <img src="/assets/img/plotly-plots.png" alt="Jupyter-flex: Plotly Plots">
-    </a>
-    <figcaption>Plotly plots</figcaption>
-  </figure>
-  <figure class="image-card">
-    <a href="/examples/bokeh-plots.html">
-        <img src="/assets/img/bokeh-plots.png" alt="Jupyter-flex: Bokeh Plots">
+    <a href="/examples/bokeh.html">
+        <img src="/assets/img/plots/bokeh.png" alt="Jupyter-flex: Bokeh Plots">
     </a>
     <figcaption>Bokeh plots</figcaption>
+  </figure>
+
+  <figure class="image-card">
+    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/master?urlpath=%2Fvoila%2Frender%2Fexamples%bqplot.ipynb">
+        <img src="/assets/img/plots/bqplot.png" alt="Jupyter-flex: bqplot">
+    </a>
+    <figcaption>bqplot plots (launches in mybinder.org)</figcaption>
   </figure>
 </div>
 
@@ -67,10 +69,10 @@ $ pip install jupyter-flex
 
 <div class="image-grid-row">
   <figure class="image-card">
-    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/master?urlpath=%2Fvoila%2Frender%2Fexamples%bqplot-plots.ipynb">
-        <img src="/assets/img/bqplot-plots.png" alt="Jupyter-flex: bqplot">
+    <a href="/examples/nba-scoring.html">
+        <img src="/assets/img/nba-scoring.png" alt="Jupyter-flex: NBA Scoring">
     </a>
-    <figcaption>bqplot plots (launches in mybinder.org)</figcaption>
+    <figcaption>NBA Scoring</figcaption>
   </figure>
 
   <figure class="image-card">
