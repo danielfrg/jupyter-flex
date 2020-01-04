@@ -2,7 +2,9 @@
 
 ## [Unreleased]
 
-- Section sidebars now can have multiple cards
+- Added the option to have a global sidebar
+- Section sidebars can now have multiple cards
+- Improved ipywidgets default styling
 
 ## 0.4.0
 

@@ -8,7 +8,7 @@ MAKEFLAGS += --no-builtin-rules
 all: help
 
 build: assets python  ## Build Python package
-assets: download-assets sassc  ## Download and place assets
+assets: download-assets sassc  ## Download and compile assets
 
 download-assets:  ## Download .css/.js assets
 	@curl -o jupyter_flex/static/bootstrap.min.css https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css
