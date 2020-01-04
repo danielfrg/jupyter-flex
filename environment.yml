@@ -4,34 +4,36 @@ channels:
 dependencies:
   - python=3.7
   - pip
-  - notebook
-  - jupyterlab
-  - nbconvert
-  - voila
-  - ipywidgets
-  - versioneer
-  - twine
-  # Docs
-  - mkdocs
-  - mkdocs-material
-  - libsass
-  - pygments
-  # Used by examples
+  - numpy
   - pandas
   - scipy
   - matplotlib
-  - plotly
-  - bokeh
-  - bqplot
-  - altair
-  - pandas-datareader
   - scikit-learn
   - statsmodels
-  - colorlover
-  - vega_datasets
   - pip:
-    - pymdown-extensions
+    # Package dev
+    - notebook
+    - jupyterlab
+    - nbconvert
+    - voila
+    - ipywidgets
+    - versioneer
+    - twine
+    - jupyter-flex
+    # Docs
+    - mkdocs
+    - mkdocs-material
     - mkdocs-jupyter
     - mkdocs-minify-plugin
+    - libsass
+    - pygments
+    - pymdown-extensions
+    # Used by examples
+    - altair
+    - plotly
+    - bqplot
+    - bokeh
     - jupyter_bokeh
-    - jupyter-flex
+    - pandas-datareader
+    - colorlover
+    - vega_datasets

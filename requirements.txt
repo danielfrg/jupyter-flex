@@ -1,4 +1,11 @@
 # This is used by Netlify and should match environment.yml
+numpy
+pandas
+scipy
+matplotlib
+scikit-learn
+statsmodels
+# Package dev
 notebook
 jupyterlab
 nbconvert
@@ -6,25 +13,21 @@ voila
 ipywidgets
 versioneer
 twine
+jupyter-flex
 # Docs
 mkdocs
 mkdocs-material
-libsass
-pygments
-# Used by examples
-pandas
-scipy
-matplotlib
-plotly
-bokeh
-bqplot
-pandas-datareader
-scikit-learn
-statsmodels
-colorlover
-# Other
-pymdown-extensions
 mkdocs-jupyter
 mkdocs-minify-plugin
+libsass
+pygments
+pymdown-extensions
+# Used by examples
+altair
+plotly
+bqplot
+bokeh
 jupyter_bokeh
-jupyter-flex
+pandas-datareader
+colorlover
+vega_datasets
