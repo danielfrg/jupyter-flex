@@ -119,10 +119,11 @@ body {
 #dashboard {
     .content-wrapper {
         padding: 0;
+        height: calc(100% - 51px);
 
         .row {
             width: 100%;
-            height: calc(100% - 51px);
+            height: 100%;
             margin: 0
         }
     }
