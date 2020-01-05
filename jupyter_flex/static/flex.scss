@@ -161,7 +161,9 @@ body {
                 padding: 0;
             }
 
-            .jupyter-widgets, .widget-label, .widget-readout, .widget-label-basic {
+            .output_widget_view, .jupyter-widgets, .widget-label, .widget-readout, .widget-label-basic {
+                // NBConvert and voila end up with different structure so we use both
+
                 color: #FFF;
 
                 button {
@@ -459,7 +461,9 @@ table.dataframe {
 
 // ipywidgets
 
-.jp-OutputArea-output.jupyter-widgets {
+.jp-OutputArea-output.jupyter-widgets, .output_subarea.output_widget_view  {
+    // NBConvert and voila end up with different structure so we use both
+
     width: 100%;
     margin: 0;
 
