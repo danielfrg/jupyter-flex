@@ -1,5 +1,5 @@
 {% set flex_extends_from = "full.tpl" %}
-{% set flex_app_initial_display = "block" %}
+{% set flex_app_initial_display = "unset" %}
 {% extends "flex-base.tpl" %}
 
 {%- block header -%}

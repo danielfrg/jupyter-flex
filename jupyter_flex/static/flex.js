@@ -1,4 +1,4 @@
-// Trigger a couple of resize events to make plots adjust
+// Look plot libraries elements and trigger resize events
 
 var plot_resize = function() {
     var counter = 0;
