@@ -69,7 +69,7 @@ $ pip install jupyter-flex
 
 <div class="image-grid-row">
   <figure class="image-card">
-    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.4.0?urlpath=%2Fvoila%2Frender%2Fexampleswealth-of-nations.ipynb">
+    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/master?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
         <img src="/assets/img/iris-clustering.png" alt="Jupyter-flex: Iris Clustering">
     </a>
     <figcaption>Iris clustering (runs in mybinder.org)</figcaption>
