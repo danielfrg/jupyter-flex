@@ -5,6 +5,8 @@
 - Added the option to have a global sidebar
 - Section sidebars can now have multiple cards
 - Improved ipywidgets default styling
+- Added history tabs for the main navigation
+- Added material colors CSS classes for easy customization
 
 ## 0.4.0
 
