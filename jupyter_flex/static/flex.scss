@@ -1,3 +1,11 @@
+@charset "UTF-8";
+
+// Color
+@import "_color-variables";
+@import "_color-classes";
+
+$dark-bg: #2B333E;
+
 body {
     height: 100%;
     font-size: .9rem;
@@ -5,7 +13,7 @@ body {
     line-height: 1.5;
     color: #333;
     text-align: left;
-    background-color: #fafbfe;
+    background-color: #F3F5F8;
 }
 
 .loading {
@@ -94,7 +102,7 @@ body {
     height: 51px;
     padding: 0;
     z-index: 999;
-    background-color: #373e48 !important;
+    background-color: $dark-bg !important;
     color: #FFF;
 
     .container-fluid {
@@ -108,6 +116,17 @@ body {
     .navbar-brand {
         font-weight: 300;
     }
+
+    ul.navbar-nav {
+        .nav-link {
+            color: #AEB7C2;
+
+            &:hover {
+                color: #FFF;
+            }
+        }
+    }
+
 
     i.material-icons {
         font-size: 18px;
@@ -129,7 +148,7 @@ body {
     }
 
     .global-sidebar {
-        background-color: #373e48 !important;
+        background-color: $dark-bg !important;
         color: #FFF;
         position: fixed;
         top: 0;
@@ -137,7 +156,6 @@ body {
         left: 0;
         z-index: 100;
         padding: 48px 0 0;
-        box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
 
         .section {
             width: 100%;
@@ -151,7 +169,7 @@ body {
             }
 
             .card-header {
-                background-color: #373e48 !important;
+                background-color: $dark-bg !important;
                 color: #FFF;
                 padding-left: 0;
                 padding-right: 0;
@@ -248,7 +266,8 @@ body {
         }
 
         &.section-tabs {
-            box-shadow: 0 0 10px 0 rgba(154, 161, 171, .35);
+            // box-shadow: 0 0 10px 0 rgba(154, 161, 171, .35);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 
             .nav-bordered {
                 border: none;
@@ -294,7 +313,8 @@ body {
     width: 100%;
     height: 100%;
     border: none;
-    box-shadow: 0 0 10px 0 rgba(154, 161, 171, .35);
+    // box-shadow: 0 0 10px 0 rgba(154, 161, 171, .35);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     color: #6c757d;
 
     a {
@@ -344,57 +364,57 @@ body {
         overflow: auto;
         padding: .5rem 1.25rem;
 
-        .code_cell {
+        .cell-wrapper {
             width: 100%;
-            height: 100%;
-            flex-grow: 1;
-        }
+            // height: 100%;
 
-        .jp-CodeCell {
-            width: 100%;
-            height: 100%;
-            flex-grow: 1;
-        }
+            &.cell-type-code {
+                // We create this div.class on the flex template
+                width: 100%;
+                // height: 100%;
+                flex-grow: 1;
+            }
 
-        img {
-            width: 100%;
-            height: 100%;
-        }
+            img {
+                width: 100%;
+                height: 100%;
+            }
 
-        svg {
-            width: 100%;
-            height: 100%;
-        }
+            svg {
+                width: 100%;
+                height: 100%;
+            }
 
-        .plot-container.plotly .modebar-container svg {
-            // Fix plotly toolbar (icons are svgs)
-            width: 1em;
-            height: 1em;
-        }
+            .plot-container.plotly .modebar-container svg {
+                // Fix plotly toolbar (icons are svgs)
+                width: 1em;
+                height: 1em;
+            }
 
-        .vega-embed {
-            width: 100%;
-            height: 100%;
+            .vega-embed {
+                width: 100%;
+                height: 100%;
 
-            &.has-actions {
-                width: calc(100% - 38px);
-                padding-right: 0;
+                &.has-actions {
+                    width: calc(100% - 38px);
+                    padding-right: 0;
 
-                summary {
-                    margin-right: -38px;
+                    summary {
+                        margin-right: -38px;
+                    }
+                }
+
+                summary svg {
+                    // Fix altair toolbar (icons are svgs)
+                    width: 14px;
+                    height: 14px;
                 }
             }
 
-            summary svg {
-                // Fix altair toolbar (icons are svgs)
-                width: 14px;
-                height: 14px;
-            }
-        }
-
-        .q-grid-container{
-            .filter-icon{
-                margin-top: 7px;
+            .q-grid-container{
+                .filter-icon{
+                    margin-top: 7px;
+                }
             }
         }
     }

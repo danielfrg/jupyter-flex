@@ -2,6 +2,7 @@
 {% import "macros.j2" as macros %}
 
 {# Global variables #}
+{% set debug = false %}
 {% set dashboard = {} %}
 
 {# Default parameters for the dashboard #}
@@ -44,8 +45,8 @@
 
 {%- macro render_card(card, header=true, wrapper="", class="") -%}
 {# Render cells as a card with optional title and footer #}
-    {% set extra_classes = macros.join_all_items_with_prefix(card.tags, "class=", " ") %}
-    <div class="card {{ class }} {{ extra_classes }}" style="flex: {{ card.size }} {{ card.size }} 0px;">
+    {% set card_extra_classes = macros.join_all_items_with_prefix(card.tags, "class=", " ") %}
+    <div class="card {{ class }} {{ card_extra_classes }}" style="flex: {{ card.size }} {{ card.size }} 0px;">
         {# The cell Title #}
         {% if header and (card.header | trim | length) %}
             <div class="card-header"><h6>{{ card.header }}</h6></div>
@@ -67,15 +68,17 @@
     </div>
 {% endmacro %}
 
-{% macro render_cell(cell, display="") %}
+{% macro render_cell(cell, display="unset") %}
 {% block any_cell scoped %}
-    {% if display == "none" %}
-        <div style="display: none;">
-        {{ super() }}
-        </div>
-    {% else %}
-        {{ super() }}
-    {% endif %}
+    {% set cell_tags = cell["metadata"].get("tags", []) %}
+    {% set cell_extra_classes = macros.join_all_items_with_prefix(cell_tags, "class=", " ") %}
+    <div class="cell-wrapper cell-type-{{ cell.cell_type }} {{ cell_extra_classes }}" style="display: {{ display }};">
+        {% if debug %}
+            {{ cell }}
+        {% else %}
+            {{ super() }}
+        {% endif %}
+    </div>
 {% endblock %}
 {% endmacro %}
 
