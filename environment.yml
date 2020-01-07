@@ -24,6 +24,7 @@ dependencies:
     - pytest
     - pytest-base-url
     - pytest-html
+    - pytest-xprocess
     - pytest-selenium
     - pytest-needle
     # Docs

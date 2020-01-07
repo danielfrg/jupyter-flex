@@ -11,10 +11,15 @@ jupyterlab
 nbconvert
 voila
 ipywidgets
+jupyter-flex
 versioneer
 twine
 pytest
-jupyter-flex
+pytest-base-url
+pytest-html
+pytest-xprocess
+pytest-selenium
+pytest-needle
 # Docs
 mkdocs
 mkdocs-material
