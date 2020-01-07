@@ -20,6 +20,7 @@ clean:  ## Remove build files
 	@rm -f examples/**/*.html
 	@rm -f jupyter_flex/nbconvert_templates/*.js
 	@rm -f jupyter_flex/nbconvert_templates/*.css
+	@rm -f test-results
 
 .PHONY: cleanall
 cleanall: clean  ## Clean everything (including downloaded assets)
