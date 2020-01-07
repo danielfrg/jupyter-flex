@@ -153,7 +153,7 @@
                     {% endif %}
                 {% endif %}
 
-                {% set _ = vars.update({"current_page": {"title": h1_title, "sections": [], "sidebar": {}, "direction": vars.current_page_dir, "tags": cell_tags } }) %}
+                {% set _ = vars.update({"current_page": {"title": h1_title, "sections": [], "direction": vars.current_page_dir, "tags": cell_tags } }) %}
                 {% set _ = vars.update({"current_section": {} }) %}
                 {% set _ = vars.update({"current_card": {} }) %}
             {% endif %}
@@ -162,7 +162,7 @@
             {% if h2_title %}
                 {# If there is no h1 (notebook starts with h2) #}
                 {% if not vars.current_page %}
-                    {% set _ = vars.update({"current_page": {"title": "", "sections": [], "sidebar": {}, "direction": vars.current_page_dir, "tags": [] } }) %}
+                    {% set _ = vars.update({"current_page": {"title": "", "sections": [], "direction": vars.current_page_dir, "tags": [] } }) %}
                 {% endif %}
 
                 {# Add the current card to the current section before defining a new one #}
@@ -173,12 +173,7 @@
 
                 {# Add current section to page before defining a new one #}
                 {% if vars.current_section %}
-                    {% set is_sidebar = macros.find_item_startswith(vars.current_section.tags, "sidebar") %}
-                    {% if is_sidebar %}
-                        {% set _ = vars.current_page.update({"sidebar": vars.current_section}) %}
-                    {% else %}
-                        {% set _ = vars.current_page["sections"].append(vars.current_section) %}
-                    {% endif %}
+                    {% set _ = vars.current_page["sections"].append(vars.current_section) %}
                 {% endif %}
 
                 {# Create new section and use tags to override defaults #}
@@ -207,7 +202,7 @@
             {% if h3_title %}
                 {# If there is no h1 or h2 (notebook starts with h3) #}
                 {% if not vars.current_page %}
-                    {% set _ = vars.update({"current_page": {"title": "", "sections": [], "sidebar": {}, "direction": vars.current_page_dir, "tags": [] } }) %}
+                    {% set _ = vars.update({"current_page": {"title": "", "sections": [], "direction": vars.current_page_dir, "tags": [] } }) %}
                 {% endif %}
                 {% if not vars.current_section %}
                     {% set _ = vars.update({"current_section": {"title": "", "cards": [], "direction": vars.current_section_dir, "size": "500", "tags": []} }) %}
@@ -234,7 +229,7 @@
             {% if (is_text) or (is_footer) %}
                 {# Create current_* objects if notebook starts with a tagged cell #}
                 {% if not vars.current_page %}
-                    {% set _ = vars.update({"current_page": {"title": "", "direction": params.page_flex_direction, "sections": [], "sidebar": {} } }) %}
+                    {% set _ = vars.update({"current_page": {"title": "", "direction": params.page_flex_direction, "sections": [] } }) %}
                 {% endif %}
                 {% if not vars.current_section %}
                     {% set _ = vars.update({"current_section": {"title": "", "cards": [], "direction": vars.current_section_dir, "size": "500", "tags": []}}) %}
@@ -265,7 +260,7 @@
             {% elif is_inputs or is_chart %}
                 {# Create current_* objects if notebook starts with a tagged cell #}
                 {% if not vars.current_page %}
-                    {% set _ = vars.update({"current_page": {"title": "", "direction": params.page_flex_direction, "sections": [], "sidebar": {} } }) %}
+                    {% set _ = vars.update({"current_page": {"title": "", "direction": params.page_flex_direction, "sections": [] } }) %}
                 {% endif %}
                 {% if not vars.current_section %}
                     {% set _ = vars.update({"current_section": {"title": "", "cards": [], "direction": vars.current_section_dir, "size": "500", "tags": []}}) %}
@@ -380,66 +375,55 @@
                 <div class="tab-pane {{ active }}" id="{{ page_slug }}">
 
                     {% set page_extra_classes = macros.join_all_items_with_prefix(page.tags, "class=", " ") %}
-                    <div class="page-wrapper container-fluid d-flex flex-row {{ page_extra_classes }}">
+                    <div class="page-wrapper container-fluid d-flex flex-{{ page.direction }} {{ page_extra_classes }}">
 
-                        {% if page.sidebar %}
-                            <div class="d-flex flex-column sidebar section section-column">
-                                {% for card in page.sidebar.cards %}
-                                    {{ render_card(card, class="card-column") }}
-                                {% endfor %}
-                            </div>
-                        {% endif %}
+                        {% for section in page.sections %}
+                            {% set section_direction = section.direction %}
+                            {% set is_tabbed = "tabs" in section.tags %}
+                            {% set section_tabs = "section-tabs" if is_tabbed else "" %}
+                            {% set section_extra_classes = macros.join_all_items_with_prefix(section.tags, "class=", " ") %}
+                            {% if is_tabbed %}
+                                {% set section_direction = "column" %}
+                            {% endif %}
 
-                        <div class="page-sections container-fluid d-flex flex-{{ page.direction }}">
-                            {% for section in page.sections %}
-                                {% set section_direction = section.direction %}
-                                {% set is_tabbed = "tabs" in section.tags %}
-                                {% set section_tabs = "section-tabs" if is_tabbed else "" %}
-                                {% set section_extra_classes = macros.join_all_items_with_prefix(section.tags, "class=", " ") %}
+                            <div class="d-flex flex-{{ section_direction }} section section-{{ section.direction }} {{ section_tabs }} {{ section_extra_classes }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
+
                                 {% if is_tabbed %}
-                                    {% set section_direction = "column" %}
+                                    {# Tabbed section: Show each card as a tab #}
+                                    {% set section_slug = section.title | lower | replace(" ", "-") %}
+                                    {% set nav_fill = "" if "no-nav-fill" in section.tags else " nav-fill" %}
+                                    {% set fade = "" if "no-fade" in section.tags else " fade" %}
+                                    {% set li_items = [] %}
+                                    {% set div_items = [] %}
+                                    {% for card in section.cards %}
+                                        {% set card_slug = card.header | lower | replace(" ", "-") %}
+                                        {% set tab_name = (card_slug ~ "-tab") | lower | replace(" ", "-") %}
+                                        {% set active = " active show" if loop.index == 1 else "" %}
+                                        {% set aria_selected = " true" if loop.index == 1 else "false" %}
+                                        {% set _ = li_items.append('<li class="nav-item"> <a class="nav-link' ~ active ~ '" id="' ~ tab_name ~ '" href="#' ~ card_slug ~ '" data-toggle="tab" role="tab" aria-controls="' ~ card_slug ~ '" aria-selected="' ~ aria_selected ~ '">' ~ card.header ~ '</a> </li>') %}
+                                        {% set _ = div_items.append('<div class="tab-pane' ~ fade ~ active ~ '" id="' ~ card_slug ~ '" role="tabpanel" aria-labelledby="' ~ tab_name ~ '">' ~ render_card(card, header=false) ~ '</div>') %}
+                                    {% endfor %}
+
+                                    <ul class="nav nav-tabs nav-bordered {{ nav_fill }}" id="{{ section_slug }}-nav" role="tablist">
+                                        {% for li_item in li_items %}
+                                            {{ li_item }}
+                                        {% endfor %}
+                                    </ul>
+
+                                    <div class="tab-content" id="{{ section_slug }}-tabs">
+                                        {% for div_item in div_items %}
+                                            {{ div_item }}
+                                        {% endfor %}
+                                    </div>
+
+                                {% else %}
+                                    {# Default: Show each card #}
+                                    {% for card in section.cards %}
+                                        {{ render_card(card, class="card-" + section.direction) }}
+                                    {% endfor %}
                                 {% endif %}
-
-                                <div class="d-flex flex-{{ section_direction }} section section-{{ section.direction }} {{ section_tabs }} {{ section_extra_classes }}" style="flex: {{ section.size }} {{ section.size }} 0px;">
-
-                                    {% if is_tabbed %}
-                                        {# Tabbed section: Show each card as a tab #}
-                                        {% set section_slug = section.title | lower | replace(" ", "-") %}
-                                        {% set nav_fill = "" if "no-nav-fill" in section.tags else " nav-fill" %}
-                                        {% set fade = "" if "no-fade" in section.tags else " fade" %}
-                                        {% set li_items = [] %}
-                                        {% set div_items = [] %}
-                                        {% for card in section.cards %}
-                                            {% set card_slug = card.header | lower | replace(" ", "-") %}
-                                            {% set tab_name = (card_slug ~ "-tab") | lower | replace(" ", "-") %}
-                                            {% set active = " active show" if loop.index == 1 else "" %}
-                                            {% set aria_selected = " true" if loop.index == 1 else "false" %}
-                                            {% set _ = li_items.append('<li class="nav-item"> <a class="nav-link' ~ active ~ '" id="' ~ tab_name ~ '" href="#' ~ card_slug ~ '" data-toggle="tab" role="tab" aria-controls="' ~ card_slug ~ '" aria-selected="' ~ aria_selected ~ '">' ~ card.header ~ '</a> </li>') %}
-                                            {% set _ = div_items.append('<div class="tab-pane' ~ fade ~ active ~ '" id="' ~ card_slug ~ '" role="tabpanel" aria-labelledby="' ~ tab_name ~ '">' ~ render_card(card, header=false) ~ '</div>') %}
-                                        {% endfor %}
-
-                                        <ul class="nav nav-tabs nav-bordered {{ nav_fill }}" id="{{ section_slug }}-nav" role="tablist">
-                                            {% for li_item in li_items %}
-                                                {{ li_item }}
-                                            {% endfor %}
-                                        </ul>
-
-                                        <div class="tab-content" id="{{ section_slug }}-tabs">
-                                            {% for div_item in div_items %}
-                                                {{ div_item }}
-                                            {% endfor %}
-                                        </div>
-
-                                    {% else %}
-                                        {# Default: Show each card #}
-                                        {% for card in section.cards %}
-                                            {{ render_card(card, class="card-" + section.direction) }}
-                                        {% endfor %}
-                                    {% endif %}
-                                </div>
-                            {% endfor %}{# page.sections #}
-                        </div><!-- page-content -->
-
+                            </div>
+                        {% endfor %}{# page.sections #}
                     </div><!-- page-wrapper -->
 
                 </div><!-- tab-pane -->

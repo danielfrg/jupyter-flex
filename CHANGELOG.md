@@ -3,10 +3,11 @@
 ## [Unreleased]
 
 - Added the option to have a global sidebar
-- Section sidebars can now have multiple cards
+- Remove options section sidebar, use size tags instead
 - Improved ipywidgets default styling
 - Added history tabs for the main navigation
 - Added material colors CSS classes for easy customization
+- Support for qgrid widget
 
 ## 0.4.0
 

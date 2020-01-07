@@ -188,6 +188,10 @@ body {
                 button {
                     color: #000;
                 }
+
+                input {
+                    line-height: normal;
+                }
             }
         }
     }
@@ -207,22 +211,6 @@ body {
     width: 100%;
     height: 100%;
     padding: 1rem;
-
-    .sidebar {
-        padding: 0;
-        margin: 0 1rem 0 0;
-        width: 30%;
-        max-width: 100%;
-        min-width: 300px;
-        flex: 200 200 0px;
-    }
-
-    .page-sections {
-        width: 100%;
-        height: 100%;
-        padding: 0;
-        flex: 800 800 0px;
-    }
 
     .section {
         width: 100%;
@@ -479,11 +467,6 @@ table.dataframe {
 }
 
 // ipywidgets
-
-.q-grid .slick-header-columns {
-    // left: 0 !important; // Firefox
-    // width: 100% !important;  // Firefox
-}
 
 .jp-OutputArea-output.jupyter-widgets, .output_subarea.output_widget_view  {
     // NBConvert and voila end up with different structure so we use both
