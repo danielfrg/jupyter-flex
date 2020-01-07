@@ -32,6 +32,18 @@ jobs:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
 
+      - run:
+          name: Download Selenium and geckodriver
+          command: |
+            curl -O http://selenium-release.storage.googleapis.com/3.0/selenium-server-standalone-3.0.1.jar
+            curl -L https://github.com/mozilla/geckodriver/releases/download/v0.11.1/geckodriver-v0.11.1-linux64.tar.gz | tar xz
+            chmod +x geckodriver
+      - run:
+          name: Start Selenium
+          command: |
+            java -jar -Dwebdriver.gecko.driver=./geckodriver selenium-server-standalone-3.0.1.jar -log selenium.log
+          background: true
+
       # run tests
       - run:
           name: Install package
