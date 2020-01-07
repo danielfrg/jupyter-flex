@@ -22,6 +22,9 @@ def voila_server(xprocess):
         pattern = ""
         args = ["voila", "--template", "flex", "--no-browser", "--port", port, examples_path]
 
+        def wait(self, log_file):
+            return True
+
     logfile = xprocess.ensure("voila_server", Starter)
     return conn
 
