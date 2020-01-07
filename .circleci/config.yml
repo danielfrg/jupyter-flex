@@ -50,7 +50,7 @@ jobs:
           name: Run tests
           command: |
             . venv/bin/activate
-            pytest -vvv ~/repo/jupyter_flex/tests --html=test-results/report.html --self-contained-html --driver Chrome --needle-baseline-dir docs/assets/img/screenshots --needle-engine imagemagick --needle-output-dir test-results/screenshots
+            pytest -vvv ~/repo/jupyter_flex/tests --html=test-results/report.html --self-contained-html --needle-baseline-dir docs/assets/img/screenshots --needle-engine imagemagick --needle-output-dir test-results/screenshots
 
       - store_test_results:
           path: test-results
