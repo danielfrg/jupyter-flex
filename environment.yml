@@ -19,6 +19,7 @@ dependencies:
     - ipywidgets
     - versioneer
     - twine
+    - pytest
     - jupyter-flex
     # Docs
     - mkdocs
