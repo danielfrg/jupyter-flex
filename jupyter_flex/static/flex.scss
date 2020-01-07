@@ -5,6 +5,7 @@
 @import "_color-classes";
 
 $dark-bg: #2B333E;
+$text-color: #676A6C;
 
 body {
     height: 100%;
@@ -35,13 +36,13 @@ body {
 }
 
 .filetree {
-    box-shadow: 0 0 10px 0 rgba(154, 161, 171, .35);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     border-radius: 0.25rem;
     background: #FFF;
     padding: 10px;
 
     h6 {
-        color: #6c757d;
+        color: $text-color;
         margin-bottom: 1rem;
         text-transform: uppercase;
         letter-spacing: .02em;
@@ -84,7 +85,7 @@ body {
     ul.voila-notebooks {
         margin: 10px 0;
         padding: 0;
-        color: #6c757d;
+        color: $text-color;
         list-style: none;
 
         li {
@@ -266,12 +267,11 @@ body {
         }
 
         &.section-tabs {
-            // box-shadow: 0 0 10px 0 rgba(154, 161, 171, .35);
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 
             .nav-bordered {
                 border: none;
-                border-bottom: 2px solid rgba(152,166,173,.2);
+                border-bottom: 2px solid #d5d5d5;
                 background: #FFF;
 
                 li.nav-item {
@@ -282,7 +282,7 @@ body {
                         background-color: #FFF;
 
                         &.active {
-                            border-bottom: 2px solid #536de6;
+                            border-bottom: 2px solid #5d78ff;
                         }
                     }
                 }
@@ -313,12 +313,11 @@ body {
     width: 100%;
     height: 100%;
     border: none;
-    // box-shadow: 0 0 10px 0 rgba(154, 161, 171, .35);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    color: #6c757d;
+    color: $text-color;
 
     a {
-        color: #6c757d;
+        color: $text-color;
         text-decoration: underline;
     }
 
@@ -341,7 +340,7 @@ body {
     }
 
     .card-header {
-        color: #6c757d;
+        color: $text-color;
         background: #FFF;
         margin-top: 0;
         margin-bottom: 0;
@@ -481,10 +480,15 @@ table.dataframe {
 
 // ipywidgets
 
+.q-grid .slick-header-columns {
+    // left: 0 !important; // Firefox
+    // width: 100% !important;  // Firefox
+}
+
 .jp-OutputArea-output.jupyter-widgets, .output_subarea.output_widget_view  {
     // NBConvert and voila end up with different structure so we use both
-
     width: 100%;
+    // height: 100%;
     margin: 0;
 
     .widget-container {

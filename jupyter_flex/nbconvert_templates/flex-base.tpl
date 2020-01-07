@@ -364,7 +364,7 @@
             <nav class="col-md-2 global-sidebar">
                 <div class="d-flex flex-column section">
                     {% for card in dashboard.sidebar.sections[0].cards %}
-                        {{ render_card(card, class="card-global-sidebar") }}
+                        {{ render_card(card, class="card-column") }}
                     {% endfor %}
                 </div>
             </nav>
