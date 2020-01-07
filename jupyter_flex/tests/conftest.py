@@ -19,7 +19,7 @@ def voila_server(xprocess):
     conn = f"http://localhost:{port}"
 
     class Starter(ProcessStarter):
-        pattern = ""
+        # pattern = ""
         args = ["voila", "--template", "flex", "--no-browser", "--port", port, examples_path]
 
     logfile = xprocess.ensure("voila_server", Starter)

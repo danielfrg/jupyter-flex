@@ -10,7 +10,7 @@ def selenium2(selenium):
 
 @pytest.mark.nondestructive
 @pytest.mark.parametrize("nb_name", ["iris-clustering", "movie-explorer", "nba-scoring", "wealth-of-nations"])
-def test_example_nb(voila_server, needle, selenium2, base_url, nb_name):
+def test_example_nb(needle, selenium2, base_url, nb_name):
     target_url = '{0}/voila/render/{1}.ipynb'.format(base_url, nb_name)
     needle.driver.get(target_url)
 
