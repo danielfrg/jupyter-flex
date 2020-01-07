@@ -60,12 +60,12 @@ upload-test:  ## Upload package to pypi test repository
 .PHONY: test tests
 tests: test
 test:  ## Run tests
-	SELENIUM_CAPTURE_DEBUG=always pytest -s -vv jupyter_flex/tests -k $(TEST_FILTER) --html=test-results/report.html --self-contained-html --driver Chrome --headless --needle-baseline-dir docs/assets/img/screenshots --needle-engine imagemagick --needle-output-dir test-results/screenshots
+	SELENIUM_CAPTURE_DEBUG=always pytest -vvv jupyter_flex/tests -k $(TEST_FILTER) --html=test-results/report.html --self-contained-html --driver Chrome --headless --needle-baseline-dir docs/assets/img/screenshots --needle-engine imagemagick --needle-output-dir test-results/screenshots
 
 .PHONY: test-baseline tests-baseline
 test-baseline: test-baseline
 test-baseline:  ## Create tests baselines
-	pytest -s -vv jupyter_flex/tests --driver Chrome --headless --needle-save-baseline --needle-baseline-dir docs/assets/img/screenshots --needle-engine imagemagick
+	pytest -vvv jupyter_flex/tests --driver Chrome --headless --needle-save-baseline --needle-baseline-dir docs/assets/img/screenshots --needle-engine imagemagick
 
 .PHONY: netlify
 netlify: assets  ## Build docs on Netlify
