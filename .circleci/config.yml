@@ -38,7 +38,7 @@ jobs:
           command: |
             . venv/bin/activate
             python setup.py install
-            py.test -s -vvv --junitxml=test-results/junit.xml
+            make test
 
       - store_test_results:
           path: test-results
