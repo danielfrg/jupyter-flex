@@ -38,6 +38,7 @@ jobs:
           command: |
             . venv/bin/activate
             python setup.py install
+            voila --template flex --no-browser --port 8866 &
             make test
 
       - store_test_results:
