@@ -32,13 +32,24 @@ jobs:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
 
-      # run tests!
+      # run tests
+      - run:
+          name: Install package
+          command: |
+            . venv/bin/activate
+            python setup.py install
+
+      - run:
+          name: Start Voila
+          command: |
+            . venv/bin/activate
+            voila --template flex --no-browser --port 8866 ~/repo/examples
+          background: true
+
       - run:
           name: run tests
           command: |
             . venv/bin/activate
-            python setup.py install
-            voila --template flex --no-browser --port 8866 &
             make test
 
       - store_test_results:
