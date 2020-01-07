@@ -21,7 +21,7 @@ jobs:
             - v1-dependencies-
 
       - run:
-          name: install dependencies
+          name: Install dependencies
           command: |
             python3 -m venv venv
             . venv/bin/activate
@@ -47,10 +47,10 @@ jobs:
           background: true
 
       - run:
-          name: run tests
+          name: Run tests
           command: |
             . venv/bin/activate
-            make test
+            make test TEST_FILTER=test_import
 
       - store_test_results:
           path: test-results
