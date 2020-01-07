@@ -2,6 +2,13 @@ import pytest
 from xprocess import ProcessStarter
 
 
+def pytest_addoption(parser):
+    group = parser.getgroup('selenium', 'selenium')
+    group._addoption('--headless',
+                     action='store_true',
+                     help='enable headless mode for supported browsers.')
+
+
 @pytest.fixture(scope="module")
 def voila_server(xprocess):
     import os
@@ -17,3 +24,10 @@ def voila_server(xprocess):
 
     logfile = xprocess.ensure("voila_server", Starter)
     return conn
+
+
+@pytest.fixture(scope="module")
+def chrome_options(chrome_options, pytestconfig):
+    if pytestconfig.getoption('headless'):
+        chrome_options.add_argument('headless')
+    return chrome_options

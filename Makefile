@@ -5,6 +5,8 @@ SHELL := bash
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
+TEST_FILTER ?= ""
+
 all: help
 
 .PHONY: clean
@@ -55,11 +57,15 @@ upload-pypi:  ## Upload package to pypi
 upload-test:  ## Upload package to pypi test repository
 	twine upload --repository testpypi dist/*.tar.gz
 
-tests:  ## Run tests
-	SELENIUM_CAPTURE_DEBUG=always pytest -s -vv jupyter_flex/tests --driver Chrome --html=report.html --self-contained-html
+.PHONY: test tests
+tests: test
+test:  ## Run tests
+	SELENIUM_CAPTURE_DEBUG=always pytest -s -vv jupyter_flex/tests -k $(TEST_FILTER) --html=test-results/report.html --self-contained-html --driver Chrome --headless --needle-baseline-dir docs/assets/img/screenshots --needle-engine imagemagick --needle-output-dir test-results/screenshots
 
-tests-baseline:  ## Create tests baselines
-	pytest -s -vv jupyter_flex/tests --driver Chrome --needle-save-baseline --needle-baseline-dir docs/assets/img/screenshots
+.PHONY: test-baseline tests-baseline
+test-baseline: test-baseline
+test-baseline:  ## Create tests baselines
+	pytest -s -vv jupyter_flex/tests --driver Chrome --headless --needle-save-baseline --needle-baseline-dir docs/assets/img/screenshots --needle-engine imagemagick
 
 .PHONY: netlify
 netlify: assets  ## Build docs on Netlify

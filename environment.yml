@@ -10,6 +10,7 @@ dependencies:
   - matplotlib
   - scikit-learn
   - statsmodels
+  - imagemagick
   - pip:
     # Package dev
     - notebook
