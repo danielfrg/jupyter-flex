@@ -135,3 +135,4 @@ docs/examples/**/*.html
 jupyter_flex/static/*.js
 jupyter_flex/static/*.css*
 !jupyter_flex/static/flex.js
+.xprocess

@@ -14,8 +14,8 @@ Use Jupyter Notebooks to quickly create interactive dashboards.
 
 Inspired by [Flex Dashboards](https://rmarkdown.rstudio.com/flexdashboard/).
 
-<a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.4.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fmovie-explorer.ipynb"><img src="https://jupyter-flex.extrapolations.dev/assets/img/movie-explorer.png" alt="Jupyter-flex: Movie Explorer"  width=276></a>
-<a href="https://jupyter-flex.extrapolations.dev/examples/nba-scoring.html"><img src="https://jupyter-flex.extrapolations.dev/assets/img/nba-scoring.png" alt="Jupyter-flex: NBA Scoring" width=276></a>
+<a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.4.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fmovie-explorer.ipynb"><img src="https://jupyter-flex.extrapolations.dev/assets/img/screenshots/movie-explorer.png" alt="Jupyter-flex: Movie Explorer"  width=276></a>
+<a href="https://jupyter-flex.extrapolations.dev/examples/nba-scoring.html"><img src="https://jupyter-flex.extrapolations.dev/assets/img/screenshots/nba-scoring.png" alt="Jupyter-flex: NBA Scoring" width=276></a>
 <a href="https://jupyter-flex.extrapolations.dev/examples/altair.html"><img src="https://jupyter-flex.extrapolations.dev/assets/img/plots/altair.png" alt="Jupyter-flex: Bokeh plots"  width=276></a>
 
 ## Installation

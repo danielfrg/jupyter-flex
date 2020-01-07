@@ -7,32 +7,6 @@ MAKEFLAGS += --no-builtin-rules
 
 all: help
 
-build: assets python  ## Build Python package
-assets: download-assets sassc  ## Download and compile assets
-
-download-assets:  ## Download .css/.js assets
-	@curl -o jupyter_flex/static/bootstrap.min.css https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css
-	@curl -o jupyter_flex/static/bootstrap.min.css.map https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css.map
-	@curl -o jupyter_flex/static/bootstrap.min.js https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js
-	@curl -o jupyter_flex/static/jquery.min.js https://code.jquery.com/jquery-3.4.1.min.js
-	@curl -o jupyter_flex/static/require.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
-	@curl -o jupyter_flex/static/embed-amd.js https://unpkg.com/@jupyter-widgets/html-manager@0.18.4/dist/embed-amd.js
-
-sassc:  ## Compile SCSS assets
-	@pysassc --style=compressed jupyter_flex/static/flex.scss jupyter_flex/static/flex.min.css
-
-.PHONY: python
-python:  ## Build Python package
-	python setup.py sdist
-
-.PHONY: upload-pypi
-upload-pypi:  ## Upload package to pypi
-	twine upload dist/*.tar.gz
-
-.PHONY: upload-test
-upload-test:  ## Upload package to pypi test repository
-	twine upload --repository testpypi dist/*.tar.gz
-
 .PHONY: clean
 clean:  ## Remove build files
 	@rm -rf dist
@@ -53,6 +27,39 @@ cleanall: clean  ## Clean everything (including downloaded assets)
 .PHONY: env
 env:  ## Create virtualenv
 	conda env create
+
+assets: download-assets sassc  ## Download and compile assets
+
+download-assets:  ## Download .css/.js assets
+	@curl -o jupyter_flex/static/bootstrap.min.css https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css
+	@curl -o jupyter_flex/static/bootstrap.min.css.map https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css.map
+	@curl -o jupyter_flex/static/bootstrap.min.js https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js
+	@curl -o jupyter_flex/static/jquery.min.js https://code.jquery.com/jquery-3.4.1.min.js
+	@curl -o jupyter_flex/static/require.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
+	@curl -o jupyter_flex/static/embed-amd.js https://unpkg.com/@jupyter-widgets/html-manager@0.18.4/dist/embed-amd.js
+
+sassc:  ## Compile SCSS assets
+	@pysassc --style=compressed jupyter_flex/static/flex.scss jupyter_flex/static/flex.min.css
+
+build: assets package  ## Download assets, compile and build Python package
+
+.PHONY: package
+package:  ## Build Python package
+	python setup.py sdist
+
+.PHONY: upload-pypi
+upload-pypi:  ## Upload package to pypi
+	twine upload dist/*.tar.gz
+
+.PHONY: upload-test
+upload-test:  ## Upload package to pypi test repository
+	twine upload --repository testpypi dist/*.tar.gz
+
+tests:  ## Run tests
+	SELENIUM_CAPTURE_DEBUG=always pytest -s -vv jupyter_flex/tests --driver Chrome --html=report.html --self-contained-html
+
+tests-baseline:  ## Create tests baselines
+	pytest -s -vv jupyter_flex/tests --driver Chrome --needle-save-baseline --needle-baseline-dir docs/assets/img/screenshots
 
 .PHONY: netlify
 netlify: assets  ## Build docs on Netlify
