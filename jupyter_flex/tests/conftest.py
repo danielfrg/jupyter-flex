@@ -14,3 +14,10 @@ def chrome_options(chrome_options, request):
         chrome_options.add_argument("headless")
     chrome_options.add_argument("force-device-scale-factor=2")
     return chrome_options
+
+
+@pytest.fixture(scope="function")
+def firefox_options(firefox_options, request):
+    if request.config.getoption("headless"):
+        firefox_options.add_argument('-headless')
+    return firefox_options

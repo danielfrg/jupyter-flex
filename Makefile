@@ -70,7 +70,9 @@ upload-test:  ## Upload package to pypi test repository
 .PHONY: test-assets
 test-assets:  ## Download test assets (browser drivers)
 	@mkdir -p bin
-	@curl -f -o bin/chromedriver.zip https://chromedriver.storage.googleapis.com/79.0.3945.36/chromedriver_mac64.zip
+	@curl -f -L -o bin/geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-macos.tar.gz
+	@cd bin && tar -zxvf geckodriver.tar.gz
+	@curl -f -L -o bin/chromedriver.zip https://chromedriver.storage.googleapis.com/79.0.3945.36/chromedriver_mac64.zip
 	@cd bin && unzip chromedriver.zip
 
 .PHONY: serve-voila
@@ -81,12 +83,12 @@ serve-voila:  ## Serve examples using voila
 tests: test
 test:  ## Run tests
 	mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
-	pytest -vvv jupyter_flex/tests -k $(TEST_FILTER) --driver Firefox --html=test-results/report.html --self-contained-html --needle-baseline-dir docs/assets/img/screenshots --needle-engine $(NEEDLE_ENGINE) --needle-output-dir test-results/screenshots
+	pytest -vvv jupyter_flex/tests -k $(TEST_FILTER) --driver Firefox --headless --html=test-results/report.html --self-contained-html --needle-baseline-dir docs/assets/img/screenshots --needle-engine $(NEEDLE_ENGINE) --needle-output-dir test-results/screenshots
 
 .PHONY: test-baseline tests-baseline
 test-baseline: test-baseline
 test-baseline:  ## Create tests baselines
-	pytest -vvv jupyter_flex/tests -k $(TEST_FILTER) --driver Firefox --needle-save-baseline --needle-baseline-dir docs/assets/img/screenshots
+	pytest -vvv jupyter_flex/tests -k $(TEST_FILTER) --driver Firefox --headless --needle-save-baseline --needle-baseline-dir docs/assets/img/screenshots
 
 ###############################################################################
 # Docs
