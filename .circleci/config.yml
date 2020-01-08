@@ -35,7 +35,12 @@ jobs:
           name: create env
           command: |
             .  ~/conda/etc/profile.d/conda.sh
-            conda env create
+            if [[ -d "~/conda/envs/jupyter-flex" ]]
+            then
+              conda env create
+            fi
+
+            conda env update
             conda activate jupyter-flex
             python --version
             pip freeze
