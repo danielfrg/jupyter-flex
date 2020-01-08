@@ -16,6 +16,10 @@ jobs:
 
       ####################### Setup
 
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "environment.yml" }}
+
       - run:
           name: install miniconda
           command: |
@@ -23,33 +27,30 @@ jobs:
             apt install -y wget
             cd $HOME
             wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
-            chmod +x ~/miniconda.sh && bash ~/miniconda.sh -b -p $HOME/conda
+            chmod +x ~/miniconda.sh && bash ~/miniconda.sh -b -p ~/repo/conda
 
       - run:
           name: create env
           command: |
-            .  ~/conda/etc/profile.d/conda.sh
+            .  ~/repo/conda/etc/profile.d/conda.sh
             conda env create
             conda activate jupyter-flex
             python --version
             pip freeze
-
-      - save_cache:
-          paths:
-            - ~/conda
-          key: v1-dependencies-{{ checksum "environment.yml" }}
 
       ####################### Tests
 
       - run:
           name: install package
           command: |
+            .  ~/repo/conda/etc/profile.d/conda.sh
             conda activate jupyter-flex
             python setup.py install
 
       - run:
           name: start Voila
           command: |
+            .  ~/repo/conda/etc/profile.d/conda.sh
             conda activate jupyter-flex
             voila --template flex --no-browser --port 8866 ~/repo/examples
           background: true
@@ -57,6 +58,7 @@ jobs:
       - run:
           name: run tests
           command: |
+            .  ~/repo/conda/etc/profile.d/conda.sh
             conda activate jupyter-flex
             make test
 
