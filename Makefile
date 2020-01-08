@@ -6,9 +6,9 @@ MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
 TEST_FILTER ?= "test_plots"
-NEEDLE_ENGINE ?= pil
+NEEDLE_ENGINE ?= imagemagick
 ifdef CIRCLECI
-    NEEDLE_ENGINE = pil
+    NEEDLE_ENGINE = imagemagick
 endif
 
 all: help
