@@ -5,10 +5,7 @@ import pytest
 
 @pytest.fixture
 def selenium2(selenium):
-    if os.environ.get("CIRCLECI", None):
-        selenium.set_window_size(2880, 1800)
-    else:
-        selenium.set_window_size(1440, 900)
+    selenium.set_window_size(1440, 900)
     return selenium
 
 

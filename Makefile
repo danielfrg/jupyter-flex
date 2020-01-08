@@ -5,7 +5,7 @@ SHELL := bash
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
-TEST_FILTER ?= ""
+TEST_FILTER ?= "test_plots"
 NEEDLE_ENGINE ?= pil
 ifdef CIRCLECI
     NEEDLE_ENGINE = pil
