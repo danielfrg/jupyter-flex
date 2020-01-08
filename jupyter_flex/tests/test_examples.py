@@ -50,7 +50,7 @@ def test_getting_started(needle, selenium2, base_url, nb_name):
     needle.driver.get(target_url)
 
     # Wait for dashboard components to render
-    time.sleep(3)
+    time.sleep(2)
 
     # Take an element screen diff
     needle.assert_screenshot(f'getting-started/{nb_name}')
@@ -95,7 +95,7 @@ def test_plots(needle, selenium2, base_url, nb_name):
     needle.driver.get(target_url)
 
     # Wait for dashboard components to render
-    time.sleep(3)
+    time.sleep(5)
 
     # Take an element screen diff
     needle.assert_screenshot(f'plots/{nb_name}')
