@@ -59,8 +59,7 @@ jobs:
           name: Run tests
           command: |
             . venv/bin/activate
-            mkdir -p ~/repo/test-results/screenshots
-            pytest -vvv ~/repo/jupyter_flex/tests --html=test-results/report.html --self-contained-html --driver Firefox --needle-baseline-dir docs/assets/img/screenshots --needle-engine imagemagick --needle-output-dir test-results/screenshots
+            make test
 
       - store_test_results:
           path: test-results
