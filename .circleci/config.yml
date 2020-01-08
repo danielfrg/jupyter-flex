@@ -3,6 +3,7 @@
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
 version: 2
+
 jobs:
   build:
     docker:
@@ -13,32 +14,65 @@ jobs:
     steps:
       - checkout
 
-      # Download and cache dependencies
+      ####################### Setup
+
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "requirements.txt" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+          - v1-deps-{{ checksum "environment.yml" }}
+          - v1-deps
 
       - run:
-          name: install dependencies
+          name: install miniconda
           command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r requirements.txt
+            if [[ -d "~/conda" ]]
+            then
+              cd $HOME
+              wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
+              chmod +x ~/miniconda.sh && bash ~/miniconda.sh -b -p ~/conda
+            fi
+
+      - run:
+          name: create env
+          command: |
+            .  ~/conda/etc/profile.d/conda.sh
+            if [[ -d "~/conda/envs/jupyter-flex" ]]
+            then
+              conda env create
+            fi
+
+            conda env update
+            conda activate jupyter-flex
+            python --version
+            pip freeze
 
       - save_cache:
+          key: v1-deps-{{ checksum "environment.yml" }}
           paths:
-            - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
+            - ~/conda
 
-      # run tests!
+      ####################### Tests
+
+      - run:
+          name: install package
+          command: |
+            .  ~/conda/etc/profile.d/conda.sh
+            conda activate jupyter-flex
+            python setup.py install
+
+      - run:
+          name: start Voila
+          command: |
+            .  ~/conda/etc/profile.d/conda.sh
+            conda activate jupyter-flex
+            make serve-voila
+          background: true
+
       - run:
           name: run tests
           command: |
-            . venv/bin/activate
-            python setup.py install
-            py.test -s -vvv --junitxml=test-results/junit.xml
+            .  ~/conda/etc/profile.d/conda.sh
+            conda activate jupyter-flex
+            make test
 
       - store_test_results:
           path: test-results
