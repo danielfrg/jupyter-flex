@@ -6,7 +6,7 @@ MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
 TEST_FILTER ?= ""
-NEEDLE_ENGINE ?= imagemagick
+NEEDLE_ENGINE ?= perceptualdiff
 ifdef CIRCLECI
     NEEDLE_ENGINE = perceptualdiff
 endif
