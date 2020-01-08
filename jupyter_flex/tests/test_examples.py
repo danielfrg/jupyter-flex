@@ -1,10 +1,14 @@
+import os
 import time
 import pytest
 
 
 @pytest.fixture
 def selenium2(selenium):
-    selenium.set_window_size(1440, 900)
+    if os.environ.get("CIRCLECI", None):
+        selenium.set_window_size(2880, 1800)
+    else:
+        selenium.set_window_size(1440, 900)
     return selenium
 
 
@@ -49,7 +53,7 @@ def test_getting_started(needle, selenium2, base_url, nb_name):
     needle.driver.get(target_url)
 
     # Wait for dashboard components to render
-    time.sleep(5)
+    time.sleep(3)
 
     # Take an element screen diff
     needle.assert_screenshot(f'getting-started/{nb_name}')
@@ -94,7 +98,7 @@ def test_plots(needle, selenium2, base_url, nb_name):
     needle.driver.get(target_url)
 
     # Wait for dashboard components to render
-    time.sleep(2)
+    time.sleep(3)
 
     # Take an element screen diff
     needle.assert_screenshot(f'plots/{nb_name}')
