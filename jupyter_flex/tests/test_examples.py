@@ -9,7 +9,7 @@ def selenium2(selenium):
     return selenium
 
 
-pytestmark = [pytest.mark.nondestructive, pytest.mark.xfail]
+pytestmark = [pytest.mark.nondestructive]
 
 
 @pytest.mark.parametrize("nb_name", ["iris-clustering", "movie-explorer", "nba-scoring", "wealth-of-nations"])
@@ -57,19 +57,19 @@ def test_getting_started(needle, selenium2, base_url, nb_name):
 
 
 @pytest.mark.parametrize("nb_name", [
-    "card-sections",
-    "focal-chart-top-chart-size",
-    "focal-chart-top",
-    "grid-2x2",
-    "grid-2x3",
-    "orientation-columns-columns",
-    "orientation-columns",
-    "orientation-rows-rows",
-    "orientation-rows",
-    "pages",
-    "sidebar-global",
-    "tabs-section-columns",
-    "tabs-section-rows",
+    "card",
+    # "focal-chart-top-chart-size",
+    # "focal-chart-top",
+    # "grid-2x2",
+    # "grid-2x3",
+    "section-columns-columns",
+    "section-columns",
+    # "section-rows-rows",
+    # "section-rows",
+    # "pages",
+    # "sidebar-global",
+    # "section-tabs-columns",
+    # "section-tabs-rows",
 ])
 def test_layouts(needle, selenium2, base_url, nb_name):
     target_url = '{0}/voila/render/layouts/{1}.ipynb'.format(base_url, nb_name)

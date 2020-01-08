@@ -17,6 +17,15 @@ Inspired by [Flex Dashboards](https://rmarkdown.rstudio.com/flexdashboard/).
 $ pip install jupyter-flex
 ```
 
+## Learning
+
+The [Getting started](/getting-started) page goes through the basic steps of taking a Jupyter Notebook and creating your first Jupyter-flex dashboard, explains simple Jupyter-flex concepts such as layouts, document orientation
+and explains how to use [`nbconvert`](https://nbconvert.readthedocs.io/en/latest/) to generate a static `.html` dashboard.
+
+The [Layout](/layout) page goes in depth about all the options to control the content of the dashboards in Jupyter-flex.
+
+The [Voila](/voila-ipywidgets) page describes how to create dashboards that enable viewers to change underlying parameters and see the results immediately, using Voila and IPython Widgets.
+
 ## Examples
 
 <div class="image-grid-row">
@@ -33,25 +42,23 @@ $ pip install jupyter-flex
     </a>
     <figcaption>Plotly plots</figcaption>
   </figure>
-</div>
 
-<div class="image-grid-row">
   <figure class="image-card">
     <a href="/examples/bokeh.html">
         <img src="/assets/img/screenshots/plots/bokeh.png" alt="Jupyter-flex: Bokeh Plots">
     </a>
     <figcaption>Bokeh plots</figcaption>
   </figure>
+</div>
 
+<div class="image-grid-row">
   <figure class="image-card">
     <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/master?urlpath=%2Fvoila%2Frender%2Fexamples%bqplot.ipynb">
         <img src="/assets/img/screenshots/plots/bqplot.png" alt="Jupyter-flex: bqplot">
     </a>
     <figcaption>bqplot plots (runs in mybinder.org)</figcaption>
   </figure>
-</div>
 
-<div class="image-grid-row">
   <figure class="image-card">
     <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.4.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fmovie-explorer.ipynb">
         <img src="/assets/img/screenshots/movie-explorer.png" alt="Jupyter-flex: Movie Explorer">
@@ -81,18 +88,10 @@ $ pip install jupyter-flex
     </a>
     <figcaption>NBA Scoring</figcaption>
   </figure>
+
+  <figure class="image-card">
+  </figure>
 </div>
 
 !!! info
     Source for all examples can be found [on Github](https://github.com/danielfrg/jupyter-flex/tree/master/examples).
-
-## Learning More
-
-The [Getting started](/getting-started) page works throught creating your first Jupyter-flex dashboard based on a simple notebook,
-explains simple Jupyter-flex concepts such basic layouts, document orientation
-and explains how to use `nbconvert` to generate a static `.html` file with a dashboard.
-
-The [Layout](/layout) page goes in depth about all the options to control the content of the dashboards in Jupyter-flex.
-
-The [Voila](/voila-ipywidgets) page describes how to create dashboards that enable viewers to change underlying parameters and see the results immediately,
-using Voila and IPython Widgets.
