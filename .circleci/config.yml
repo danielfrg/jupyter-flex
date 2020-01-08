@@ -57,6 +57,7 @@ jobs:
           command: |
             .  ~/conda/etc/profile.d/conda.sh
             conda activate jupyter-flex
+            sudo apt-get install perceptualdiff
             python setup.py install
 
       - run:
