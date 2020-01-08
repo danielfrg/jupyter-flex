@@ -81,12 +81,12 @@ serve-voila:  ## Serve examples using voila
 tests: test
 test:  ## Run tests
 	mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
-	pytest -vvv jupyter_flex/tests -k $(TEST_FILTER) --driver Chrome --headless --html=test-results/report.html --self-contained-html --needle-baseline-dir docs/assets/img/screenshots --needle-engine $(NEEDLE_ENGINE) --needle-output-dir test-results/screenshots
+	pytest -vvv jupyter_flex/tests -k $(TEST_FILTER) --driver Firefox --html=test-results/report.html --self-contained-html --needle-baseline-dir docs/assets/img/screenshots --needle-engine $(NEEDLE_ENGINE) --needle-output-dir test-results/screenshots
 
 .PHONY: test-baseline tests-baseline
 test-baseline: test-baseline
 test-baseline:  ## Create tests baselines
-	pytest -vvv jupyter_flex/tests -k $(TEST_FILTER) --driver Chrome --headless --needle-save-baseline --needle-baseline-dir docs/assets/img/screenshots
+	pytest -vvv jupyter_flex/tests -k $(TEST_FILTER) --driver Firefox --needle-save-baseline --needle-baseline-dir docs/assets/img/screenshots
 
 ###############################################################################
 # Docs
