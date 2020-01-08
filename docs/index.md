@@ -35,14 +35,12 @@ The [Voila](/voila-ipywidgets) page describes how to create dashboards that enab
     </a>
     <figcaption>Altair plots</figcaption>
   </figure>
-
   <figure class="image-card">
     <a href="/examples/plotly.html">
         <img src="/assets/img/screenshots/plots/plotly.png" alt="Jupyter-flex: Plotly Plots">
     </a>
     <figcaption>Plotly plots</figcaption>
   </figure>
-
   <figure class="image-card">
     <a href="/examples/bokeh.html">
         <img src="/assets/img/screenshots/plots/bokeh.png" alt="Jupyter-flex: Bokeh Plots">
@@ -58,14 +56,12 @@ The [Voila](/voila-ipywidgets) page describes how to create dashboards that enab
     </a>
     <figcaption>bqplot plots (runs in mybinder.org)</figcaption>
   </figure>
-
   <figure class="image-card">
     <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.4.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fmovie-explorer.ipynb">
         <img src="/assets/img/screenshots/movie-explorer.png" alt="Jupyter-flex: Movie Explorer">
     </a>
     <figcaption>Movie Explorer (runs in mybinder.org)</figcaption>
   </figure>
-
   <figure class="image-card">
     <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/master?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
         <img src="/assets/img/screenshots/wealth-of-nations.png" alt="Jupyter-flex: Wealth of Nations">
@@ -81,14 +77,12 @@ The [Voila](/voila-ipywidgets) page describes how to create dashboards that enab
     </a>
     <figcaption>Iris clustering (runs in mybinder.org)</figcaption>
   </figure>
-
   <figure class="image-card">
     <a href="/examples/nba-scoring.html">
         <img src="/assets/img/screenshots/nba-scoring.png" alt="Jupyter-flex: NBA Scoring">
     </a>
     <figcaption>NBA Scoring</figcaption>
   </figure>
-
   <figure class="image-card">
   </figure>
 </div>

@@ -26,6 +26,7 @@ def test_example_nb(needle, selenium2, base_url, nb_name):
 
 @pytest.mark.parametrize("nb_name", [
     "classes-colors",
+    "custom-css",
 ])
 def test_customize(needle, selenium2, base_url, nb_name):
     target_url = '{0}/voila/render/customize/{1}.ipynb'.format(base_url, nb_name)
@@ -58,18 +59,18 @@ def test_getting_started(needle, selenium2, base_url, nb_name):
 
 @pytest.mark.parametrize("nb_name", [
     "card",
-    # "focal-chart-top-chart-size",
-    # "focal-chart-top",
-    # "grid-2x2",
-    # "grid-2x3",
+    "focal-chart-top-chart-size",
+    "focal-chart-top",
+    "grid-2x2",
+    "grid-2x3",
+    "pages",
+    "pages-sidebar",
     "section-columns-columns",
     "section-columns",
-    # "section-rows-rows",
-    # "section-rows",
-    # "pages",
-    # "sidebar-global",
-    # "section-tabs-columns",
-    # "section-tabs-rows",
+    "section-rows-rows",
+    "section-rows",
+    "section-tabs-columns",
+    "section-tabs-rows",
 ])
 def test_layouts(needle, selenium2, base_url, nb_name):
     target_url = '{0}/voila/render/layouts/{1}.ipynb'.format(base_url, nb_name)
