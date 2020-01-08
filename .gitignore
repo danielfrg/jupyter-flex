@@ -129,11 +129,12 @@ dmypy.json
 .pyre/
 
 # This project
+bin
 share
 examples/**/*.html
-docs/examples/**/*.html
+docs/examples
 jupyter_flex/static/*.js
-jupyter_flex/static/*.css*
 !jupyter_flex/static/flex.js
+jupyter_flex/static/*.css*
 test-results
 .xprocess

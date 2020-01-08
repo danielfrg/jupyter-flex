@@ -23,9 +23,10 @@ clean:  ## Remove build files
 	@rm -f test-results
 
 .PHONY: cleanall
-cleanall: clean  ## Clean everything (including downloaded assets)
+cleanall: clean  ## Clean everything. Includes downloaded assets and NB checkpoints
 	@ls jupyter_flex/static/*.js | grep -v flex.js | xargs rm
 	@rm -f jupyter_flex/static/*.css
+	@rm -rf **/.ipynb_checkpoints
 
 .PHONY: env
 env:  ## Create virtualenv
@@ -58,6 +59,20 @@ upload-pypi:  ## Upload package to pypi
 upload-test:  ## Upload package to pypi test repository
 	twine upload --repository testpypi dist/*.tar.gz
 
+###############################################################################
+# Testing
+###############################################################################
+
+.PHONY: test-assets
+test-assets:  ## Download test assets (browser drivers)
+	@mkdir -p bin
+	@curl -f -o bin/chromedriver.zip https://chromedriver.storage.googleapis.com/79.0.3945.36/chromedriver_mac64.zip
+	@cd bin && unzip chromedriver.zip
+
+.PHONY: serve-voila
+serve-voila:  ## Serve examples using voila
+	voila --template flex --no-browser --port 8866 ./examples
+
 .PHONY: test tests
 tests: test
 test:  ## Run tests
@@ -69,15 +84,13 @@ test-baseline: test-baseline
 test-baseline:  ## Create tests baselines
 	pytest -vvv jupyter_flex/tests -k $(TEST_FILTER) --driver Chrome --headless --needle-save-baseline --needle-baseline-dir docs/assets/img/screenshots --needle-engine imagemagick
 
-.PHONY: netlify
-netlify: assets  ## Build docs on Netlify
-	pip uninstall -y jupyter-flex
-	python setup.py install
-	pip freeze
-	python -c "import bokeh.sampledata; bokeh.sampledata.download()"
-	$(MAKE) docs-examples
-	@cd $(CURDIR)/docs/ && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True
-	mkdocs build --config-file $(CURDIR)/mkdocs.yml
+###############################################################################
+# Docs
+###############################################################################
+
+.PHONY: serve-docs
+serve-docs:  ## Serve docs
+	mkdocs serve
 
 .PHONY: docs-examples
 docs-examples:  ## Run nbconvert on the examples
@@ -88,9 +101,15 @@ docs-examples:  ## Run nbconvert on the examples
 	@cd $(CURDIR)/examples/layouts && jupyter-nbconvert *.ipynb --to=flex --output-dir=../../docs/examples --execute --ExecutePreprocessor.store_widget_state=True
 	@cd $(CURDIR)/examples/widgets && jupyter-nbconvert *.ipynb --to=flex --output-dir=../../docs/examples --execute --ExecutePreprocessor.store_widget_state=True
 
-.PHONY: serve-docs
-serve-docs:  ## Serve docs
-	mkdocs serve
+.PHONY: netlify
+netlify: assets  ## Build docs on Netlify
+	pip uninstall -y jupyter-flex
+	python setup.py install
+	pip freeze
+	python -c "import bokeh.sampledata; bokeh.sampledata.download()"
+	$(MAKE) docs-examples
+	@cd $(CURDIR)/docs/ && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True
+	mkdocs build --config-file $(CURDIR)/mkdocs.yml
 
 .PHONY: help
 help:  ## Show this help menu

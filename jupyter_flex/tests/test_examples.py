@@ -15,7 +15,7 @@ def test_example_nb(needle, selenium2, base_url, nb_name):
     needle.driver.get(target_url)
 
     # Wait for dashboard components to render
-    time.sleep(5)
+    time.sleep(6)
 
     # Take an element screen diff
     needle.assert_screenshot(f'{nb_name}')
@@ -111,7 +111,7 @@ def test_widgets(needle, selenium2, base_url, nb_name):
     needle.driver.get(target_url)
 
     # Wait for dashboard components to render
-    time.sleep(2)
+    time.sleep(5)
 
     # Take an element screen diff
     needle.assert_screenshot(f'widgets/{nb_name}')
