@@ -18,7 +18,8 @@ jobs:
 
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "environment.yml" }}
+          - v1-deps-{{ checksum "environment.yml" }}
+          - v1-deps
 
       - run:
           name: install miniconda
@@ -26,8 +27,8 @@ jobs:
             apt update
             apt install -y wget
             cd $HOME
-            wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
-            chmod +x ~/miniconda.sh && bash ~/miniconda.sh -b -p ~/repo/conda
+            wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/repo/miniconda.sh
+            chmod +x ~/repo/miniconda.sh && bash ~/repo/miniconda.sh -b -p ~/repo/conda
 
       - run:
           name: create env
