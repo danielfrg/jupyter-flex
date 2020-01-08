@@ -7,7 +7,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: ubuntu:bionic-browsers
+      - image: circleci/python:3.7.6-browsers
 
     working_directory: ~/repo
 
