@@ -71,7 +71,7 @@ test-assets:  ## Download test assets (browser drivers)
 
 .PHONY: serve-voila
 serve-voila:  ## Serve examples using voila
-	voila --template flex --no-browser --port 8866 ./examples
+	voila --template flex --no-browser --port 8866 $(CURDIR)/examples
 
 .PHONY: test tests
 tests: test

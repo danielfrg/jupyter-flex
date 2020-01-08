@@ -37,6 +37,11 @@ jobs:
             python --version
             pip freeze
 
+      - save_cache:
+          key: v1-deps-{{ checksum "environment.yml" }}
+          paths:
+            - ~/conda
+
       ####################### Tests
 
       - run:
@@ -51,7 +56,7 @@ jobs:
           command: |
             .  ~/conda/etc/profile.d/conda.sh
             conda activate jupyter-flex
-            voila --template flex --no-browser --port 8866 ~/examples
+            make serve-voila
           background: true
 
       - run:
