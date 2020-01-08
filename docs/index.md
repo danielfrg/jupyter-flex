@@ -22,14 +22,14 @@ $ pip install jupyter-flex
 <div class="image-grid-row">
   <figure class="image-card">
     <a href="/examples/altair.html">
-        <img src="/assets/img/plots/altair.png" alt="Jupyter-flex: altair">
+        <img src="/assets/img/screenshots/plots/altair.png" alt="Jupyter-flex: altair">
     </a>
     <figcaption>Altair plots</figcaption>
   </figure>
 
   <figure class="image-card">
     <a href="/examples/plotly.html">
-        <img src="/assets/img/plots/plotly.png" alt="Jupyter-flex: Plotly Plots">
+        <img src="/assets/img/screenshots/plots/plotly.png" alt="Jupyter-flex: Plotly Plots">
     </a>
     <figcaption>Plotly plots</figcaption>
   </figure>
@@ -38,14 +38,14 @@ $ pip install jupyter-flex
 <div class="image-grid-row">
   <figure class="image-card">
     <a href="/examples/bokeh.html">
-        <img src="/assets/img/plots/bokeh.png" alt="Jupyter-flex: Bokeh Plots">
+        <img src="/assets/img/screenshots/plots/bokeh.png" alt="Jupyter-flex: Bokeh Plots">
     </a>
     <figcaption>Bokeh plots</figcaption>
   </figure>
 
   <figure class="image-card">
     <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/master?urlpath=%2Fvoila%2Frender%2Fexamples%bqplot.ipynb">
-        <img src="/assets/img/plots/bqplot.png" alt="Jupyter-flex: bqplot">
+        <img src="/assets/img/screenshots/plots/bqplot.png" alt="Jupyter-flex: bqplot">
     </a>
     <figcaption>bqplot plots (runs in mybinder.org)</figcaption>
   </figure>

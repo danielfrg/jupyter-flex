@@ -61,12 +61,13 @@ upload-test:  ## Upload package to pypi test repository
 .PHONY: test tests
 tests: test
 test:  ## Run tests
-	SELENIUM_CAPTURE_DEBUG=always pytest -vvv jupyter_flex/tests -k $(TEST_FILTER) --html=test-results/report.html --self-contained-html --driver Chrome --headless --needle-baseline-dir docs/assets/img/screenshots --needle-engine imagemagick --needle-output-dir test-results/screenshots
+	mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
+	SELENIUM_CAPTURE_DEBUG=always pytest -vvv jupyter_flex/tests -k $(TEST_FILTER) --driver Chrome --headless --html=test-results/report.html --self-contained-html --driver Chrome --headless --needle-baseline-dir docs/assets/img/screenshots --needle-engine imagemagick --needle-output-dir test-results/screenshots
 
 .PHONY: test-baseline tests-baseline
 test-baseline: test-baseline
 test-baseline:  ## Create tests baselines
-	pytest -vvv jupyter_flex/tests --driver Chrome --headless --needle-save-baseline --needle-baseline-dir docs/assets/img/screenshots --needle-engine imagemagick
+	pytest -vvv jupyter_flex/tests -k $(TEST_FILTER) --driver Chrome --headless --needle-save-baseline --needle-baseline-dir docs/assets/img/screenshots --needle-engine imagemagick
 
 .PHONY: netlify
 netlify: assets  ## Build docs on Netlify
