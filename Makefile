@@ -5,7 +5,7 @@ SHELL := bash
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
-TEST_FILTER ?=
+TEST_FILTER ?= ""
 NEEDLE_ENGINE ?= imagemagick
 ifdef CIRCLECI
     NEEDLE_ENGINE = imagemagick
