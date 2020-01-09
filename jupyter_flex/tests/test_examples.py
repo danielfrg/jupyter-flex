@@ -58,7 +58,7 @@ def test_getting_started(needle, selenium2, base_url, nb_name):
 
 @pytest.mark.parametrize("nb_name", [
     "card",
-    "focal-chart-top-chart-size",
+    "focal-chart-top-card-size",
     "focal-chart-top",
     "grid-2x2",
     "grid-2x3",
