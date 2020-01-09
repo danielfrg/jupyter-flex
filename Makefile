@@ -24,7 +24,7 @@ clean:  ## Remove build files
 	@rm -f examples/**/*.html
 	@rm -f jupyter_flex/nbconvert_templates/*.js
 	@rm -f jupyter_flex/nbconvert_templates/*.css
-	@rm -f test-results
+	@rm -rf test-results
 
 .PHONY: cleanall
 cleanall: clean  ## Clean everything. Includes downloaded assets and NB checkpoints
@@ -77,7 +77,7 @@ test-assets:  ## Download test assets (browser drivers)
 
 .PHONY: serve-voila
 serve-voila:  ## Serve examples using voila
-	voila --debug --template flex --no-browser --port 8866 $(CURDIR)/examples
+	voila --debug --template flex --no-browser --port 8866 --VoilaConfiguration.file_whitelist="['.*']" $(CURDIR)/examples
 
 .PHONY: test tests
 tests: test
