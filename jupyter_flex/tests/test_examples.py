@@ -40,7 +40,6 @@ def test_customize(needle, selenium2, base_url, nb_name):
 
 
 @pytest.mark.parametrize("nb_name", [
-    "one-card-full",
     "one-plot",
     "two-columns",
     "two-plots",
