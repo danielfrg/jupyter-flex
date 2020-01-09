@@ -22,7 +22,9 @@ $ pip install jupyter-flex
 The [Getting started](/getting-started) page goes through the basic steps of taking a Jupyter Notebook and creating your first Jupyter-flex dashboard, explains simple Jupyter-flex concepts such as layouts, document orientation
 and explains how to use [`nbconvert`](https://nbconvert.readthedocs.io/en/latest/) to generate a static `.html` dashboard.
 
-The [Layout](/layout) page goes in depth about all the options to control the content of the dashboards in Jupyter-flex.
+The [Layouts](/layouts) page goes in depth about all the options to control the content of Jupyter-flex dashboards.
+
+The [Plotting](/plotting) page goes through some considerations around different plotting libraries in Jupyter-flex dashboards.
 
 The [Voila](/voila-ipywidgets) page describes how to create dashboards that enable viewers to change underlying parameters and see the results immediately, using Voila and IPython Widgets.
 
