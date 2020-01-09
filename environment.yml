@@ -20,7 +20,7 @@ dependencies:
     - nbconvert
     - voila
     - ipywidgets
-    - jupyter-flex
+    - jupyter-flex==0.5.0
     - versioneer
     - twine
     - pytest
