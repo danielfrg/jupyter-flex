@@ -3,7 +3,7 @@
 ## [Unreleased]
 
 - Added the option to have a global sidebar
-- Remove options section sidebar, use size tags instead
+- Remove the explict option of section sidebar, still possible useing size tags
 - Improved ipywidgets default styling
 - Added history tabs for the main navigation
 - Added material colors CSS classes for easy customization
