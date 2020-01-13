@@ -32,19 +32,42 @@
 
 $('.navbar a[data-toggle="tab"]').historyTabs();
 
-// var hash = document.location.hash;
-// if (hash) {
-//     $('.nav-tabs a[href="' + hash + '"]').tab('show');
-// }
+// Activate tooltips
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
 
-// console.log("ASDASD");
+// Kernel status
 
-// // Enable link to tab: Show tab from URL
-// // Change hash for page-reload
-// $('.nav-tabs a').on('shown.bs.tab', function (e) {
-//     console.log("click");
-//     window.location.hash = e.target.hash;
-// })
+window.debug_init = async (voila) => {
+    const kernel = await voila.connectKernel();
+    kernel.statusChanged.connect((sender, status) => {
+      switch (status) {
+        case "idle":
+            $("#kernel-activity").removeClass("filled-circle").addClass("circle");
+            $("#kernel-indicator").fadeOut(2000);
+            break;
+        case "busy":
+            $("#kernel-activity").removeClass("circle").addClass("filled-circle");
+            $("#kernel-indicator").fadeOut(2000);
+            break;
+        case "restarting":
+            $("#kernel-indicator").text("Restarting kernel");
+            $("#kernel-indicator").show();
+            break;
+        case "connected":
+            $("#kernel-indicator").text("Kernel connected");
+            $("#kernel-indicator").show();
+            break;
+        case "reconnecting":
+            $("#kernel-indicator").text("Reconnecting kernel");
+            $("#kernel-indicator").show();
+            break;
+        default:
+            console.log("Unknown status: " + status);
+      }
+    });
+};
 
 // Look plot libraries elements and trigger resize events
 

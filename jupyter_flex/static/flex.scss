@@ -128,11 +128,25 @@ body {
         }
     }
 
-
     i.material-icons {
         font-size: 18px;
         vertical-align: middle;
         margin-right: 5px;
+    }
+
+    .circle {
+        border: 2px solid #AEB7C2;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+    }
+
+    .filled-circle {
+        height: 12px;
+        width: 12px;
+        background-color: #AEB7C2;
+        border-radius: 50%;
+        display: inline-block;
     }
 }
 

@@ -43,6 +43,7 @@ download-assets:  ## Download .css/.js assets
 	@curl -o jupyter_flex/static/bootstrap.min.css.map https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css.map
 	@curl -o jupyter_flex/static/bootstrap.min.js https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js
 	@curl -o jupyter_flex/static/jquery.min.js https://code.jquery.com/jquery-3.4.1.min.js
+	@curl -o jupyter_flex/static/popper.min.js https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js
 	@curl -o jupyter_flex/static/require.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
 	@curl -o jupyter_flex/static/embed-amd.js https://unpkg.com/@jupyter-widgets/html-manager@0.18.4/dist/embed-amd.js
 

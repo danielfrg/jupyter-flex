@@ -7,7 +7,8 @@
 
 {# Default parameters for the dashboard #}
 {% set default_title = nb.metadata.get("title", "") or resources["metadata"]["name"] %}
-{% set params = {"title": default_title, "orientation": "columns"} %}
+{% set kernel_display_name = nb.metadata.get('kernelspec', {}).get('display_name', '') %}
+{% set params = {"title": default_title, "kernel_name": kernel_display_name, "orientation": "columns"} %}
 
 {# Overwrite parameters if there is a cell tagged "parameters" #}
 {# We only look at params prefixed with flex_ #}
@@ -336,6 +337,8 @@
                         {% endif %}
                     </ul>
 
+                    <span id="kernel-indicator" class="navbar-text"></span>
+
                     {% if author | trim | length %}
                         <span class="navbar-text">{{ author }}</span>
                     {% endif %}
@@ -348,6 +351,11 @@
                         {% endif %}
                     </ul>
                 </div>
+
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="bottom" title="Kernel: {{ params.kernel_name }}">
+                    <div id="kernel-activity" class=""></div>
+                </span>
+
             </div>
         </nav>
 
@@ -366,7 +374,7 @@
             {% set _ = vars.update({"sidebar_classes": "col-md-9 ml-sm-auto col-lg-10 "}) %}
         {% endif %}
 
-        <main role="main" class="{{ vars.sidebar_classes }}page-tabs tab-content">
+            <main role="main" class="{{ vars.sidebar_classes }}page-tabs tab-content">
 
             {% for page in dashboard.pages %}
                 {% set page_slug = page.title | lower | replace(" ", "-") %}
@@ -430,8 +438,8 @@
             {% endfor %}{# pages #}
         </main><!-- tab-content page-tabs -->
 
-        </div>
-        </div>
+        </div><!-- row -->
+        </div><!-- content-wrapper -->
     </div><!-- #dashboard -->
 {%- endblock body_content -%}
 

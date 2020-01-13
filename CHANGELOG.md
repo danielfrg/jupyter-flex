@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+- Added kernel activity information to the navbar when using Voila
+- Bundle now includes Popper.js
+
+## [0.5.0]
+
 - Added the option to have a global sidebar
 - Remove the explict option of section sidebar, still possible useing size tags
 - Improved ipywidgets default styling

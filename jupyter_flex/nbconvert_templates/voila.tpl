@@ -22,6 +22,13 @@
                 </script>
             {%- endblock html_head_js_jquery -%}
 
+            {%- block html_head_js_popper -%}
+                <script src="{{ resources.base_url }}voila/static/popper.min.js"
+                    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                    crossorigin="anonymous">
+                </script>
+            {%- endblock html_head_js_popper -%}
+
             {%- block html_head_js_bootstrap -%}
                 <script src="{{ resources.base_url }}voila/static/bootstrap.min.js"
                     integrity="sha256-WqU1JavFxSAMcLP2WIOI+GB2zWmShMI82mTpLDcqFUg="
@@ -134,5 +141,9 @@
     </script>
 
     <script src="{{ resources.base_url }}voila/static/flex.js"></script>
+
+    <script>
+        requirejs(['static/voila'], (voila) => debug_init(voila));
+    </script>
 </body>
 {%- endblock body_footer -%}
