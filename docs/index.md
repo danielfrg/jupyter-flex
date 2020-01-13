@@ -53,7 +53,7 @@ The [Voila and IPywidgets](/voila-ipywidgets/) page describes how to leverage Vo
 
 <div class="image-grid-row">
   <figure class="image-card">
-    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.5.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fbqplot.ipynb">
+    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.5.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fplots%2Fbqplot.ipynb">
         <img src="/assets/img/screenshots/plots/bqplot.png" alt="Jupyter-flex: bqplot">
     </a>
     <figcaption>bqplot plots (runs in mybinder.org)</figcaption>
