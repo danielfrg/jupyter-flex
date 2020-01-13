@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 
-- Added kernel activity information to the navbar when using Voila
+- Added kernel activity and status information to the navbar when using Voila
 - Bundle now includes Popper.js
 
 ## [0.5.0]
