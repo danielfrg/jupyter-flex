@@ -35,6 +35,7 @@ bqplot
 bokeh
 jupyter_bokeh
 qgrid
+ipyleaflet
 pandas-datareader
 colorlover
 vega_datasets
