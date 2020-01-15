@@ -5,7 +5,7 @@
 @import "_color-classes";
 
 $dark-bg: #2B333E;
-$text-color: #676A6C;
+$text-color: #333;
 
 body {
     height: 100%;
@@ -36,13 +36,12 @@ body {
 }
 
 .filetree {
-    // box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     border-radius: 0.25rem;
     background: #FFF;
     padding: 10px;
 
     h6 {
-        color: $text-color;
+        color: #000;
         margin-bottom: 1rem;
         text-transform: uppercase;
         letter-spacing: .02em;
@@ -116,6 +115,7 @@ body {
 
     .container-fluid {
         padding: .35rem 1rem;
+        background-color: $dark-bg; // For mobile collapsible menu
     }
 
     .logo {
@@ -186,16 +186,18 @@ body {
             padding: 1.25rem;
 
             .card {
-                // box-shadow: none;
                 background-color: transparent;
                 color: #FFF;
             }
 
             .card-header {
                 background-color: $dark-bg !important;
-                color: #FFF;
                 padding-left: 0;
                 padding-right: 0;
+
+                h6 {
+                    color: #FFF;
+                }
             }
 
             .card-body {
@@ -204,7 +206,6 @@ body {
 
             .output_widget_view, .jupyter-widgets, .widget-label, .widget-readout, .widget-label-basic {
                 // NBConvert and voila end up with different structure so we use both
-
                 color: #FFF;
 
                 button {
@@ -277,8 +278,6 @@ body {
         }
 
         &.section-tabs {
-            // box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-
             .nav-bordered {
                 border: none;
                 border-bottom: 2px solid #d5d5d5;
@@ -292,7 +291,7 @@ body {
                         background-color: #FFF;
 
                         &.active {
-                            border-bottom: 2px solid #5d78ff;
+                            border-bottom: 2px solid $dark-bg;
                         }
                     }
                 }
@@ -306,7 +305,6 @@ body {
                 .card {
                     // Cards inside tabs
                     border: none;
-                    // box-shadow: none;
                 }
             }
         }
@@ -323,7 +321,6 @@ body {
     width: 100%;
     height: 100%;
     border: none;
-    // box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     color: $text-color;
 
     a {
@@ -363,6 +360,7 @@ body {
             font-weight: 600;
             letter-spacing: .02em;
             margin-bottom: 0px;
+            color: #000;
         }
 
         .help-button {
@@ -385,12 +383,10 @@ body {
 
         .cell-wrapper {
             width: 100%;
-            // height: 100%;
 
             &.cell-type-code {
                 // We create this div.class on the flex template
                 width: 100%;
-                // height: 100%;
                 flex-grow: 1;
             }
 
@@ -503,7 +499,6 @@ table.dataframe {
 .jp-OutputArea-output.jupyter-widgets, .output_subarea.output_widget_view  {
     // NBConvert and voila end up with different structure so we use both
     width: 100%;
-    // height: 100%;
     margin: 0;
 
     .leaflet-widgets {
