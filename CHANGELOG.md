@@ -3,7 +3,8 @@
 ## [Unreleased]
 
 - Added kernel activity and status information to the navbar when using Voila
-- Bundle now includes Popper.js
+- Added option to have help button on the card header that shows one markdown cell as a popover
+- Bundle now includes Popper.js for tooltips and popovers
 
 ## [0.5.0]
 

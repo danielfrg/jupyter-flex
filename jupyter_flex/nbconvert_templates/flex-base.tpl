@@ -50,7 +50,14 @@
     <div class="card {{ class }} {{ card_extra_classes }}" style="flex: {{ card.size }} {{ card.size }} 0px;">
         {# The cell Title #}
         {% if header and (card.header | trim | length) %}
-            <div class="card-header"><h6>{{ card.header }}</h6></div>
+            <div class="card-header d-flex justify-content-between align-items-baseline">
+                <h6>{{ card.header }}</h6>
+                {% if card.help | trim | length %}
+                    <span tabindex="0" class="help-button" data-toggle="popover" data-trigger="focus" data-content='{{ render_cell(card.help) }}'>
+                        <i class="material-icons">help_outline</i>
+                    </span>
+                {% endif %}
+            </div>
         {% endif %}
 
         {# The cell content #}
@@ -227,7 +234,8 @@
 
             {% set is_text = macros.find_item_startswith(cell_tags, "text") %}
             {% set is_footer = macros.find_item_startswith(cell_tags, "footer") %}
-            {% if (is_text) or (is_footer) %}
+            {% set is_help = macros.find_item_startswith(cell_tags, "help") %}
+            {% if is_text or is_footer or is_help %}
                 {# Create current_* objects if notebook starts with a tagged cell #}
                 {% if not vars.current_page %}
                     {% set _ = vars.update({"current_page": {"title": "", "direction": params.page_flex_direction, "sections": [] } }) %}
@@ -245,6 +253,10 @@
 
                 {% if is_footer %}
                     {% set _ = vars.current_card.update({"footer": cell}) %}
+                {% endif %}
+
+                {% if is_help %}
+                    {% set _ = vars.current_card.update({"help": cell}) %}
                 {% endif %}
             {% endif %}
 
@@ -295,6 +307,11 @@
         {{ render_cell(cell, display="none") }}
     {% endfor %}
 
+    <script>
+        // Set variables for flex.js
+        var kernel_display_name = "{{ kernel_display_name }}";
+    </script>
+
     <div id="dashboard" style="display: {{ flex_app_initial_display }}">
         {% set vars = {} %}
 
@@ -337,8 +354,6 @@
                         {% endif %}
                     </ul>
 
-                    <span id="kernel-indicator" class="navbar-text"></span>
-
                     {% if author | trim | length %}
                         <span class="navbar-text">{{ author }}</span>
                     {% endif %}
@@ -350,12 +365,12 @@
                             </li>
                         {% endif %}
                     </ul>
-                </div>
 
-                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-placement="bottom" title="Kernel: {{ params.kernel_name }}">
-                    <div id="kernel-activity" class=""></div>
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip">
+                    <div id="kernel-activity"></div>
                 </span>
 
+                </div>
             </div>
         </nav>
 

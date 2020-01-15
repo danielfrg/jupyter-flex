@@ -99,6 +99,14 @@ body {
     }
 }
 
+.popover-body {
+    p {
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
 .navbar {
     height: 51px;
     padding: 0;
@@ -355,6 +363,16 @@ body {
             font-weight: 600;
             letter-spacing: .02em;
             margin-bottom: 0px;
+        }
+
+        .help-button {
+            cursor: pointer;
+        }
+
+        i.material-icons {
+            font-size: 18px;
+            vertical-align: middle;
+            margin-right: 5px;
         }
     }
 

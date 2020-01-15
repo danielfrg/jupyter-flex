@@ -34,34 +34,37 @@ $('.navbar a[data-toggle="tab"]').historyTabs();
 
 // Activate tooltips
 $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip({html: true})
+    $('#kernel-activity').tooltip({placement: "bottom", title: kernelStatus, html: true})
+    $('[data-toggle="popover"]').popover({html: true})
 })
 
-// Kernel status
 
+var kernel_status = "";
+
+function kernelStatus() {
+    return "Kernel: " + kernel_display_name + "<br>Status: " + kernel_status;
+}
+
+// Kernel status
 window.debug_init = async (voila) => {
     const kernel = await voila.connectKernel();
     kernel.statusChanged.connect((sender, status) => {
       switch (status) {
         case "idle":
             $("#kernel-activity").removeClass("filled-circle").addClass("circle");
-            $("#kernel-indicator").fadeOut(2000);
             break;
         case "busy":
             $("#kernel-activity").removeClass("circle").addClass("filled-circle");
-            $("#kernel-indicator").fadeOut(2000);
             break;
         case "restarting":
-            $("#kernel-indicator").text("Restarting kernel");
-            $("#kernel-indicator").show();
+            kernel_status = "Restarting";
             break;
         case "connected":
-            $("#kernel-indicator").text("Kernel connected");
-            $("#kernel-indicator").show();
+            kernel_status = "Connected";
             break;
         case "reconnecting":
-            $("#kernel-indicator").text("Reconnecting kernel");
-            $("#kernel-indicator").show();
+            kernel_status = "Reconnecting";
             break;
         default:
             console.log("Unknown status: " + status);
