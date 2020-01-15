@@ -16,7 +16,7 @@ theme:
   custom_dir: 'docs/theme'
   favicon: 'assets/img/screenshots/favicon.ico'
   palette:
-    primary: 'black'
+    primary: 'blue grey'
     accent: 'blue'
   logo:
     icon: 'dashboard'
