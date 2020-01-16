@@ -119,7 +119,7 @@ netlify:  ## Build docs on Netlify
 	pip freeze
 	$(MAKE) assets
 	python -c "import bokeh.sampledata; bokeh.sampledata.download()"
-	@cd $(CURDIR)/docs/ && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True
+	pushd $(CURDIR)/docs && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True && popd
 	$(MAKE) docs
 
 .PHONY: help
