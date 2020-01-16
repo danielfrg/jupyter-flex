@@ -42,3 +42,7 @@ markdown_extensions:
   - codehilite
   - toc:
       permalink: true
+
+google_analytics:
+  - 'UA-35523657-6'
+  - 'auto'
