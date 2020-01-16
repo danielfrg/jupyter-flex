@@ -109,14 +109,15 @@ docs-examples:  ## Run nbconvert on the examples
 	@cd $(CURDIR)/examples/widgets && jupyter-nbconvert *.ipynb --to=flex --output-dir=../../docs/examples --execute --ExecutePreprocessor.store_widget_state=True
 
 .PHONY: docs
-docs:  docs-examples ## mkdocs build
+docs: docs-examples  ## mkdocs build
 	mkdocs build --config-file $(CURDIR)/mkdocs.yml
 
 .PHONY: netlify
-netlify: assets  ## Build docs on Netlify
+netlify:  ## Build docs on Netlify
 	pip uninstall -y jupyter-flex
 	python setup.py install
 	pip freeze
+	$(MAKE) assets
 	python -c "import bokeh.sampledata; bokeh.sampledata.download()"
 	@cd $(CURDIR)/docs/ && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True
 	$(MAKE) docs
