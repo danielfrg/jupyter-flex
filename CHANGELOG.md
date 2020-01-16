@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+- Added option to have "scroll" vertical layout, default is the same "fill"
 - Added kernel activity and status information to the navbar when using Voila
 - Added option to have help button on the card header that shows one markdown cell as a popover
 - Bundle now includes Popper.js for tooltips and popovers

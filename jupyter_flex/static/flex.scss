@@ -8,13 +8,56 @@ $dark-bg: #2B333E;
 $text-color: #333;
 
 body {
-    height: 100%;
     font-size: .9rem;
     font-weight: 400;
     line-height: 1.5;
     color: #333;
     text-align: left;
     background-color: #f0f2f6;
+}
+
+body.fill {
+    height: 100%;
+
+    #dashboard {
+        .content-wrapper {
+            height: calc(100% - 51px);
+
+            .row {
+                height: 100%;
+
+                .page-wrapper {
+                    height: 100%;
+
+                    .section {
+                        height: 100%;
+
+                        .card {
+                            height: 100%;
+
+                            .card-body {
+                                height: 100%;
+                                flex: 1 1 0;
+
+                                // Plotting libraries
+                                .js-plotly-plot {
+                                    height: 100%;
+                                }
+
+                                .bk-root {
+                                    height: 100%;
+                                }
+
+                                .bqplot {
+                                    height: 100% !important;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 .loading {
@@ -161,11 +204,9 @@ body {
 #dashboard {
     .content-wrapper {
         padding: 0;
-        height: calc(100% - 51px);
 
         .row {
             width: 100%;
-            height: 100%;
             margin: 0
         }
     }
@@ -183,7 +224,7 @@ body {
         .section {
             width: 100%;
             height: 100%;
-            padding: 1.25rem;
+            padding: 0 1.25rem 1.25rem;
 
             .card {
                 background-color: transparent;
@@ -202,6 +243,7 @@ body {
 
             .card-body {
                 padding: 0;
+                flex: 1 1 0;
             }
 
             .output_widget_view, .jupyter-widgets, .widget-label, .widget-readout, .widget-label-basic {
@@ -232,12 +274,12 @@ body {
 .page-wrapper {
     // This is the single page wrapper
     width: 100%;
-    height: 100%;
+    // height: 100%;
     padding: 1rem;
 
     .section {
         width: 100%;
-        height: 100%;
+        // height: 100%;
         border: none;
         border-radius: .25rem;
 
@@ -319,7 +361,7 @@ body {
 
 .card {
     width: 100%;
-    height: 100%;
+    // height: 100%;
     border: none;
     color: $text-color;
 
@@ -376,8 +418,9 @@ body {
 
     .card-body {
         width: 100%;
-        height: 100%;
-        flex: 1 1 0;
+        // height: 100%;
+        // flex: 1 1 0;
+        flex: 1 1 auto;
         overflow: auto;
         padding: .5rem 1.25rem;
 
@@ -385,12 +428,48 @@ body {
             width: 100%;
 
             &.cell-type-code {
-                // We create this div.class on the flex template
+                // We create this div class on the flex template
                 width: 100%;
                 flex-grow: 1;
             }
 
-            img {
+            table.dataframe {
+                border: none;
+                border-collapse: collapse;
+                border-spacing: 0;
+                color: #000;
+                font-size: 12px;
+                table-layout: fixed;
+                width: 100%;
+
+                thead {
+                    border-bottom: 1px solid #000;
+                    vertical-align: bottom;
+                }
+                tr, th, td {
+                    text-align: right;
+                    vertical-align: middle;
+                    padding: 0.5em 0.5em;
+                    line-height: normal;
+                    white-space: normal;
+                    max-width: none;
+                    border: none;
+                }
+                th {
+                    font-weight: bold;
+                }
+                tbody tr:nth-child(odd) {
+                    background: #f5f5f5;
+                }
+                tbody tr:hover {
+                    background: rgba(66, 165, 245, 0.2);
+                }
+                * + table {margin-top: 1em;}
+            }
+
+            // Plotting libraries
+
+            img:not(.widget-image) {
                 width: 100%;
                 height: 100%;
             }
@@ -400,8 +479,20 @@ body {
                 height: 100%;
             }
 
+            .js-plotly-plot {
+                width: 100%;
+            }
+
+            .bk-root {
+                width: 100%;
+            }
+
+            .bqplot {
+                width: 100% !important;
+            }
+
             .plot-container.plotly .modebar-container svg {
-                // Fix plotly toolbar (icons are svgs)
+                // Fix plotly toolbar icons
                 width: 1em;
                 height: 1em;
             }
@@ -439,59 +530,6 @@ body {
             margin-bottom: 0;
         }
     }
-}
-
-// Modify default ouput of cells
-
-table.dataframe {
-    border: none;
-    border-collapse: collapse;
-    border-spacing: 0;
-    color: #000;
-    font-size: 12px;
-    table-layout: fixed;
-    width: 100%;
-
-    thead {
-        border-bottom: 1px solid #000;
-        vertical-align: bottom;
-    }
-    tr, th, td {
-        text-align: right;
-        vertical-align: middle;
-        padding: 0.5em 0.5em;
-        line-height: normal;
-        white-space: normal;
-        max-width: none;
-        border: none;
-    }
-    th {
-        font-weight: bold;
-    }
-    tbody tr:nth-child(odd) {
-        background: #f5f5f5;
-    }
-    tbody tr:hover {
-        background: rgba(66, 165, 245, 0.2);
-    }
-    * + table {margin-top: 1em;}
-}
-
-// Plotting libraries
-
-.js-plotly-plot {
-    width: 100%;
-    height: 100%;
-}
-
-.bk-root {
-    width: 100%;
-    height: 100%;
-}
-
-.bqplot {
-    width: 100% !important;
-    height: 100% !important;
 }
 
 // ipywidgets

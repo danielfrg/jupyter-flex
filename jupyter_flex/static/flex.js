@@ -33,6 +33,7 @@
 $('.navbar a[data-toggle="tab"]').historyTabs();
 
 // Activate tooltips
+
 $(function () {
     $('[data-toggle="tooltip"]').tooltip({html: true})
     $('#kernel-activity').tooltip({placement: "bottom", title: kernelStatus, html: true})
@@ -40,13 +41,14 @@ $(function () {
 })
 
 
-var kernel_status = "";
+var flex_kernel_status = "";
 
 function kernelStatus() {
-    return "Kernel: " + kernel_display_name + "<br>Status: " + kernel_status;
+    return "Kernel: " + flex_kernel_display_name + "<br>Status: " + flex_kernel_status;
 }
 
 // Kernel status
+
 window.debug_init = async (voila) => {
     const kernel = await voila.connectKernel();
     kernel.statusChanged.connect((sender, status) => {
@@ -58,13 +60,13 @@ window.debug_init = async (voila) => {
             $("#kernel-activity").removeClass("circle").addClass("filled-circle");
             break;
         case "restarting":
-            kernel_status = "Restarting";
+            flex_kernel_status = "Restarting";
             break;
         case "connected":
-            kernel_status = "Connected";
+            flex_kernel_status = "Connected";
             break;
         case "reconnecting":
-            kernel_status = "Reconnecting";
+            flex_kernel_status = "Reconnecting";
             break;
         default:
             console.log("Unknown status: " + status);
@@ -72,42 +74,43 @@ window.debug_init = async (voila) => {
     });
 };
 
-// Look plot libraries elements and trigger resize events
+// Plotting libraries
 
 var plot_resize = function() {
-    var counter = 0;
+    if (flex_vertical_layout == "fill") {
+        var counter = 0;
 
-    var looper = setInterval(function() {
-        var nodelist = document.querySelectorAll(".js-plotly-plot")
-        var plots = Array.from(nodelist)
-        plots.map(function (obj){ obj.style.width = "100%"; })
-        plots.map(function (obj){ obj.style.height = "100%"; })
-        if (nodelist.length > 0) {
-            window.dispatchEvent(new Event("resize"))
-        }
+        var looper = setInterval(function() {
+            var nodelist = document.querySelectorAll(".js-plotly-plot")
+            var plots = Array.from(nodelist)
+            plots.map(function (obj){ obj.style.width = "100%"; })
+            plots.map(function (obj){ obj.style.height = "100%"; })
+            if (nodelist.length > 0) {
+                window.dispatchEvent(new Event("resize"))
+            }
 
-        var nodelist = document.querySelectorAll(".bqplot")
-        var plots = Array.from(nodelist)
-        plots.map(function (obj){ obj.style.width = "100%"; })
-        plots.map(function (obj){ obj.style.height = "100%"; })
-        if (nodelist.length > 0) {
-            window.dispatchEvent(new Event("resize"));
-        }
+            var nodelist = document.querySelectorAll(".bqplot")
+            var plots = Array.from(nodelist)
+            plots.map(function (obj){ obj.style.width = "100%"; })
+            plots.map(function (obj){ obj.style.height = "100%"; })
+            if (nodelist.length > 0) {
+                window.dispatchEvent(new Event("resize"));
+            }
 
-        var nodelist = document.querySelectorAll(".vega-embed")
-        var plots = Array.from(nodelist)
-        if (nodelist.length > 0) {
-            window.dispatchEvent(new Event("resize"));
-        }
+            var nodelist = document.querySelectorAll(".vega-embed")
+            var plots = Array.from(nodelist)
+            if (nodelist.length > 0) {
+                window.dispatchEvent(new Event("resize"));
+            }
 
-        if (counter >= 25) {
-            clearInterval(looper);
-        }
-        counter++;
-    }, 200);
+            if (counter >= 25) {
+                clearInterval(looper);
+            }
+            counter++;
+        }, 200);
+    }
 }
-plot_resize();
-
+plot_resize();  // Call it once for initial page load
 
 flex_nav_click = function() {
     plot_resize();

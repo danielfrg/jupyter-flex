@@ -53,6 +53,12 @@ The [Voila and IPywidgets](/voila-ipywidgets/) page describes how to leverage Vo
 
 <div class="image-grid-row">
   <figure class="image-card">
+    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/master?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwidgets%2Fipywidgets-gallery.ipynb">
+        <img src="/assets/img/screenshots/widgets/ipywidgets-gallery.png">
+    </a>
+    <figcaption>ipywidgets-gallery (runs in binder.org)</figcaption>
+  </figure>
+  <figure class="image-card">
     <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.5.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fplots%2Fbqplot.ipynb">
         <img src="/assets/img/screenshots/plots/bqplot.png" alt="Jupyter-flex: bqplot">
     </a>
@@ -64,15 +70,15 @@ The [Voila and IPywidgets](/voila-ipywidgets/) page describes how to leverage Vo
     </a>
     <figcaption>Movie Explorer (runs in mybinder.org)</figcaption>
   </figure>
+</div>
+
+<div class="image-grid-row">
   <figure class="image-card">
     <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.5.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
         <img src="/assets/img/screenshots/wealth-of-nations.png" alt="Jupyter-flex: Wealth of Nations">
     </a>
     <figcaption>Wealth of Nations (runs in mybinder.org)</figcaption>
   </figure>
-</div>
-
-<div class="image-grid-row">
   <figure class="image-card">
     <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.5.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
         <img src="/assets/img/screenshots/iris-clustering.png" alt="Jupyter-flex: Iris Clustering">
@@ -84,8 +90,6 @@ The [Voila and IPywidgets](/voila-ipywidgets/) page describes how to leverage Vo
         <img src="/assets/img/screenshots/nba-scoring.png" alt="Jupyter-flex: NBA Scoring">
     </a>
     <figcaption>NBA Scoring</figcaption>
-  </figure>
-  <figure class="image-card">
   </figure>
 </div>
 
