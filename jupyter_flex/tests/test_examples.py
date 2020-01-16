@@ -108,6 +108,7 @@ def test_plots(voila_server, needle, selenium2, base_url, nb_name):
 
 
 @pytest.mark.parametrize("nb_name", [
+    "ipyleaflet",
     "ipywidgets-gallery",
     "ipywidgets-sidebar",
     "mpl-histogram",

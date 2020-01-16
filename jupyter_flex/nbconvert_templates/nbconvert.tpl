@@ -48,7 +48,7 @@
 {%- endblock header -%}
 
 {%- block body_header -%}
-<body class="{{ params.get("layout") }}">
+<body class="{{ params.get("vertical_layout") }}">
 {%- endblock body_header -%}
 
 {% block navbar_logo %}

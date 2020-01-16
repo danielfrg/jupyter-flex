@@ -77,7 +77,7 @@ window.debug_init = async (voila) => {
 // Plotting libraries
 
 var plot_resize = function() {
-    if (flex_layout == "fill") {
+    if (flex_vertical_layout == "fill") {
         var counter = 0;
 
         var looper = setInterval(function() {

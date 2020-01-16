@@ -8,7 +8,7 @@
 {# Default parameters for the dashboard #}
 {% set default_title = nb.metadata.get("title", "") or resources["metadata"]["name"] %}
 {% set kernel_display_name = nb.metadata.get('kernelspec', {}).get('display_name', '') %}
-{% set params = {"title": default_title, "kernel_name": kernel_display_name, "orientation": "", "layout": "fill"} %}
+{% set params = {"title": default_title, "kernel_name": kernel_display_name, "orientation": "", "flex_vertical_layout": "fill"} %}
 
 {# Overwrite parameters if there is a cell tagged "parameters" #}
 {# We only look at params prefixed with flex_ #}
@@ -30,18 +30,18 @@
     {% endif %}
 {% endfor %}
 
-{# If orientation not defined set the default based on the layout #}
+{# If orientation not defined set the default based on the flex_vertical_layout #}
 {% if not params.get("orientation") %}
-    {% if params.get("layout") == "scroll" %}
+    {% if params.get("flex_vertical_layout") == "scroll" %}
         {% set _ = params.update({"orientation": "rows"}) %}
     {% else %}
-        {# Default is layout == fill #}
+        {# Default is flex_vertical_layout == fill #}
         {% set _ = params.update({"orientation": "columns"}) %}
     {% endif %}
 {% endif %}
 
-{# Set default flex-direction based on orientation and layout #}
-{% if params.get("layout") == "scroll" %}
+{# Set default flex-direction based on orientation and flex_vertical_layout #}
+{% if params.get("flex_vertical_layout") == "scroll" %}
     {% if params["orientation"] == "columns" %}
         {% set _ = params.update({"page_flex_direction": "row"}) %}
         {% set _ = params.update({"section_flex_direction": "column"}) %}
@@ -51,7 +51,7 @@
         {% set _ = params.update({"section_flex_direction": "row"}) %}
     {% endif %}
 {% else %}
-    {# Default is layout == fill #}
+    {# Default is flex_vertical_layout == fill #}
 
     {% if params["orientation"] == "rows" %}
         {% set _ = params.update({"page_flex_direction": "column"}) %}
@@ -333,7 +333,7 @@
     <script>
         // Set variables for flex.js
         var kernel_display_name = "{{ kernel_display_name }}";
-        var flex_layout = "{{ params.get("layout") }}";
+        var flex_vertical_layout = "{{ params.get("vertical_layout") }}";
     </script>
 
     <div id="dashboard" style="display: {{ flex_app_initial_display }}">
