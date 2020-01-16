@@ -113,11 +113,10 @@ docs: docs-examples  ## mkdocs build
 	mkdocs build --config-file $(CURDIR)/mkdocs.yml
 
 .PHONY: netlify
-netlify:  ## Build docs on Netlify
+netlify: assets  ## Build docs on Netlify
 	pip uninstall -y jupyter-flex
 	python setup.py install
 	pip freeze
-	$(MAKE) assets
 	python -c "import bokeh.sampledata; bokeh.sampledata.download()"
 	pushd $(CURDIR)/docs && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True && popd
 	$(MAKE) docs
