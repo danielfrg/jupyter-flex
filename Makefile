@@ -70,8 +70,8 @@ upload-test:  ## Upload package to pypi test repository
 # Testing
 ###############################################################################
 
-.PHONY: test-assets
-test-assets:  ## Download test assets (browser drivers)
+.PHONY: download-test-assets
+download-test-assets:  ## Download test assets (browser drivers)
 	@mkdir -p bin
 	@curl -f -L -o bin/geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-macos.tar.gz
 	@cd bin && tar -zxvf geckodriver.tar.gz
