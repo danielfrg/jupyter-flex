@@ -47,6 +47,10 @@
     </head>
 {%- endblock header -%}
 
+{%- block body_header -%}
+<body class="{{ params.get("layout") }}">
+{%- endblock body_header -%}
+
 {% block navbar_logo %}
 {% set logo = params.get("logo", "") %}
 {% if logo | trim | length %}

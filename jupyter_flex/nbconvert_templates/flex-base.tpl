@@ -8,7 +8,7 @@
 {# Default parameters for the dashboard #}
 {% set default_title = nb.metadata.get("title", "") or resources["metadata"]["name"] %}
 {% set kernel_display_name = nb.metadata.get('kernelspec', {}).get('display_name', '') %}
-{% set params = {"title": default_title, "kernel_name": kernel_display_name, "orientation": "columns"} %}
+{% set params = {"title": default_title, "kernel_name": kernel_display_name, "orientation": "", "layout": "fill"} %}
 
 {# Overwrite parameters if there is a cell tagged "parameters" #}
 {# We only look at params prefixed with flex_ #}
@@ -30,14 +30,37 @@
     {% endif %}
 {% endfor %}
 
-{# Set default flex-direction based on orientation param #}
-{% if params["orientation"] == "rows" %}
-    {% set _ = params.update({"page_flex_direction": "column"}) %}
-    {% set _ = params.update({"section_flex_direction": "row"}) %}
+{# If orientation not defined set the default based on the layout #}
+{% if not params.get("orientation") %}
+    {% if params.get("layout") == "scroll" %}
+        {% set _ = params.update({"orientation": "rows"}) %}
+    {% else %}
+        {# Default is layout == fill #}
+        {% set _ = params.update({"orientation": "columns"}) %}
+    {% endif %}
+{% endif %}
+
+{# Set default flex-direction based on orientation and layout #}
+{% if params.get("layout") == "scroll" %}
+    {% if params["orientation"] == "columns" %}
+        {% set _ = params.update({"page_flex_direction": "row"}) %}
+        {% set _ = params.update({"section_flex_direction": "column"}) %}
+    {% else %}
+        {# Default for is orientation == rows #}
+        {% set _ = params.update({"page_flex_direction": "column"}) %}
+        {% set _ = params.update({"section_flex_direction": "row"}) %}
+    {% endif %}
 {% else %}
-    {# Catch all is the default of orientation=column #}
-    {% set _ = params.update({"page_flex_direction": "row"}) %}
-    {% set _ = params.update({"section_flex_direction": "column"}) %}
+    {# Default is layout == fill #}
+
+    {% if params["orientation"] == "rows" %}
+        {% set _ = params.update({"page_flex_direction": "column"}) %}
+        {% set _ = params.update({"section_flex_direction": "row"}) %}
+    {% else %}
+        {# Default is orientation == column #}
+        {% set _ = params.update({"page_flex_direction": "row"}) %}
+        {% set _ = params.update({"section_flex_direction": "column"}) %}
+    {% endif %}
 {% endif %}
 
 {# ------------------------------------------------------------------------- #}
@@ -310,6 +333,7 @@
     <script>
         // Set variables for flex.js
         var kernel_display_name = "{{ kernel_display_name }}";
+        var flex_layout = "{{ params.get("layout") }}";
     </script>
 
     <div id="dashboard" style="display: {{ flex_app_initial_display }}">

@@ -68,6 +68,7 @@
 
 
 {%- block body_header -%}
+<body class="{{ params.get("layout") }}">
     <div id="voila_body_loop">
         <div id="loading">
             <div class="container-fluid d-flex flex-row loading">

@@ -8,13 +8,57 @@ $dark-bg: #2B333E;
 $text-color: #333;
 
 body {
-    height: 100%;
     font-size: .9rem;
     font-weight: 400;
     line-height: 1.5;
     color: #333;
     text-align: left;
     background-color: #f0f2f6;
+}
+
+body.fill {
+    height: 100%;
+
+    #dashboard {
+        .content-wrapper {
+            height: calc(100% - 51px);
+
+            .row {
+                height: 100%;
+
+                .page-wrapper {
+                    height: 100%;
+
+                    .section {
+                        height: 100%;
+
+                        .card {
+                            height: 100%;
+
+                            .card-body {
+                                height: 100%;
+                                flex: 1 1 0;
+
+                                // Plotting libraries
+
+                                .js-plotly-plot {
+                                    height: 100%;
+                                }
+
+                                .bk-root {
+                                    height: 100%;
+                                }
+
+                                .bqplot {
+                                    height: 100% !important;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 .loading {
@@ -161,11 +205,11 @@ body {
 #dashboard {
     .content-wrapper {
         padding: 0;
-        height: calc(100% - 51px);
+        // height: calc(100% - 51px);
 
         .row {
             width: 100%;
-            height: 100%;
+            // height: 100%;
             margin: 0
         }
     }
@@ -232,12 +276,12 @@ body {
 .page-wrapper {
     // This is the single page wrapper
     width: 100%;
-    height: 100%;
+    // height: 100%;
     padding: 1rem;
 
     .section {
         width: 100%;
-        height: 100%;
+        // height: 100%;
         border: none;
         border-radius: .25rem;
 
@@ -319,7 +363,7 @@ body {
 
 .card {
     width: 100%;
-    height: 100%;
+    // height: 100%;
     border: none;
     color: $text-color;
 
@@ -376,8 +420,9 @@ body {
 
     .card-body {
         width: 100%;
-        height: 100%;
-        flex: 1 1 0;
+        // height: 100%;
+        // flex: 1 1 0;
+        flex: 1 1 auto;
         overflow: auto;
         padding: .5rem 1.25rem;
 
@@ -390,7 +435,7 @@ body {
                 flex-grow: 1;
             }
 
-            img {
+            img:not(.widget-image) {
                 width: 100%;
                 height: 100%;
             }
@@ -481,17 +526,17 @@ table.dataframe {
 
 .js-plotly-plot {
     width: 100%;
-    height: 100%;
+//     height: 100%;
 }
 
 .bk-root {
     width: 100%;
-    height: 100%;
+//     height: 100%;
 }
 
 .bqplot {
     width: 100% !important;
-    height: 100% !important;
+//     height: 100% !important;
 }
 
 // ipywidgets

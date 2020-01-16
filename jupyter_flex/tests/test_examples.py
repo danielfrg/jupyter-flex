@@ -86,14 +86,15 @@ def test_layouts(voila_server, needle, selenium2, base_url, nb_name):
 
 
 @pytest.mark.parametrize("nb_name", [
-    "altair",
     "altair-simple",
-    "bokeh",
+    "altair",
+    "altair-scroll",
     "bokeh-simple",
-    "bqplot",
+    "bokeh",
     "bqplot-simple",
-    "plotly",
+    "bqplot",
     "plotly-simple",
+    "plotly",
 ])
 def test_plots(voila_server, needle, selenium2, base_url, nb_name):
     target_url = '{0}/voila/render/plots/{1}.ipynb'.format(base_url, nb_name)
@@ -107,7 +108,8 @@ def test_plots(voila_server, needle, selenium2, base_url, nb_name):
 
 
 @pytest.mark.parametrize("nb_name", [
-    "ipywidgets",
+    "ipywidgets-gallery",
+    "ipywidgets-sidebar",
     "mpl-histogram",
     "qgrid",
 ])
