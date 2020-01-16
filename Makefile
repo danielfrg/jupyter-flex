@@ -25,6 +25,8 @@ clean:  ## Remove build files
 	@rm -f jupyter_flex/nbconvert_templates/*.js
 	@rm -f jupyter_flex/nbconvert_templates/*.css
 	@rm -rf test-results
+	@rm -rf .xprocess
+	@rm -rf bin
 
 .PHONY: cleanall
 cleanall: clean  ## Clean everything. Includes downloaded assets and NB checkpoints
