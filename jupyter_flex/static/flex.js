@@ -41,10 +41,10 @@ $(function () {
 })
 
 
-var kernel_status = "";
+var flex_kernel_status = "";
 
 function kernelStatus() {
-    return "Kernel: " + kernel_display_name + "<br>Status: " + kernel_status;
+    return "Kernel: " + flex_kernel_display_name + "<br>Status: " + flex_kernel_status;
 }
 
 // Kernel status
@@ -60,13 +60,13 @@ window.debug_init = async (voila) => {
             $("#kernel-activity").removeClass("circle").addClass("filled-circle");
             break;
         case "restarting":
-            kernel_status = "Restarting";
+            flex_kernel_status = "Restarting";
             break;
         case "connected":
-            kernel_status = "Connected";
+            flex_kernel_status = "Connected";
             break;
         case "reconnecting":
-            kernel_status = "Reconnecting";
+            flex_kernel_status = "Reconnecting";
             break;
         default:
             console.log("Unknown status: " + status);
