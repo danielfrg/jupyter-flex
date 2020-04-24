@@ -48,9 +48,11 @@ jobs:
 
     - name: Install dependencies
       run: |
+        echo $PATH
+        which pip
+        which python
         python -m pip install --upgrade pip
         pip install -U -r requirements.txt
-        # Download Bokeh sample data
         pip freeze
 
     - name: Install package
@@ -58,10 +60,8 @@ jobs:
         make build
         pip install dist/*.tar.gz
         pip freeze
-        echo $PATH
-        which pip
-        which python
-        python -c "import bokeh.sampledata; bokeh.sampledata.download()"
+        # Download Bokeh sample data
+        bokeh sampledata
 
     - name: Serve Voila
       run: |
@@ -77,7 +77,7 @@ jobs:
 
     - name: Upload restuls
       uses: actions/upload-artifact@v1
-      if: failure()
+      if: always()
       with:
         name: test-results
         path: test-results
