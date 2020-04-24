@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ubuntu:bionic
+      image: python:3.8
       options: --network-alias testHost
 
     services:
