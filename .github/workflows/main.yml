@@ -51,8 +51,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install -U -r requirements.txt
         # Download Bokeh sample data
-        python -c "import bokeh.sampledata; bokeh.sampledata.download()"
         pip freeze
+        python38 -c "import bokeh.sampledata; bokeh.sampledata.download()"
 
     - name: Install package
       run: |
