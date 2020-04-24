@@ -22,10 +22,13 @@ jobs:
         env:
           HUB_HOST: selenium-hub
           HUB_PORT: 4444
+          SCREEN_WIDTH: 1440
+          SCREEN_HEIGHT: 900
 
     env:
-      SELENIUM_HUB_HOST: selenium-hub
-      TEST_HOST: testHost
+      SELENIUM_HUB_HOST: localhost
+      SELENIUM_HUB_PORT: 4444
+      PYTEST_BASE_URL: http://localhost:8866
 
     steps:
     - uses: actions/checkout@v2
@@ -35,14 +38,33 @@ jobs:
       with:
         python-version: 3.8
 
-    - name: Verify Connection
-      env:
-        PORT: ${{ job.services.selenium-hub.ports[4444] }}
+    - name: Install dependencies
       run: |
-        ping -c 4 localhost
-        ping -c 4 selenium-hub
+        python -m pip install --upgrade pip
+        pip install -U -r .github/workflows/requirements.txt
+        pip freeze
 
-    - name: Hub logs
+    - name: Install package
+      run: |
+        pip install -e .
+        pip freeze
+
+    - name: Serve Voila
+      run: |
+        make serve-examples &
+
+    - name: Make test
+      run: |
+        make test
+
+    - name: Upload restuls
+      uses: actions/upload-artifact@v1
+      if: failure()
+      with:
+        name: test-results
+        path: test-results
+
+    - name: Selenium Hub logs
       if: failure()
       run: |
         docker logs "${{ job.services.selenium-hub.id }}"
