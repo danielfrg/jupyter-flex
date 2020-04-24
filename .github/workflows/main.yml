@@ -12,6 +12,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    container:
+      options: --network-alias testHost
+
+    env:
+      SELENIUM_HUB_HOST: hub
+      TEST_HOST: testHost
+
     services:
       hub:
         image: selenium/hub:3.141.59-gold
@@ -48,7 +55,7 @@ jobs:
 
     - name: Make test
       run: |
-        SELENIUM_HOST=hub PYTEST_BASE_URL=127.0.0.1 make test
+        SELENIUM_HUB_HOST=hub PYTEST_BASE_URL=http://testHost:8866 make test
 
     - name: Upload restuls
       uses: actions/upload-artifact@v1

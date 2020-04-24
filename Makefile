@@ -11,8 +11,8 @@ TEST_FILTER ?= ""
 #     NEEDLE_ENGINE = imagemagick
 # endif
 
-SELENIUM_HOST ?= 127.0.0.1
-SELENIUM_PORT ?= 4444
+SELENIUM_HUB_HOST ?= 127.0.0.1
+SELENIUM_HUB_PORT ?= 4444
 PYTEST_BASE_URL ?= http://host.docker.internal:8866
 
 all: help
@@ -98,7 +98,7 @@ serve-examples:  ## Serve examples using voila
 tests: test
 test:  ## Run tests
 	mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
-	pytest -vvv jupyter_flex/tests --driver Remote --headless --host $(SELENIUM_HOST) --port $(SELENIUM_PORT) --capability browserName chrome \
+	pytest -vvv jupyter_flex/tests --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
 		-k $(TEST_FILTER) --html=test-results/report.html --self-contained-html  #  --needle-engine $(NEEDLE_ENGINE)
 
@@ -106,7 +106,7 @@ test:  ## Run tests
 .PHONY: test-baseline tests-baseline
 test-baseline: test-baseline
 test-baseline:  ## Create tests baselines
-	pytest -vvv jupyter_flex/tests --driver Remote --headless --host $(SELENIUM_HOST) --port $(SELENIUM_PORT) --capability browserName chrome \
+	pytest -vvv jupyter_flex/tests --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-save-baseline --needle-baseline-dir docs/assets/img/screenshots \
 		-k $(TEST_FILTER)
 
