@@ -45,12 +45,13 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -U -r .github/workflows/requirements.txt
+        pip install -U -r requirements.txt
         pip freeze
 
     - name: Install package
       run: |
-        pip install -e .
+        make build
+        pip install dist/*.tar.gz
         pip freeze
 
     - name: Serve Voila
@@ -60,7 +61,6 @@ jobs:
     - name: Verify Voila
       run: |
         curl http://localhost:8866/
-        curl http://localhost:8866/voila/render/iris-clustering.ipynb
 
     - name: Make test
       run: |
