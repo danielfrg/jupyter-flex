@@ -20,6 +20,8 @@ jobs:
         ports:
           - 4444:4444
         options: --health-cmd=/opt/bin/check-grid.sh --health-interval=15s --health-timeout=30s --health-retries=5
+        volumes:
+          - /tmp:/dev/shm
 
       chrome:
         image: selenium/node-chrome:3.141.59
@@ -28,6 +30,8 @@ jobs:
           HUB_PORT: 4444
           SCREEN_WIDTH: 1440
           SCREEN_HEIGHT: 900
+        volumes:
+          - /tmp:/dev/shm
 
     env:
       SELENIUM_HUB_HOST: selenium-hub
