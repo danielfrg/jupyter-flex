@@ -11,30 +11,26 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      seleniumhub:
+      selenium-hub:
         image: selenium/hub:3.141.59
         ports:
           - 4444:4444
         env:
-          SELENIUM_HUB_HOST: seleniumhub
+          SELENIUM_HUB_HOST: selenium-hub
         options: --health-cmd=/opt/bin/check-grid.sh --health-interval=15s --health-timeout=30s --health-retries=5
 
       chrome:
         image: selenium/node-chrome:3.141.59
         env:
-          HUB_HOST: seleniumhub
+          HUB_HOST: selenium-hub
           HUB_PORT: 4444
 
     steps:
     - uses: actions/checkout@v2
 
     - name: Verify Connection
+      env:
+        PORT: ${{ job.services.selenium-hub.ports[4444] }}
       run: |
-        ping -c 4 seleniumhub
         ping -c 4 localhost
-
-    - name: Upload restuls
-      if: failure()
-      run: |
-        echo "${{ toJson(job) }}"
-        docker logs "${{ job.services.seleniumhub.id }}"
+        ping -c 4 selenium-hub
