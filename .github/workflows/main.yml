@@ -1,4 +1,4 @@
-name: CI
+name: Testing
 
 on:
   push:
@@ -9,6 +9,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    container:
+      image: ubuntu:bionic
+      options: --network-alias testHost
 
     services:
       selenium-hub:
@@ -26,9 +30,11 @@ jobs:
           SCREEN_HEIGHT: 900
 
     env:
-      SELENIUM_HUB_HOST: localhost
+      SELENIUM_HUB_HOST: selenium-hub
+      # SELENIUM_HUB_HOST: localhost
       SELENIUM_HUB_PORT: 4444
-      PYTEST_BASE_URL: http://localhost:8866
+      PYTEST_BASE_URL: http://testHost:8866
+      # PYTEST_BASE_URL: http://localhost:8866
 
     steps:
     - uses: actions/checkout@v2
