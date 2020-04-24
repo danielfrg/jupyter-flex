@@ -55,6 +55,7 @@ jobs:
 
     - name: Make test
       run: |
+        curl http://localhost:8866/voila/render/iris-clustering.ipynb
         make test
 
     - name: Upload restuls
