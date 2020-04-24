@@ -12,11 +12,14 @@ jobs:
 
     env:
       SELENIUM_HUB_HOST: selenium-hub
-      TEST_HOST: testHost
+      PYTEST_BASE_URL: http://127.0.0.1:8866
 
     services:
       selenium-hub:
         image: selenium/hub:3.141.59-gold
+        ports:
+          - 4444:4444
+
       chrome:
         image: selenium/node-chrome:3.141.59-gold
         env:
@@ -57,7 +60,7 @@ jobs:
 
     - name: Make test
       run: |
-        PYTEST_BASE_URL=http://127.0.0.1:8866 make test
+        make test
 
     - name: Upload restuls
       uses: actions/upload-artifact@v1
