@@ -53,9 +53,13 @@ jobs:
       run: |
         make serve-examples &
 
+    - name: Verify Voila
+      run: |
+        curl http://localhost:8866/
+        curl http://localhost:8866/voila/render/iris-clustering.ipynb
+
     - name: Make test
       run: |
-        curl http://localhost:8866/voila/render/iris-clustering.ipynb
         make test
 
     - name: Upload restuls
