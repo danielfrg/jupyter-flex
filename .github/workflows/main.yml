@@ -52,13 +52,16 @@ jobs:
         pip install -U -r requirements.txt
         # Download Bokeh sample data
         pip freeze
-        python38 -c "import bokeh.sampledata; bokeh.sampledata.download()"
 
     - name: Install package
       run: |
         make build
         pip install dist/*.tar.gz
         pip freeze
+        echo $PATH
+        which pip
+        which python
+        python -c "import bokeh.sampledata; bokeh.sampledata.download()"
 
     - name: Serve Voila
       run: |
