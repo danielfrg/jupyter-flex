@@ -1,6 +1,4 @@
 import pytest
-from xprocess import ProcessStarter
-
 
 def pytest_addoption(parser):
     group = parser.getgroup("selenium", "selenium")
@@ -25,6 +23,7 @@ def firefox_options(firefox_options, request):
 
 
 # This is not very reliable tbh, its better to run it manually in another terminal
+# from xprocess import ProcessStarter
 # @pytest.fixture(scope="module")
 # def voila_server(xprocess):
 #     import os
