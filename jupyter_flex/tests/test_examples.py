@@ -16,7 +16,7 @@ def test_example_site(needle, myselenium):
     needle.driver.get(target_url)
 
     # Take an element screen diff
-    needle.assert_screenshot('example_site')
+    needle.assert_screenshot('example_site', threshold=5000)
 
 
 @pytest.mark.parametrize("nb_name", ["iris-clustering", "movie-explorer", "nba-scoring", "wealth-of-nations"])
@@ -28,7 +28,7 @@ def test_example_nb(needle, myselenium, base_url, nb_name):
     time.sleep(5)
 
     # Take an element screen diff
-    needle.assert_screenshot(f'{nb_name}')
+    needle.assert_screenshot(f'{nb_name}', threshold=5000)
 
 
 @pytest.mark.parametrize("nb_name", [
@@ -43,7 +43,7 @@ def test_customize(needle, myselenium, base_url, nb_name):
     time.sleep(5)
 
     # Take an element screen diff
-    needle.assert_screenshot(f'customize/{nb_name}')
+    needle.assert_screenshot(f'customize/{nb_name}', threshold=5000)
 
 
 @pytest.mark.parametrize("nb_name", [
@@ -60,7 +60,7 @@ def test_getting_started(needle, myselenium, base_url, nb_name):
     time.sleep(5)
 
     # Take an element screen diff
-    needle.assert_screenshot(f'getting-started/{nb_name}')
+    needle.assert_screenshot(f'getting-started/{nb_name}', threshold=5000)
 
 
 @pytest.mark.parametrize("nb_name", [
@@ -86,7 +86,7 @@ def test_layouts(needle, myselenium, base_url, nb_name):
     time.sleep(5)
 
     # Take an element screen diff
-    needle.assert_screenshot(f'layouts/{nb_name}')
+    needle.assert_screenshot(f'layouts/{nb_name}', threshold=5000)
 
 
 @pytest.mark.parametrize("nb_name", [
@@ -108,7 +108,7 @@ def test_plots(needle, myselenium, base_url, nb_name):
     time.sleep(5)
 
     # Take an element screen diff
-    needle.assert_screenshot(f'plots/{nb_name}')
+    needle.assert_screenshot(f'plots/{nb_name}', threshold=5000)
 
 
 @pytest.mark.parametrize("nb_name", [
@@ -126,4 +126,4 @@ def test_widgets(needle, myselenium, base_url, nb_name):
     time.sleep(10)
 
     # Take an element screen diff
-    needle.assert_screenshot(f'widgets/{nb_name}')
+    needle.assert_screenshot(f'widgets/{nb_name}', threshold=5000)
