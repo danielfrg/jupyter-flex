@@ -1,0 +1,25 @@
+version: "3.6"
+
+services:
+  selenium-hub:
+    image: selenium/hub:3.141.59
+    ports:
+     - 4444:4444
+    volumes:
+      - type: tmpfs
+        target: /dev/shm
+        tmpfs:
+           size: 4096000000 # (this means 4GB)
+
+  chrome:
+    image: selenium/node-chrome:3.141.59
+    environment:
+      HUB_HOST: selenium-hub
+      HUB_PORT: 4444
+      SCREEN_WIDTH: 1440
+      SCREEN_HEIGHT: 900
+    volumes:
+      - type: tmpfs
+        target: /dev/shm
+        tmpfs:
+           size: 4096000000 # (this means 4GB)

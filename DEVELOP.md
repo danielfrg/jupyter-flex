@@ -15,6 +15,12 @@ Personally I use vscode and the `liveSassCompile` extension to iterate quickly.
 
 There is also a `make sassc` that uses `libsass` but you have to run it for each change.
 
+## Testing
+
+1. `make selenium`: Start Selenium in docker-compose
+2. `make serve-examples`: Start voila server locally
+3. `make test`: Run pytest locally agains Selenium
+
 ## Docs
 
 ```
