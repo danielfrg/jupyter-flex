@@ -2,12 +2,12 @@ version: "3.5"
 
 services:
   selenium-hub:
-    image: selenium/hub:3.141.59-gold
+    image: selenium/hub:3.141.59
     ports:
      - 4444:4444
 
   chrome:
-    image: selenium/node-chrome:3.141.59-gold
+    image: selenium/node-chrome:3.141.59
     environment:
       HUB_HOST: selenium-hub
       HUB_PORT: 4444

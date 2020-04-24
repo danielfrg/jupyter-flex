@@ -29,6 +29,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+
     - name: Verify Connection
       env:
         PORT: ${{ job.services.selenium-hub.ports[4444] }}
