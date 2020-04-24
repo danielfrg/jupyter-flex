@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      selenium-hub:
+      seleniumhub:
         image: selenium/hub:3.141.59
         ports:
           - 4444:4444
@@ -20,19 +20,23 @@ jobs:
       chrome:
         image: selenium/node-chrome:3.141.59
         env:
-          HUB_HOST: selenium-hub
+          HUB_HOST: seleniumhub
           HUB_PORT: 4444
 
     env:
-      SELENIUM_HUB_HOST: selenium-hub
+      SELENIUM_HUB_HOST: seleniumhub
       TEST_HOST: testHost
 
     steps:
     - uses: actions/checkout@v2
 
     - name: Verify Connection
-      env:
-        PORT: ${{ job.services.selenium-hub.ports[4444] }}
       run: |
-        ping -c 4 selenium-hub
+        ping -c 4 seleniumhub
         ping -c 4 localhost
+
+    - name: Upload restuls
+      if: failure()
+      run: |
+        echo "${{ toJson(job) }}"
+        docker logs "${{ job.services.seleniumhub.id }}"
