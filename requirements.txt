@@ -12,7 +12,6 @@ libsass
 pytest
 pytest-html
 pytest-base-url
-pytest-xprocess
 pytest-selenium
 pytest-needle
 # Docs

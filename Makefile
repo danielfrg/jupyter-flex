@@ -6,10 +6,6 @@ MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
 TEST_FILTER ?= ""
-# NEEDLE_ENGINE ?= imagemagick
-# ifdef CIRCLECI
-#     NEEDLE_ENGINE = imagemagick
-# endif
 
 SELENIUM_HUB_HOST ?= 127.0.0.1
 SELENIUM_HUB_PORT ?= 4444
@@ -100,7 +96,7 @@ test:  ## Run tests
 	mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
 	pytest -vvv jupyter_flex/tests --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
-		-k $(TEST_FILTER) --html=test-results/report.html --self-contained-html  #  --needle-engine $(NEEDLE_ENGINE)
+		-k $(TEST_FILTER) --html=test-results/report.html --self-contained-html
 
 
 .PHONY: test-baseline tests-baseline
