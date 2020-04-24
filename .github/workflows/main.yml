@@ -12,7 +12,7 @@ jobs:
 
     container:
       image: python:3.8.2
-      options: --network-alias testHost
+      options: --network-alias testhost
 
     services:
       selenium-hub:
@@ -33,7 +33,7 @@ jobs:
       SELENIUM_HUB_HOST: selenium-hub
       # SELENIUM_HUB_HOST: localhost
       SELENIUM_HUB_PORT: 4444
-      PYTEST_BASE_URL: http://testHost:8866
+      PYTEST_BASE_URL: http://testhost:8866
       # PYTEST_BASE_URL: http://localhost:8866
 
     steps:
