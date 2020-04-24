@@ -1,5 +1,5 @@
 # Python CircleCI 2.0 configuration file
-#
+
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
 version: 2
@@ -64,7 +64,7 @@ jobs:
           command: |
             .  ~/conda/etc/profile.d/conda.sh
             conda activate jupyter-flex
-            make serve-voila
+            make serve-examples
           background: true
 
       - run:

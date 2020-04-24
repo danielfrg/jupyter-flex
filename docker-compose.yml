@@ -1,0 +1,15 @@
+version: "3.5"
+
+services:
+  hub:
+    image: selenium/hub:3.141.59-gold
+    ports:
+     - 4444:4444
+     - 5555:5555
+  chrome:
+    image: selenium/node-chrome:3.141.59-gold
+    environment:
+      HUB_HOST: hub
+      HUB_PORT: 4444
+      SCREEN_WIDTH: 1440
+      SCREEN_HEIGHT: 900

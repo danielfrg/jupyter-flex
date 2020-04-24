@@ -1,4 +1,5 @@
 #!/bin/bash
+# binder.org postBuild script
 set -ex
 
 # Download Bokeh sample data

@@ -5,6 +5,7 @@ channels:
 dependencies:
   - python=3.7
   - pip
+  # Examples deps
   - numpy
   - pandas
   - scipy
@@ -23,9 +24,10 @@ dependencies:
     - jupyter-flex==0.5.0
     - versioneer
     - twine
+    - libsass
     - pytest
-    - pytest-base-url
     - pytest-html
+    - pytest-base-url
     - pytest-xprocess
     - pytest-selenium
     - pytest-needle
@@ -34,10 +36,9 @@ dependencies:
     - mkdocs-material
     - mkdocs-jupyter
     - mkdocs-minify-plugin
-    - libsass
     - pygments
     - pymdown-extensions
-    # Used by examples
+    # Examples deps
     - altair
     - plotly
     - bqplot
