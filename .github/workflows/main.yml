@@ -41,3 +41,8 @@ jobs:
       run: |
         ping -c 4 localhost
         ping -c 4 selenium-hub
+
+    - name: Hub logs
+      if: failure()
+      run: |
+        docker logs "${{ job.services.selenium-hub.id }}"
