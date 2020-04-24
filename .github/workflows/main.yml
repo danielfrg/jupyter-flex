@@ -33,6 +33,5 @@ jobs:
       env:
         PORT: ${{ job.services.selenium-hub.ports[4444] }}
       run: |
-        ping -c 4 testHost
-        ping -c 4 selenium-hub
         ping -c 4 localhost
+        ping -c 4 selenium-hub
