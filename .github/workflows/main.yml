@@ -15,12 +15,12 @@ jobs:
       TEST_HOST: testHost
 
     services:
-      hub:
+      selenium-hub:
         image: selenium/hub:3.141.59-gold
       chrome:
         image: selenium/node-chrome:3.141.59-gold
         env:
-          HUB_HOST: hub
+          HUB_HOST: selenium-hub
           HUB_PORT: 4444
           SCREEN_WIDTH: 1440
           SCREEN_HEIGHT: 900
@@ -48,12 +48,21 @@ jobs:
       run: |
         make serve-examples &
 
+    - name: Verify Connection
+      env:
+        PORT: ${{ job.services.selenium-hub.ports[4444] }}
+      run: |
+        ping -c 4 localhost
+        ping -c 4 selenium-hub
+        ping -c 4 testHost
+
     - name: Make test
       run: |
-        SELENIUM_HUB_HOST=hub PYTEST_BASE_URL=http://testHost:8866 make test
+        SELENIUM_HUB_HOST=selenium-hub PYTEST_BASE_URL=http://testHost:8866 make test
 
     - name: Upload restuls
       uses: actions/upload-artifact@v1
+      if: failure()
       with:
         name: test-results
         path: test-results
