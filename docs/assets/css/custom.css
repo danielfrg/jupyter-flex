@@ -1,9 +1,77 @@
+:root {
+  /* Default color shades */
+  --md-default-fg-color: hsla(0, 0%, 0%, 0.87);
+  --md-default-fg-color--light: hsla(0, 0%, 0%, 0.54);
+  --md-default-fg-color--lighter: hsla(0, 0%, 0%, 0.26);
+  --md-default-fg-color--lightest: hsla(0, 0%, 0%, 0.07);
+  --md-default-bg-color: hsla(0, 0%, 100%, 1);
+  --md-default-bg-color--light: hsla(0, 0%, 100%, 0.7);
+  --md-default-bg-color--lighter: hsla(0, 0%, 100%, 0.3);
+  --md-default-bg-color--lightest: hsla(0, 0%, 100%, 0.12);
+
+  /* Primary color shades */
+  --md-primary-fg-color: #1563ff;
+  /* --md-primary-fg-color: hsla(231deg, 48%, 48%, 1); */
+  --md-primary-fg-color--light: hsla(230deg, 44%, 64%, 1);
+  --md-primary-fg-color--dark: hsla(232deg, 54%, 41%, 1);
+  --md-primary-bg-color: var(--md-default-bg-color);
+  --md-primary-bg-color--light: var(--md-default-bg-color--light);
+
+  /* Accent color shades */
+  --md-accent-fg-color: #1563ff;
+  /* --md-accent-fg-color: hsla(218deg, 100%, 63%, 1); */
+  --md-accent-fg-color--transparent: hsla(218deg, 100%, 63%, 0.1);
+  --md-accent-bg-color: var(--md-default-bg-color);
+  --md-accent-bg-color--light: var(--md-default-bg-color--light);
+
+  /* Code block color shades */
+  /* --md-code-bg-color:                  ...;
+  --md-code-fg-color:                  ...; */
+}
+
+.md-header {
+  background-color: black;
+    /* border-bottom: 1px solid rgba(0, 0, 0, 0.15) */
+}
+
+.md-header[data-md-state=shadow] {
+    transition: none;
+    box-shadow: none;
+}
+
+.md-search__input {
+    background-color: var(--md-default-bg-color--lighter);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a.md-nav__link:before {
+    color: var(--md-primary-fg-color);
+    content: '\203A';
+    left: 20px;
+    opacity: 0.8;
+    position: absolute;
+    height: 100%;
+    width: 8px;
+    margin-top: -1px;
+}
+
+a.md-nav__link {
+  text-decoration: none;
+  padding: 6px 0 6px 15px
+}
+
+a.md-nav__link--active{
+  /* font-weight: 600; */
+}
+
 table code {
     word-break: normal !important;
 }
 
 /* Image grid */
-
 
 .image-grid-row {
     display: flex;

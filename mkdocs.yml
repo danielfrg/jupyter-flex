@@ -14,12 +14,8 @@ nav:
 theme:
   name: 'material'
   custom_dir: 'docs/theme'
-  favicon: 'assets/img/screenshots/favicon.ico'
-  palette:
-    primary: 'blue'
-    accent: 'blue'
-  logo:
-    icon: 'dashboard'
+  favicon: '/assets/img/favicon.ico'
+  logo: /assets/img/icon.png
 
 extra_css:
   - assets/css/custom.css
