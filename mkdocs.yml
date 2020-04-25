@@ -1,6 +1,6 @@
 site_name: Jupyter-flex
 site_url: https://github.com/danielfrg/jupyter-flex
-copyright: Daniel Rodriguez
+copyright: Copyright 2019 - 2020 Daniel Rodriguez
 
 nav:
 - Home: index.md

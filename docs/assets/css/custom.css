@@ -30,8 +30,7 @@
 }
 
 .md-header {
-  background-color: black;
-    /* border-bottom: 1px solid rgba(0, 0, 0, 0.15) */
+    background-color: #24292e;
 }
 
 .md-header[data-md-state=shadow] {
@@ -117,4 +116,8 @@ pre .code-noselect {
     -ms-user-select: none;
     user-select: none;
     /* padding-right: 6px; */
+}
+
+.md-footer-meta {
+    background: none;
 }
