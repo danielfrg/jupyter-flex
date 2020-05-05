@@ -2,11 +2,12 @@
 
 Use Jupyter Notebooks to quickly create interactive dashboards.
 
-- Use Markdown headers and Jupyter Notebook cell tags to define the dashboard components
-- Flexible and easy way to specify row and column based layouts
-- Use [nbconvert](https://nbconvert.readthedocs.io/en/latest/) to create static reports
-- Use [Voila](https://github.com/voila-dashboards/voila) to start a live Jupyter Kernel for fully dynamic applications
-- Support for [ipywidgets](https://ipywidgets.readthedocs.io/en/latest/)
+-   Use Markdown headers and Jupyter Notebook cell tags to define the dashboard components
+-   Flexible and easy way to specify row and column based layouts
+-   Use [nbconvert](https://nbconvert.readthedocs.io/en/latest/) to create static reports
+-   Use [Voila](https://github.com/voila-dashboards/voila) to start a live
+Jupyter Kernel for fully dynamic applications
+-   Support for [ipywidgets](https://ipywidgets.readthedocs.io/en/latest/)
 
 Inspired by [Flex Dashboards](https://rmarkdown.rstudio.com/flexdashboard/).
 
@@ -19,14 +20,22 @@ $ pip install jupyter-flex
 
 ## Learning
 
-The [Getting started](/getting-started) page goes through the basic steps of taking a Jupyter Notebook and creating your first Jupyter-flex dashboard, explains simple Jupyter-flex concepts such as layouts, document orientation
-and explains how to use [`nbconvert`](https://nbconvert.readthedocs.io/en/latest/) to generate a static `.html` dashboard.
+The [Getting started](/getting-started) page goes through the basic steps of
+taking a Jupyter Notebook and creating your first Jupyter-flex dashboard,
+explains simple Jupyter-flex concepts such as layouts, document orientation and
+explains how to use [`nbconvert`](https://nbconvert.readthedocs.io/en/latest/)
+to generate a static `.html` dashboard.
 
-The [Layouts](/layouts) page goes in depth about all the options to control the content of Jupyter-flex dashboards.
+The [Layouts](/layouts) page goes in depth about all the options to control the
+content of Jupyter-flex dashboards.
 
-The [Plotting](/plotting) page goes through some considerations around different plotting libraries in Jupyter-flex dashboards.
+The [Plotting](/plotting) page goes through some considerations around different
+plotting libraries in Jupyter-flex dashboards.
 
-The [Voila and IPywidgets](/voila-ipywidgets/) page describes how to leverage Voila to create dashboards that use a live Jupyter kernel that enable viewers to change underlying parameters and see the results immediately using [ipywidgets](https://ipywidgets.readthedocs.io/).
+The [Voila and IPywidgets](/voila-ipywidgets/) page describes how to leverage
+Voila to create dashboards that use a live Jupyter kernel that enable viewers to
+change underlying parameters and see the results immediately using
+[ipywidgets](https://ipywidgets.readthedocs.io/).
 
 ## Examples
 

@@ -16,8 +16,6 @@ scipy
 matplotlib
 scikit-learn
 statsmodels
-imagemagick
-perceptualdiff
 
 # Base pip deps
 notebook

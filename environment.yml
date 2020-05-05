@@ -21,9 +21,7 @@ dependencies:
   - matplotlib
   - scikit-learn
   - statsmodels
-  - imagemagick
-  - perceptualdiff
-
+  
   - pip:
     # Base pip deps
     - notebook
