@@ -18,7 +18,10 @@ first: help
 clean:  ## Clean build files
 	@rm -rf build dist site htmlcov
 	@rm -f .coverage .pytest_cache
-	@find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
+	@find . -type f -name '*.py[co]' -delete
+	@find . -type d -name __pycache__ -exec rm -rf {} +
+	@find . -type d -name .ipynb_checkpoints -exec rm -rf {} +
+	@find . -o -type d -name '.ipynb_checkpoints' -delete
 	@rm -rf docs/examples test-results
 	@rm -f examples/*.html examples/**/*.html
 	@rm -f jupyter_flex/nbconvert_templates/*.js jupyter_flex/nbconvert_templates/*.css

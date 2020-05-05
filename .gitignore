@@ -103,7 +103,10 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# This project
+# Jupyter Notebook
+.ipynb_checkpoints
+
+### Project specific ###
 share
 test-results
 docs/examples
