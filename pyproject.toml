@@ -1,0 +1,27 @@
+[build-system]
+# Minimum requirements for the build system to execute.
+requires = [
+    "setuptools",
+    "wheel"
+]
+
+[tool.black]
+target-version = ['py36', 'py37', 'py38']
+exclude = '''
+(
+    asv_bench/env
+  | \.egg
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.nox
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | versioneer.py
+  | _version.py
+)
+'''

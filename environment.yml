@@ -3,9 +3,18 @@ channels:
   - shadow_walker
   - conda-forge
 dependencies:
+  # Base conda deps
   - python=3.7
   - pip
-  # Examples deps
+  - pylint
+  - flake8
+  - black
+  - isort
+  - twine
+  - pytest
+  - pytest-cov
+
+  # This project conda deps: Examples
   - numpy
   - pandas
   - scipy
@@ -14,30 +23,30 @@ dependencies:
   - statsmodels
   - imagemagick
   - perceptualdiff
+
   - pip:
-    # Package dev
+    # Base pip deps
     - notebook
     - jupyterlab
     - nbconvert
     - voila
     - ipywidgets
     - jupyter-flex==0.5.0
-    - versioneer
-    - twine
     - libsass
-    - pytest
     - pytest-html
     - pytest-base-url
     - pytest-selenium
     - pytest-needle
-    # Docs
+
+    # This project pip deps
     - mkdocs
     - mkdocs-material
     - mkdocs-jupyter
     - mkdocs-minify-plugin
     - pygments
     - pymdown-extensions
-    # Examples deps
+
+    # This project pip deps: Examples
     - altair
     - plotly
     - bqplot

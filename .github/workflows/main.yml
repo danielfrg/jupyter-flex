@@ -1,4 +1,4 @@
-name: Testing
+name: testing
 
 on:
   push:
@@ -71,7 +71,12 @@ jobs:
       run: |
         curl http://localhost:8866/
 
+    - name: Check linting
+      run: |
+        make check
+
     - name: Make test
+      if: always()
       run: |
         make test
 

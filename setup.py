@@ -1,14 +1,14 @@
-import os
-import sys
 import glob
+import os
 import shutil
-from setuptools import setup
-from setuptools import find_packages
-from setuptools.command.develop import develop
+import sys
+
 import versioneer
+from setuptools import find_packages, setup
+from setuptools.command.develop import develop
 
 # -----------------------------------------------------------------------------
-# Create the files for the data_files
+# Create file struture for data_files
 # It takes the files on the module and copies them under `share`
 
 data_files = []
@@ -48,16 +48,17 @@ class DevelopCmd(develop):
     ]
 
     def run(self):
-        prefix_dir = os.path.join(sys.prefix, "share", "jupyter")
+        share_jupyter_dir = os.path.join(sys.prefix, "share", "jupyter")
 
         for prefix_target, source, name in self.prefix_targets:
             source = os.path.abspath(source)
-            target = os.path.join(prefix_dir, prefix_target, name).rstrip(os.path.sep)
+            target = os.path.join(share_jupyter_dir, prefix_target, name).rstrip(os.path.sep)
             target_subdir = os.path.dirname(target)
             if not os.path.exists(target_subdir):
                 os.makedirs(target_subdir)
             try:
-                os.remove(target)
+                print("Removing:", target)
+                shutil.rmtree(target)
             except Exception as e:
                 print("Error:", e)
                 pass
@@ -77,7 +78,7 @@ setup(
     long_description=read_file("README.md"),
     long_description_content_type="text/markdown",
     author="Daniel Rodriguez",
-    author_email="df.rodriguez143@gmail.com",
+    author_email="daniel@danielfrg.com",
     url="https://github.com/danielfrg/jupyter-flex",
     license="Apache 2.0",
     python_requires=">=3.0,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*",
