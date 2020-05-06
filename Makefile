@@ -78,7 +78,7 @@ package:  ## Build Python package (sdist)
 .PHONY: check
 check:  ## Check linting
 	@flake8 {{ cookiecutter.module_name }}
-	@isort --check-only --diff --recursive --project jupyter_flex --section-default THIRDPARTY jupyter_flex
+	@isort --check-only --diff --recursive --project jupyter_flex --section-default THIRDPARTY jupyter_flex .
 	@black --check jupyter_flex .
 
 
