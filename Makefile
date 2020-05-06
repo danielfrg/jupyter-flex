@@ -16,8 +16,8 @@ first: help
 
 .PHONY: clean
 clean:  ## Clean build files
-	@rm -rf build dist site htmlcov
-	@rm -f .coverage .pytest_cache
+	@rm -rf build dist site htmlcov .pytest_cache
+	@rm -f .coverage
 	@find . -type f -name '*.py[co]' -delete
 	@find . -type d -name __pycache__ -exec rm -rf {} +
 	@find . -type d -name .ipynb_checkpoints -exec rm -rf {} +
