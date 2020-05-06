@@ -91,7 +91,7 @@ class DevelopCmd(develop):
 
 setup(
     name="jupyter-flex",
-    packages=find_packages() + ["jupyter_flex.tests"],
+    packages=find_packages(),
     zip_safe=False,
     include_package_data=True,
     # package_data={"jupyter_flex": ["includes/**/*.c"]},
@@ -105,11 +105,9 @@ setup(
         "parse": parse_git,
         "write_to": os.path.join("jupyter_flex/_generated_version.py"),
     },
-    test_suite="jupyter_flex/tests",
+    python_requires=">=3.6",
     setup_requires=["setuptools_scm"],
     install_requires=read_file("requirements.package.txt").splitlines(),
-    tests_require=["pytest",],
-    python_requires=">=3.6",
     description="Easily create Dashboards using Jupyter Notebooks",
     long_description=read_file("README.md"),
     long_description_content_type="text/markdown",
