@@ -12,6 +12,7 @@ dependencies:
   - black
   - isort
   - twine
+  - wheel
   - pytest
   - pytest-cov
 
