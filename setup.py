@@ -89,7 +89,7 @@ setup(
     author_email="daniel@danielfrg.com",
     url="https://github.com/danielfrg/jupyter-flex",
     license="Apache 2.0",
-    python_requires=">=3.0,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*",
+    python_requires=">=3.0,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*",
     install_requires=read_file("requirements.package.txt").splitlines(),
     keywords=["jupyter", "ipython", "widgets", "voila", "nbconvert", "dashboards"],
     packages=find_packages(),
