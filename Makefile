@@ -85,7 +85,7 @@ check:  ## Check linting
 .PHONY: fmt
 fmt:  ## Format source
 	@isort --recursive --project jupyter-flex --section-default THIRDPARTY jupyter_flex .
-	@black jupyter_flex
+	@black jupyter_flex .
 
 
 .PHONY: upload-pypi

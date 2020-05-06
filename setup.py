@@ -19,7 +19,10 @@ if os.path.exists("share"):
 # Voila files
 voila_prefix = "share/jupyter/voila/templates/flex"
 os.makedirs(voila_prefix)
-shutil.copytree("jupyter_flex/nbconvert_templates", os.path.join(voila_prefix, "nbconvert_templates"))
+shutil.copytree(
+    "jupyter_flex/nbconvert_templates",
+    os.path.join(voila_prefix, "nbconvert_templates"),
+)
 shutil.copytree("jupyter_flex/static", os.path.join(voila_prefix, "static"))
 shutil.copytree("jupyter_flex/templates", os.path.join(voila_prefix, "templates"))
 
@@ -32,6 +35,7 @@ for root, dirs, files in os.walk("share"):
 
 # -----------------------------------------------------------------------------
 
+
 def read_file(filename):
     this_dir = os.path.abspath(os.path.dirname(__file__))
     filepath = os.path.join(this_dir, filename)
@@ -41,8 +45,9 @@ def read_file(filename):
 
 class DevelopCmd(develop):
     """The DevelopCmd will create symlinks for voila under:
-        `sys.prefix/share/jupyter`
+        sys.prefix/share/jupyter
     """
+
     prefix_targets = [
         ("voila/templates", "jupyter_flex", "flex"),
     ]
@@ -52,7 +57,9 @@ class DevelopCmd(develop):
 
         for prefix_target, source, name in self.prefix_targets:
             source = os.path.abspath(source)
-            target = os.path.join(share_jupyter_dir, prefix_target, name).rstrip(os.path.sep)
+            target = os.path.join(share_jupyter_dir, prefix_target, name).rstrip(
+                os.path.sep
+            )
             target_subdir = os.path.dirname(target)
             if not os.path.exists(target_subdir):
                 os.makedirs(target_subdir)
@@ -67,6 +74,7 @@ class DevelopCmd(develop):
             os.symlink(source, target)
 
         super(DevelopCmd, self).run()
+
 
 cmdclass = versioneer.get_cmdclass()
 cmdclass["develop"] = DevelopCmd
@@ -89,9 +97,7 @@ setup(
     data_files=data_files,
     zip_safe=False,
     cmdclass=cmdclass,
-    entry_points = {
-        'nbconvert.exporters': [
-            'flex = jupyter_flex:NBConvertFlexExporter',
-        ],
+    entry_points={
+        "nbconvert.exporters": ["flex = jupyter_flex:NBConvertFlexExporter"],
     },
 )
