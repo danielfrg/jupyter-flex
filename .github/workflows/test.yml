@@ -1,0 +1,92 @@
+name: test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    container:
+      image: python:3.7.6
+      options: --network-alias testhost
+
+    services:
+      selenium-hub:
+        image: selenium/hub:3.141.59
+        ports:
+          - 4444:4444
+        options: --health-cmd=/opt/bin/check-grid.sh --health-interval=15s --health-timeout=30s --health-retries=5
+        volumes:
+          - /tmp:/dev/shm
+
+      chrome:
+        image: selenium/node-chrome:3.141.59
+        env:
+          HUB_HOST: selenium-hub
+          HUB_PORT: 4444
+          SCREEN_WIDTH: 1440
+          SCREEN_HEIGHT: 900
+        volumes:
+          - /tmp:/dev/shm
+
+    env:
+      SELENIUM_HUB_HOST: selenium-hub
+      SELENIUM_HUB_PORT: 4444
+      PYTEST_BASE_URL: http://testhost:8866
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+
+    - name: Install dependencies
+      run: |
+        echo $PATH
+        which pip
+        which python
+        python -m pip install --upgrade pip
+        pip install -U -r requirements.txt
+        pip freeze
+
+    - name: Install other dependencies
+      run: |
+        # Download Bokeh sample data
+        bokeh sampledata
+
+    - name: Install package
+      run: |
+        make build
+        pip install dist/*.tar.gz
+        pip freeze
+
+    - name: Serve Voila
+      run: |
+        make serve-examples &
+
+    - name: Verify Voila
+      run: |
+        ls /__t/Python/3.7.6/x64/share/jupyter/voila/templates
+        curl http://localhost:8866/
+
+    - name: Check linting
+      run: |
+        make check
+
+    - name: Make test
+      if: always()
+      run: |
+        make test
+
+    - name: Upload restuls
+      uses: actions/upload-artifact@v1
+      if: always()
+      with:
+        name: test-results
+        path: test-results
