@@ -1,0 +1,4 @@
+[run]
+omit =
+  jupyter_flex/_version.py
+  jupyter_flex/tests/*
