@@ -111,10 +111,6 @@ serve-examples:  ## Serve examples using voila
 	voila --debug --template flex --no-browser --Voila.ip='0.0.0.0' --port 8866 --VoilaConfiguration.file_whitelist="['.*']" $(CURDIR)/examples
 
 
-.PHONY: test
-test: tests
-
-
 .PHONY: tests
 tests:  ## Run tests
 	mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
