@@ -7,7 +7,7 @@
 - Added option to have help button on the card header that shows one markdown cell as a popover
 - Bundle now includes Popper.js for tooltips and popovers
 
-## [0.5.0]
+## 0.5.0
 
 - Added the option to have a global sidebar
 - Remove the explict option of section sidebar, still possible useing size tags
