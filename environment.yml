@@ -3,9 +3,10 @@ channels:
   - shadow_walker
   - conda-forge
 dependencies:
-  # Base conda deps
   - python=3.7
   - pip
+
+  # Base conda deps
   - pylint
   - flake8
   - black
@@ -21,9 +22,17 @@ dependencies:
   - matplotlib
   - scikit-learn
   - statsmodels
-  
+
   - pip:
-    # Base pip deps
+    # Base pip deps: Docs
+    - mkdocs
+    - mkdocs-material
+    - mkdocs-jupyter
+    - mkdocs-minify-plugin
+    - pygments
+    - pymdown-extensions
+
+    # This project pip deps
     - notebook
     - jupyterlab
     - nbconvert
@@ -35,14 +44,6 @@ dependencies:
     - pytest-base-url
     - pytest-selenium
     - pytest-needle
-
-    # This project pip deps
-    - mkdocs
-    - mkdocs-material
-    - mkdocs-jupyter
-    - mkdocs-minify-plugin
-    - pygments
-    - pymdown-extensions
 
     # This project pip deps: Examples
     - altair
