@@ -46,5 +46,5 @@ pandas-datareader
 colorlover
 vega_datasets
 ipython==7.13.0
-click=7.1.1
-jupyterlab=2.1.1
+click==7.1.1
+jupyterlab==2.1.1
