@@ -83,7 +83,6 @@ jobs:
         make check
 
     - name: Make test
-      if: always()
       run: |
         make test
 
