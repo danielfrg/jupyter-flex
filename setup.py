@@ -3,7 +3,6 @@ import os
 import shutil
 import sys
 
-import versioneer
 from setuptools import find_packages, setup
 from setuptools.command.develop import develop
 
