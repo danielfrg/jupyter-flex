@@ -23,7 +23,6 @@ pymdown-extensions
 
 # This project pip deps
 notebook
-jupyterlab
 nbconvert
 voila
 ipywidgets
