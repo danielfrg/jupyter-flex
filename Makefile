@@ -21,7 +21,6 @@ clean:  ## Clean build files
 	@find . -type f -name '*.py[co]' -delete
 	@find . -type d -name __pycache__ -exec rm -rf {} +
 	@find . -type d -name .ipynb_checkpoints -exec rm -rf {} +
-	@find . -o -type d -name '.ipynb_checkpoints' -delete
 	@rm -rf docs/examples test-results
 	@rm -f examples/*.html examples/**/*.html
 	@rm -f jupyter_flex/nbconvert_templates/*.js jupyter_flex/nbconvert_templates/*.css
@@ -34,7 +33,6 @@ cleanall: clean  ## Clean everything. Including downloaded assets and Notebook c
 	@rm -f jupyter_flex/static/*.css
 	@rm -f jupyter_flex/static/*.css.map
 	@ls jupyter_flex/static/*.js | grep -v flex.js | xargs rm
-	@rm -rf **/.ipynb_checkpoints
 
 
 .PHONY: help

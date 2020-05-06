@@ -27,8 +27,8 @@ for root, dirs, files in os.walk("share"):
     root_files = [os.path.join(root, i) for i in files]
     data_files.append((root, root_files))
 
-print("Data Files:")
-print(data_files)
+# print("Data Files:")
+# print(data_files)
 
 # -----------------------------------------------------------------------------
 
@@ -56,12 +56,12 @@ class DevelopCmd(develop):
             target_subdir = os.path.dirname(target)
             if not os.path.exists(target_subdir):
                 os.makedirs(target_subdir)
-            try:
+            if os.path.islink(target):
+                print("Removing link:", target)
+                os.remove(target)
+            elif os.path.exists(target):
                 print("Removing:", target)
                 shutil.rmtree(target)
-            except Exception as e:
-                print("Error:", e)
-                pass
 
             print("Linking", source, "->", target)
             os.symlink(source, target)
