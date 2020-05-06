@@ -17,7 +17,15 @@ matplotlib
 scikit-learn
 statsmodels
 
-# Base pip deps
+# Base pip deps: Docs
+mkdocs
+mkdocs-material
+mkdocs-jupyter
+mkdocs-minify-plugin
+pygments
+pymdown-extensions
+
+# This project pip deps
 notebook
 jupyterlab
 nbconvert
@@ -29,14 +37,6 @@ pytest-html
 pytest-base-url
 pytest-selenium
 pytest-needle
-
-# This project pip deps
-mkdocs
-mkdocs-material
-mkdocs-jupyter
-mkdocs-minify-plugin
-pygments
-pymdown-extensions
 
 # This project pip deps: Examples
 altair

@@ -2,12 +2,8 @@
 
 # Base conda deps
 pylint
-flake8
-black
-isort
 twine
 pytest
-pytest-cov
 
 # This project conda deps: Examples
 numpy
@@ -50,3 +46,5 @@ pandas-datareader
 colorlover
 vega_datasets
 ipython==7.13.0
+click=7.1.1
+jupyterlab=2.1.1
