@@ -7,7 +7,6 @@ import versioneer
 from setuptools import find_packages, setup
 from setuptools.command.develop import develop
 
-
 setup_dir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -56,6 +55,7 @@ for root, dirs, files in os.walk("share"):
 
 # -----------------------------------------------------------------------------
 
+
 class DevelopCmd(develop):
     """The DevelopCmd will create symlinks for voila under:
         sys.prefix/share/jupyter
@@ -99,7 +99,7 @@ setup(
     # cmdclass={},
     entry_points={
         "nbconvert.exporters": ["flex = jupyter_flex:NBConvertFlexExporter"],
-    }
+    },
     use_scm_version={
         "root": setup_dir,
         "parse": parse_git,
