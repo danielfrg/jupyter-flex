@@ -156,7 +156,6 @@ serve-docs:  ## Serve docs
 
 .PHONY: netlify
 netlify: assets  ## Build docs on Netlify
-	pip uninstall -y jupyter-flex
 	python setup.py install
 	pip freeze
 	python -c "import bokeh.sampledata; bokeh.sampledata.download()"

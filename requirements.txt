@@ -2,8 +2,12 @@
 
 # Base conda deps
 pylint
+flake8
+black
+isort
 twine
 pytest
+pytest-cov
 
 # This project conda deps: Examples
 numpy

@@ -38,7 +38,6 @@ dependencies:
     - nbconvert
     - voila
     - ipywidgets
-    - jupyter-flex==0.5.0
     - libsass
     - pytest-html
     - pytest-base-url
