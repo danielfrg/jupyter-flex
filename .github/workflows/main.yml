@@ -82,7 +82,7 @@ jobs:
     - name: Make test
       if: always()
       run: |
-        make test
+        make tests
 
     - name: Upload restuls
       uses: actions/upload-artifact@v1
