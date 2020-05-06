@@ -7,6 +7,27 @@ import versioneer
 from setuptools import find_packages, setup
 from setuptools.command.develop import develop
 
+
+setup_dir = os.path.abspath(os.path.dirname(__file__))
+
+
+def read_file(filename):
+    this_dir = os.path.abspath(os.path.dirname(__file__))
+    filepath = os.path.join(this_dir, filename)
+    with open(filepath) as file:
+        return file.read()
+
+
+def parse_git(root, **kwargs):
+    """
+    Parse function for setuptools_scm
+    """
+    from setuptools_scm.git import parse
+
+    kwargs["describe_command"] = "git describe --dirty --tags --long"
+    return parse(root, **kwargs)
+
+
 # -----------------------------------------------------------------------------
 # Create file struture for data_files
 # It takes the files on the module and copies them under `share`
@@ -34,14 +55,6 @@ for root, dirs, files in os.walk("share"):
 # print(data_files)
 
 # -----------------------------------------------------------------------------
-
-
-def read_file(filename):
-    this_dir = os.path.abspath(os.path.dirname(__file__))
-    filepath = os.path.join(this_dir, filename)
-    with open(filepath) as file:
-        return file.read()
-
 
 class DevelopCmd(develop):
     """The DevelopCmd will create symlinks for voila under:
@@ -76,28 +89,39 @@ class DevelopCmd(develop):
         super(DevelopCmd, self).run()
 
 
-cmdclass = versioneer.get_cmdclass()
-cmdclass["develop"] = DevelopCmd
-
 setup(
     name="jupyter-flex",
-    version=versioneer.get_version(),
-    description="Voila Flex Dashboards",
-    long_description=read_file("README.md"),
-    long_description_content_type="text/markdown",
-    author="Daniel Rodriguez",
-    author_email="daniel@danielfrg.com",
-    url="https://github.com/danielfrg/jupyter-flex",
-    license="Apache License Version 2.0",
-    python_requires=">=3.0,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*",
-    install_requires=read_file("requirements.package.txt").splitlines(),
-    keywords=["jupyter", "ipython", "widgets", "voila", "nbconvert", "dashboards"],
-    packages=find_packages(),
-    include_package_data=True,
-    data_files=data_files,
+    packages=find_packages() + ["jupyter_flex.tests"],
     zip_safe=False,
-    cmdclass=cmdclass,
+    include_package_data=True,
+    # package_data={"jupyter_flex": ["includes/**/*.c"]},
+    data_files=data_files,
+    # cmdclass={},
     entry_points={
         "nbconvert.exporters": ["flex = jupyter_flex:NBConvertFlexExporter"],
+    }
+    use_scm_version={
+        "root": setup_dir,
+        "parse": parse_git,
+        "write_to": os.path.join("jupyter_flex/_generated_version.py"),
     },
+    test_suite="jupyter_flex/tests",
+    setup_requires=["setuptools_scm"],
+    install_requires=read_file("requirements.package.txt").splitlines(),
+    tests_require=["pytest",],
+    python_requires=">=3.6",
+    description="Easily create Dashboards using Jupyter Notebooks",
+    long_description=read_file("README.md"),
+    long_description_content_type="text/markdown",
+    license="Apache License, Version 2.0",
+    maintainer="Daniel Rodriguez",
+    maintainer_email="daniel@danielfrg.com",
+    url="https://github.com/danielfrg/jupyter-flex",
+    classifiers=[
+        "License :: OSI Approved :: Apache Software License",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+    ],
+    keywords=["jupyter", "ipython", "widgets", "voila", "nbconvert", "dashboards"],
 )

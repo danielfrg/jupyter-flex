@@ -5,6 +5,7 @@ SHELL := bash
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
+PWD := $(shell pwd)
 TEST_FILTER ?= ""
 
 SELENIUM_HUB_HOST ?= 127.0.0.1
@@ -16,8 +17,8 @@ first: help
 
 .PHONY: clean
 clean:  ## Clean build files
-	@rm -rf build dist site htmlcov .pytest_cache
-	@rm -f .coverage coverage.xml
+	@rm -rf build dist site htmlcov .pytest_cache .eggs
+	@rm -f .coverage coverage.xml jupyter_flex/_generated_version.py
 	@find . -type f -name '*.py[co]' -delete
 	@find . -type d -name __pycache__ -exec rm -rf {} +
 	@find . -type d -name .ipynb_checkpoints -exec rm -rf {} +
@@ -27,7 +28,7 @@ clean:  ## Clean build files
 
 
 .PHONY: cleanall
-cleanall: clean  ## Clean everything. Including downloaded assets and Notebook checkpoints
+cleanall: clean  ## Clean everything
 	@rm -rf *.egg-info
 	@rm -rf share
 	@rm -f jupyter_flex/static/*.css
@@ -114,14 +115,14 @@ serve-examples:  ## Serve examples using voila
 .PHONY: test
 test:  ## Run tests
 	mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
-	pytest -vvv jupyter_flex/tests --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
+	pytest -s -vv jupyter_flex/tests --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
 		-k $(TEST_FILTER) --html=test-results/report.html --self-contained-html
 
 
 .PHONY: test-baseline
 test-baselines:  ## Create test baselines
-	pytest -vvv jupyter_flex/tests --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
+	pytest -s -vv jupyter_flex/tests --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-save-baseline --needle-baseline-dir docs/assets/img/screenshots \
 		-k $(TEST_FILTER)
 

@@ -9,7 +9,7 @@ conda activate jupyter-flex
 make assets
 
 # Install package
-python setup.py develop
+make develop
 ```
 
 Now you can use `nbconvert` or `voila` as in the docs and change the source to iterate.

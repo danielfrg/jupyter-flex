@@ -1,12 +1,13 @@
 name: jupyter-flex
 channels:
-  - shadow_walker
   - conda-forge
 dependencies:
   - python=3.7
   - pip
 
   # Base conda deps
+  - setuptools
+  - setuptools-scm
   - pylint
   - flake8
   - black

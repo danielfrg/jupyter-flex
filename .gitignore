@@ -106,6 +106,9 @@ dmypy.json
 # Jupyter Notebook
 .ipynb_checkpoints
 
+# setuptools_scm
+_generated_version.py
+
 ### Project specific ###
 share
 test-results
