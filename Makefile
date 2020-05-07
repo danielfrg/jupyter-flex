@@ -5,46 +5,57 @@ SHELL := bash
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
+PWD := $(shell pwd)
 TEST_FILTER ?= ""
 
 SELENIUM_HUB_HOST ?= 127.0.0.1
 SELENIUM_HUB_PORT ?= 4444
 PYTEST_BASE_URL ?= http://host.docker.internal:8866
 
-all: help
+
+first: help
 
 .PHONY: clean
 clean:  ## Clean build files
-	@rm -rf dist
-	@rm -rf build
-	@rm -rf share
-	@rm -rf site
-	@rm -rf docs/examples
-	@rm -f examples/*.html
-	@rm -f examples/**/*.html
-	@rm -f jupyter_flex/nbconvert_templates/*.js
-	@rm -f jupyter_flex/nbconvert_templates/*.css
-	@rm -rf test-results
-	@rm -rf .xprocess
+	@rm -rf build dist site htmlcov .pytest_cache .eggs
+	@rm -f .coverage coverage.xml jupyter_flex/_generated_version.py
+	@find . -type f -name '*.py[co]' -delete
+	@find . -type d -name __pycache__ -exec rm -rf {} +
+	@find . -type d -name .ipynb_checkpoints -exec rm -rf {} +
+	@rm -rf docs/examples test-results
+	@rm -f examples/*.html examples/**/*.html
+	@rm -f jupyter_flex/nbconvert_templates/*.js jupyter_flex/nbconvert_templates/*.css
 
 
 .PHONY: cleanall
-cleanall: clean  ## Clean everything. Includes downloaded assets and NB checkpoints
-	@ls jupyter_flex/static/*.js | grep -v flex.js | xargs rm
+cleanall: clean  ## Clean everything
+	@rm -rf *.egg-info
+	@rm -rf share
 	@rm -f jupyter_flex/static/*.css
 	@rm -f jupyter_flex/static/*.css.map
-	@rm -rf **/.ipynb_checkpoints
+	@ls jupyter_flex/static/*.js | grep -v flex.js | xargs rm
 
+
+.PHONY: help
+help:  ## Show this help menu
+	@grep -E '^[0-9a-zA-Z_-]+:.*?##.*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?##"; OFS="\t\t"}; {printf "\033[36m%-30s\033[0m %s\n", $$1, ($$2==""?"":$$2)}'
+
+
+# ------------------------------------------------------------------------------
+# Package build
 
 .PHONY: env
 env:  ## Create virtualenv
 	conda env create
 
 
-# ------------------------------------------------------------------------------
-# Package build
+.PHONY: build
+build: assets package  ## Build assets and Python package
 
-assets: download-assets sassc  ## Download and compile assets
+
+.PHONY: assets
+assets: download-assets compile-assets  ## Download and compile assets
+
 
 download-assets:  ## Download .css/.js assets
 	@curl -o jupyter_flex/static/bootstrap.min.css https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css
@@ -56,24 +67,35 @@ download-assets:  ## Download .css/.js assets
 	@curl -o jupyter_flex/static/embed-amd.js https://unpkg.com/@jupyter-widgets/html-manager@0.18.4/dist/embed-amd.js
 
 
-sassc:  ## Compile SCSS assets
+compile-assets:  ## Compile SCSS assets
 	pysassc --style=compressed jupyter_flex/static/flex.scss jupyter_flex/static/flex.min.css
 
 
-build: assets package  ## Download assets, compile and build Python package
-
 .PHONY: package
-package:  ## Build Python package
+package:  ## Build Python package (sdist)
 	python setup.py sdist
 
 
+.PHONY: check
+check:  ## Check linting
+	@flake8
+	@isort --check-only --diff --recursive --project jupyter_flex --section-default THIRDPARTY jupyter_flex .
+	@black --check jupyter_flex .
+
+
+.PHONY: fmt
+fmt:  ## Format source
+	@isort --recursive --project jupyter-flex --section-default THIRDPARTY jupyter_flex .
+	@black jupyter_flex .
+
+
 .PHONY: upload-pypi
-upload-pypi:  ## Upload package to pypi
+upload-pypi:  ## Upload package to PyPI
 	twine upload dist/*.tar.gz
 
 
 .PHONY: upload-test
-upload-test:  ## Upload package to pypi test repository
+upload-test:  ## Upload package to test PyPI
 	twine upload --repository testpypi dist/*.tar.gz
 
 
@@ -90,19 +112,17 @@ serve-examples:  ## Serve examples using voila
 	voila --debug --template flex --no-browser --Voila.ip='0.0.0.0' --port 8866 --VoilaConfiguration.file_whitelist="['.*']" $(CURDIR)/examples
 
 
-.PHONY: test tests
-tests: test
+.PHONY: test
 test:  ## Run tests
 	mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
-	pytest -vvv jupyter_flex/tests --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
+	pytest -s -vv jupyter_flex/tests --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
 		-k $(TEST_FILTER) --html=test-results/report.html --self-contained-html
 
 
-.PHONY: test-baseline tests-baseline
-test-baseline: test-baseline
-test-baseline:  ## Create tests baselines
-	pytest -vvv jupyter_flex/tests --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
+.PHONY: test-baseline
+test-baselines:  ## Create test baselines
+	pytest -s -vv jupyter_flex/tests --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-save-baseline --needle-baseline-dir docs/assets/img/screenshots \
 		-k $(TEST_FILTER)
 
@@ -110,9 +130,9 @@ test-baseline:  ## Create tests baselines
 # ------------------------------------------------------------------------------
 # Docs
 
-.PHONY: serve-docs
-serve-docs:  ## Serve docs
-	mkdocs serve
+.PHONY: docs
+docs: docs-examples  ## mkdocs build
+	mkdocs build --config-file $(CURDIR)/mkdocs.yml
 
 
 .PHONY: docs-examples
@@ -125,21 +145,15 @@ docs-examples:  ## Run nbconvert on the examples
 	@cd $(CURDIR)/examples/widgets && jupyter-nbconvert *.ipynb --to=flex --output-dir=../../docs/examples --execute --ExecutePreprocessor.store_widget_state=True
 
 
-.PHONY: docs
-docs: docs-examples  ## mkdocs build
-	mkdocs build --config-file $(CURDIR)/mkdocs.yml
+.PHONY: serve-docs
+serve-docs:  ## Serve docs
+	mkdocs serve
 
 
 .PHONY: netlify
 netlify: assets  ## Build docs on Netlify
-	pip uninstall -y jupyter-flex
 	python setup.py install
 	pip freeze
 	python -c "import bokeh.sampledata; bokeh.sampledata.download()"
 	pushd $(CURDIR)/docs && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True && popd
 	$(MAKE) docs
-
-
-.PHONY: help
-help:  ## Show this help menu
-	@grep -E '^[0-9a-zA-Z_-]+:.*?##.*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?##"; OFS="\t\t"}; {printf "\033[36m%-30s\033[0m %s\n", $$1, ($$2==""?"":$$2)}'

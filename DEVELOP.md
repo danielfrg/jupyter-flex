@@ -1,19 +1,24 @@
 # Development
 
 ```
-make env  # Uses conda
+# Create conda env
+make env
 conda activate jupyter-flex
-python setup.py develop
-make assets  # Downloads 3rd party CSS/JS assets
+
+# Downloads 3rd party CSS/JS assets
+make assets
+
+# Install package
+make develop
 ```
 
 Now you can use `nbconvert` or `voila` as in the docs and change the source to iterate.
 
-## SCSS
+## `.scss`
 
-Personally I use vscode and the `liveSassCompile` extension to iterate quickly.
+If you are changing the styles, probably the easiest way is to configure it on your favourite editor.
 
-There is also a `make sassc` that uses `libsass` but you have to run it for each change.
+There is a `make sassc` that uses `libsass` but you have to run it for each change.
 
 ## Testing
 

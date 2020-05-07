@@ -1,4 +1,4 @@
-name: Testing
+name: test
 
 on:
   push:
@@ -7,11 +7,11 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     container:
-      image: python:3.8.2
+      image: python:3.7.6
       options: --network-alias testhost
 
     services:
@@ -40,28 +40,29 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - run: git fetch --prune --unshallow
 
     - name: Set up Python
       uses: actions/setup-python@v1
       with:
-        python-version: 3.8
+        python-version: 3.7
 
     - name: Install dependencies
       run: |
-        echo $PATH
-        which pip
-        which python
         python -m pip install --upgrade pip
         pip install -U -r requirements.txt
         pip freeze
+
+    - name: Install other dependencies
+      run: |
+        # Download Bokeh sample data
+        bokeh sampledata
 
     - name: Install package
       run: |
         make build
         pip install dist/*.tar.gz
         pip freeze
-        # Download Bokeh sample data
-        bokeh sampledata
 
     - name: Serve Voila
       run: |
@@ -69,11 +70,22 @@ jobs:
 
     - name: Verify Voila
       run: |
+        ls /__t/Python/3.7.6/x64/share/jupyter/voila/templates
         curl http://localhost:8866/
 
-    - name: Make test
+    - name: Check linting
+      run: |
+        make check
+
+    - name: Run tests
+      if: always()
       run: |
         make test
+
+    - name: Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        file: ./coverage.xml
 
     - name: Upload restuls
       uses: actions/upload-artifact@v1

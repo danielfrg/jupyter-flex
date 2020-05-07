@@ -2,7 +2,6 @@ import os
 import os.path
 
 import jinja2
-from traitlets.config import Config
 from nbconvert.exporters.html import HTMLExporter
 
 
@@ -28,6 +27,7 @@ def include_external_base64_img(ctx, name):
     """Include an encoded base64 image
     """
     import base64
+
     with open(os.path.abspath(name), "rb") as f:
         encoded_string = base64.b64encode(f.read())
     return jinja2.Markup(encoded_string.decode())
@@ -45,24 +45,28 @@ class NBConvertFlexExporter(HTMLExporter):
         """
         Append nbconvert_templates to the default HTML ones we are extending
         """
-        return super().template_path + [os.path.join(os.path.dirname(__file__), "nbconvert_templates")]
+        return super().template_path + [
+            os.path.join(os.path.dirname(__file__), "nbconvert_templates")
+        ]
 
     def _template_file_default(self):
         """
         We want to use the new template we ship with our library.
         """
-        return 'nbconvert' # full
+        return "nbconvert"  # full
 
     def __init__(self, *args, **kwargs):
         super(HTMLExporter, self).__init__(*args, **kwargs)
         self.environment.globals["include_template"] = include_template
         self.environment.globals["include_external_file"] = include_external_file
-        self.environment.globals["include_external_base64_img"] = include_external_base64_img
+        self.environment.globals[
+            "include_external_base64_img"
+        ] = include_external_base64_img
 
     def default_filters(self):
         for pair in super(HTMLExporter, self).default_filters():
             yield pair
-        yield ('test_filter', self.test_filter)
+        yield ("test_filter", self.test_filter)
 
     def test_filter(self, text):
         return "test_filter: " + text

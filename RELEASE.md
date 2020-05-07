@@ -1,8 +1,8 @@
-## How to releae a new version
+# How to release a new version
 
 - Update `CHANGELOG.md`
 - Update version `environment.yml`
-- Update version tag links that go to binder.org on `README.md` and docs
+- Update links that go to binder.org on `README.md` and docs to use the new version tag
 
 ```
 export VERSION=1.0.0
@@ -17,6 +17,6 @@ make clean
 make build
 make upload-pypi
 
-# Or to upload to test-pypi
+# Upload to test PyPI
 make upload-test
 ```

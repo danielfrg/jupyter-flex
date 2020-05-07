@@ -1,9 +1,2 @@
-include versioneer.py
-include jupyter_flex/_version.py
-include README.rst
-include LICENSE.txt
-include CHANGELOG.md
-include requirements.package.txt
-include jupyter_flex/nbconvert_templates/*
+# We add these files here because they are not in git and on .gitignore
 include jupyter_flex/static/*
-include jupyter_flex/templates/*
