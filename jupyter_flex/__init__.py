@@ -1,5 +1,3 @@
-from .nbconvert_exporter import NBConvertFlexExporter  # noqa
-
 try:
     from ._generated_version import version as __version__
 except ImportError:
@@ -20,3 +18,5 @@ except ImportError:
         __version__ = setuptools_scm.get_version("./", parse=parse_git)
     except ImportError:
         __version__ = None
+
+from .nbconvert_exporter import NBConvertFlexExporter  # noqa
