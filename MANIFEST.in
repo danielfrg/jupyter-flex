@@ -1,3 +1,0 @@
-include jupyter_flex/nbconvert_templates/*
-include jupyter_flex/static/*
-include jupyter_flex/templates/*
