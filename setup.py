@@ -92,9 +92,9 @@ setup(
     packages=find_packages(),
     zip_safe=False,
     include_package_data=True,
-    # package_data={"jupyter_flex": ["includes/**/*.c"]},
+    # package_data={"jupyter_flex": ["includes/*"]},
     data_files=data_files,
-    # cmdclass={},
+    cmdclass={'develop': DevelopCmd},
     entry_points={
         "nbconvert.exporters": ["flex = jupyter_flex:NBConvertFlexExporter"],
     },
@@ -113,11 +113,11 @@ setup(
     maintainer="Daniel Rodriguez",
     maintainer_email="daniel@danielfrg.com",
     url="https://github.com/danielfrg/jupyter-flex",
+    keywords=["jupyter", "ipython", "widgets", "ipywidgets", "voila", "nbconvert", "dashboards"],
     classifiers=[
         "License :: OSI Approved :: Apache Software License",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
     ],
-    keywords=["jupyter", "ipython", "widgets", "voila", "nbconvert", "dashboards"],
 )

@@ -1,4 +1,4 @@
-# How to releae a new version
+# How to release a new version
 
 - Update `CHANGELOG.md`
 - Update version `environment.yml`
