@@ -3,7 +3,6 @@ import os.path
 
 import jinja2
 from nbconvert.exporters.html import HTMLExporter
-from traitlets.config import Config
 
 
 @jinja2.contextfunction

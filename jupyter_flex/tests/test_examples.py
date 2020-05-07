@@ -1,4 +1,3 @@
-import os
 import time
 
 import pytest
@@ -34,7 +33,7 @@ def test_example_nb(needle, myselenium, base_url, nb_name):
     needle.assert_screenshot(f"{nb_name}", threshold=200000)
 
 
-@pytest.mark.parametrize("nb_name", ["classes-colors", "custom-css",])
+@pytest.mark.parametrize("nb_name", ["classes-colors", "custom-css"])
 def test_customize(needle, myselenium, base_url, nb_name):
     target_url = "{0}/voila/render/customize/{1}.ipynb".format(base_url, nb_name)
     needle.driver.get(target_url)
@@ -47,7 +46,7 @@ def test_customize(needle, myselenium, base_url, nb_name):
 
 
 @pytest.mark.parametrize(
-    "nb_name", ["one-plot", "two-columns", "two-plots", "two-rows",]
+    "nb_name", ["one-plot", "two-columns", "two-plots", "two-rows"]
 )
 def test_getting_started(needle, myselenium, base_url, nb_name):
     target_url = "{0}/voila/render/getting-started/{1}.ipynb".format(base_url, nb_name)

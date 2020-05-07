@@ -1,4 +1,4 @@
-from .nbconvert_exporter import NBConvertFlexExporter
+from .nbconvert_exporter import NBConvertFlexExporter  # noqa
 
 try:
     from ._generated_version import version as __version__
