@@ -92,7 +92,7 @@ setup(
     packages=find_packages(),
     zip_safe=False,
     include_package_data=True,
-    package_data={"jupyter_flex": ["nbconvert_templates/*", "static/*", "templates/*"]},
+    package_data={"jupyter_flex": ["static/*"]},
     data_files=data_files,
     cmdclass={"develop": DevelopCmd},
     entry_points={
