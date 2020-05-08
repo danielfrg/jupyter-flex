@@ -115,14 +115,14 @@ serve-examples:  ## Serve examples using voila
 .PHONY: test
 test:  ## Run tests
 	mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
-	pytest -s -vv jupyter_flex/tests --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
+	pytest --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
 		-k $(TEST_FILTER) --html=test-results/report.html --self-contained-html
 
 
 .PHONY: test-baseline
 test-baselines:  ## Create test baselines
-	pytest -s -vv jupyter_flex/tests --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
+	pytest --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-save-baseline --needle-baseline-dir docs/assets/img/screenshots \
 		-k $(TEST_FILTER)
 
