@@ -89,6 +89,7 @@ class DevelopCmd(develop):
 
 setup(
     name="jupyter-flex",
+    use_scm_version=True,
     packages=find_packages(),
     # package_dir={"": "src"},
     zip_safe=False,
@@ -99,16 +100,14 @@ setup(
     entry_points={
         "nbconvert.exporters": ["flex = jupyter_flex:NBConvertFlexExporter"],
     },
-    use_scm_version={
-        "root": setup_dir,
-        "parse": parse_git,
-        "write_to": os.path.join("jupyter_flex/_generated_version.py"),
-    },
     options={"bdist_wheel": {"universal": "1"}},
     python_requires=">=3.6",
     setup_requires=["setuptools_scm"],
-    install_requires=read_file("requirements.package.txt").splitlines(),
-    extras_require={"dev": read_file("requirements.txt").splitlines()},
+    install_requires=read_file("requirements-package.txt").splitlines(),
+    extras_require={
+        "test": ["pytest"],
+        "dev": read_file("requirements.txt").splitlines(),
+    },
     description="Easily create Dashboards using Jupyter Notebooks",
     long_description=read_file("README.md"),
     long_description_content_type="text/markdown",

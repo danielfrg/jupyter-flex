@@ -7,6 +7,7 @@ MAKEFLAGS += --no-builtin-rules
 
 PWD := $(shell pwd)
 TEST_FILTER ?= ""
+TEST_MARKERS ?= "not selenium"
 
 SELENIUM_HUB_HOST ?= 127.0.0.1
 SELENIUM_HUB_PORT ?= 4444
@@ -47,6 +48,11 @@ help:  ## Show this help menu
 .PHONY: env
 env:  ## Create virtualenv
 	conda env create
+
+
+.PHONY: develop
+develop: assets  ## Install package for development
+	python -m pip install --no-build-isolation -e .
 
 
 .PHONY: build
@@ -114,6 +120,14 @@ serve-examples:  ## Serve examples using voila
 
 .PHONY: test
 test:  ## Run tests
+	mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
+	pytest --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
+		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
+		-k $(TEST_FILTER) -m $(TEST_MARKERS) --html=test-results/report.html --self-contained-html
+
+
+.PHONY: test-all
+test-all:  ## Run all tests
 	mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
 	pytest --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
