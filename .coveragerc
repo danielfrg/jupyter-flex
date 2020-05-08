@@ -1,5 +1,0 @@
-[run]
-omit =
-    jupyter_flex/tests/*
-source =
-    jupyter_flex

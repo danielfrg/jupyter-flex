@@ -79,14 +79,14 @@ package:  ## Build Python package (sdist)
 .PHONY: check
 check:  ## Check linting
 	@flake8
-	@isort --check-only --diff --recursive --project jupyter_flex --section-default THIRDPARTY jupyter_flex .
-	@black --check jupyter_flex .
+	@isort --check-only --diff --recursive --project jupyter_flex --section-default THIRDPARTY .
+	@black --check .
 
 
 .PHONY: fmt
 fmt:  ## Format source
-	@isort --recursive --project jupyter-flex --section-default THIRDPARTY jupyter_flex .
-	@black jupyter_flex .
+	@isort --recursive --project jupyter-flex --section-default THIRDPARTY .
+	@black .
 
 
 .PHONY: upload-pypi
@@ -96,7 +96,7 @@ upload-pypi:  ## Upload package to PyPI
 
 .PHONY: upload-test
 upload-test:  ## Upload package to test PyPI
-	twine upload --repository testpypi dist/*.tar.gz
+	twine upload --repository test dist/*.tar.gz
 
 
 # ------------------------------------------------------------------------------
@@ -115,17 +115,22 @@ serve-examples:  ## Serve examples using voila
 .PHONY: test
 test:  ## Run tests
 	mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
-	pytest -s -vv jupyter_flex/tests --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
+	pytest --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
 		-k $(TEST_FILTER) --html=test-results/report.html --self-contained-html
 
 
 .PHONY: test-baseline
 test-baselines:  ## Create test baselines
-	pytest -s -vv jupyter_flex/tests --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
+	pytest --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-save-baseline --needle-baseline-dir docs/assets/img/screenshots \
 		-k $(TEST_FILTER)
 
+
+.PHONY: report
+report:  ## Generate coverage reports
+	@coverage xml
+	@coverage html
 
 # ------------------------------------------------------------------------------
 # Docs
