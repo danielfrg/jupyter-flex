@@ -50,7 +50,7 @@ env:  ## Create virtualenv
 
 
 .PHONY: build
-build: cleanall assets package  ## Build assets and Python package
+build: assets package  ## Build assets and Python package
 
 
 .PHONY: assets
