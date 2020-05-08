@@ -3,7 +3,7 @@ import time
 import pytest
 
 
-pytestmark = [pytest.mark.nondestructive]
+pytestmark = [pytest.mark.nondestructive, pytest.mark.selenium]
 
 
 @pytest.fixture

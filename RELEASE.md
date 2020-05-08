@@ -1,22 +1,42 @@
 # How to release a new version
 
-- Update `CHANGELOG.md`
-- Update version `environment.yml`
-- Update links that go to binder.org on `README.md` and docs to use the new version tag
+## Upload to test PyPI
 
 ```
 export VERSION=1.0.0
-git commit -am "Release ${VERSION}" --allow-empty
-git tag -a ${VERSION} -m "${VERSION}"
-git push origin ${VERSION}
-git push
+git checkout -b release-${VERSION}
+
+git commit -am "Release ${VERSION}.rc0" --allow-empty
+git tag ${VERSION}.rc0
+
+make cleanall
+make build
+make upload-test
+
+# Create venv and install rc version
+pip install --extra-index-url=https://test.pypi.org/simple 'jupyter-flex[test]'==${VERSION}rc0
+pytest --pyargs jupyter-flex
+
+# Delete rc tag
+git tag -d ${VERSION}.rc0
 ```
 
+Merge branch when CI passes
+
+## Upload to PyPI
+
+- Update `CHANGELOG.md`
+- Update `README.md` and docs as needed
+
 ```
-make clean
+export VERSION=1.0.0
+
+git commit -am "Release ${VERSION}" --allow-empty
+git tag ${VERSION}
+
+make cleanall
 make build
 make upload-pypi
-
-# Upload to test PyPI
-make upload-test
+git push origin ${VERSION}
+git push
 ```
