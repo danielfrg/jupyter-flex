@@ -50,7 +50,7 @@ env:  ## Create virtualenv
 
 
 .PHONY: build
-build: assets package  ## Build assets and Python package
+build: cleanall assets package  ## Build assets and Python package
 
 
 .PHONY: assets
@@ -79,14 +79,14 @@ package:  ## Build Python package (sdist)
 .PHONY: check
 check:  ## Check linting
 	@flake8
-	@isort --check-only --diff --recursive --project jupyter_flex --section-default THIRDPARTY jupyter_flex .
-	@black --check jupyter_flex .
+	@isort --check-only --diff --recursive --project jupyter_flex --section-default THIRDPARTY .
+	@black --check .
 
 
 .PHONY: fmt
 fmt:  ## Format source
-	@isort --recursive --project jupyter-flex --section-default THIRDPARTY jupyter_flex .
-	@black jupyter_flex .
+	@isort --recursive --project jupyter-flex --section-default THIRDPARTY .
+	@black .
 
 
 .PHONY: upload-pypi
@@ -96,7 +96,7 @@ upload-pypi:  ## Upload package to PyPI
 
 .PHONY: upload-test
 upload-test:  ## Upload package to test PyPI
-	twine upload --repository testpypi dist/*.tar.gz
+	twine upload --repository test dist/*.tar.gz
 
 
 # ------------------------------------------------------------------------------
@@ -126,6 +126,11 @@ test-baselines:  ## Create test baselines
 		--base-url $(PYTEST_BASE_URL) --needle-save-baseline --needle-baseline-dir docs/assets/img/screenshots \
 		-k $(TEST_FILTER)
 
+
+.PHONY: report
+report:  ## Generate coverage reports
+	@coverage xml
+	@coverage html
 
 # ------------------------------------------------------------------------------
 # Docs
