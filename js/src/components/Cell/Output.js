@@ -1,5 +1,7 @@
 import React from "react";
 
+import { createMarkup } from "../../utils";
+
 class CellOutput extends React.Component {
     state = { displayData: "" };
 
@@ -36,10 +38,6 @@ class CellOutput extends React.Component {
         this.setState({ displayData: type });
     }
 
-    createMarkup(html) {
-        return { __html: html };
-    }
-
     runScript(reportScript) {
         // This runs the contents in script tag on a window/global scope
         let scriptToRun = reportScript;
@@ -66,7 +64,7 @@ class CellOutput extends React.Component {
         return (
             <div
                 className="output_html rendered_html output_subarea"
-                dangerouslySetInnerHTML={this.createMarkup(data["text/html"])}
+                dangerouslySetInnerHTML={createMarkup(data["text/html"])}
             ></div>
         );
     }
@@ -80,9 +78,7 @@ class CellOutput extends React.Component {
             <div
                 className="jp-RenderedSVG jp-OutputArea-output"
                 data-mime-type="image/svg+xml"
-                dangerouslySetInnerHTML={this.createMarkup(
-                    data["image/svg+xml"]
-                )}
+                dangerouslySetInnerHTML={createMarkup(data["image/svg+xml"])}
             ></div>
         );
     }

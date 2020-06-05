@@ -13,9 +13,6 @@ class Page extends React.Component {
 
     componentDidMount() {
         const { tags } = this.props;
-        console.log("!!!!");
-        console.log(this.props);
-
         this.setState({
             pageSlug: slugify(this.props.title),
             classNames: getTagValue(tags, "class", " "),

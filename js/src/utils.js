@@ -23,3 +23,7 @@ export function getTagValue(tags, tag, join = "") {
         .map((cls) => cls.replace(`${tag}=`, ""))
         .join(join);
 }
+
+export function createMarkup(html) {
+    return { __html: html };
+}
