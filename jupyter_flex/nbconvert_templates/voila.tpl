@@ -1,6 +1,6 @@
 {% set flex_extends_from = "base.tpl" %}
 {% set flex_app_initial_display = "none" %}
-{%- extends "flex-base.tpl" -%}
+{%- extends "flex-base.html.j2" -%}
 
 {%- block header -%}
 
@@ -130,6 +130,7 @@
 
 
 {%- block body_footer -%}
+
     <script type="text/javascript">
         (function() {
         // Remove the loading element

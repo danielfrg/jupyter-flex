@@ -131,7 +131,7 @@
     {# Create dashboard structure variable by iterating the notebook cells  #}
     {# ------------------------------------------------------------------------- #}
 
-    {% set _ = dashboard.update({"meta": [], "pages": [], "sidebar": {} }) %}
+    {% set _ = dashboard.update({"params": params, "meta": [], "pages": [], "sidebar": {} }) %}
     {% set vars = {} %}
     {% set _ = vars.update({"current_page_dir": params.page_flex_direction}) %}
     {% set _ = vars.update({"current_section_dir": params.section_flex_direction}) %}

@@ -1,0 +1,21 @@
+@import "../variables.scss";
+
+body {
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #333;
+    text-align: left;
+    background-color: #f0f2f6;
+}
+
+#react-root {
+    height: 100%;
+}
+
+#dashboard.filled {
+    .content-wrapper {
+        height: calc(100% - 51px);
+        padding: 0;
+    }
+}
