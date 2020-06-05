@@ -28,12 +28,12 @@ class Dashboard extends React.Component {
         if (pages.length > 0) {
             pages.forEach((page, i) => {
                 const pageSlug = slugify(page.title);
-                const pagePath = i == 0 ? "/" : pageSlug;
+                const pagePath = i == 0 ? "/" : `${pageSlug}`;
                 pageComponents.push(
                     <Page
                         key={i}
-                        title={page.title}
                         path={pagePath}
+                        title={page.title}
                         direction={page.direction}
                         tags={page.tags}
                         sections={page.sections}

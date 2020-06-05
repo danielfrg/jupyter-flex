@@ -38,6 +38,7 @@
     },
     "scripts": {
         "dev": "clear && parcel src/index.html",
+        "build": "clear && parcel build src/FlexRenderer.js",
         "fmt": "prettier --write \"src/**/*.{js,jsx}\"",
         "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
         "clean": "rm -rf .cache/ dist/",

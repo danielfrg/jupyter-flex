@@ -33,7 +33,8 @@ class NavBar extends React.Component {
             pages.forEach((page, i) => {
                 if (page.title) {
                     const pageSlug = slugify(page.title);
-                    const pagePath = i == 0 ? "/" : pageSlug;
+                    const pagePath = i == 0 ? "/" : `${pageSlug}`;
+
                     const newPage = (
                         <li key={page.title} className="nav-item">
                             <Link to={pagePath} className="nav-link">

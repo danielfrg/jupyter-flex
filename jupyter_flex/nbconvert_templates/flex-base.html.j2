@@ -306,15 +306,6 @@
                 {% endif %}
 
                 {# Encode outputs to safely insert them on <script> tags #}
-                {% set new_outputs = [] %}
-                {% for output in cell.outputs %}
-                    {% set _ = new_outputs.append(encoded) %}
-                    {% for key, value in output["data"].items() %}
-                        {% set encodedValue = value | replace("</script>", "</scr\\ipt>")  %}
-                        {% set _ = output["data"].update({key: encodedValue}) %}
-                    {% endfor %}
-                {% endfor %}
-
                 {% set _ = vars.current_card.cells.append(cell) %}
             {% endif %}
         {% endif %}
@@ -334,11 +325,11 @@
 {# Write the HTML from the dashboard structure #}
 {# ------------------------------------------------------------------------- #}
 
-{%- block dashboard_metadata -%}
+{%- block dashboard_data -%}
 <script id="jupyter-flex-dashboard" type="application/json">
 {{ dashboard | tojson }}
 </script>
-{%- endblock dashboard_metadata %}
+{%- endblock dashboard_data %}
 
 {%- block body_footer -%}
 {%- endblock body_footer -%}
