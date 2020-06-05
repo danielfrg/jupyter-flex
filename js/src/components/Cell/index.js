@@ -25,7 +25,6 @@ class Cell extends React.Component {
             }
             output["data"] = decodedData;
             decodedOutputs.push(output);
-            // output["data"].update({ key: encoded });
         });
 
         this.setState({
@@ -38,8 +37,6 @@ class Cell extends React.Component {
         if (this.state.loading) {
             return "... loading ...";
         }
-
-        const { outputs } = this.props;
 
         let outputComponents;
         if (this.state.debug) {

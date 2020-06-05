@@ -46,6 +46,7 @@ class Dashboard extends React.Component {
             <div id="dashboard" className="filled">
                 <header>
                     <NavBar
+                        title={this.state.dashboard.props.title}
                         author={this.state.dashboard.props.author}
                         source_code={this.state.dashboard.props.source_code}
                         kernel_name={this.state.dashboard.props.kernel_name}

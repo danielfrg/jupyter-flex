@@ -28,6 +28,10 @@
                 color: #fff;
             }
         }
+
+        .nav-link[aria-current="page"] {
+            color: #fff;
+        }
     }
 
     i.material-icons {

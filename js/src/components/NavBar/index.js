@@ -73,6 +73,7 @@ class NavBar extends React.Component {
         return (
             <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                 <div className="container-fluid">
+                    <span className="navbar-brand">{this.props.title}</span>
                     {togglerButton}
                     <div className="collapse navbar-collapse" id="navPages">
                         <ul className="nav navbar-nav mr-auto">{pagesHtml}</ul>

@@ -28,8 +28,8 @@ class Section extends React.Component {
         const { title, direction, tags, cards } = this.props;
 
         const sectionSlug = slugify(title);
-        const sectionDirection = this.state.useTabs ? "column" : direction;
         const sectionTabs = this.state.useTabs ? "section-tabs" : "";
+        const flexDirection = this.state.useTabs ? "column" : direction;
 
         let tabsButtons;
         if (this.state.useTabs) {
@@ -57,9 +57,10 @@ class Section extends React.Component {
                 );
             });
 
+            const tabsFill = this.state.tabsFill ? "nav-fill" : "";
             tabsButtons = (
                 <ul
-                    className={`nav nav-tabs nav-bordered ${this.state.tabsFill}`}
+                    className={`nav nav-tabs nav-bordered ${tabsFill}`}
                     id={`${sectionSlug}-nav`}
                     role="tablist"
                 >
@@ -91,12 +92,13 @@ class Section extends React.Component {
                     const cardSlug = slugify(card.header);
                     const tabName = `${cardSlug}-tab`;
                     const active = i == 0 ? "active show" : "";
+                    const tabsFade = this.state.tabsFade ? "fade" : "";
 
                     const el = (
                         <div
                             key={cardSlug}
                             id={cardSlug}
-                            className={`tab-pane ${this.state.tabsFade} ${active}`}
+                            className={`tab-pane ${tabsFade} ${active}`}
                             role="tabpanel"
                             aria-labelledby={tabName}
                         >
@@ -112,7 +114,7 @@ class Section extends React.Component {
                 });
 
                 cardComponents = (
-                    <div class="tab-content" id={`${sectionSlug}-tabs`}>
+                    <div className="tab-content" id={`${sectionSlug}-tabs`}>
                         {tabDivs}
                     </div>
                 );
@@ -121,7 +123,7 @@ class Section extends React.Component {
 
         return (
             <div
-                className={`section section-${sectionDirection} ${sectionTabs} d-flex flex-${sectionDirection} ${this.state.classNames}`}
+                className={`section section-${direction} ${sectionTabs} d-flex flex-${flexDirection} ${this.state.classNames}`}
                 style={{ flex: `${this.state.size} ${this.state.size} 0px` }}
             >
                 {tabsButtons}
