@@ -8,15 +8,32 @@ import "./style.scss";
 class Section extends React.Component {
     state = {
         size: 500,
-        classNames: "",
+        orientation: "",
         useTabs: false,
+        classNames: "",
     };
 
     componentDidMount() {
-        const { tags } = this.props;
+        console.log(this.props);
+        const { tags, pageOrientation } = this.props;
+
+        let orientation;
+        const orientationTag = getTagValue(tags, "orientation");
+        console.log(pageOrientation == "rows");
+        if (orientationTag) {
+            orientation = orientationTag;
+        } else if (pageOrientation == "rows") {
+            orientation = "columns";
+        } else {
+            // default: if (pageOrientation == "columns")
+            orientation = "rows";
+        }
+
+        const sizeTag = getTagValue(tags, "size");
 
         this.setState({
-            size: getTagValue(tags, "size"),
+            size: sizeTag ? sizeTag : 500,
+            orientation: orientation,
             classNames: getTagValue(tags, "class", " "),
             useTabs: tags.includes("tabs") ? true : false,
             tabsFill: tags.includes("no-nav-fill") ? false : true,
@@ -25,14 +42,22 @@ class Section extends React.Component {
     }
 
     render() {
-        const { title, direction, tags, cards } = this.props;
+        const { title, cards } = this.props;
 
         const sectionSlug = slugify(title);
         const sectionTabs = this.state.useTabs ? "section-tabs" : "";
-        const flexDirection = this.state.useTabs ? "column" : direction;
+
+        // Flip for flex
+        let flexDirection;
+        if (this.state.orientation == "columns") {
+            flexDirection = "row";
+        } else if (this.state.orientation == "rows") {
+            flexDirection = "column";
+        }
 
         let tabsButtons;
         if (this.state.useTabs) {
+            flexDirection = "column";
             let tabsItems = [];
             cards.forEach((card, i) => {
                 const cardSlug = slugify(card.header);
@@ -78,7 +103,7 @@ class Section extends React.Component {
                     const cardComponent = (
                         <Card
                             key={i}
-                            parentDirection={direction}
+                            sectionOrientation={this.state.orientation}
                             tags={card.tags}
                             cells={card.cells}
                         />
@@ -104,7 +129,7 @@ class Section extends React.Component {
                         >
                             <Card
                                 key={i}
-                                parentDirection={direction}
+                                sectionOrientation={this.state.orientation}
                                 tags={card.tags}
                                 cells={card.cells}
                             />
@@ -123,7 +148,7 @@ class Section extends React.Component {
 
         return (
             <div
-                className={`section section-${direction} ${sectionTabs} d-flex flex-${flexDirection} ${this.state.classNames}`}
+                className={`section section-${this.state.orientation} ${sectionTabs} d-flex flex-${flexDirection} ${this.state.classNames}`}
                 style={{ flex: `${this.state.size} ${this.state.size} 0px` }}
             >
                 {tabsButtons}

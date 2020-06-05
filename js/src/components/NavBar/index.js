@@ -9,10 +9,10 @@ class NavBar extends React.Component {
     componentDidMount() {}
 
     render() {
-        const { author, source_code, pages } = this.props;
+        const { title, author, sourceCode, kernelName, pages } = this.props;
 
         let togglerButton;
-        if (pages.length > 1 || source_code || author) {
+        if (pages.length > 1 || sourceCode || author) {
             togglerButton = (
                 <button
                     className="navbar-toggler"
@@ -53,13 +53,13 @@ class NavBar extends React.Component {
         }
 
         let sourceHtml;
-        if (source_code) {
+        if (sourceCode) {
             sourceHtml = (
                 <ul className="navbar-nav">
                     <li key="source-code" className="nav-item">
                         <a
                             className="nav-link"
-                            href={source_code}
+                            href={sourceCode}
                             target="_blank"
                             rel="noopener"
                             aria-label="Source Code"
@@ -74,7 +74,7 @@ class NavBar extends React.Component {
         return (
             <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                 <div className="container-fluid">
-                    <span className="navbar-brand">{this.props.title}</span>
+                    <span className="navbar-brand">{title}</span>
                     {togglerButton}
                     <div className="collapse navbar-collapse" id="navPages">
                         <ul className="nav navbar-nav mr-auto">{pagesHtml}</ul>

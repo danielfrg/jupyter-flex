@@ -12,7 +12,7 @@
     }
 
     // cards inside a row section
-    &.card-row {
+    &.card-rows {
         margin-right: 1rem;
 
         &:last-child {
@@ -21,7 +21,7 @@
     }
 
     // cards inside a columns section
-    &.card-column {
+    &.card-columns {
         margin-bottom: 1rem;
 
         &:last-child {

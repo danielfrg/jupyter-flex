@@ -9,30 +9,32 @@ class CellOutput extends React.Component {
         // Display Priority
 
         let type = "";
-        if ("image/svg+xml" in this.props.data) {
-            type = "image/svg+xml";
-        } else if ("image/png" in this.props.data) {
-            type = "image/png";
-        } else if ("text/html" in this.props.data) {
-            type = "text/html";
-        } else if ("text/markdown" in this.props.data) {
-            type = "text/markdown";
-        } else if ("image/jpeg" in this.props.data) {
-            type = "image/jpeg";
-        } else if ("text/plain" in this.props.data) {
-            type = "text/plain";
-        } else if ("text/latex" in this.props.data) {
-            type = "text/latex";
-        } else if ("application/javascript" in this.props.data) {
-            type = "application/javascript";
-        } else if (
-            "application/vnd.jupyter.widget-state+json" in this.props.data
-        ) {
-            type = "application/vnd.jupyter.widget-state+json";
-        } else if (
-            "application/vnd.jupyter.widget-view+json" in this.props.data
-        ) {
-            type = "application/vnd.jupyter.widget-view+json";
+        if (this.props.data) {
+            if ("image/svg+xml" in this.props.data) {
+                type = "image/svg+xml";
+            } else if ("image/png" in this.props.data) {
+                type = "image/png";
+            } else if ("text/html" in this.props.data) {
+                type = "text/html";
+            } else if ("text/markdown" in this.props.data) {
+                type = "text/markdown";
+            } else if ("image/jpeg" in this.props.data) {
+                type = "image/jpeg";
+            } else if ("text/plain" in this.props.data) {
+                type = "text/plain";
+            } else if ("text/latex" in this.props.data) {
+                type = "text/latex";
+            } else if ("application/javascript" in this.props.data) {
+                type = "application/javascript";
+            } else if (
+                "application/vnd.jupyter.widget-state+json" in this.props.data
+            ) {
+                type = "application/vnd.jupyter.widget-state+json";
+            } else if (
+                "application/vnd.jupyter.widget-view+json" in this.props.data
+            ) {
+                type = "application/vnd.jupyter.widget-view+json";
+            }
         }
 
         this.setState({ displayData: type });

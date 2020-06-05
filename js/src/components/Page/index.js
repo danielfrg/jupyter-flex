@@ -8,19 +8,48 @@ import "./style.scss";
 class Page extends React.Component {
     state = {
         pageSlug: "",
+        orientation: "",
         classNames: "",
+        loading: true,
     };
 
     componentDidMount() {
-        const { tags } = this.props;
+        const {
+            tags,
+            dashboardOrientation,
+            dashboardVerticaLayout,
+        } = this.props;
+
+        let orientation;
+        const orientationTag = getTagValue(tags, "orientation");
+        if (orientationTag) {
+            orientation = orientationTag;
+        } else {
+            orientation = dashboardOrientation;
+        }
+
         this.setState({
             pageSlug: slugify(this.props.title),
+            orientation: orientation,
             classNames: getTagValue(tags, "class", " "),
+            loading: false,
         });
     }
 
     render() {
-        const { title, direction, tags, sections } = this.props;
+        if (this.state.loading) {
+            return <p>... loading ...</p>;
+        }
+
+        const { sections } = this.props;
+
+        // Flip for flex
+        let flexDirection;
+        if (this.state.orientation == "columns") {
+            flexDirection = "row";
+        } else if (this.state.orientation == "rows") {
+            flexDirection = "column";
+        }
 
         let sectionComponents = [];
         if (sections.length > 0) {
@@ -29,7 +58,7 @@ class Page extends React.Component {
                     <Section
                         key={i}
                         title={section.title}
-                        direction={section.direction}
+                        pageOrientation={this.state.orientation}
                         tags={section.tags}
                         cards={section.cards}
                     />
@@ -39,7 +68,7 @@ class Page extends React.Component {
 
         return (
             <div
-                className={`page container-fluid d-flex flex-${direction} ${this.state.classNames}`}
+                className={`page container-fluid d-flex flex-${flexDirection} ${this.state.classNames}`}
             >
                 {sectionComponents}
             </div>

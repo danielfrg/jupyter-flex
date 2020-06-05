@@ -15,8 +15,21 @@ class Card extends React.Component {
     };
 
     componentDidMount() {
-        const { tags } = this.props;
+        const { tags, sectionOrientation } = this.props;
+
+        let orientation;
+        const orientationTag = getTagValue(tags, "orientation");
+        if (orientationTag) {
+            orientation = orientationTag;
+        } else if (sectionOrientation == "rows") {
+            orientation = "columns";
+        } else {
+            // default: if (sectionOrientation == "columns")
+            orientation = "rows";
+        }
+
         const sizeTag = getTagValue(tags, "size");
+
         this.setState({
             size: sizeTag ? sizeTag : 500,
             classNames: getTagValue(tags, "class", " "),
@@ -27,7 +40,7 @@ class Card extends React.Component {
     }
 
     render() {
-        const { parentDirection, header, cells } = this.props;
+        const { sectionOrientation, header, cells } = this.props;
 
         let headerHtml;
         if (header) {
@@ -69,7 +82,7 @@ class Card extends React.Component {
 
         return (
             <div
-                className={`card card-${parentDirection} ${this.state.classNames}" style="flex: ${this.state.size} ${this.state.size} 0px;`}
+                className={`card card-${sectionOrientation} ${this.state.classNames}" style="flex: ${this.state.size} ${this.state.size} 0px;`}
                 style={{ flex: `${this.state.size} ${this.state.size} 0px` }}
             >
                 {headerHtml}

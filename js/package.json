@@ -44,6 +44,9 @@
         "fmt": "prettier --write \"src/**/*.{js,jsx}\"",
         "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
         "clean": "rm -rf .cache/ dist/",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "jest --silent",
+        "test:coverage": "jest --coverage",
+        "test:update": "jest -u",
+        "test:watch": "jest --watch"
     }
 }
