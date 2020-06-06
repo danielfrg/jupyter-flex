@@ -57,10 +57,8 @@ class Page extends React.Component {
                 sectionComponents.push(
                     <Section
                         key={i}
-                        title={section.title}
                         pageOrientation={this.state.orientation}
-                        tags={section.tags}
-                        cards={section.cards}
+                        {...section}
                     />
                 );
             });

@@ -59,11 +59,9 @@ class Dashboard extends React.Component {
                     <Page
                         key={i}
                         path={pagePath}
-                        title={page.title}
                         dashboardOrientation={this.state.orientation}
                         dashboardVerticaLayout={this.state.verticaLayout}
-                        tags={page.tags}
-                        sections={page.sections}
+                        {...page}
                     />
                 );
             });

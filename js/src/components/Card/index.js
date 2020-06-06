@@ -40,44 +40,33 @@ class Card extends React.Component {
     }
 
     render() {
-        const { sectionOrientation, header, cells } = this.props;
+        const { sectionOrientation, header, cells, footer } = this.props;
 
         let headerHtml;
-        if (header) {
-            let helpHtml;
-            if (isHelp) {
-                <span
-                    className="help-button"
-                    data-toggle="popover"
-                    data-trigger="focus"
-                    data-content="TODO HELP CONTENT"
-                >
-                    <i className="material-icons">help_outline</i>
-                </span>;
-            }
-
+        if (header && !this.props.insideTabs) {
             headerHtml = (
                 <div className="card-header d-flex justify-content-between align-items-baseline">
                     <h6>{header}</h6>
-                    {helpHtml}
                 </div>
             );
         }
 
-        let cellComponents = [];
+        let contentComponents = [];
         if (cells.length > 0) {
             cells.forEach((cell, i) => {
-                cellComponents.push(
-                    <Cell
-                        key={i}
-                        cell_type={cell.cell_type}
-                        execution_count={cell.execution_count}
-                        metadata={cell.metadata}
-                        outputs={cell.outputs}
-                        source={cell.source}
-                    />
-                );
+                contentComponents.push(<Cell key={i} {...cell} />);
             });
+        }
+
+        let footerComponents = [];
+        if (footer && footer.length > 0) {
+            footer.forEach((cell, i) => {
+                footerComponents.push(<Cell key={i} {...cell} />);
+            });
+
+            footerComponents = (
+                <div className="card-footer text-muted">{footerComponents}</div>
+            );
         }
 
         return (
@@ -88,8 +77,10 @@ class Card extends React.Component {
                 {headerHtml}
 
                 <div className="card-body d-flex flex-column">
-                    {cellComponents}
+                    {contentComponents}
                 </div>
+
+                {footerComponents}
             </div>
         );
     }

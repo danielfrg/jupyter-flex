@@ -1,2 +1,2 @@
-voila>=0.1.11
-nbconvert>=4.2
+voila>=0.1.21
+nbconvert>=4.2<6.0.0

@@ -14,12 +14,10 @@ class Section extends React.Component {
     };
 
     componentDidMount() {
-        console.log(this.props);
         const { tags, pageOrientation } = this.props;
 
         let orientation;
         const orientationTag = getTagValue(tags, "orientation");
-        console.log(pageOrientation == "rows");
         if (orientationTag) {
             orientation = orientationTag;
         } else if (pageOrientation == "rows") {
@@ -104,8 +102,7 @@ class Section extends React.Component {
                         <Card
                             key={i}
                             sectionOrientation={this.state.orientation}
-                            tags={card.tags}
-                            cells={card.cells}
+                            {...card}
                         />
                     );
                     cardComponents.push(cardComponent);
@@ -130,8 +127,8 @@ class Section extends React.Component {
                             <Card
                                 key={i}
                                 sectionOrientation={this.state.orientation}
-                                tags={card.tags}
-                                cells={card.cells}
+                                insideTabs={true}
+                                {...card}
                             />
                         </div>
                     );

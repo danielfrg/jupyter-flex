@@ -7,7 +7,7 @@ import { createMarkup } from "../../utils";
 import "./style.scss";
 
 class Cell extends React.Component {
-    converter;
+    mdconverter;
     state = {
         loading: true,
         debug: false,
@@ -17,7 +17,7 @@ class Cell extends React.Component {
     componentDidMount() {
         const { outputs } = this.props;
 
-        this.converter = new showdown.Converter({
+        this.mdconverter = new showdown.Converter({
             tables: true,
         });
 
@@ -43,21 +43,14 @@ class Cell extends React.Component {
                 <div
                     className="output_markdown rendered_html output_subarea markdown-body"
                     dangerouslySetInnerHTML={createMarkup(
-                        this.converter.makeHtml(this.props.source)
+                        this.mdconverter.makeHtml(this.props.source)
                     )}
                 ></div>
             );
         } else {
             outputComponents = [];
             this.state.outputs.forEach((output, i) => {
-                outputComponents.push(
-                    <CellOutput
-                        key={i}
-                        data={output.data}
-                        metadata={output.metadata}
-                        output_type={output.output_type}
-                    />
-                );
+                outputComponents.push(<CellOutput key={i} {...output} />);
             });
 
             return (

@@ -2,12 +2,19 @@ import React from "react";
 
 import { createMarkup } from "../../utils";
 
+var Convert = require("ansi-to-html");
+
 class CellOutput extends React.Component {
+    ansiConverter;
     state = { displayData: "" };
+
+    constructor(props) {
+        super(props);
+        this.ansiConverter = new Convert();
+    }
 
     componentDidMount() {
         // Display Priority
-
         let type = "";
         if (this.props.data) {
             if ("image/svg+xml" in this.props.data) {
@@ -40,18 +47,62 @@ class CellOutput extends React.Component {
         this.setState({ displayData: type });
     }
 
-    runScript(reportScript) {
-        // This runs the contents in script tag on a window/global scope
-        let scriptToRun = reportScript;
-        if (scriptToRun !== undefined) {
-            //remove <script> and </script> tags since eval expects only code without html tags
-            let scriptLines = scriptToRun.split("\n");
-            scriptLines.pop();
-            scriptLines.shift();
-            let cleanScript = scriptLines.join("\n");
-            // console.log("running script ", cleanScript);
-            window.eval(cleanScript);
+    render() {
+        const { data, output_type } = this.props;
+
+        if (output_type == "stream") {
+            return this.displayStream(this.props.text);
         }
+
+        let el = "";
+        switch (this.state.displayData) {
+            case "image/svg+xml":
+                el = this.displaySVG(data);
+                break;
+            case "image/png":
+                el = this.displayPNG(data);
+                break;
+            case "text/html":
+                el = this.displayHTML(data);
+                break;
+            case "text/markdown":
+                break;
+            case "image/jpeg":
+                el = this.displayJPEG(data);
+                break;
+            case "text/plain":
+                el = this.displayTextPlain(data);
+                break;
+            case "text/latex":
+                break;
+            case "application/javascript":
+                break;
+            case "application/vnd.jupyter.widget-state+json":
+                break;
+            case "application/vnd.jupyter.widget-view+json":
+                break;
+        }
+
+        return el;
+    }
+
+    displayStream(text) {
+        return (
+            <div className="output_subarea output_stream output_stdout output_text">
+                <pre>{this.ansiConverter.toHtml(text)}</pre>
+            </div>
+        );
+    }
+
+    getMetadata(key, mimetype = "") {
+        if (mimetype && mimetype in this.props.metadata) {
+            return this.props.metadata[mimetype][key];
+        }
+        return this.props.metadata[key];
+    }
+
+    displayTextPlain(data) {
+        return <pre>{data["text/plain"]}</pre>;
     }
 
     displayHTML(data) {
@@ -71,8 +122,18 @@ class CellOutput extends React.Component {
         );
     }
 
-    displayTextPlain(data) {
-        return <pre>{data["text/plain"]}</pre>;
+    runScript(reportScript) {
+        // This runs the contents in script tag on a window/global scope
+        let scriptToRun = reportScript;
+        if (scriptToRun !== undefined) {
+            //remove <script> and </script> tags since eval expects only code without html tags
+            let scriptLines = scriptToRun.split("\n");
+            scriptLines.pop();
+            scriptLines.shift();
+            let cleanScript = scriptLines.join("\n");
+            // console.log("running script ", cleanScript);
+            window.eval(cleanScript);
+        }
     }
 
     displaySVG(data) {
@@ -83,13 +144,6 @@ class CellOutput extends React.Component {
                 dangerouslySetInnerHTML={createMarkup(data["image/svg+xml"])}
             ></div>
         );
-    }
-
-    getMetadata(key, mimetype = "") {
-        if (mimetype && mimetype in this.props.metadata) {
-            return this.props.metadata[mimetype][key];
-        }
-        return this.props.metadata[key];
     }
 
     displayPNG(data) {
@@ -173,41 +227,6 @@ class CellOutput extends React.Component {
                 {components}
             </div>
         );
-    }
-
-    render() {
-        const { data, metadata, output_type } = this.props;
-        let el = "";
-
-        switch (this.state.displayData) {
-            case "image/svg+xml":
-                el = this.displaySVG(data);
-                break;
-            case "image/png":
-                el = this.displayPNG(data);
-                break;
-            case "text/html":
-                el = this.displayHTML(data);
-                break;
-            case "text/markdown":
-                break;
-            case "image/jpeg":
-                el = this.displayJPEG(data);
-                break;
-            case "text/plain":
-                el = this.displayTextPlain(data);
-                break;
-            case "text/latex":
-                break;
-            case "application/javascript":
-                break;
-            case "application/vnd.jupyter.widget-state+json":
-                break;
-            case "application/vnd.jupyter.widget-view+json":
-                break;
-        }
-
-        return el;
     }
 }
 
