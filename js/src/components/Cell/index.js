@@ -1,7 +1,7 @@
 import React from "react";
 import showdown from "showdown";
 
-import CellOutput from "./Output";
+import Output from "../Output";
 import { createMarkup } from "../utils";
 
 import "./style.scss";
@@ -9,14 +9,19 @@ import "./style.scss";
 class Cell extends React.Component {
     constructor(props) {
         super(props);
-        const { outputs } = this.props;
+        const { outputs, resizePlots } = this.props;
 
         this.mdconverter = new showdown.Converter({
             tables: true,
+            strikethrough: true,
+            tasklists: true,
+            simplifiedAutoLink: true,
+            parseImgDimension: true,
         });
 
         this.state = {
             outputs: outputs,
+            resizePlots: resizePlots,
             debug: false,
         };
     }
@@ -40,7 +45,13 @@ class Cell extends React.Component {
             outputComponents = [];
             if (this.state.outputs) {
                 this.state.outputs.forEach((output, i) => {
-                    outputComponents.push(<CellOutput key={i} {...output} />);
+                    outputComponents.push(
+                        <Output
+                            key={i}
+                            resizePlots={this.state.resizePlots}
+                            {...output}
+                        />
+                    );
                 });
             }
 

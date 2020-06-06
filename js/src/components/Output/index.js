@@ -1,10 +1,10 @@
 import React from "react";
-
-import { createMarkup, uuidv4 } from "../utils";
-
 var Convert = require("ansi-to-html");
 
-class CellOutput extends React.Component {
+import { createMarkup, uuidv4 } from "../utils";
+import "./style.scss";
+
+class Output extends React.Component {
     ansiConverter;
     state = { displayData: "" };
 
@@ -81,6 +81,11 @@ class CellOutput extends React.Component {
                 break;
         }
 
+        console.log(this);
+        if (this.props.resizePlots) {
+            this.resizePlots(el);
+        }
+
         return el;
     }
 
@@ -148,54 +153,51 @@ class CellOutput extends React.Component {
             // console.log("running script ", cleanScript);
             window.eval(cleanScript);
         }
-        this.resizePlots();
     }
 
-    resizePlots() {
-        // This function mostly hacks around the fact some JS libraries
-        // Create DOM elements with fixed sizes
+    resizePlots(el) {
+        // This function mostly hacks around the fact some JS libraries that
+        // create DOM elements with fixed sizes
         let plot_resize = () => {
+            el;
             // if (flex_vertical_layout == "fill") {
-            var counter = 0;
-
-            var looper = setInterval(function () {
-                var nodelist = document.querySelectorAll(".js-plotly-plot");
-                var plots = Array.from(nodelist);
-                plots.map(function (obj) {
-                    obj.style.width = "100%";
-                });
-                plots.map(function (obj) {
-                    obj.style.height = "100%";
-                });
-                if (nodelist.length > 0) {
-                    window.dispatchEvent(new Event("resize"));
-                }
-
-                nodelist = document.querySelectorAll(".bqplot");
-                plots = Array.from(nodelist);
-                plots.map(function (obj) {
-                    obj.style.width = "100%";
-                });
-                plots.map(function (obj) {
-                    obj.style.height = "100%";
-                });
-                if (nodelist.length > 0) {
-                    window.dispatchEvent(new Event("resize"));
-                }
-
-                nodelist = document.querySelectorAll(".vega-embed");
-                plots = Array.from(nodelist);
-                if (nodelist.length > 0) {
-                    window.dispatchEvent(new Event("resize"));
-                }
-
-                if (counter >= 25) {
-                    clearInterval(looper);
-                }
-                counter++;
-            }, 200);
+            // var counter = 0;
+            // var looper = setInterval(function () {
+            //     var nodelist = document.querySelectorAll(".js-plotly-plot");
+            //     var plots = Array.from(nodelist);
+            //     plots.map(function (obj) {
+            //         obj.style.width = "100%";
+            //     });
+            //     plots.map(function (obj) {
+            //         obj.style.height = "100%";
+            //     });
+            //     if (nodelist.length > 0) {
+            //         window.dispatchEvent(new Event("resize"));
+            //     }
+            //     nodelist = document.querySelectorAll(".bqplot");
+            //     plots = Array.from(nodelist);
+            //     plots.map(function (obj) {
+            //         obj.style.width = "100%";
+            //     });
+            //     plots.map(function (obj) {
+            //         obj.style.height = "100%";
+            //     });
+            //     if (nodelist.length > 0) {
+            //         window.dispatchEvent(new Event("resize"));
+            //     }
+            //     nodelist = document.querySelectorAll(".vega-embed");
+            //     plots = Array.from(nodelist);
+            //     if (nodelist.length > 0) {
+            //         window.dispatchEvent(new Event("resize"));
+            //     }
+            //     if (counter >= 25) {
+            //         clearInterval(looper);
+            //     }
+            //     counter++;
+            // }, 200);
             // }
         };
+
         plot_resize();
     }
 
@@ -300,4 +302,4 @@ class CellOutput extends React.Component {
     }
 }
 
-export default CellOutput;
+export default Output;

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 
 import Cell from "../Cell";
 import { getTagValue } from "../utils";
@@ -42,15 +42,13 @@ class Card extends React.Component {
 
                 let helpCells = [];
                 help.forEach((cell, i) => {
-                    console.log(cell);
-                    helpCells.push(<Cell key={i} {...cell} />);
+                    helpCells.push(
+                        <Cell key={i} resizePlots={false} {...cell} />
+                    );
                 });
 
                 modal = (
-                    <Modal
-                        title={`${header} help`}
-                        onCloseClick={this.toggleModal}
-                    >
+                    <Modal title={`${header}`} onCloseClick={this.toggleModal}>
                         {helpCells}
                     </Modal>
                 );
@@ -67,7 +65,9 @@ class Card extends React.Component {
         let contentComponents = [];
         if (cells.length > 0) {
             cells.forEach((cell, i) => {
-                contentComponents.push(<Cell key={i} {...cell} />);
+                contentComponents.push(
+                    <Cell resizePlots={true} key={i} {...cell} />
+                );
             });
         }
 

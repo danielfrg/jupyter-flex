@@ -22,7 +22,7 @@ class Modal extends React.Component {
     render() {
         let children = (
             <div
-                id="exampleModalLive"
+                id="modal"
                 className="modal fade show"
                 tabIndex="-1"
                 role="dialog"
@@ -45,16 +45,6 @@ class Modal extends React.Component {
                             </button>
                         </div>
                         <div className="modal-body">{this.props.children}</div>
-                        <div className="modal-footer">
-                            <button
-                                type="button"
-                                className="btn btn-secondary"
-                                data-dismiss="modal"
-                                onClick={this.props.onCloseClick}
-                            >
-                                Close
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
