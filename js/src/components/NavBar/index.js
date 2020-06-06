@@ -82,13 +82,12 @@ class NavBar extends React.Component {
                     {togglerButton}
                     <div className="collapse navbar-collapse" id="navPages">
                         <ul className="nav navbar-nav mr-auto">{pagesHtml}</ul>
+                        {authorHtml}
+                        {sourceHtml}
+                        <span className="d-inline-block" data-toggle="tooltip">
+                            <div id="kernel-activity"></div>
+                        </span>
                     </div>
-                    {authorHtml}
-                    {sourceHtml}
-
-                    <span className="d-inline-block" data-toggle="tooltip">
-                        <div id="kernel-activity"></div>
-                    </span>
                 </div>
             </nav>
         );
