@@ -6,15 +6,8 @@ import { getTagValue } from "../../utils";
 import "./style.scss";
 
 class Card extends React.Component {
-    state = {
-        size: 500,
-        classNames: "",
-        isText: false,
-        isFooter: false,
-        isHelp: false,
-    };
-
-    componentDidMount() {
+    constructor(props) {
+        super(props);
         const { tags, sectionOrientation } = this.props;
 
         let orientation;
@@ -30,13 +23,13 @@ class Card extends React.Component {
 
         const sizeTag = getTagValue(tags, "size");
 
-        this.setState({
+        this.state = {
             size: sizeTag ? sizeTag : 500,
             classNames: getTagValue(tags, "class", " "),
             isText: tags.includes("text") ? true : false,
             isFooter: tags.includes("footer") ? true : false,
             isHelp: tags.includes("help") ? true : false,
-        });
+        };
     }
 
     render() {

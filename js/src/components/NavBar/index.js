@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "@reach/router";
+import { NavLink } from "react-router-dom";
 
 import { slugify } from "../../utils";
 
@@ -34,12 +34,16 @@ class NavBar extends React.Component {
                 if (page.title) {
                     const pageSlug = slugify(page.title);
                     const pagePath = i == 0 ? "/" : `${pageSlug}`;
-
                     const newPage = (
                         <li key={page.title} className="nav-item">
-                            <Link to={pagePath} className="nav-link">
+                            <NavLink
+                                to={pagePath}
+                                exact={true}
+                                className="nav-link"
+                                activeClassName="active"
+                            >
                                 {page.title}
-                            </Link>
+                            </NavLink>
                         </li>
                     );
                     pagesHtml.push(newPage);

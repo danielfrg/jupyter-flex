@@ -6,15 +6,9 @@ import { getTagValue, slugify } from "../../utils";
 import "./style.scss";
 
 class Section extends React.Component {
-    state = {
-        size: 500,
-        orientation: "",
-        useTabs: false,
-        classNames: "",
-    };
-
-    componentDidMount() {
-        const { tags, pageOrientation } = this.props;
+    constructor(props) {
+        super(props);
+        const { tags, pageOrientation } = props;
 
         let orientation;
         const orientationTag = getTagValue(tags, "orientation");
@@ -29,14 +23,14 @@ class Section extends React.Component {
 
         const sizeTag = getTagValue(tags, "size");
 
-        this.setState({
+        this.state = {
             size: sizeTag ? sizeTag : 500,
             orientation: orientation,
             classNames: getTagValue(tags, "class", " "),
             useTabs: tags.includes("tabs") ? true : false,
             tabsFill: tags.includes("no-nav-fill") ? false : true,
             tabsFade: tags.includes("no-nav-fill") ? false : true,
-        });
+        };
     }
 
     render() {

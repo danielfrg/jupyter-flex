@@ -27,10 +27,10 @@
             &:hover {
                 color: #fff;
             }
-        }
 
-        .nav-link[aria-current="page"] {
-            color: #fff;
+            &.active {
+                color: #fff;
+            }
         }
     }
 

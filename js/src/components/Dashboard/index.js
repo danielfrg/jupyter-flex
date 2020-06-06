@@ -1,5 +1,5 @@
 import React from "react";
-import { Router } from "@reach/router";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 
 import NavBar from "../NavBar";
 import Page from "../Page";
@@ -8,18 +8,9 @@ import { slugify } from "../../utils";
 import "./style.scss";
 
 class Dashboard extends React.Component {
-    state = {
-        loading: true,
-        title: "",
-        author: "",
-        kernelName: "",
-        sourceCode: "",
-        orientation: "",
-        verticaLayout: "",
-        pages: [],
-    };
+    constructor(props) {
+        super(props);
 
-    componentDidMount() {
         const dashboardTag = document.body.querySelector(
             `script[id="jupyter-flex-dashboard"]`
         );
@@ -32,8 +23,7 @@ class Dashboard extends React.Component {
         // Default is verticalLayout=fill
         const orientation = verticalLayout == "scroll" ? "rows" : "columns";
 
-        this.setState({
-            loading: false,
+        this.state = {
             dashboard: json,
             title: json["props"]["title"],
             author: json["props"]["author"],
@@ -42,48 +32,67 @@ class Dashboard extends React.Component {
             orientation: orientation,
             sourceCode: json["props"]["source_code"],
             pages: json["pages"],
-        });
+        };
     }
 
     render() {
-        if (this.state.loading) {
-            return <h1>loading … </h1>;
-        }
-
-        let pageComponents = [];
+        let routes = [];
         if (this.state.pages.length > 0) {
             this.state.pages.forEach((page, i) => {
                 const pageSlug = slugify(page.title);
-                const pagePath = i == 0 ? "/" : `${pageSlug}`;
-                pageComponents.push(
+                const pagePath = i == 0 ? "/" : `/${pageSlug}`;
+                const el = (
                     <Page
-                        key={i}
-                        path={pagePath}
                         dashboardOrientation={this.state.orientation}
                         dashboardVerticaLayout={this.state.verticaLayout}
                         {...page}
                     />
                 );
+                routes.push({ path: pagePath, component: el });
             });
         }
 
+        const routeComponents = routes.map(({ path, component }, key) => (
+            <Route exact path={path} key={key}>
+                {component}
+            </Route>
+        ));
+
         return (
-            <div id="dashboard" className={this.state.verticaLayout}>
-                <header>
-                    <NavBar
-                        title={this.state.title}
-                        author={this.state.author}
-                        sourceCode={this.state.sourceCode}
-                        kernelName={this.state.kernelName}
-                        pages={this.state.pages}
-                    />
-                </header>
-                <main role="main" className="container-fluid content-wrapper">
-                    <Router style={{ height: "100%" }}>{pageComponents}</Router>
-                </main>
-            </div>
+            <Router>
+                <div id="dashboard" className={this.state.verticaLayout}>
+                    <header>
+                        <NavBar
+                            title={this.state.title}
+                            author={this.state.author}
+                            sourceCode={this.state.sourceCode}
+                            kernelName={this.state.kernelName}
+                            pages={this.state.pages}
+                        />
+                    </header>
+
+                    <main
+                        role="main"
+                        className="container-fluid content-wrapper"
+                    >
+                        <Switch>{routeComponents}</Switch>
+                    </main>
+                </div>
+            </Router>
         );
     }
+}
+
+function Home() {
+    return <h2>Home</h2>;
+}
+
+function About() {
+    return <h2>About</h2>;
+}
+
+function Users() {
+    return <h2>Users</h2>;
 }
 
 export default Dashboard;

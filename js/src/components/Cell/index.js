@@ -7,32 +7,21 @@ import { createMarkup } from "../../utils";
 import "./style.scss";
 
 class Cell extends React.Component {
-    mdconverter;
-    state = {
-        loading: true,
-        debug: false,
-        outputs: [],
-    };
-
-    componentDidMount() {
+    constructor(props) {
+        super(props);
         const { outputs } = this.props;
 
         this.mdconverter = new showdown.Converter({
             tables: true,
         });
 
-        this.setState({
+        this.state = {
             outputs: outputs,
-            loading: false,
-        });
+            debug: false,
+        };
     }
 
     render() {
-        if (this.state.loading) {
-            return "... loading ...";
-        }
-
-        let markdown;
         let outputComponents;
         if (this.state.debug) {
             return <pre>{this.props.source}</pre>;
@@ -49,9 +38,11 @@ class Cell extends React.Component {
             );
         } else {
             outputComponents = [];
-            this.state.outputs.forEach((output, i) => {
-                outputComponents.push(<CellOutput key={i} {...output} />);
-            });
+            if (this.state.outputs) {
+                this.state.outputs.forEach((output, i) => {
+                    outputComponents.push(<CellOutput key={i} {...output} />);
+                });
+            }
 
             return (
                 <div

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { createMarkup } from "../../utils";
+import { createMarkup, uuidv4 } from "../../utils";
 
 var Convert = require("ansi-to-html");
 
@@ -11,10 +11,7 @@ class CellOutput extends React.Component {
     constructor(props) {
         super(props);
         this.ansiConverter = new Convert();
-    }
 
-    componentDidMount() {
-        // Display Priority
         let type = "";
         if (this.props.data) {
             if ("image/svg+xml" in this.props.data) {
@@ -27,8 +24,6 @@ class CellOutput extends React.Component {
                 type = "text/markdown";
             } else if ("image/jpeg" in this.props.data) {
                 type = "image/jpeg";
-            } else if ("text/plain" in this.props.data) {
-                type = "text/plain";
             } else if ("text/latex" in this.props.data) {
                 type = "text/latex";
             } else if ("application/javascript" in this.props.data) {
@@ -41,10 +36,12 @@ class CellOutput extends React.Component {
                 "application/vnd.jupyter.widget-view+json" in this.props.data
             ) {
                 type = "application/vnd.jupyter.widget-view+json";
+            } else if ("text/plain" in this.props.data) {
+                type = "text/plain";
             }
         }
 
-        this.setState({ displayData: type });
+        this.state = { displayData: type };
     }
 
     render() {
@@ -80,10 +77,27 @@ class CellOutput extends React.Component {
             case "application/vnd.jupyter.widget-state+json":
                 break;
             case "application/vnd.jupyter.widget-view+json":
+                el = this.displayWidgetView(data);
                 break;
         }
 
         return el;
+    }
+
+    displayWidgetView(data) {
+        const uuid = uuidv4();
+        return (
+            <div id={uuid} className="output_subarea output_widget_state">
+                <script type="text/javascript">
+                    {`var element = document.getElementById("${uuid}");`}
+                </script>
+                <script type="application/vnd.jupyter.widget-view+json">
+                    {JSON.stringify(
+                        data["application/vnd.jupyter.widget-view+json"]
+                    )}
+                </script>
+            </div>
+        );
     }
 
     displayStream(text) {

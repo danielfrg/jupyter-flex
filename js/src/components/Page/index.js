@@ -6,14 +6,9 @@ import { slugify, getTagValue } from "../../utils";
 import "./style.scss";
 
 class Page extends React.Component {
-    state = {
-        pageSlug: "",
-        orientation: "",
-        classNames: "",
-        loading: true,
-    };
+    constructor(props) {
+        super(props);
 
-    componentDidMount() {
         const {
             tags,
             dashboardOrientation,
@@ -28,19 +23,15 @@ class Page extends React.Component {
             orientation = dashboardOrientation;
         }
 
-        this.setState({
+        this.state = {
             pageSlug: slugify(this.props.title),
             orientation: orientation,
             classNames: getTagValue(tags, "class", " "),
             loading: false,
-        });
+        };
     }
 
     render() {
-        if (this.state.loading) {
-            return <p>... loading ...</p>;
-        }
-
         const { sections } = this.props;
 
         // Flip for flex
