@@ -1,6 +1,6 @@
 import React from "react";
 
-import { createMarkup, uuidv4 } from "../../utils";
+import { createMarkup, uuidv4 } from "../utils";
 
 var Convert = require("ansi-to-html");
 
@@ -182,12 +182,17 @@ class CellOutput extends React.Component {
         let components;
         if (usesFilesnames) {
             components = (
-                <img src={metadata["filenames"]["image/png"]} {...params}></img>
+                <img
+                    src={metadata["filenames"]["image/png"]}
+                    alt="Output"
+                    {...params}
+                ></img>
             );
         } else {
             components = (
                 <img
                     src={`data:image/png;base64,${data["image/png"]}`}
+                    alt="Output"
                     {...params}
                 ></img>
             );
@@ -224,6 +229,7 @@ class CellOutput extends React.Component {
             components = (
                 <img
                     src={metadata["filenames"]["image/jpeg"]}
+                    alt="Output"
                     {...params}
                 ></img>
             );
@@ -231,6 +237,7 @@ class CellOutput extends React.Component {
             components = (
                 <img
                     src={`data:image/jpeg;base64,${data["image/jpeg"]}`}
+                    alt="Output"
                     {...params}
                 ></img>
             );

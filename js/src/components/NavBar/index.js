@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-import { slugify } from "../../utils";
+import { slugify } from "../utils";
 
 import "./style.scss";
 
@@ -9,7 +9,7 @@ class NavBar extends React.Component {
     componentDidMount() {}
 
     render() {
-        const { title, author, sourceCode, kernelName, pages } = this.props;
+        const { title, author, sourceCode, pages } = this.props;
 
         let togglerButton;
         if (pages.length > 1 || sourceCode || author) {
@@ -65,7 +65,7 @@ class NavBar extends React.Component {
                             className="nav-link"
                             href={sourceCode}
                             target="_blank"
-                            rel="noopener"
+                            rel="noreferrer"
                             aria-label="Source Code"
                         >
                             <i className="material-icons">code</i> Source Code

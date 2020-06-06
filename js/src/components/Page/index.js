@@ -1,7 +1,7 @@
 import React from "react";
 
 import Section from "../Section";
-import { slugify, getTagValue } from "../../utils";
+import { slugify, getTagValue } from "../utils";
 
 import "./style.scss";
 
@@ -9,11 +9,7 @@ class Page extends React.Component {
     constructor(props) {
         super(props);
 
-        const {
-            tags,
-            dashboardOrientation,
-            dashboardVerticaLayout,
-        } = this.props;
+        const { tags, dashboardOrientation } = this.props;
 
         let orientation;
         const orientationTag = getTagValue(tags, "orientation");

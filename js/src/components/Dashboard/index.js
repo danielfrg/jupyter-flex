@@ -3,7 +3,7 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom";
 
 import NavBar from "../NavBar";
 import Page from "../Page";
-import { slugify } from "../../utils";
+import { slugify } from "../utils";
 
 import "./style.scss";
 
@@ -81,18 +81,6 @@ class Dashboard extends React.Component {
             </Router>
         );
     }
-}
-
-function Home() {
-    return <h2>Home</h2>;
-}
-
-function About() {
-    return <h2>About</h2>;
-}
-
-function Users() {
-    return <h2>Users</h2>;
 }
 
 export default Dashboard;

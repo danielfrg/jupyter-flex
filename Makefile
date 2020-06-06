@@ -176,3 +176,40 @@ netlify: assets  ## Build docs on Netlify
 	python -c "import bokeh.sampledata; bokeh.sampledata.download()"
 	pushd $(CURDIR)/docs && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True && popd
 	$(MAKE) docs
+
+# ------------------------------------------------------------------------------
+# JS
+
+.PHONY: npm-install
+npm-install:  ## Install JS dependencies
+	cd js/; npm install
+
+
+.PHONY: npm-build
+npm-build:  ## Build JS
+	cd js/; npm run build
+
+
+.PHONY: npm-dev
+npm-dev:  ## Build JS with watch
+	cd js/; npm run dev
+
+
+.PHONY: clean-js
+clean-js:  # Clean JS
+	rm -rf share/jupyter/voila/templates/flex/static/*.js
+	rm -rf share/jupyter/voila/templates/flex/static/*.js.map
+	rm -rf share/jupyter/voila/templates/flex/static/*.css
+	rm -rf share/jupyter/voila/templates/flex/static/*.css.map
+	rm -rf share/jupyter/voila/templates/flex/static/*.html
+	rm -rf share/jupyter/voila/templates/flex/static/*.svg
+	rm -rf share/jupyter/voila/templates/flex/static/*.woff
+	rm -rf share/jupyter/voila/templates/flex/static/*.woff2
+	rm -rf share/jupyter/voila/templates/flex/static/*.eot
+	rm -rf share/jupyter/voila/templates/flex/static/*.ttf
+	cd js/; rm -rf .cache dist lib
+
+
+.PHONY: reset-js
+reset-js: clean-js  # Clean JS including node_modules
+	cd js/; rm -rf node_modules

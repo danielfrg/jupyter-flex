@@ -2,7 +2,7 @@ import React from "react";
 import showdown from "showdown";
 
 import CellOutput from "./Output";
-import { createMarkup } from "../../utils";
+import { createMarkup } from "../utils";
 
 import "./style.scss";
 
@@ -54,8 +54,6 @@ class Cell extends React.Component {
                 </div>
             );
         }
-
-        return <pre>could not render cell</pre>;
     }
 }
 

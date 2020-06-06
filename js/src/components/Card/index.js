@@ -1,25 +1,26 @@
 import React from "react";
 
 import Cell from "../Cell";
-import { getTagValue } from "../../utils";
+import { getTagValue } from "../utils";
 
 import "./style.scss";
 
 class Card extends React.Component {
     constructor(props) {
         super(props);
-        const { tags, sectionOrientation } = this.props;
+        const { tags } = this.props;
 
-        let orientation;
-        const orientationTag = getTagValue(tags, "orientation");
-        if (orientationTag) {
-            orientation = orientationTag;
-        } else if (sectionOrientation == "rows") {
-            orientation = "columns";
-        } else {
-            // default: if (sectionOrientation == "columns")
-            orientation = "rows";
-        }
+        // const { tags, sectionOrientation } = this.props;
+        // let orientation;
+        // const orientationTag = getTagValue(tags, "orientation");
+        // if (orientationTag) {
+        //     orientation = orientationTag;
+        // } else if (sectionOrientation == "rows") {
+        //     orientation = "columns";
+        // } else {
+        //     // default: if (sectionOrientation == "columns")
+        //     orientation = "rows";
+        // }
 
         const sizeTag = getTagValue(tags, "size");
 

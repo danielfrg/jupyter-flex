@@ -1,7 +1,7 @@
 import React from "react";
 
 import Card from "../Card";
-import { getTagValue, slugify } from "../../utils";
+import { getTagValue, slugify } from "../utils";
 
 import "./style.scss";
 
