@@ -64,7 +64,7 @@
                     {%- set _ = vars.update({"current_section": {"title": "", "cards": [], "tags": []}}) -%}
                 {%- endif -%}
                 {%- if not vars.current_card -%}
-                    {%- set _ = vars.update({"current_card": {"header": "", "cells": [], "footer": [],"tags": []}}) -%}
+                    {%- set _ = vars.update({"current_card": {"header": "", "cells": [], "footer": [], "help": [],"tags": []}}) -%}
                 {%- endif -%}
 
                 {%- if is_text -%}
@@ -154,7 +154,7 @@
                 {%- endif -%}
 
                 {#- Create current_card with values from this cell -#}
-                {%- set _ = vars.update({"current_card": {"header": h3_title, "cells": [], "footer": [], "tags": cell_tags}}) -%}
+                {%- set _ = vars.update({"current_card": {"header": h3_title, "cells": [], "footer": [], "help": [], "tags": cell_tags}}) -%}
             {%- endif -%}
 
         {%- elif cell_type == "code" -%}
@@ -163,6 +163,12 @@
             {%- if is_meta -%}
                 {#- Metadata cells dont create section or pages -#}
                 {%- set _ = dashboard.meta.append(cell) -%}
+                {%- continue -%}
+            {%- endif -%}
+
+            {%- set is_help = macros.find_item_startswith(cell_tags, "help") -%}
+            {%- if is_help -%}
+                {%- set _ = vars.current_card.help.append(cell) -%}
                 {%- continue -%}
             {%- endif -%}
 

@@ -1,7 +1,9 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 import Cell from "../Cell";
 import { getTagValue } from "../utils";
+
+import Modal from "../Modal";
 
 import "./style.scss";
 
@@ -10,37 +12,54 @@ class Card extends React.Component {
         super(props);
         const { tags } = this.props;
 
-        // const { tags, sectionOrientation } = this.props;
-        // let orientation;
-        // const orientationTag = getTagValue(tags, "orientation");
-        // if (orientationTag) {
-        //     orientation = orientationTag;
-        // } else if (sectionOrientation == "rows") {
-        //     orientation = "columns";
-        // } else {
-        //     // default: if (sectionOrientation == "columns")
-        //     orientation = "rows";
-        // }
-
         const sizeTag = getTagValue(tags, "size");
 
         this.state = {
             size: sizeTag ? sizeTag : 500,
             classNames: getTagValue(tags, "class", " "),
-            isText: tags.includes("text") ? true : false,
-            isFooter: tags.includes("footer") ? true : false,
-            isHelp: tags.includes("help") ? true : false,
+            showModal: false,
         };
     }
 
     render() {
-        const { sectionOrientation, header, cells, footer } = this.props;
+        const { sectionOrientation, header, cells, help, footer } = this.props;
 
         let headerHtml;
-        if (header && !this.props.insideTabs) {
+        let modal;
+        if (header || (help && help.length > 0)) {
+            let headerTitle;
+            if (!this.props.insideTabs) {
+                headerTitle = <h6>{header}</h6>;
+            }
+
+            let buttons;
+            if (help.length > 0) {
+                buttons = (
+                    <button className="modal-btn" onClick={this.toggleModal}>
+                        <i className="material-icons">help_outline</i>
+                    </button>
+                );
+
+                let helpCells = [];
+                help.forEach((cell, i) => {
+                    console.log(cell);
+                    helpCells.push(<Cell key={i} {...cell} />);
+                });
+
+                modal = (
+                    <Modal
+                        title={`${header} help`}
+                        onCloseClick={this.toggleModal}
+                    >
+                        {helpCells}
+                    </Modal>
+                );
+            }
+
             headerHtml = (
                 <div className="card-header d-flex justify-content-between align-items-baseline">
-                    <h6>{header}</h6>
+                    {headerTitle}
+                    {buttons}
                 </div>
             );
         }
@@ -75,9 +94,12 @@ class Card extends React.Component {
                 </div>
 
                 {footerComponents}
+                {this.state.showModal ? modal : null}
             </div>
         );
     }
+
+    toggleModal = () => this.setState({ showModal: !this.state.showModal });
 }
 
 export default Card;
