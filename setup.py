@@ -30,7 +30,7 @@ def parse_git(root, **kwargs):
 def get_data_files():
     # Add the templates
     data_files = []
-    for (dirpath, dirnames, filenames) in os.walk("share/jupyter/nbconvert/templates/"):
+    for (dirpath, dirnames, filenames) in os.walk("share/jupyter/"):
         if filenames:
             data_files.append(
                 (dirpath, [os.path.join(dirpath, filename) for filename in filenames])
