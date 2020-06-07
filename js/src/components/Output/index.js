@@ -81,11 +81,6 @@ class Output extends React.Component {
                 break;
         }
 
-        console.log(this);
-        if (this.props.resizePlots) {
-            this.resizePlots(el);
-        }
-
         return el;
     }
 
@@ -155,51 +150,50 @@ class Output extends React.Component {
         }
     }
 
-    resizePlots(el) {
-        // This function mostly hacks around the fact some JS libraries that
-        // create DOM elements with fixed sizes
-        let plot_resize = () => {
-            el;
-            // if (flex_vertical_layout == "fill") {
-            // var counter = 0;
-            // var looper = setInterval(function () {
-            //     var nodelist = document.querySelectorAll(".js-plotly-plot");
-            //     var plots = Array.from(nodelist);
-            //     plots.map(function (obj) {
-            //         obj.style.width = "100%";
-            //     });
-            //     plots.map(function (obj) {
-            //         obj.style.height = "100%";
-            //     });
-            //     if (nodelist.length > 0) {
-            //         window.dispatchEvent(new Event("resize"));
-            //     }
-            //     nodelist = document.querySelectorAll(".bqplot");
-            //     plots = Array.from(nodelist);
-            //     plots.map(function (obj) {
-            //         obj.style.width = "100%";
-            //     });
-            //     plots.map(function (obj) {
-            //         obj.style.height = "100%";
-            //     });
-            //     if (nodelist.length > 0) {
-            //         window.dispatchEvent(new Event("resize"));
-            //     }
-            //     nodelist = document.querySelectorAll(".vega-embed");
-            //     plots = Array.from(nodelist);
-            //     if (nodelist.length > 0) {
-            //         window.dispatchEvent(new Event("resize"));
-            //     }
-            //     if (counter >= 25) {
-            //         clearInterval(looper);
-            //     }
-            //     counter++;
-            // }, 200);
-            // }
-        };
+    // resizePlots() {
+    //     // This function mostly hacks around the fact some JS libraries that
+    //     // create DOM elements with fixed sizes
+    //     let plot_resize = () => {
+    //         // if (flex_vertical_layout == "fill") {
+    //         var counter = 0;
+    //         var looper = setInterval(function () {
+    //             var nodelist = document.querySelectorAll(".js-plotly-plot");
+    //             var plots = Array.from(nodelist);
+    //             plots.map(function (obj) {
+    //                 obj.style.width = "100%";
+    //             });
+    //             plots.map(function (obj) {
+    //                 obj.style.height = "100%";
+    //             });
+    //             if (nodelist.length > 0) {
+    //                 window.dispatchEvent(new Event("resize"));
+    //             }
+    //             nodelist = document.querySelectorAll(".bqplot");
+    //             plots = Array.from(nodelist);
+    //             plots.map(function (obj) {
+    //                 obj.style.width = "100%";
+    //             });
+    //             plots.map(function (obj) {
+    //                 obj.style.height = "100%";
+    //             });
+    //             if (nodelist.length > 0) {
+    //                 window.dispatchEvent(new Event("resize"));
+    //             }
+    //             nodelist = document.querySelectorAll(".vega-embed");
+    //             plots = Array.from(nodelist);
+    //             if (nodelist.length > 0) {
+    //                 window.dispatchEvent(new Event("resize"));
+    //             }
+    //             if (counter >= 25) {
+    //                 clearInterval(looper);
+    //             }
+    //             counter++;
+    //         }, 200);
+    //         // }
+    //     };
 
-        plot_resize();
-    }
+    //     plot_resize();
+    // }
 
     displaySVG(data) {
         return (

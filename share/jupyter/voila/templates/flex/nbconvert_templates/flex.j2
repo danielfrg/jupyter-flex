@@ -1,43 +1,49 @@
 {%- import "macros.j2" as macros -%}
 
-{%- macro make_dashboard(nb, resources) -%}
-    {%- set dashboard = {} -%}
+{#----------------------------------------------------------------------------#}
+{#- Read properties if there is a cell tagged `parameters`                   -#}
+{#----------------------------------------------------------------------------#}
 
-    {#- ----------------------------------------------------------------------#}
-    {#- Read and save properties if there is a cell tagged `parameters` -#}
-    {#- ----------------------------------------------------------------------#}
+{#- Default parameters for the dashboard -#}
+{%- set default_title = nb.metadata.get("title", "") or resources["metadata"]["name"] -%}
+{%- set kernel_display_name = nb.metadata.get("kernelspec", {}).get("display_name", "") -%}
+{%- set props = {"title": default_title, "kernel_name": kernel_display_name} -%}
 
-    {#- Default parameters for the dashboard -#}
-    {%- set default_title = nb.metadata.get("title", "") or resources["metadata"]["name"] -%}
-    {%- set kernel_display_name = nb.metadata.get("kernelspec", {}).get("display_name", "") -%}
-    {%- set props = {"title": default_title, "kernel_name": kernel_display_name} -%}
-
-    {#- Iterate notebook cells -#}
-    {#- We only look at props prefixed with `flex_` -#}
-    {%- for cell in nb.cells -%}
-        {%- set tags = cell.metadata.get("tags", []) -%}
-        {%- if "parameters" in tags -%}
-            {%- for line in cell["source"].split("\n") -%}
-                {%- if line | trim | length -%}
-                    {%- if line.startswith("flex_") -%}
-                        {%- if line.split("=") | length == 2 -%}
-                            {%- set key = line.split("=")[0] | trim  -%}
-                            {#- remove prefix: -#}
-                            {%- set key = key["flex_" | length:]  -%}
-                            {%- set value = line.split("=")[1] | replace("\\\"", "|?|") | replace("\"", " ") | replace("|?|", "\"") | trim -%}
-                            {%- set _ = props.update({key: value})  -%}
-                        {%- endif -%}
+{#- Iterate notebook cells -#}
+{#- We only look at props prefixed with `flex_` -#}
+{%- for cell in nb.cells -%}
+    {%- set tags = cell.metadata.get("tags", []) -%}
+    {%- if "parameters" in tags -%}
+        {%- for line in cell["source"].split("\n") -%}
+            {%- if line | trim | length -%}
+                {%- if line.startswith("flex_") -%}
+                    {%- if line.split("=") | length == 2 -%}
+                        {%- set key = line.split("=")[0] | trim  -%}
+                        {#- remove prefix: -#}
+                        {%- set key = key["flex_" | length:]  -%}
+                        {%- set value = line.split("=")[1] | replace("\\\"", "|?|") | replace("\"", " ") | replace("|?|", "\"") | trim -%}
+                        {%- set _ = props.update({key: value})  -%}
                     {%- endif -%}
                 {%- endif -%}
-            {%- endfor -%}
-            {%- break -%}
-        {%- endif -%}
-    {%- endfor -%}
+            {%- endif -%}
+        {%- endfor -%}
+        {%- break -%}
+    {%- endif -%}
+{%- endfor -%}
 
-    {#------------------------------------------------------------------------#}
-    {#- Create dashboard structure variable by iterating the notebook cells  -#}
-    {#------------------------------------------------------------------------#}
+{%- macro get_title() -%}
+{{ props.get("title", "Jupyter-flex dashboard") }}
+{%- endmacro -%}
 
+{%- macro get_custom_css() -%}
+{{ props.get("custom_css", "") }}
+{%- endmacro -%}
+
+{#----------------------------------------------------------------------------#}
+{#- Creates a dashboard structure variable by iterating the notebook cells   -#}
+{#----------------------------------------------------------------------------#}
+{%- macro make_dashboard(nb, resources) -%}
+    {%- set dashboard = {} -%}
     {%- set _ = dashboard.update({"props": props, "meta": [], "pages": [], "sidebar": {} }) -%}
 
     {#- Create default variables -#}
@@ -200,7 +206,7 @@
 
     {%- endfor -%}
 
-    {#- Add final page and section -#}
+    {#- Add final components to the parents -#}
     {%- set _ = vars.current_section["cards"].append(vars.current_card) -%}
     {%- set _ = vars.current_page["sections"].append(vars.current_section) -%}
     {%- set _ = dashboard["pages"].append(vars.current_page) -%}

@@ -11,17 +11,18 @@ class Page extends React.Component {
 
         const { tags, dashboardOrientation } = this.props;
 
-        let orientation;
+        // This means the element orientation of this page is ___
+        let elOrientation;
         const orientationTag = getTagValue(tags, "orientation");
         if (orientationTag) {
-            orientation = orientationTag;
+            elOrientation = orientationTag;
         } else {
-            orientation = dashboardOrientation;
+            elOrientation = dashboardOrientation;
         }
 
         this.state = {
             pageSlug: slugify(this.props.title),
-            orientation: orientation,
+            elOrientation: elOrientation,
             classNames: getTagValue(tags, "class", " "),
             loading: false,
         };
@@ -30,13 +31,9 @@ class Page extends React.Component {
     render() {
         const { sections } = this.props;
 
-        // Flip for flex
-        let flexDirection;
-        if (this.state.orientation == "columns") {
-            flexDirection = "row";
-        } else if (this.state.orientation == "rows") {
-            flexDirection = "column";
-        }
+        // Flip orientation for flex
+        let flexDirection =
+            this.state.elOrientation == "columns" ? "row" : "column";
 
         let sectionComponents = [];
         if (sections.length > 0) {
@@ -44,7 +41,7 @@ class Page extends React.Component {
                 sectionComponents.push(
                     <Section
                         key={i}
-                        pageOrientation={this.state.orientation}
+                        pageOrientation={this.state.elOrientation}
                         {...section}
                     />
                 );

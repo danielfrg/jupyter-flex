@@ -10,22 +10,24 @@ class Section extends React.Component {
         super(props);
         const { tags, pageOrientation } = props;
 
-        let orientation;
+        // This means the element orientation of this section is ___
+        let elOrientation;
         const orientationTag = getTagValue(tags, "orientation");
+        // let elOrientation = orientationTag ? orientationTag : pageOrientation;
         if (orientationTag) {
-            orientation = orientationTag;
+            elOrientation = orientationTag;
         } else if (pageOrientation == "rows") {
-            orientation = "columns";
+            elOrientation = "columns";
         } else {
             // default: if (pageOrientation == "columns")
-            orientation = "rows";
+            elOrientation = "rows";
         }
 
         const sizeTag = getTagValue(tags, "size");
 
         this.state = {
             size: sizeTag ? sizeTag : 500,
-            orientation: orientation,
+            elOrientation: elOrientation,
             classNames: getTagValue(tags, "class", " "),
             useTabs: tags.includes("tabs") ? true : false,
             tabsFill: tags.includes("no-nav-fill") ? false : true,
@@ -36,16 +38,14 @@ class Section extends React.Component {
     render() {
         const { title, cards } = this.props;
 
+        // Flip for flex
+        let flexDirection =
+            this.state.elOrientation == "columns" ? "row" : "column";
+        let sectionClassName =
+            this.state.elOrientation == "columns" ? "row" : "column";
+
         const sectionSlug = slugify(title);
         const sectionTabs = this.state.useTabs ? "section-tabs" : "";
-
-        // Flip for flex
-        let flexDirection;
-        if (this.state.orientation == "columns") {
-            flexDirection = "row";
-        } else if (this.state.orientation == "rows") {
-            flexDirection = "column";
-        }
 
         let tabsButtons;
         if (this.state.useTabs) {
@@ -95,7 +95,7 @@ class Section extends React.Component {
                     const cardComponent = (
                         <Card
                             key={i}
-                            sectionOrientation={this.state.orientation}
+                            sectionOrientation={this.state.elOrientation}
                             {...card}
                         />
                     );
@@ -120,7 +120,7 @@ class Section extends React.Component {
                         >
                             <Card
                                 key={i}
-                                sectionOrientation={this.state.orientation}
+                                sectionOrientation={this.state.elOrientation}
                                 insideTabs={true}
                                 {...card}
                             />
@@ -139,7 +139,7 @@ class Section extends React.Component {
 
         return (
             <div
-                className={`section section-${this.state.orientation} ${sectionTabs} d-flex flex-${flexDirection} ${this.state.classNames}`}
+                className={`section section-${sectionClassName} ${sectionTabs} d-flex flex-${flexDirection} ${this.state.classNames}`}
                 style={{ flex: `${this.state.size} ${this.state.size} 0px` }}
             >
                 {tabsButtons}

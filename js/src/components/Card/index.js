@@ -42,9 +42,7 @@ class Card extends React.Component {
 
                 let helpCells = [];
                 help.forEach((cell, i) => {
-                    helpCells.push(
-                        <Cell key={i} resizePlots={false} {...cell} />
-                    );
+                    helpCells.push(<Cell key={i} {...cell} />);
                 });
 
                 modal = (
@@ -65,9 +63,7 @@ class Card extends React.Component {
         let contentComponents = [];
         if (cells.length > 0) {
             cells.forEach((cell, i) => {
-                contentComponents.push(
-                    <Cell resizePlots={true} key={i} {...cell} />
-                );
+                contentComponents.push(<Cell key={i} {...cell} />);
             });
         }
 
@@ -84,7 +80,7 @@ class Card extends React.Component {
 
         return (
             <div
-                className={`card card-${sectionOrientation} ${this.state.classNames}" style="flex: ${this.state.size} ${this.state.size} 0px;`}
+                className={`card card-${sectionOrientation} ${this.state.classNames}`}
                 style={{ flex: `${this.state.size} ${this.state.size} 0px` }}
             >
                 {headerHtml}

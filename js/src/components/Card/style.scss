@@ -12,7 +12,7 @@
     }
 
     // cards inside a row section
-    &.card-rows {
+    &.card-columns {
         margin-right: 1rem;
 
         &:last-child {
@@ -20,8 +20,8 @@
         }
     }
 
-    // cards inside a columns section
-    &.card-columns {
+    // cards inside a column section
+    &.card-rows {
         margin-bottom: 1rem;
 
         &:last-child {
@@ -31,7 +31,7 @@
 
     .card-header {
         color: $text-color;
-        background: #fff;
+        background-color: transparent;
         margin-top: 0;
         margin-bottom: 0;
         border: none;

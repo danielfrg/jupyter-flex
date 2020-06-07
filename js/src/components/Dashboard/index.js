@@ -11,16 +11,17 @@ class Dashboard extends React.Component {
     constructor(props) {
         super(props);
 
+        // Load dashboard json
         const dashboardTag = document.body.querySelector(
             `script[id="jupyter-flex-dashboard"]`
         );
         const json = JSON.parse(dashboardTag.innerHTML);
 
+        // Default is verticalLayout=fill
         const verticalLayout = json["props"]["vertical_layout"]
             ? json["props"]["vertical_layout"]
             : "fill";
 
-        // Default is verticalLayout=fill
         const orientation = verticalLayout == "scroll" ? "rows" : "columns";
 
         this.state = {

@@ -6,7 +6,7 @@
     border: none;
     border-radius: 0.25rem;
 
-    &.section-columns {
+    &.section-row {
         // This are for orientation=columns -> flex direction=row
         margin-top: 1rem;
 
@@ -18,13 +18,13 @@
             margin: 0;
         }
 
-        + .section-rows {
+        + .section-column {
             margin-top: 1rem;
             margin-left: 0;
         }
     }
 
-    &.section-rows {
+    &.section-column {
         // This are for orientation=rows -> flex direction=column
         margin-left: 1rem;
 
@@ -36,7 +36,7 @@
             margin: 0;
         }
 
-        + .section-columns {
+        + .section-row {
             margin-top: 0;
             margin-left: 1rem;
         }

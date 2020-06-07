@@ -1,5 +1,5 @@
 {%- extends "base.tpl" -%}
-{%- from "flex.j2" import make_dashboard -%}
+{% import "flex.j2" as flex with context %}
 
 {%- block header -%}
 <html>
@@ -8,18 +8,20 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {%- block html_head_title %}
-        <title>{{ nb.metadata.get("title", "") or resources["metadata"]["name"] }}</title>
+        <title>{{ flex.get_title() }}</title>
         {%- endblock html_head_title %}
         <link rel="shortcut icon" type="image/ico" href="{{ resources.base_url }}voila/static/favicon.ico"/>
 
-        {%- block html_head_js -%}
-        {%- endblock html_head_js -%}
-
         {%- block html_head_css %}
-            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-            <link href="{{ resources.base_url }}voila/static/FlexRenderer.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link href="{{ resources.base_url }}voila/static/FlexRenderer.css" rel="stylesheet">
         {%- endblock html_head_css %}
+
+        {%- set custom_css = flex.get_custom_css() -%}
+        {%- if custom_css | trim | length %}
+        <link href="{{ resources.base_url }}voila/files/{{ custom_css }}" rel="stylesheet">
+        {%- endif %}
     {%- endblock html_head %}
     </head>
 {%- endblock header %}
@@ -104,7 +106,7 @@
 
     {%- block dashboard_data -%}
     <script id="jupyter-flex-dashboard" type="application/json">
-    {{ make_dashboard(nb, resources) }}
+    {{ flex.make_dashboard(nb, resources) }}
     </script>
     {%- endblock dashboard_data -%}
 
