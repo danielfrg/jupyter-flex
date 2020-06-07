@@ -10,6 +10,7 @@ git commit -am "Release ${VERSION}.rc0" --allow-empty
 git tag ${VERSION}.rc0
 
 make cleanall
+make npm-install
 make build
 make upload-test
 
@@ -25,8 +26,8 @@ Merge branch when CI passes
 
 ## Upload to PyPI
 
-- Update `CHANGELOG.md`
-- Update `README.md` and docs as needed
+-   Update `CHANGELOG.md`
+-   Update `README.md` and docs as needed
 
 ```
 export VERSION=1.0.0

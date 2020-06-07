@@ -16,34 +16,24 @@ PYTEST_BASE_URL ?= http://host.docker.internal:8866
 
 first: help
 
-.PHONY: clean
-clean:  ## Clean build files
-	@rm -rf build dist site htmlcov .pytest_cache .eggs
-	@rm -f .coverage coverage.xml jupyter_flex/_generated_version.py
-	@find . -type f -name '*.py[co]' -delete
-	@find . -type d -name __pycache__ -exec rm -rf {} +
-	@find . -type d -name .ipynb_checkpoints -exec rm -rf {} +
-	@rm -rf docs/examples test-results
-	@rm -f examples/*.html examples/**/*.html
-	@rm -f jupyter_flex/nbconvert_templates/*.js jupyter_flex/nbconvert_templates/*.css
+# ------------------------------------------------------------------------------
+# Package build
 
+.PHONY: build
+build: download-assets npm-build python-build  ## Build assets and Python package
 
-.PHONY: cleanall
-cleanall: clean  ## Clean everything
-	@rm -rf *.egg-info
-	@rm -rf share
-	@rm -f jupyter_flex/static/*.css
-	@rm -f jupyter_flex/static/*.css.map
-	@ls jupyter_flex/static/*.js | grep -v flex.js | xargs rm
-
-
-.PHONY: help
-help:  ## Show this help menu
-	@grep -E '^[0-9a-zA-Z_-]+:.*?##.*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?##"; OFS="\t\t"}; {printf "\033[36m%-30s\033[0m %s\n", $$1, ($$2==""?"":$$2)}'
+download-assets:  ## Download .css/.js assets
+	@curl -o jupyter_flex/static/bootstrap.min.css https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css
+	@curl -o jupyter_flex/static/bootstrap.min.css.map https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css.map
+	@curl -o jupyter_flex/static/bootstrap.min.js https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js
+	@curl -o jupyter_flex/static/jquery.min.js https://code.jquery.com/jquery-3.4.1.min.js
+	@curl -o jupyter_flex/static/popper.min.js https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js
+	@curl -o jupyter_flex/static/require.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
+	@curl -o jupyter_flex/static/embed-amd.js https://unpkg.com/@jupyter-widgets/html-manager@0.18.4/dist/embed-amd.js
 
 
 # ------------------------------------------------------------------------------
-# Package build
+# Python
 
 .PHONY: env
 env:  ## Create virtualenv
@@ -55,11 +45,7 @@ develop:  ## Install package for development
 	python -m pip install --no-build-isolation -e .
 
 
-.PHONY: build
-build: npm-build package  ## Build assets and Python package
-
-
-.PHONY: package
+.PHONY: python-build
 package:  ## Build Python package (sdist)
 	python setup.py sdist
 
@@ -86,6 +72,18 @@ upload-pypi:  ## Upload package to PyPI
 upload-test:  ## Upload package to test PyPI
 	twine upload --repository test dist/*.tar.gz
 
+.PHONY: clean-python
+clean-python:  ## Clean Python build files
+	@rm -rf build dist site htmlcov .pytest_cache .eggs
+	@rm -f .coverage coverage.xml jupyter_flex/_generated_version.py
+	@find . -type f -name '*.py[co]' -delete
+	@find . -type d -name __pycache__ -exec rm -rf {} +
+	@find . -type d -name .ipynb_checkpoints -exec rm -rf {} +
+	@rm -rf docs/examples test-results
+	@rm -f examples/*.html examples/**/*.html
+	@rm -f jupyter_flex/nbconvert_templates/*.js jupyter_flex/nbconvert_templates/*.css
+
+
 # ------------------------------------------------------------------------------
 # JS
 
@@ -101,27 +99,21 @@ npm-build:  ## Build JS
 
 .PHONY: npm-dev
 npm-dev:  ## Build JS with watch
-	cd js/; npm run dev
+	cd js/; npm run dev:voila
 
 
 .PHONY: clean-js
-clean-js:  # Clean JS
+clean-js:  # Clean JS build files
 	rm -rf share/jupyter/voila/templates/flex/static/*.js
 	rm -rf share/jupyter/voila/templates/flex/static/*.js.map
 	rm -rf share/jupyter/voila/templates/flex/static/*.css
 	rm -rf share/jupyter/voila/templates/flex/static/*.css.map
 	rm -rf share/jupyter/voila/templates/flex/static/*.html
-	rm -rf share/jupyter/voila/templates/flex/static/*.svg
 	rm -rf share/jupyter/voila/templates/flex/static/*.woff
 	rm -rf share/jupyter/voila/templates/flex/static/*.woff2
 	rm -rf share/jupyter/voila/templates/flex/static/*.eot
 	rm -rf share/jupyter/voila/templates/flex/static/*.ttf
 	cd js/; rm -rf .cache dist lib
-
-
-.PHONY: reset-js
-reset-js: clean-js  # Clean JS including node_modules
-	cd js/; rm -rf node_modules
 
 
 # ------------------------------------------------------------------------------
@@ -196,3 +188,14 @@ netlify: assets  ## Build docs on Netlify
 	pushd $(CURDIR)/docs && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True && popd
 	$(MAKE) docs
 
+# ------------------------------------------------------------------------------
+# Other
+
+.PHONY: cleanall
+cleanall: clean-python clean-js  ## Clean everything
+	@rm -rf *.egg-info
+	@cd js/; rm -rf node_modules
+
+.PHONY: help
+help:  ## Show this help menu
+	@grep -E '^[0-9a-zA-Z_-]+:.*?##.*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?##"; OFS="\t\t"}; {printf "\033[36m%-30s\033[0m %s\n", $$1, ($$2==""?"":$$2)}'
