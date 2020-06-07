@@ -47,11 +47,16 @@ jobs:
       with:
         python-version: 3.7
 
-    - name: Install dependencies
+   - uses: actions/setup-node@v2-beta
+     with:
+       node-version: '12'
+
+    - name: Install JS dependencies
       run: |
-        # JS
         make npm-install
-        # Python
+
+    - name: Install Python dependencies
+      run: |
         python -m pip install --upgrade pip
         pip install -U -r requirements.txt
         pip freeze
@@ -73,7 +78,7 @@ jobs:
 
     - name: Verify Voila
       run: |
-        ls /__t/Python/3.7.6/x64/share/jupyter/voila/templates
+        # ls /__t/Python/3.7.6/x64/share/jupyter/voila/templates
         curl http://localhost:8866/
 
     - name: Check linting
