@@ -79,7 +79,7 @@ jobs:
 
       - name: Verify Voila
         run: |
-          ls /__t/Python/3.7.6/x64/share/jupyter/voila/templates
+          ls /__t/Python/3.7.7/x64/share/jupyter/voila/templates
           curl http://localhost:8866/
 
       - name: Check linting
