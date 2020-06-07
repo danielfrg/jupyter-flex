@@ -30,7 +30,12 @@ class Page extends React.Component {
         };
     }
 
-    componentDidMount() {}
+    componentDidMount() {
+        onNextFrame(() => {
+            this.props.widgetManager.build_widgets();
+            renderMathJax();
+        });
+    }
 
     componentDidUpdate() {
         onNextFrame(() => {
