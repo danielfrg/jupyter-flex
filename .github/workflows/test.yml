@@ -2,9 +2,9 @@ name: test
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   test:
@@ -39,67 +39,68 @@ jobs:
       PYTEST_BASE_URL: http://testhost:8866
 
     steps:
-    - uses: actions/checkout@v2
-    - run: git fetch --prune --unshallow
+      - uses: actions/checkout@v2
+      - run: git fetch --prune --unshallow
 
-    - name: Set up Python
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.7
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
 
-   - uses: actions/setup-node@v2-beta
-     with:
-       node-version: '12'
+      - name: Setup node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: "12"
 
-    - name: Install JS dependencies
-      run: |
-        make npm-install
+      - name: Install JS dependencies
+        run: |
+          make npm-install
 
-    - name: Install Python dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -U -r requirements.txt
-        pip freeze
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -U -r requirements.txt
+          pip freeze
 
-    - name: Install other dependencies
-      run: |
-        # Download Bokeh sample data
-        bokeh sampledata
+      - name: Install other dependencies
+        run: |
+          # Download Bokeh sample data
+          bokeh sampledata
 
-    - name: Install package
-      run: |
-        make build
-        pip install dist/*.tar.gz
-        pip freeze
+      - name: Install package
+        run: |
+          make build
+          pip install dist/*.tar.gz
+          pip freeze
 
-    - name: Serve Voila
-      run: |
-        make serve-examples &
+      - name: Serve Voila
+        run: |
+          make serve-examples &
 
-    - name: Verify Voila
-      run: |
-        # ls /__t/Python/3.7.6/x64/share/jupyter/voila/templates
-        curl http://localhost:8866/
+      - name: Verify Voila
+        run: |
+          # ls /__t/Python/3.7.6/x64/share/jupyter/voila/templates
+          curl http://localhost:8866/
 
-    - name: Check linting
-      run: |
-        make check
+      - name: Check linting
+        run: |
+          make check
 
-    - name: Run tests
-      if: always()
-      run: |
-        make test-all
-        make report
+      - name: Run tests
+        if: always()
+        run: |
+          make test-all
+          make report
 
-    - name: Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        file: ./coverage.xml
-        fail_ci_if_error: true
+      - name: Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage.xml
+          fail_ci_if_error: true
 
-    - name: Upload restuls
-      uses: actions/upload-artifact@v1
-      if: always()
-      with:
-        name: test-results
-        path: test-results
+      - name: Upload restuls
+        uses: actions/upload-artifact@v1
+        if: always()
+        with:
+          name: test-results
+          path: test-results
