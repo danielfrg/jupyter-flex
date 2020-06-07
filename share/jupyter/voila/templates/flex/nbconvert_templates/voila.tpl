@@ -92,7 +92,7 @@
     <div id="flex-modal"></div>
     <div id="flex-root">
         <div class="loading">
-            Loading...
+            Loading React...
         </div>
     </div>
 

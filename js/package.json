@@ -7,7 +7,7 @@
     "browserslist": [
         "last 2 Chrome versions"
     ],
-    "main": "src/App.js",
+    "main": "src/FlexRenderer.js",
     "dependencies": {
         "@jupyter-widgets/base": "^2.0.1",
         "@jupyter-widgets/controls": "^1.5.0",
@@ -52,6 +52,7 @@
         "eslint-plugin-react": "^7.20.0",
         "eslint-plugin-react-hooks": "^4.0.4",
         "jest": "^26.0.1",
+        "mini-css-extract-plugin": "^0.9.0",
         "parcel-bundler": "^1.12.4",
         "prettier": "^2.0.5",
         "react-test-renderer": "^16.13.1",
@@ -65,10 +66,12 @@
     "scripts": {
         "dev": "clear && parcel src/index.html",
         "dev:voila": "webpack --watch --mode=development",
-        "build": "clear && parcel build src/FlexRenderer.js --out-dir ../share/jupyter/voila/templates/flex/static",
+        "build": "webpack --mode=production",
+        "build:parcel": "clear && parcel build src/FlexRenderer.js --out-dir ../share/jupyter/voila/templates/flex/static",
         "fmt": "prettier --write \"src/**/*.{js,jsx}\"",
         "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
-        "clean": "rm -rf .cache/ dist/",
+        "clean": "rm -rf .cache/ dist/ lib/",
+        "reset": "npm run clean && rm -rf node_modules",
         "test": "jest --silent",
         "test:coverage": "jest --coverage",
         "test:update": "jest -u",

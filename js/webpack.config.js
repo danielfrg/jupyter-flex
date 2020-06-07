@@ -1,15 +1,20 @@
 var path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 var rules = [
+    {
+        test: /\.s?[ac]ss$/,
+        use: [
+            "style-loader",
+            MiniCssExtractPlugin.loader,
+            "css-loader",
+            "sass-loader",
+        ],
+    },
     {
         test: /\.(js)$/,
         exclude: /node_modules/,
         use: ["babel-loader"],
-    },
-    { test: /\.css$/, use: ["style-loader", "css-loader"] },
-    {
-        test: /\.s[ac]ss$/i,
-        use: ["style-loader", "css-loader", "sass-loader"],
     },
     // required to load font-awesome
     {
@@ -59,5 +64,10 @@ module.exports = [
         module: { rules: rules },
         mode: "development",
         devtool: "source-map",
+        plugins: [
+            new MiniCssExtractPlugin({
+                filename: "FlexRenderer.css",
+            }),
+        ],
     },
 ];
