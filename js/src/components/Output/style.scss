@@ -68,6 +68,12 @@
         .vega-embed {
             width: 100%;
             height: 95%;
+            min-width: 100% !important;
+
+            canvas {
+                // min-width: 100% !important;
+                // min-height: 100% !important;
+            }
 
             &.has-actions {
                 width: calc(100% - 38px);
@@ -93,6 +99,11 @@
         .bqplot {
             height: 100% !important;
             width: 100% !important;
+        }
+
+        // Widgets
+        .widget-play .jupyter-button {
+            min-height: 28px;
         }
 
         .q-grid-container {

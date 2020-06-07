@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { renderMathJax } from "../../voila";
 
 import Section from "../Section";
@@ -31,17 +31,21 @@ class Page extends React.Component {
     }
 
     componentDidMount() {
-        onNextFrame(() => {
-            this.props.widgetManager.build_widgets();
-            renderMathJax();
-        });
+        if (this.props.widgetManager) {
+            onNextFrame(() => {
+                this.props.widgetManager.build_widgets();
+                renderMathJax();
+            });
+        }
     }
 
     componentDidUpdate() {
-        onNextFrame(() => {
-            this.props.widgetManager.build_widgets();
-            renderMathJax();
-        });
+        if (this.props.widgetManager) {
+            onNextFrame(() => {
+                this.props.widgetManager.build_widgets();
+                renderMathJax();
+            });
+        }
     }
 
     render() {
@@ -55,7 +59,7 @@ class Page extends React.Component {
         let sectionComponents = [];
         if (sections.length > 0) {
             sections.forEach((section, i) => {
-                if (section.tags.includes("sidebar")) {
+                if (section.tags && section.tags.includes("sidebar")) {
                     sidebar = <Sidebar {...section} />;
                 } else {
                     sectionComponents.push(
@@ -70,20 +74,20 @@ class Page extends React.Component {
         }
 
         return (
-            <div
-                className={`page container-fluid d-flex flex-${flexDirection} ${this.state.classNames}`}
-            >
+            <Fragment>
                 {sidebar}
-                <div
-                    className={
-                        sidebar
-                            ? "section-wrapper col-md-9 ml-sm-auto col-lg-10 p-0"
-                            : "section-wrapper"
-                    }
-                >
-                    {sectionComponents}
+                <div className={`page ${this.state.classNames}`}>
+                    <div
+                        className={
+                            sidebar
+                                ? `section-wrapper container-fluid d-flex flex-${flexDirection} col-md-9 ml-sm-auto col-lg-10 p-0`
+                                : `section-wrapper container-fluid d-flex flex-${flexDirection}`
+                        }
+                    >
+                        {sectionComponents}
+                    </div>
                 </div>
-            </div>
+            </Fragment>
         );
     }
 }

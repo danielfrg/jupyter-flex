@@ -2,7 +2,6 @@ import React from "react";
 import showdown from "showdown";
 
 import Output from "../Output";
-import { Consumer } from "../VoilaContext";
 import { createMarkup, getTagValue } from "../utils";
 
 import "./style.scss";
@@ -47,17 +46,7 @@ class Cell extends React.Component {
             outputComponents = [];
             if (this.state.outputs) {
                 this.state.outputs.forEach((output, i) => {
-                    const el = (
-                        <Output
-                            key={i}
-                            // widgetManager={context.widgetManager}
-                            {...output}
-                        />
-                        // <Consumer>
-                        //     {(context) => (
-                        //     )}
-                        // </Consumer>
-                    );
+                    const el = <Output key={i} {...output} />;
                     outputComponents.push(el);
                 });
             }

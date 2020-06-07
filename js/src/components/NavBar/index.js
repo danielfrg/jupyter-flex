@@ -11,22 +11,19 @@ class NavBar extends React.Component {
     render() {
         const { title, author, sourceCode, pages } = this.props;
 
-        let togglerButton;
-        if (pages.length > 1 || sourceCode || author) {
-            togglerButton = (
-                <button
-                    className="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navPages"
-                    aria-controls="navPages"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-            );
-        }
+        let togglerButton = (
+            <button
+                className="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navPages"
+                aria-controls="navPages"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <span className="navbar-toggler-icon"></span>
+            </button>
+        );
 
         let pagesHtml = [];
         if (pages.length > 1) {
@@ -80,9 +77,13 @@ class NavBar extends React.Component {
             <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                 <div className="container-fluid">
                     <span className="navbar-brand">{title}</span>
-                    {togglerButton}
+                    {pagesHtml.length > 1 || sourceCode || author
+                        ? togglerButton
+                        : null}
                     <div className="collapse navbar-collapse" id="navPages">
-                        <ul className="nav navbar-nav mr-auto">{pagesHtml}</ul>
+                        <ul className="nav navbar-nav mr-auto">
+                            {pagesHtml.length > 1 ? pagesHtml : null}
+                        </ul>
                         {authorHtml}
                         {sourceHtml}
                         <span className="d-inline-block" data-toggle="tooltip">

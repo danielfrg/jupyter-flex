@@ -28,9 +28,9 @@ class Section extends React.Component {
             size: sizeTag ? sizeTag : 500,
             elOrientation: elOrientation,
             classNames: getTagValue(tags, "class", " "),
-            useTabs: tags.includes("tabs") ? true : false,
-            tabsFill: tags.includes("no-nav-fill") ? false : true,
-            tabsFade: tags.includes("no-nav-fill") ? false : true,
+            useTabs: tags && tags.includes("tabs") ? true : false,
+            tabsFill: tags && tags.includes("no-nav-fill") ? false : true,
+            tabsFade: tags && tags.includes("no-nav-fill") ? false : true,
         };
     }
 

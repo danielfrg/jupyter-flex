@@ -95,6 +95,9 @@ class Output extends React.Component {
     render() {
         const { data, output_type } = this.props;
 
+        if (output_type == "error") {
+            return this.displayError(this.props.traceback);
+        }
         if (output_type == "stream") {
             return this.displayStream(this.props.text);
         }
@@ -288,6 +291,17 @@ class Output extends React.Component {
                     )}
                 </script>
             </div>
+        );
+    }
+
+    displayError(text) {
+        return (
+            <div
+                className="output_html rendered_html output_subarea"
+                dangerouslySetInnerHTML={createMarkup(
+                    this.ansiConverter.toHtml(text)
+                )}
+            ></div>
         );
     }
 
