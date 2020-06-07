@@ -3,7 +3,8 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom";
 
 import NavBar from "../NavBar";
 import Page from "../Page";
-import { slugify } from "../utils";
+import Sidebar from "../Sidebar";
+import { getTagValue, slugify } from "../utils";
 
 import "./style.scss";
 import Cell from "../Cell";
@@ -44,26 +45,31 @@ class Dashboard extends React.Component {
     }
 
     render() {
-        let routes = [];
-        if (this.state.pages.length > 0) {
-            this.state.pages.forEach((page, i) => {
-                const pageSlug = slugify(page.title);
-                const pagePath = i == 0 ? "/" : `/${pageSlug}`;
-                const el = (
-                    <Page
-                        dashboardOrientation={this.state.orientation}
-                        dashboardVerticaLayout={this.state.verticaLayout}
-                        {...page}
-                    />
-                );
-                routes.push({ path: pagePath, component: el });
-            });
-        }
-
         let metaCells = [];
         this.state.meta.forEach((cell, i) => {
             metaCells.push(<Cell key={i} {...cell} />);
         });
+
+        let sidebar;
+        let routes = [];
+        if (this.state.pages.length > 0) {
+            this.state.pages.forEach((page) => {
+                if (page.tags.includes("sidebar")) {
+                    sidebar = <Sidebar {...page.sections[0]} />;
+                } else {
+                    const pageSlug = slugify(page.title);
+                    const pagePath = routes.length == 0 ? "/" : `/${pageSlug}`;
+                    const el = (
+                        <Page
+                            dashboardOrientation={this.state.orientation}
+                            dashboardVerticaLayout={this.state.verticaLayout}
+                            {...page}
+                        />
+                    );
+                    routes.push({ path: pagePath, component: el });
+                }
+            });
+        }
 
         const routeComponents = routes.map(({ path, component }, key) => (
             <Route exact path={path} key={key}>
@@ -89,7 +95,16 @@ class Dashboard extends React.Component {
                         className="container-fluid content-wrapper"
                     >
                         <div style={{ display: "none" }}>{metaCells}</div>
-                        <Switch>{routeComponents}</Switch>
+                        {sidebar}
+                        <div
+                            className={
+                                sidebar
+                                    ? "col-md-9 ml-sm-auto col-lg-10 p-0"
+                                    : ""
+                            }
+                        >
+                            <Switch>{routeComponents}</Switch>
+                        </div>
                     </main>
                 </div>
             </Router>

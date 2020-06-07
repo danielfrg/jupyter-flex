@@ -30,10 +30,11 @@ class NavBar extends React.Component {
 
         let pagesHtml = [];
         if (pages.length > 1) {
-            pages.forEach((page, i) => {
-                if (page.title) {
+            pages.forEach((page) => {
+                if (page.title && !page.tags.includes("sidebar")) {
                     const pageSlug = slugify(page.title);
-                    const pagePath = i == 0 ? "/" : `${pageSlug}`;
+                    const pagePath =
+                        pagesHtml.length == 0 ? "/" : `${pageSlug}`;
                     const newPage = (
                         <li key={page.title} className="nav-item">
                             <NavLink

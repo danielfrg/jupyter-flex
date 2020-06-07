@@ -2,10 +2,10 @@ export function getTagValue(tags, tag, join = "") {
     if (!tags) {
         return;
     }
-    return tags
-        .filter((tag_) => tag_.startsWith(`${tag}=`))
-        .map((cls) => cls.replace(`${tag}=`, ""))
-        .join(join);
+    let exists = tags.filter((tag_) => tag_.startsWith(`${tag}=`));
+    if (exists.length > 0) {
+        return exists.map((cls) => cls.replace(`${tag}=`, "")).join(join);
+    }
 }
 
 export function slugify(string) {

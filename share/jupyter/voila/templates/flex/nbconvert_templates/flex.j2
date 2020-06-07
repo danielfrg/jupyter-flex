@@ -72,7 +72,7 @@
 {#----------------------------------------------------------------------------#}
 {%- macro make_dashboard(nb, resources) -%}
     {%- set dashboard = {} -%}
-    {%- set _ = dashboard.update({"props": props, "meta": [], "pages": [], "sidebar": {} }) -%}
+    {%- set _ = dashboard.update({"props": props, "meta": [], "pages": [] }) -%}
 
     {#- Create default variables -#}
     {%- set vars = {} -%}
@@ -136,12 +136,7 @@
 
                 {#- Add current page to dashboard before defining a new one -#}
                 {%- if vars.current_page and vars.current_page.sections -%}
-                    {%- set is_sidebar = find_item_startswith(vars.current_page.tags, "sidebar") -%}
-                    {%- if is_sidebar -%}
-                        {%- set _ = dashboard.update({"sidebar": vars.current_page}) -%}
-                    {%- else -%}
-                        {%- set _ = dashboard["pages"].append(vars.current_page) -%}
-                    {%- endif -%}
+                    {%- set _ = dashboard["pages"].append(vars.current_page) -%}
                 {%- endif -%}
 
                 {#- Create new Page: Define all new `current_*` objects -#}
@@ -196,8 +191,8 @@
             {%- set is_meta = find_item_startswith(cell_tags, "meta") -%}
 
             {%- if is_meta -%}
-                {%- set _ = dashboard.meta.append(cell) -%}
                 {#- Metadata cells dont create section or pages -#}
+                {%- set _ = dashboard.meta.append(cell) -%}
                 {%- continue -%}
             {%- endif -%}
 
