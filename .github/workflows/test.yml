@@ -49,6 +49,9 @@ jobs:
 
     - name: Install dependencies
       run: |
+        # JS
+        make npm-install
+        # Python
         python -m pip install --upgrade pip
         pip install -U -r requirements.txt
         pip freeze

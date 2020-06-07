@@ -1,6 +1,7 @@
 import React from "react";
 
 import Section from "../Section";
+import Sidebar from "../Sidebar";
 import { slugify, getTagValue } from "../utils";
 
 import "./style.scss";
@@ -35,16 +36,21 @@ class Page extends React.Component {
         let flexDirection =
             this.state.elOrientation == "columns" ? "row" : "column";
 
+        let sidebar;
         let sectionComponents = [];
         if (sections.length > 0) {
             sections.forEach((section, i) => {
-                sectionComponents.push(
-                    <Section
-                        key={i}
-                        pageOrientation={this.state.elOrientation}
-                        {...section}
-                    />
-                );
+                if (section.tags.includes("sidebar")) {
+                    sidebar = <Sidebar {...section} />;
+                } else {
+                    sectionComponents.push(
+                        <Section
+                            key={i}
+                            pageOrientation={this.state.elOrientation}
+                            {...section}
+                        />
+                    );
+                }
             });
         }
 
@@ -52,7 +58,14 @@ class Page extends React.Component {
             <div
                 className={`page container-fluid d-flex flex-${flexDirection} ${this.state.classNames}`}
             >
-                {sectionComponents}
+                {sidebar}
+                <div
+                    className={
+                        sidebar ? "col-md-9 ml-sm-auto col-lg-10 p-0" : ""
+                    }
+                >
+                    {sectionComponents}
+                </div>
             </div>
         );
     }

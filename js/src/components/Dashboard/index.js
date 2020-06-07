@@ -4,7 +4,7 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import NavBar from "../NavBar";
 import Page from "../Page";
 import Sidebar from "../Sidebar";
-import { getTagValue, slugify } from "../utils";
+import { slugify } from "../utils";
 
 import "./style.scss";
 import Cell from "../Cell";
