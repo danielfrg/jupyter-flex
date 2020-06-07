@@ -1,2 +1,2 @@
-# We add these files here because they are not in git and on .gitignore
-include jupyter_flex/static/*
+# We add these files here because they are not tracked in git and listed on .gitignore
+include share/jupyter/voila/templates/flex/static/*
