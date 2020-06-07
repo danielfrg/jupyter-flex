@@ -9,10 +9,6 @@ body {
     background-color: #f0f2f6;
 }
 
-#react-root {
-    height: 100%;
-}
-
 #dashboard.fill {
     .content-wrapper {
         height: calc(100% - 51px);
@@ -88,7 +84,7 @@ body {
     ul.voila-notebooks {
         margin: 10px 0;
         padding: 0;
-        color: #333;;
+        color: #333;
         list-style: none;
 
         li {

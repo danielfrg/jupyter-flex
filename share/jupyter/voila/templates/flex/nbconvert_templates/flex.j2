@@ -1,5 +1,3 @@
-{%- import "macros.j2" as macros -%}
-
 {#----------------------------------------------------------------------------#}
 {#- Read properties if there is a cell tagged `parameters`                   -#}
 {#----------------------------------------------------------------------------#}
@@ -39,6 +37,36 @@
 {{ props.get("custom_css", "") }}
 {%- endmacro -%}
 
+{%- macro find_item_startswith(list, prefix, default="") -%}
+{# Iterate list and print the first value that starts with a prefix #}
+{%- for item in list -%}
+    {%- if item.startswith(prefix) -%}
+        {{ item }}
+        {%- break -%}
+    {%- endif -%}
+{%- endfor -%}
+{{ default }}
+{%- endmacro -%}
+
+{%- macro startswith_remove_prefix(text, prefix) -%}
+{# Print text if it starts with prefix (removes the prefix) #}
+{%- if text.startswith(prefix) -%}
+{{ text[prefix | length:] | trim }}
+{%- endif -%}
+{%- endmacro -%}
+
+{%- macro join_all_items_with_prefix(list, prefix, join_char=" ") -%}
+{# Print joined text with all items that startswith a prefix #}
+{%- set matches = [] -%}
+{%- for item in list -%}
+    {%- set has_prefix = startswith_remove_prefix(item, "class=") -%}
+    {%- if has_prefix | length -%}
+        {%- set _ = matches.append(has_prefix) -%}
+    {%- endif -%}
+{%- endfor -%}
+{{ matches | join(join_char) }}
+{%- endmacro -%}}
+
 {#----------------------------------------------------------------------------#}
 {#- Creates a dashboard structure variable by iterating the notebook cells   -#}
 {#----------------------------------------------------------------------------#}
@@ -60,9 +88,9 @@
         {%- if cell_type == "markdown" -%}
 
             {#- Tagged cells have priority -#}
-            {%- set is_text = macros.find_item_startswith(cell_tags, "text") -%}
-            {%- set is_footer = macros.find_item_startswith(cell_tags, "footer") -%}
-            {%- set is_help = macros.find_item_startswith(cell_tags, "help") -%}
+            {%- set is_text = find_item_startswith(cell_tags, "text") -%}
+            {%- set is_footer = find_item_startswith(cell_tags, "footer") -%}
+            {%- set is_help = find_item_startswith(cell_tags, "help") -%}
 
             {%- if is_text or is_footer or is_help -%}
                 {#- Create `current_*` objects if notebook started with a tagged cell -#}
@@ -94,7 +122,7 @@
 
             {#- If markdown cell is not tagged use it for layout structure -#}
 
-            {%- set h1_title = macros.startswith_remove_prefix(cell_source, "# ") -%}
+            {%- set h1_title = startswith_remove_prefix(cell_source, "# ") -%}
             {%- if h1_title -%}
                 {#- Add the current card to the current section -#}
                 {%- if vars.current_card -%}
@@ -108,7 +136,7 @@
 
                 {#- Add current page to dashboard before defining a new one -#}
                 {%- if vars.current_page and vars.current_page.sections -%}
-                    {%- set is_sidebar = macros.find_item_startswith(vars.current_page.tags, "sidebar") -%}
+                    {%- set is_sidebar = find_item_startswith(vars.current_page.tags, "sidebar") -%}
                     {%- if is_sidebar -%}
                         {%- set _ = dashboard.update({"sidebar": vars.current_page}) -%}
                     {%- else -%}
@@ -122,7 +150,7 @@
                 {%- set _ = vars.update({"current_card": {} }) -%}
             {%- endif -%}
 
-            {%- set h2_title = macros.startswith_remove_prefix(cell_source, "## ") -%}
+            {%- set h2_title = startswith_remove_prefix(cell_source, "## ") -%}
             {%- if h2_title -%}
                 {#- When the notebook starts with h2, create first page -#}
                 {%- if not vars.current_page -%}
@@ -145,7 +173,7 @@
                 {%- set _ = vars.update({"current_card": {} }) -%}
             {%- endif -%}
 
-            {%- set h3_title = macros.startswith_remove_prefix(cell_source, "### ") -%}
+            {%- set h3_title = startswith_remove_prefix(cell_source, "### ") -%}
             {%- if h3_title -%}
                 {#- If there is no h1 or h2 (notebook starts with h3) -#}
                 {%- if not vars.current_page -%}
@@ -165,28 +193,28 @@
             {%- endif -%}
 
         {%- elif cell_type == "code" -%}
-            {%- set is_meta = macros.find_item_startswith(cell_tags, "meta") -%}
+            {%- set is_meta = find_item_startswith(cell_tags, "meta") -%}
 
             {%- if is_meta -%}
-                {#- Metadata cells dont create section or pages -#}
                 {%- set _ = dashboard.meta.append(cell) -%}
+                {#- Metadata cells dont create section or pages -#}
                 {%- continue -%}
             {%- endif -%}
 
-            {%- set is_help = macros.find_item_startswith(cell_tags, "help") -%}
+            {%- set is_help = find_item_startswith(cell_tags, "help") -%}
             {%- if is_help -%}
                 {%- set _ = vars.current_card.help.append(cell) -%}
                 {%- continue -%}
             {%- endif -%}
 
-            {%- set is_footer = macros.find_item_startswith(cell_tags, "footer") -%}
+            {%- set is_footer = find_item_startswith(cell_tags, "footer") -%}
             {%- if is_footer -%}
                 {%- set _ = vars.current_card.footer.append(cell) -%}
                 {%- continue -%}
             {%- endif -%}
 
-            {%- set is_inputs = macros.find_item_startswith(cell_tags, "inputs") -%}
-            {%- set is_chart = macros.find_item_startswith(cell_tags, "chart") -%}
+            {%- set is_inputs = find_item_startswith(cell_tags, "inputs") -%}
+            {%- set is_chart = find_item_startswith(cell_tags, "chart") -%}
             {%- if is_inputs or is_chart -%}
                 {#- Create current_* objects if notebook starts with a tagged cell -#}
                 {%- if not vars.current_page -%}

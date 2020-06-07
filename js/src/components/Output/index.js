@@ -73,6 +73,7 @@ class Output extends React.Component {
             case "text/latex":
                 break;
             case "application/javascript":
+                el = this.displayJavascript(data);
                 break;
             case "application/vnd.jupyter.widget-state+json":
                 break;
@@ -82,30 +83,6 @@ class Output extends React.Component {
         }
 
         return el;
-    }
-
-    displayWidgetView(data) {
-        const uuid = uuidv4();
-        return (
-            <div id={uuid} className="output_subarea output_widget_state">
-                <script type="text/javascript">
-                    {`var element = document.getElementById("${uuid}");`}
-                </script>
-                <script type="application/vnd.jupyter.widget-view+json">
-                    {JSON.stringify(
-                        data["application/vnd.jupyter.widget-view+json"]
-                    )}
-                </script>
-            </div>
-        );
-    }
-
-    displayStream(text) {
-        return (
-            <div className="output_subarea output_stream output_stdout output_text">
-                <pre>{this.ansiConverter.toHtml(text)}</pre>
-            </div>
-        );
     }
 
     getMetadata(key, mimetype = "") {
@@ -136,64 +113,29 @@ class Output extends React.Component {
         );
     }
 
-    runScript(reportScript) {
+    runScript(scriptToRun) {
         // This runs the contents in script tag on a window/global scope
-        let scriptToRun = reportScript;
-        if (scriptToRun !== undefined) {
+        let reportScript = scriptToRun.trim();
+        if (
+            reportScript.startsWith("<script>") &&
+            reportScript.startsWith("</script>")
+        ) {
             //remove <script> and </script> tags since eval expects only code without html tags
-            let scriptLines = scriptToRun.split("\n");
+            let scriptLines = reportScript.split("\n");
             scriptLines.pop();
             scriptLines.shift();
-            let cleanScript = scriptLines.join("\n");
-            // console.log("running script ", cleanScript);
-            window.eval(cleanScript);
+            reportScript = scriptLines.join("\n");
+        }
+        if (reportScript) {
+            // console.log("running script:", reportScript);
+            window.eval(reportScript);
         }
     }
 
-    // resizePlots() {
-    //     // This function mostly hacks around the fact some JS libraries that
-    //     // create DOM elements with fixed sizes
-    //     let plot_resize = () => {
-    //         // if (flex_vertical_layout == "fill") {
-    //         var counter = 0;
-    //         var looper = setInterval(function () {
-    //             var nodelist = document.querySelectorAll(".js-plotly-plot");
-    //             var plots = Array.from(nodelist);
-    //             plots.map(function (obj) {
-    //                 obj.style.width = "100%";
-    //             });
-    //             plots.map(function (obj) {
-    //                 obj.style.height = "100%";
-    //             });
-    //             if (nodelist.length > 0) {
-    //                 window.dispatchEvent(new Event("resize"));
-    //             }
-    //             nodelist = document.querySelectorAll(".bqplot");
-    //             plots = Array.from(nodelist);
-    //             plots.map(function (obj) {
-    //                 obj.style.width = "100%";
-    //             });
-    //             plots.map(function (obj) {
-    //                 obj.style.height = "100%";
-    //             });
-    //             if (nodelist.length > 0) {
-    //                 window.dispatchEvent(new Event("resize"));
-    //             }
-    //             nodelist = document.querySelectorAll(".vega-embed");
-    //             plots = Array.from(nodelist);
-    //             if (nodelist.length > 0) {
-    //                 window.dispatchEvent(new Event("resize"));
-    //             }
-    //             if (counter >= 25) {
-    //                 clearInterval(looper);
-    //             }
-    //             counter++;
-    //         }, 200);
-    //         // }
-    //     };
-
-    //     plot_resize();
-    // }
+    displayJavascript(data) {
+        this.runScript(data["application/javascript"]);
+        return <script>{data["application/javascript"]}</script>;
+    }
 
     displaySVG(data) {
         return (
@@ -291,6 +233,30 @@ class Output extends React.Component {
         return (
             <div className="jp-RenderedImage jp-OutputArea-output">
                 {components}
+            </div>
+        );
+    }
+
+    displayWidgetView(data) {
+        const uuid = uuidv4();
+        return (
+            <div id={uuid} className="output_subarea output_widget_state">
+                <script type="text/javascript">
+                    {`var element = document.getElementById("${uuid}");`}
+                </script>
+                <script type="application/vnd.jupyter.widget-view+json">
+                    {JSON.stringify(
+                        data["application/vnd.jupyter.widget-view+json"]
+                    )}
+                </script>
+            </div>
+        );
+    }
+
+    displayStream(text) {
+        return (
+            <div className="output_subarea output_stream output_stdout output_text">
+                <pre>{this.ansiConverter.toHtml(text)}</pre>
             </div>
         );
     }

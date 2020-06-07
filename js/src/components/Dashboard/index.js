@@ -6,6 +6,7 @@ import Page from "../Page";
 import { slugify } from "../utils";
 
 import "./style.scss";
+import Cell from "../Cell";
 
 class Dashboard extends React.Component {
     constructor(props) {
@@ -37,6 +38,7 @@ class Dashboard extends React.Component {
             verticaLayout: verticalLayout,
             orientation: orientation,
             sourceCode: json["props"]["source_code"],
+            meta: json["meta"],
             pages: json["pages"],
         };
     }
@@ -57,6 +59,11 @@ class Dashboard extends React.Component {
                 routes.push({ path: pagePath, component: el });
             });
         }
+
+        let metaCells = [];
+        this.state.meta.forEach((cell, i) => {
+            metaCells.push(<Cell key={i} {...cell} />);
+        });
 
         const routeComponents = routes.map(({ path, component }, key) => (
             <Route exact path={path} key={key}>
@@ -81,6 +88,7 @@ class Dashboard extends React.Component {
                         role="main"
                         className="container-fluid content-wrapper"
                     >
+                        <div style={{ display: "none" }}>{metaCells}</div>
                         <Switch>{routeComponents}</Switch>
                     </main>
                 </div>
