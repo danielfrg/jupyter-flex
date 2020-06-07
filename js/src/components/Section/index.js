@@ -10,10 +10,9 @@ class Section extends React.Component {
         super(props);
         const { tags, pageOrientation } = props;
 
-        // This means the element orientation of this section is ___
+        // elOrientation means the element orientation of this section is ___
         let elOrientation;
         const orientationTag = getTagValue(tags, "orientation");
-        // let elOrientation = orientationTag ? orientationTag : pageOrientation;
         if (orientationTag) {
             elOrientation = orientationTag;
         } else if (pageOrientation == "rows") {

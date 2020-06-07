@@ -41,3 +41,9 @@ export function uuidv4() {
         return v.toString(16);
     });
 }
+
+export function onNextFrame(callback) {
+    setTimeout(function () {
+        window.requestAnimationFrame(callback);
+    });
+}

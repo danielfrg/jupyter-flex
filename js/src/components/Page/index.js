@@ -1,8 +1,9 @@
 import React from "react";
+import { renderMathJax } from "../../voila";
 
 import Section from "../Section";
 import Sidebar from "../Sidebar";
-import { slugify, getTagValue } from "../utils";
+import { getTagValue, slugify, onNextFrame } from "../utils";
 
 import "./style.scss";
 
@@ -12,7 +13,7 @@ class Page extends React.Component {
 
         const { tags, dashboardOrientation } = this.props;
 
-        // This means the element orientation of this page is ___
+        // elOrientation means the element orientation of this page is ___
         let elOrientation;
         const orientationTag = getTagValue(tags, "orientation");
         if (orientationTag) {
@@ -27,6 +28,15 @@ class Page extends React.Component {
             classNames: getTagValue(tags, "class", " "),
             loading: false,
         };
+    }
+
+    componentDidMount() {}
+
+    componentDidUpdate() {
+        onNextFrame(() => {
+            this.props.widgetManager.build_widgets();
+            renderMathJax();
+        });
     }
 
     render() {

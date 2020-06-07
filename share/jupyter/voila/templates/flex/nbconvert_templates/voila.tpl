@@ -58,8 +58,8 @@
     {%- with kernel_id = kernel_start() %}
         <script id="jupyter-config-data" type="application/json">
             {
-                "baseUrl": "{{resources.base_url}}",
-                "kernelId": "{{kernel_id}}"
+                "baseUrl": "{{ resources.base_url }}",
+                "kernelId": "{{ kernel_id }}"
             }
         </script>
 
@@ -117,8 +117,9 @@
 
     <script src="{{ resources.base_url }}voila/static/FlexRenderer.js"></script>
 
-    <script>
-        requirejs(['static/voila'], (voila) => voila);
-    </script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+    {%- block footer_js -%}
+    {%- endblock footer_js -%}
 
 {%- endblock body -%}

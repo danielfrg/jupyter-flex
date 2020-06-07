@@ -1,14 +1,8 @@
 import React from "react";
 var Convert = require("ansi-to-html");
 
-import { createMarkup, uuidv4 } from "../utils";
+import { createMarkup, uuidv4, onNextFrame } from "../utils";
 import "./style.scss";
-
-function onNextFrame(callback) {
-    setTimeout(function () {
-        window.requestAnimationFrame(callback);
-    });
-}
 
 export function runScript(script) {
     // This runs the contents in script tag on a window/global scope
@@ -130,6 +124,7 @@ class Output extends React.Component {
                 el = this.displayJavascript(data);
                 break;
             case "application/vnd.jupyter.widget-state+json":
+                el = this.displayWidgetState(data);
                 break;
             case "application/vnd.jupyter.widget-view+json":
                 el = this.displayWidgetView(data);
@@ -260,6 +255,22 @@ class Output extends React.Component {
         return (
             <div className="jp-RenderedImage jp-OutputArea-output">
                 {components}
+            </div>
+        );
+    }
+
+    displayWidgetState(data) {
+        const uuid = uuidv4();
+        return (
+            <div id={uuid} className="output_subarea output_widget_state">
+                <script type="text/javascript">
+                    {`var element = document.getElementById("${uuid}");`}
+                </script>
+                <script type="application/vnd.jupyter.widget-state+json">
+                    {JSON.stringify(
+                        data["application/vnd.jupyter.widget-state+json"]
+                    )}
+                </script>
             </div>
         );
     }
