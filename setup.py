@@ -1,5 +1,4 @@
 import os
-import shutil
 import sys
 
 from setuptools import find_packages, setup
@@ -49,9 +48,6 @@ class DevelopCmd(develop):
     ]
 
     def run(self):
-        import sys
-        import shutil
-
         for parent, name in self.prefix_targets:
             source = os.path.join(os.path.abspath(parent), name)
             target = os.path.join(sys.prefix, parent, name)
