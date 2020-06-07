@@ -6,7 +6,7 @@ MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
 PWD := $(shell pwd)
-TEST_FILTER ?= ""
+PYTEST_K ?= ""
 TEST_MARKERS ?= "not selenium"
 
 SELENIUM_HUB_HOST ?= 127.0.0.1
@@ -86,6 +86,43 @@ upload-pypi:  ## Upload package to PyPI
 upload-test:  ## Upload package to test PyPI
 	twine upload --repository test dist/*.tar.gz
 
+# ------------------------------------------------------------------------------
+# JS
+
+.PHONY: npm-install
+npm-install:  ## Install JS dependencies
+	cd js/; npm install
+
+
+.PHONY: npm-build
+npm-build:  ## Build JS
+	cd js/; npm run build
+
+
+.PHONY: npm-dev
+npm-dev:  ## Build JS with watch
+	cd js/; npm run dev
+
+
+.PHONY: clean-js
+clean-js:  # Clean JS
+	rm -rf share/jupyter/voila/templates/flex/static/*.js
+	rm -rf share/jupyter/voila/templates/flex/static/*.js.map
+	rm -rf share/jupyter/voila/templates/flex/static/*.css
+	rm -rf share/jupyter/voila/templates/flex/static/*.css.map
+	rm -rf share/jupyter/voila/templates/flex/static/*.html
+	rm -rf share/jupyter/voila/templates/flex/static/*.svg
+	rm -rf share/jupyter/voila/templates/flex/static/*.woff
+	rm -rf share/jupyter/voila/templates/flex/static/*.woff2
+	rm -rf share/jupyter/voila/templates/flex/static/*.eot
+	rm -rf share/jupyter/voila/templates/flex/static/*.ttf
+	cd js/; rm -rf .cache dist lib
+
+
+.PHONY: reset-js
+reset-js: clean-js  # Clean JS including node_modules
+	cd js/; rm -rf node_modules
+
 
 # ------------------------------------------------------------------------------
 # Testing
@@ -105,7 +142,7 @@ test:  ## Run tests
 	mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
 	pytest --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
-		-k $(TEST_FILTER) -m $(TEST_MARKERS) --html=test-results/report.html --self-contained-html
+		-k $(PYTEST_K) -m $(TEST_MARKERS) --html=test-results/report.html --self-contained-html
 
 
 .PHONY: test-all
@@ -113,14 +150,14 @@ test-all:  ## Run all tests
 	mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
 	pytest --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
-		-k $(TEST_FILTER) --html=test-results/report.html --self-contained-html
+		-k $(PYTEST_K) --html=test-results/report.html --self-contained-html
 
 
-.PHONY: test-baseline
+.PHONY: test-baselines
 test-baselines:  ## Create test baselines
 	pytest --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-save-baseline --needle-baseline-dir docs/assets/img/screenshots \
-		-k $(TEST_FILTER)
+		-k $(PYTEST_K)
 
 
 .PHONY: report
@@ -159,39 +196,3 @@ netlify: assets  ## Build docs on Netlify
 	pushd $(CURDIR)/docs && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True && popd
 	$(MAKE) docs
 
-# ------------------------------------------------------------------------------
-# JS
-
-.PHONY: npm-install
-npm-install:  ## Install JS dependencies
-	cd js/; npm install
-
-
-.PHONY: npm-build
-npm-build:  ## Build JS
-	cd js/; npm run build
-
-
-.PHONY: npm-dev
-npm-dev:  ## Build JS with watch
-	cd js/; npm run dev
-
-
-.PHONY: clean-js
-clean-js:  # Clean JS
-	rm -rf share/jupyter/voila/templates/flex/static/*.js
-	rm -rf share/jupyter/voila/templates/flex/static/*.js.map
-	rm -rf share/jupyter/voila/templates/flex/static/*.css
-	rm -rf share/jupyter/voila/templates/flex/static/*.css.map
-	rm -rf share/jupyter/voila/templates/flex/static/*.html
-	rm -rf share/jupyter/voila/templates/flex/static/*.svg
-	rm -rf share/jupyter/voila/templates/flex/static/*.woff
-	rm -rf share/jupyter/voila/templates/flex/static/*.woff2
-	rm -rf share/jupyter/voila/templates/flex/static/*.eot
-	rm -rf share/jupyter/voila/templates/flex/static/*.ttf
-	cd js/; rm -rf .cache dist lib
-
-
-.PHONY: reset-js
-reset-js: clean-js  # Clean JS including node_modules
-	cd js/; rm -rf node_modules

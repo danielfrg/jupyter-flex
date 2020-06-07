@@ -17,13 +17,25 @@ def test_example_site(needle, myselenium):
     needle.driver.get(target_url)
 
     # Take an element screen diff
-    needle.assert_screenshot("example_site", threshold=800000)
+    needle.assert_screenshot("example_site", threshold=300000)
+
+
+@pytest.mark.parametrize("name,path", [("tree", ""), ("404", "/intentional-404")])
+def test_voila(needle, myselenium, base_url, name, path):
+    target_url = "{0}/{1}".format(base_url, path)
+    needle.driver.get(target_url)
+
+    # Wait for page components to render
+    time.sleep(2)
+
+    # Take an element screen diff
+    needle.assert_screenshot(f"voila-{name}", threshold=300000)
 
 
 @pytest.mark.parametrize(
     "nb_name", ["iris-clustering", "movie-explorer", "nba-scoring", "wealth-of-nations"]
 )
-def test_example_nb(needle, myselenium, base_url, nb_name):
+def test_apps(needle, myselenium, base_url, nb_name):
     target_url = "{0}/voila/render/{1}.ipynb".format(base_url, nb_name)
     needle.driver.get(target_url)
 
@@ -63,19 +75,20 @@ def test_getting_started(needle, myselenium, base_url, nb_name):
 @pytest.mark.parametrize(
     "nb_name",
     [
-        "card",
+        "card-complete",
         "focal-chart-top-card-size",
         "focal-chart-top",
         "grid-2x2",
         "grid-2x3",
         "pages",
-        "pages-sidebar",
         "section-columns-columns",
         "section-columns",
         "section-rows-rows",
         "section-rows",
         "section-tabs-columns",
         "section-tabs-rows",
+        "sidebar-global",
+        "sidebar-pages",
     ],
 )
 def test_layouts(needle, myselenium, base_url, nb_name):
@@ -92,14 +105,14 @@ def test_layouts(needle, myselenium, base_url, nb_name):
 @pytest.mark.parametrize(
     "nb_name",
     [
-        "altair-simple",
+        "altair-single",
         "altair",
         "altair-scroll",
-        "bokeh-simple",
+        "bokeh-single",
         "bokeh",
-        "bqplot-simple",
+        "bqplot-single",
         "bqplot",
-        "plotly-simple",
+        "plotly-single",
         "plotly",
     ],
 )
