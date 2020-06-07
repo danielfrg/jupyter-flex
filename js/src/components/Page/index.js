@@ -61,7 +61,9 @@ class Page extends React.Component {
                 {sidebar}
                 <div
                     className={
-                        sidebar ? "col-md-9 ml-sm-auto col-lg-10 p-0" : ""
+                        sidebar
+                            ? "section-wrapper col-md-9 ml-sm-auto col-lg-10 p-0"
+                            : "section-wrapper"
                     }
                 >
                     {sectionComponents}

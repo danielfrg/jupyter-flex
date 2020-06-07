@@ -6,6 +6,7 @@ export function getTagValue(tags, tag, join = "") {
     if (exists.length > 0) {
         return exists.map((cls) => cls.replace(`${tag}=`, "")).join(join);
     }
+    return "";
 }
 
 export function slugify(string) {

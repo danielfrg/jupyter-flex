@@ -16,7 +16,15 @@ body {
     }
 }
 
-// This are used by voila base templase
+.page-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+// -----------------------------------------------------------------------------
+// These are used by voila base templase, not the actual components
+// -----------------------------------------------------------------------------
+
 .loading {
     width: 100%;
     height: 100%;
