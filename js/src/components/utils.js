@@ -18,6 +18,9 @@ export function slugify(string) {
 }
 
 export function getTagValue(tags, tag, join = "") {
+    if (!tags) {
+        return;
+    }
     return tags
         .filter((tag_) => tag_.startsWith(`${tag}=`))
         .map((cls) => cls.replace(`${tag}=`, ""))

@@ -30,34 +30,40 @@ class Card extends React.Component {
             let headerTitle;
             if (!this.props.insideTabs) {
                 headerTitle = <h6>{header}</h6>;
-            }
 
-            let buttons;
-            if (help.length > 0) {
-                buttons = (
-                    <button className="modal-btn" onClick={this.toggleModal}>
-                        <i className="material-icons">help_outline</i>
-                    </button>
+                let buttons;
+                if (help.length > 0) {
+                    buttons = (
+                        <button
+                            className="modal-btn"
+                            onClick={this.toggleModal}
+                        >
+                            <i className="material-icons">help_outline</i>
+                        </button>
+                    );
+
+                    let helpCells = [];
+                    help.forEach((cell, i) => {
+                        helpCells.push(<Cell key={i} {...cell} />);
+                    });
+
+                    modal = (
+                        <Modal
+                            title={`${header}`}
+                            onCloseClick={this.toggleModal}
+                        >
+                            {helpCells}
+                        </Modal>
+                    );
+                }
+
+                headerHtml = (
+                    <div className="card-header d-flex justify-content-between align-items-baseline">
+                        {headerTitle}
+                        {buttons}
+                    </div>
                 );
-
-                let helpCells = [];
-                help.forEach((cell, i) => {
-                    helpCells.push(<Cell key={i} {...cell} />);
-                });
-
-                modal = (
-                    <Modal title={`${header}`} onCloseClick={this.toggleModal}>
-                        {helpCells}
-                    </Modal>
-                );
             }
-
-            headerHtml = (
-                <div className="card-header d-flex justify-content-between align-items-baseline">
-                    {headerTitle}
-                    {buttons}
-                </div>
-            );
         }
 
         let contentComponents = [];

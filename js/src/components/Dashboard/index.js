@@ -22,7 +22,12 @@ class Dashboard extends React.Component {
             ? json["props"]["vertical_layout"]
             : "fill";
 
-        const orientation = verticalLayout == "scroll" ? "rows" : "columns";
+        // Default orientation based on the layout
+        let orientation = verticalLayout == "scroll" ? "rows" : "columns";
+        const orientationTag = json["props"]["orientation"];
+        if (orientationTag) {
+            orientation = orientationTag;
+        }
 
         this.state = {
             dashboard: json,
