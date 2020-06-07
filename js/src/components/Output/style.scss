@@ -54,7 +54,6 @@
             height: 100%;
         }
 
-        // Plotting libraries
         .js-plotly-plot {
             width: 100% !important;
             height: 100% !important;
@@ -66,19 +65,9 @@
             height: 1em;
         }
 
-        .bk-root {
-            width: 100% !important;
-            height: 100% !important;
-        }
-
-        .bqplot {
-            height: 100% !important;
-            width: 100% !important;
-        }
-
         .vega-embed {
             width: 100%;
-            height: 100%;
+            height: 95%;
 
             &.has-actions {
                 width: calc(100% - 38px);
@@ -94,6 +83,16 @@
                 width: 14px;
                 height: 14px;
             }
+        }
+
+        .bk-root {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .bqplot {
+            height: 100% !important;
+            width: 100% !important;
         }
 
         .q-grid-container {

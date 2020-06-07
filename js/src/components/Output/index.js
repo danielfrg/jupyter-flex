@@ -4,6 +4,42 @@ var Convert = require("ansi-to-html");
 import { createMarkup, uuidv4 } from "../utils";
 import "./style.scss";
 
+function onNextFrame(callback) {
+    setTimeout(function () {
+        window.requestAnimationFrame(callback);
+    });
+}
+
+export function runScript(script) {
+    // This runs the contents in script tag on a window/global scope
+    let reportScript = script.trim();
+    if (
+        reportScript.startsWith("<script") &&
+        reportScript.endsWith("</script>")
+    ) {
+        //remove <script> and </script> tags since eval expects code without html tags
+        let scriptLines = reportScript.split("\n");
+        scriptLines.pop();
+        scriptLines.shift();
+        reportScript = scriptLines.join("\n");
+    }
+    if (reportScript) {
+        // Ok this part really is the worst lol
+        // This is a hack to make Altair code not look for previousElementSibling
+        // because of how we execute the script `document.currentScript` is always null
+        // The script from altair has a fallback to look for the right ID
+        // So we are always triggering that fallback
+        // I should make a PR to vega or something to make this more secure
+        reportScript = reportScript.replace(
+            "let outputDiv = document.currentScript.previousElementSibling;",
+            "let outputDiv = {id: 0};"
+        );
+
+        // console.log("running script:", reportScript);
+        window.eval(reportScript);
+    }
+}
+
 class Output extends React.Component {
     ansiConverter;
     state = { displayData: "" };
@@ -42,6 +78,24 @@ class Output extends React.Component {
         }
 
         this.state = { displayData: type };
+    }
+
+    componentDidMount() {
+        if (this.state.displayData == "text/html") {
+            // If there are any script tags in the HTML code then we need to execute those
+            // We need to do it after the components have been writen to the DOM
+            // Also we need to use the runScript() util to run the code directly into the DOM
+            // Since react doesn't execute this tags.
+            // https://stackoverflow.com/questions/35614809/react-script-tag-not-working-when-inserted-using-dangerouslysetinnerhtml
+
+            const content = this.props.data["text/html"];
+            let extractedScript = /<script[\s\S]*<\/script>/g.exec(content);
+            if (extractedScript) {
+                onNextFrame(() => {
+                    runScript(extractedScript[0]);
+                });
+            }
+        }
     }
 
     render() {
@@ -97,14 +151,6 @@ class Output extends React.Component {
     }
 
     displayHTML(data) {
-        // What can go wrong
-        // https://stackoverflow.com/questions/35614809/react-script-tag-not-working-when-inserted-using-dangerouslysetinnerhtml
-
-        const content = data["text/html"];
-        let extractedScript = /<script[\s\S]*<\/script>/g.exec(content);
-        if (extractedScript) {
-            this.runScript(extractedScript[0]);
-        }
         return (
             <div
                 className="output_html rendered_html output_subarea"
@@ -113,27 +159,8 @@ class Output extends React.Component {
         );
     }
 
-    runScript(scriptToRun) {
-        // This runs the contents in script tag on a window/global scope
-        let reportScript = scriptToRun.trim();
-        if (
-            reportScript.startsWith("<script>") &&
-            reportScript.startsWith("</script>")
-        ) {
-            //remove <script> and </script> tags since eval expects only code without html tags
-            let scriptLines = reportScript.split("\n");
-            scriptLines.pop();
-            scriptLines.shift();
-            reportScript = scriptLines.join("\n");
-        }
-        if (reportScript) {
-            // console.log("running script:", reportScript);
-            window.eval(reportScript);
-        }
-    }
-
     displayJavascript(data) {
-        this.runScript(data["application/javascript"]);
+        runScript(data["application/javascript"]);
         return <script>{data["application/javascript"]}</script>;
     }
 

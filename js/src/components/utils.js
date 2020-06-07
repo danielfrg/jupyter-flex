@@ -1,3 +1,13 @@
+export function getTagValue(tags, tag, join = "") {
+    if (!tags) {
+        return;
+    }
+    return tags
+        .filter((tag_) => tag_.startsWith(`${tag}=`))
+        .map((cls) => cls.replace(`${tag}=`, ""))
+        .join(join);
+}
+
 export function slugify(string) {
     const a =
         "àáâäæãåāăąçćčđďèéêëēėęěğǵḧîïíīįìłḿñńǹňôöòóœøōõőṕŕřßśšşșťțûüùúūǘůűųẃẍÿýžźż·/_,:;";
@@ -15,16 +25,6 @@ export function slugify(string) {
         .replace(/--+/g, "-") // Replace multiple - with single -
         .replace(/^-+/, "") // Trim - from start of text
         .replace(/-+$/, ""); // Trim - from end of text
-}
-
-export function getTagValue(tags, tag, join = "") {
-    if (!tags) {
-        return;
-    }
-    return tags
-        .filter((tag_) => tag_.startsWith(`${tag}=`))
-        .map((cls) => cls.replace(`${tag}=`, ""))
-        .join(join);
 }
 
 export function createMarkup(html) {
