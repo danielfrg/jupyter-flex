@@ -1,6 +1,7 @@
 import React from "react";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 
+import { PageConfig } from "@jupyterlab/coreutils";
 import {
     WidgetManager,
     connectKernel,
@@ -56,47 +57,52 @@ class Dashboard extends React.Component {
     async componentDidMount() {
         // TODO: Check if we should connect to kernel or not for nbconvert.
         // If nbconvert change widgetManager for HTML Manager
-
         // This is the same as voila/main.js
         // https://github.com/voila-dashboards/voila/blob/master/share/jupyter/voila/templates/base/static/main.js
-
-        var kernel = await connectKernel();
-
-        const context = {
-            session: {
-                kernel,
-                kernelChanged: {
+        // const bu = PageConfig.getBaseUrl;
+        const kernelId = PageConfig.getOption("kernelId");
+        window.kernelId = kernelId;
+        console.log("KernelID");
+        console.log(kernelId);
+        if (kernelId !== undefined && kernelId != "") {
+            console.log("AAAAA");
+            window.chica = "AAAA";
+            var kernel = await connectKernel();
+            const context = {
+                session: {
+                    kernel,
+                    kernelChanged: {
+                        connect: () => {},
+                    },
+                    statusChanged: {
+                        connect: () => {},
+                    },
+                },
+                saveState: {
                     connect: () => {},
                 },
-                statusChanged: {
-                    connect: () => {},
-                },
-            },
-            saveState: {
-                connect: () => {},
-            },
-        };
-
-        const settings = {
-            saveState: false,
-        };
-
-        const rendermime = new RenderMimeRegistry({
-            initialFactories: standardRendererFactories,
-        });
-
-        let widgetManager = new WidgetManager(context, rendermime, settings);
-
-        // eslint-disable-next-line no-unused-vars
-        window.addEventListener("beforeunload", function (e) {
-            kernel.shutdown();
-            kernel.dispose();
-        });
-        // We do this on Page.componentDidUpdate
-        // await widgetManager.build_widgets();
-        // renderMathJax();
-
-        this.setState({ kernel: kernel, widgetManager: widgetManager });
+            };
+            const settings = {
+                saveState: false,
+            };
+            const rendermime = new RenderMimeRegistry({
+                initialFactories: standardRendererFactories,
+            });
+            let widgetManager = new WidgetManager(
+                context,
+                rendermime,
+                settings
+            );
+            // eslint-disable-next-line no-unused-vars
+            window.addEventListener("beforeunload", function (e) {
+                kernel.shutdown();
+                kernel.dispose();
+            });
+            // We do this on Page.componentDidUpdate
+            // await widgetManager.build_widgets();
+            // renderMathJax();
+            this.setState({ kernel: kernel, widgetManager: widgetManager });
+        }
     }
 
     render() {

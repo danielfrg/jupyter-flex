@@ -66,6 +66,7 @@
     "scripts": {
         "dev": "clear && parcel src/index.html",
         "dev:voila": "webpack --watch --mode=development",
+        "dev:voila:prod": "webpack --watch --mode=production",
         "build": "webpack --mode=production",
         "build:parcel": "clear && parcel build src/FlexRenderer.js --out-dir ../share/jupyter/voila/templates/flex/static",
         "fmt": "prettier --write \"src/**/*.{js,jsx}\"",

@@ -3,7 +3,14 @@
     "useTabs": false,
     "overrides": [
         {
-            "files": "*.yml",
+            "files": ["*.html"],
+            "options": {
+                "tabWidth": 2,
+                "printWidth": 500
+            }
+        },
+        {
+            "files": ["*.yml"],
             "options": {
                 "tabWidth": 2
             }

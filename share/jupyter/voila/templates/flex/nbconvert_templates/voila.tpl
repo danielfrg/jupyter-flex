@@ -3,27 +3,27 @@
 
 {%- block header -%}
 <html>
-    <head>
-    {%- block html_head %}
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        {%- block html_head_title %}
-        <title>{{ flex.get_title() }}</title>
-        {%- endblock html_head_title %}
-        <link rel="shortcut icon" type="image/ico" href="{{ resources.base_url }}voila/static/favicon.ico"/>
+<head>
+{%- block html_head %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {%- block html_head_title %}
+    <title>{{ flex.get_title() }}</title>
+    {%- endblock html_head_title %}
+    <link rel="shortcut icon" type="image/ico" href="{{ resources.base_url }}voila/static/favicon.ico"/>
 
-        {%- block html_head_css %}
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="{{ resources.base_url }}voila/static/bootstrap-4.5.0.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-        <link href="{{ resources.base_url }}voila/static/FlexRenderer.css" rel="stylesheet">
-        {%- endblock html_head_css %}
+    {%- block html_head_css %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{ resources.base_url }}voila/static/bootstrap-4.5.0.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="{{ resources.base_url }}voila/static/FlexRenderer.css" rel="stylesheet">
+    {%- endblock html_head_css %}
 
-        {%- set custom_css = flex.get_custom_css() -%}
-        {%- if custom_css | trim | length %}
-        <link href="{{ resources.base_url }}voila/files/{{ custom_css }}" rel="stylesheet">
-        {%- endif %}
-    {%- endblock html_head %}
-    </head>
+    {%- set custom_css = flex.get_custom_css() -%}
+    {%- if custom_css | trim | length %}
+    <link href="{{ resources.base_url }}voila/files/{{ custom_css }}" rel="stylesheet">
+    {%- endif %}
+{%- endblock html_head %}
+</head>
 {%- endblock header %}
 
 {%- block body %}

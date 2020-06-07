@@ -1,5 +1,5 @@
 import os
-import os.path
+import sys
 
 import jinja2
 from nbconvert.exporters.html import HTMLExporter
@@ -33,30 +33,51 @@ def include_external_base64_img(ctx, name):
     return jinja2.Markup(encoded_string.decode())
 
 
-class NBConvertFlexExporter(HTMLExporter):
+class FlexExporter(HTMLExporter):
 
     # "File -> Download as" menu in the notebook
     export_from_notebook = "Flex Dashboard"
 
-    extra_loaders = [jinja2.PackageLoader(__name__, "")]
+    # We add the Voila installed templates to the paths were jinja looks for templates
+    # so we can import flex.j2 and include the static files directly from there
+    extra_loaders = [
+        jinja2.FileSystemLoader(
+            os.path.join(sys.prefix, "share", "jupyter", "voila", "templates", "flex",)
+        ),
+        jinja2.FileSystemLoader(
+            os.path.join(
+                sys.prefix,
+                "share",
+                "jupyter",
+                "voila",
+                "templates",
+                "flex",
+                "nbconvert_templates",
+            )
+        ),
+    ]
 
     @property
     def template_path(self):
         """
-        Append nbconvert_templates to the default HTML ones we are extending
+        Append template intalled to share
+        This is compat code until nbconvert 6.0.0 lands
+        The structure of the project here is whats 6.0.0 will use
         """
         return super().template_path + [
-            os.path.join(os.path.dirname(__file__), "nbconvert_templates")
+            os.path.join(
+                sys.prefix, "share", "jupyter", "nbconvert", "templates", "flex"
+            )
         ]
 
     def _template_file_default(self):
         """
         We want to use the new template we ship with our library.
         """
-        return "nbconvert"  # full
+        return "index"
 
     def __init__(self, *args, **kwargs):
-        super(HTMLExporter, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.environment.globals["include_template"] = include_template
         self.environment.globals["include_external_file"] = include_external_file
         self.environment.globals[
@@ -64,7 +85,7 @@ class NBConvertFlexExporter(HTMLExporter):
         ] = include_external_base64_img
 
     def default_filters(self):
-        for pair in super(HTMLExporter, self).default_filters():
+        for pair in super().default_filters():
             yield pair
         yield ("test_filter", self.test_filter)
 

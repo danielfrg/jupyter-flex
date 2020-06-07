@@ -21,4 +21,4 @@ except ImportError:
     except ImportError:
         __version__ = None
 
-from .nbconvert_exporter import NBConvertFlexExporter  # noqa
+from .exporter import FlexExporter  # noqa

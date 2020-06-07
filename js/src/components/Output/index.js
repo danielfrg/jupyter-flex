@@ -6,12 +6,15 @@ import "./style.scss";
 
 export function runScript(script) {
     // This runs the contents in script tag on a window/global scope
+
+    // We do that weird closing script tag replace so it works in dev mode...
     let reportScript = script.trim();
     if (
         reportScript.startsWith("<script") &&
-        reportScript.endsWith("</script>")
+        reportScript.endsWith("< /script>".replace(" ", ""))
     ) {
-        //remove <script> and </script> tags since eval expects code without html tags
+        // remove opening and closing script tags
+        // windows.eval expects code without html tags
         let scriptLines = reportScript.split("\n");
         scriptLines.pop();
         scriptLines.shift();
