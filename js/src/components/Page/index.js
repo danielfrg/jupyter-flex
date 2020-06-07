@@ -75,13 +75,15 @@ class Page extends React.Component {
 
         return (
             <Fragment>
-                {sidebar}
-                <div className={`page ${this.state.classNames}`}>
+                <div
+                    className={`page container-fluid ${this.state.classNames}`}
+                >
+                    {sidebar}
                     <div
                         className={
                             sidebar
-                                ? `section-wrapper container-fluid d-flex flex-${flexDirection} col-md-9 ml-sm-auto col-lg-10 p-0`
-                                : `section-wrapper container-fluid d-flex flex-${flexDirection}`
+                                ? `section-wrapper d-flex flex-${flexDirection} col-md-9 ml-sm-auto col-lg-10`
+                                : `section-wrapper d-flex flex-${flexDirection}`
                         }
                     >
                         {sectionComponents}

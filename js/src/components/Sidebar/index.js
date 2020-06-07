@@ -27,7 +27,7 @@ class Sidebar extends React.Component {
         }
 
         return (
-            <div className="global-sidebar col-md-2">
+            <div className="sidebar col-md-2">
                 <div className="d-flex flex-column section">
                     {cardComponents}
                 </div>

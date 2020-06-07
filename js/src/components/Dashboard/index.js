@@ -155,13 +155,11 @@ class Dashboard extends React.Component {
                         <div
                             className={
                                 sidebar
-                                    ? "page-wrapper col-md-9 ml-sm-auto col-lg-10 p-0"
-                                    : "page-wrapper"
+                                    ? "col-md-9 ml-sm-auto col-lg-10 p-0"
+                                    : ""
                             }
                         >
-                            {/* <Provider value={this.state}> */}
                             <Switch>{routeComponents}</Switch>
-                            {/* </Provider> */}
                         </div>
                     </main>
                 </div>

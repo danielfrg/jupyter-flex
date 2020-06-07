@@ -20,24 +20,21 @@ body {
         height: calc(100% - 51px);
         padding: 0;
 
-        .page-wrapper {
+        .page {
             height: 100%;
-            .page {
+            .section-wrapper {
                 height: 100%;
-                .section-wrapper {
+                .section {
                     height: 100%;
-                    .section {
+                    .card {
                         height: 100%;
-                        .card {
+                        .card-body {
                             height: 100%;
-                            .card-body {
+                            flex: 1 1 0;
+                            .output_wrapper {
                                 height: 100%;
-                                flex: 1 1 0;
-                                .output_wrapper {
+                                .output {
                                     height: 100%;
-                                    .output {
-                                        height: 100%;
-                                    }
                                 }
                             }
                         }
