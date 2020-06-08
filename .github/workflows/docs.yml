@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  test:
+  docs:
     runs-on: ubuntu-latest
 
     container:
@@ -85,12 +85,11 @@ jobs:
         run: |
           make docs-nbs
           make docs
-      - name:
-        steps:
-          - uses: actions/checkout@v1
-          - uses: jsmrcaga/action-netlify-deploy@master
-            with:
-              NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-              NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-              NETLIFY_DEPLOY_TO_PROD: ${{ github.ref == master }}
-              build_directory: site
+
+      - name: Push docs
+        uses: jsmrcaga/action-netlify-deploy@master
+        with:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_DEPLOY_TO_PROD: ${{ github.ref == master }}
+          build_directory: site
