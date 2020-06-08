@@ -91,8 +91,10 @@
 
     <div id="flex-modal"></div>
     <div id="flex-root">
-        <div class="loading">
-            Loading React...
+        <div class="container-fluid d-flex flex-row loading">
+            <div class="text-center">
+                <p id="loading_text">... loading ...</p>
+            </div>
         </div>
     </div>
 

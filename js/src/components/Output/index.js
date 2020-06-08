@@ -90,7 +90,7 @@ class Output extends React.Component {
             // https://stackoverflow.com/questions/35614809/react-script-tag-not-working-when-inserted-using-dangerouslysetinnerhtml
 
             const content = this.props.data["text/html"];
-            let extractedScript = /<script[\s\S]>*<\/script>/g.exec(content);
+            let extractedScript = /<script[\s\S]*<\/script>/g.exec(content);
             if (extractedScript) {
                 onNextFrame(() => {
                     runScript(extractedScript[0]);

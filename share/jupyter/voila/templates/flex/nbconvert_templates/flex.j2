@@ -88,11 +88,11 @@
         {%- if cell_type == "markdown" -%}
 
             {#- Tagged cells have priority -#}
-            {%- set is_text = find_item_startswith(cell_tags, "text") -%}
+            {%- set is_body = find_item_startswith(cell_tags, "body") -%}
             {%- set is_footer = find_item_startswith(cell_tags, "footer") -%}
             {%- set is_help = find_item_startswith(cell_tags, "help") -%}
 
-            {%- if is_text or is_footer or is_help -%}
+            {%- if is_body or is_footer or is_help -%}
                 {#- Create `current_*` objects if notebook started with a tagged cell -#}
                 {%- if not vars.current_page -%}
                     {%- set _ = vars.update({"current_page": {"title": "", "sections": [] } }) -%}
@@ -101,12 +101,12 @@
                     {%- set _ = vars.update({"current_section": {"title": "", "cards": [], "tags": []}}) -%}
                 {%- endif -%}
                 {%- if not vars.current_card -%}
-                    {%- set _ = vars.update({"current_card": {"header": "", "cells": [], "footer": [], "help": [], "tags": []}}) -%}
+                    {%- set _ = vars.update({"current_card": {"header": "", "body": [], "footer": [], "help": [], "tags": []}}) -%}
                 {%- endif -%}
             {%- endif -%}
 
-            {%- if is_text -%}
-                {%- set _ = vars.current_card.cells.append(cell) -%}
+            {%- if is_body -%}
+                {%- set _ = vars.current_card.body.append(cell) -%}
                 {%- continue -%}
             {%- endif -%}
 
@@ -184,7 +184,7 @@
                 {%- endif -%}
 
                 {#- Create current_card with values from this cell -#}
-                {%- set _ = vars.update({"current_card": {"header": h3_title, "cells": [], "footer": [], "help": [], "tags": cell_tags}}) -%}
+                {%- set _ = vars.update({"current_card": {"header": h3_title, "body": [], "footer": [], "help": [], "tags": cell_tags}}) -%}
             {%- endif -%}
 
         {%- elif cell_type == "code" -%}
@@ -208,9 +208,8 @@
                 {%- continue -%}
             {%- endif -%}
 
-            {%- set is_inputs = find_item_startswith(cell_tags, "inputs") -%}
-            {%- set is_chart = find_item_startswith(cell_tags, "chart") -%}
-            {%- if is_inputs or is_chart -%}
+            {%- set is_body = find_item_startswith(cell_tags, "body") -%}
+            {%- if is_body -%}
                 {#- Create current_* objects if notebook starts with a tagged cell -#}
                 {%- if not vars.current_page -%}
                     {%- set _ = vars.update({"current_page": {"title": "", "sections": [] } }) -%}
@@ -219,11 +218,11 @@
                     {%- set _ = vars.update({"current_section": {"title": "", "cards": [], "tags": []}}) -%}
                 {%- endif -%}
                 {%- if not vars.current_card -%}
-                    {%- set _ = vars.update({"current_card": {"header": "", "cells": [], "footer": [], "help": [], "tags": []}}) -%}
+                    {%- set _ = vars.update({"current_card": {"header": "", "body": [], "footer": [], "help": [], "tags": []}}) -%}
                 {%- endif -%}
 
                 {#- Encode outputs to safely insert them on <script> tags -#}
-                {%- set _ = vars.current_card.cells.append(cell) -%}
+                {%- set _ = vars.current_card.body.append(cell) -%}
             {%- endif -%}
         {%- endif -%}
 

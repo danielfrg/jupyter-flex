@@ -24,8 +24,9 @@ build: download-assets npm-build python-build  ## Build assets and Python packag
 download-assets:  ## Download .css/.js assets
 	@curl -o share/jupyter/voila/templates/flex/static/jquery-3.5.1.slim.min.js https://code.jquery.com/jquery-3.5.1.slim.min.js
 	@curl -o share/jupyter/voila/templates/flex/static/bootstrap-4.5.0.min.js https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js
+	@curl -o share/jupyter/voila/templates/flex/static/bootstrap.min.js.map https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js.map
 	@curl -o share/jupyter/voila/templates/flex/static/bootstrap-4.5.0.min.css https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css
-	@curl -o share/jupyter/voila/templates/flex/static/bootstrap-4.5.0.min.css.map https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css.map
+	@curl -o share/jupyter/voila/templates/flex/static/bootstrap.min.css.map https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css.map
 	@curl -o share/jupyter/voila/templates/flex/static/require-2.3.6.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
 	@curl -o share/jupyter/voila/templates/flex/static/embed-amd-0.19.0.js https://unpkg.com/@jupyter-widgets/html-manager@0.19.0/dist/embed-amd.js
 
