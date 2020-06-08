@@ -80,7 +80,7 @@ setup(
     package_data={"jupyter_flex": ["static/*"]},
     data_files=get_data_files(),
     cmdclass={"develop": DevelopCmd},
-    entry_points={"nbconvert.exporters": ["flex = flex:FlexExporter"]},
+    entry_points={"nbconvert.exporters": ["flex = jupyter_flex:FlexExporter"]},
     options={"bdist_wheel": {"universal": "1"}},
     python_requires=">=3.6",
     setup_requires=["setuptools_scm"],
