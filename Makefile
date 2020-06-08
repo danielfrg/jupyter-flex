@@ -148,6 +148,10 @@ docs: docs-examples  ## mkdocs build
 	mkdocs build --config-file $(CURDIR)/mkdocs.yml
 
 
+docs-nbs:  ## Convert notebooks inside docs
+	@cd $(CURDIR)/docs && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True
+
+
 docs-examples:  ## Run nbconvert on the examples
 	@cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb --to=flex --output-dir=../docs/examples --execute --ExecutePreprocessor.store_widget_state=True
 	@cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb --to=flex --output-dir=../docs/examples --execute --ExecutePreprocessor.store_widget_state=True
@@ -159,14 +163,6 @@ docs-examples:  ## Run nbconvert on the examples
 
 serve-docs:  ## Serve docs
 	mkdocs serve
-
-
-netlify: assets  ## Build docs on Netlify
-	python setup.py install
-	pip freeze
-	python -c "import bokeh.sampledata; bokeh.sampledata.download()"
-	pushd $(CURDIR)/docs && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True && popd
-	$(MAKE) docs
 
 
 # ------------------------------------------------------------------------------
