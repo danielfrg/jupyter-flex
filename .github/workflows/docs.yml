@@ -83,6 +83,7 @@ jobs:
 
       - name: Build docs
         run: |
+          python setup.py install
           make docs-nbs
           make docs
 

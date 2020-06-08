@@ -149,7 +149,7 @@ docs: docs-examples  ## mkdocs build
 
 
 docs-nbs:  ## Convert notebooks inside docs
-	pushd $(CURDIR)/docs && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True && popd
+	@cd $(CURDIR)/docs && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True
 
 
 docs-examples:  ## Run nbconvert on the examples
