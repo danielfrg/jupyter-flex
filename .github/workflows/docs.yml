@@ -1,8 +1,9 @@
-name: docs-pr
+name: docs
 
 on:
+  push:
+    branches: [master]
   pull_request:
-    types: ["opened", "edited", "synchronize"]
 
 jobs:
   test:
@@ -80,7 +81,16 @@ jobs:
           ls /__t/Python/3.7.7/x64/share/jupyter/voila/templates
           curl http://localhost:8866/
 
-      - name:
+      - name: Build docs
         run: |
           make docs-nbs
           make docs
+      - name:
+        steps:
+          - uses: actions/checkout@v1
+          - uses: jsmrcaga/action-netlify-deploy@master
+            with:
+              NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+              NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+              NETLIFY_DEPLOY_TO_PROD: ${{ github.ref == master }}
+              build_directory: site
