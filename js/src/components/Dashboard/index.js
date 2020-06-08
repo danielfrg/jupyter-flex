@@ -60,7 +60,7 @@ class Dashboard extends React.Component {
             ? this.state.pageConfig.kernelId
             : null;
 
-        if (kernelId !== undefined && kernelId != "") {
+        if (kernelId && kernelId != "") {
             // This is the same as Voila's main.js
             // https://github.com/voila-dashboards/voila/blob/master/share/jupyter/voila/templates/base/static/main.js
             requirePromise(["static/voila"]).then(async (voila) => {

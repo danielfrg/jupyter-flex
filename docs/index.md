@@ -2,12 +2,12 @@
 
 Use Jupyter Notebooks to quickly create interactive dashboards.
 
-- Use Markdown headers and Jupyter Notebook cell tags to define the dashboard components
-- Flexible and easy way to specify row and column based layouts
-- Use [nbconvert](https://nbconvert.readthedocs.io/en/latest/) to create static reports
-- Use [Voila](https://github.com/voila-dashboards/voila) to start a live
-  Jupyter Kernel for fully dynamic applications
-- Support for [ipywidgets](https://ipywidgets.readthedocs.io/en/latest/)
+-   Use Markdown headers and Jupyter Notebook cell tags to define the dashboard components
+-   Flexible and easy way to specify row and column based layouts
+-   Use [nbconvert](https://nbconvert.readthedocs.io/en/latest/) to create static reports
+-   Use [Voila](https://github.com/voila-dashboards/voila) to start a live
+    Jupyter Kernel for fully dynamic applications
+-   Support for [ipywidgets](https://ipywidgets.readthedocs.io/en/latest/)
 
 Inspired by [Flex Dashboards](https://rmarkdown.rstudio.com/flexdashboard/).
 
@@ -103,4 +103,4 @@ change underlying parameters and see the results immediately using
 </div>
 
 !!! info
-Source for all examples can be found [on Github](https://github.com/danielfrg/jupyter-flex/tree/master/examples).
+    Source for all examples can be found [on Github](https://github.com/danielfrg/jupyter-flex/tree/master/examples).

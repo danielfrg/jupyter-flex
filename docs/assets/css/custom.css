@@ -1,31 +1,31 @@
 :root {
-  /* Default color shades */
-  --md-default-fg-color: hsla(0, 0%, 0%, 0.87);
-  --md-default-fg-color--light: hsla(0, 0%, 0%, 0.54);
-  --md-default-fg-color--lighter: hsla(0, 0%, 0%, 0.26);
-  --md-default-fg-color--lightest: hsla(0, 0%, 0%, 0.07);
-  --md-default-bg-color: hsla(0, 0%, 100%, 1);
-  --md-default-bg-color--light: hsla(0, 0%, 100%, 0.7);
-  --md-default-bg-color--lighter: hsla(0, 0%, 100%, 0.3);
-  --md-default-bg-color--lightest: hsla(0, 0%, 100%, 0.12);
+    /* Default color shades */
+    --md-default-fg-color: hsla(0, 0%, 0%, 0.87);
+    --md-default-fg-color--light: hsla(0, 0%, 0%, 0.54);
+    --md-default-fg-color--lighter: hsla(0, 0%, 0%, 0.26);
+    --md-default-fg-color--lightest: hsla(0, 0%, 0%, 0.07);
+    --md-default-bg-color: hsla(0, 0%, 100%, 1);
+    --md-default-bg-color--light: hsla(0, 0%, 100%, 0.7);
+    --md-default-bg-color--lighter: hsla(0, 0%, 100%, 0.3);
+    --md-default-bg-color--lightest: hsla(0, 0%, 100%, 0.12);
 
-  /* Primary color shades */
-  --md-primary-fg-color: rgb(3, 102, 214);
-  /* --md-primary-fg-color: hsla(231deg, 48%, 48%, 1); */
-  --md-primary-fg-color--light: hsla(230deg, 44%, 64%, 1);
-  --md-primary-fg-color--dark: hsla(232deg, 54%, 41%, 1);
-  --md-primary-bg-color: var(--md-default-bg-color);
-  --md-primary-bg-color--light: var(--md-default-bg-color--light);
+    /* Primary color shades */
+    --md-primary-fg-color: rgb(3, 102, 214);
+    /* --md-primary-fg-color: hsla(231deg, 48%, 48%, 1); */
+    --md-primary-fg-color--light: hsla(230deg, 44%, 64%, 1);
+    --md-primary-fg-color--dark: hsla(232deg, 54%, 41%, 1);
+    --md-primary-bg-color: var(--md-default-bg-color);
+    --md-primary-bg-color--light: var(--md-default-bg-color--light);
 
-  /* Accent color shades */
-  --md-accent-fg-color: #1563ff;
-  /* --md-accent-fg-color: hsla(218deg, 100%, 63%, 1); */
-  --md-accent-fg-color--transparent: hsla(218deg, 100%, 63%, 0.1);
-  --md-accent-bg-color: var(--md-default-bg-color);
-  --md-accent-bg-color--light: var(--md-default-bg-color--light);
+    /* Accent color shades */
+    --md-accent-fg-color: #1563ff;
+    /* --md-accent-fg-color: hsla(218deg, 100%, 63%, 1); */
+    --md-accent-fg-color--transparent: hsla(218deg, 100%, 63%, 0.1);
+    --md-accent-bg-color: var(--md-default-bg-color);
+    --md-accent-bg-color--light: var(--md-default-bg-color--light);
 
-  /* Code block color shades */
-  /* --md-code-bg-color:                  ...;
+    /* Code block color shades */
+    /* --md-code-bg-color:                  ...;
   --md-code-fg-color:                  ...; */
 }
 
@@ -33,7 +33,7 @@
     background-color: #24292e;
 }
 
-.md-header[data-md-state=shadow] {
+.md-header[data-md-state="shadow"] {
     transition: none;
     box-shadow: none;
 }
@@ -43,12 +43,12 @@
 }
 
 a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 a.md-nav__link:before {
     color: var(--md-primary-fg-color);
-    content: '\203A';
+    content: "\203A";
     left: 20px;
     opacity: 0.8;
     position: absolute;
@@ -58,12 +58,12 @@ a.md-nav__link:before {
 }
 
 a.md-nav__link {
-  text-decoration: none;
-  padding: 6px 0 6px 15px
+    text-decoration: none;
+    padding: 6px 0 6px 15px;
 }
 
-a.md-nav__link--active{
-  /* font-weight: 600; */
+a.md-nav__link--active {
+    /* font-weight: 600; */
 }
 
 table code {
@@ -81,7 +81,7 @@ table code {
 figure.image-card {
     display: flex;
     flex-direction: column;
-	align-items: center;
+    align-items: center;
     width: 300px;
     margin: 5px;
 }
@@ -106,7 +106,12 @@ p.code-header {
     margin: 1em 0 -1.2em;
     padding: 0.1em 1em;
     font-size: 0.9em;
-    font-family: "Roboto Mono","Courier New",Courier,monospace;
+    font-family: "Roboto Mono", "Courier New", Courier, monospace;
+}
+
+pre {
+    /* Fix for jupyter */
+    overflow: auto;
 }
 
 pre .code-noselect {
@@ -120,4 +125,11 @@ pre .code-noselect {
 
 .md-footer-meta {
     background: none;
+}
+
+p.img-footer {
+    margin-top: -20px !important;
+    text-align: center;
+    color: #444;
+    font-size: 15px;
 }
