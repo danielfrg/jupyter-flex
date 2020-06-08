@@ -1,0 +1,13 @@
+@import "../variables.scss";
+
+.page {
+    width: 100%;
+    // height: 100%;  // This is done in dashboard.scss
+    padding: 0;
+
+    .section-wrapper {
+        padding: 1rem;
+        width: 100%;
+        // height: 100%;  // This is done in dashboard.scss
+    }
+}

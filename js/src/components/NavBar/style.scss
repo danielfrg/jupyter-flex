@@ -1,0 +1,57 @@
+@import "../variables.scss";
+
+.navbar {
+    height: 51px;
+    padding: 0;
+    z-index: 999;
+    background-color: $dark-bg !important;
+    color: #fff;
+
+    .container-fluid {
+        padding: 0.35rem 1rem;
+        background-color: $dark-bg; // For mobile collapsible menu
+    }
+
+    .logo {
+        margin-right: 0.5rem;
+    }
+
+    .navbar-brand {
+        font-weight: 300;
+    }
+
+    ul.navbar-nav {
+        .nav-link {
+            color: #aeb7c2;
+
+            &:hover {
+                color: #fff;
+            }
+
+            &.active {
+                color: #fff;
+            }
+        }
+    }
+
+    i.material-icons {
+        font-size: 18px;
+        vertical-align: middle;
+        margin-right: 5px;
+    }
+
+    .circle {
+        border: 2px solid #aeb7c2;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+    }
+
+    .filled-circle {
+        height: 12px;
+        width: 12px;
+        background-color: #aeb7c2;
+        border-radius: 50%;
+        display: inline-block;
+    }
+}

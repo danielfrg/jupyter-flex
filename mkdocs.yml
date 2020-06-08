@@ -3,29 +3,30 @@ site_url: https://github.com/danielfrg/jupyter-flex
 copyright: Copyright 2019 - 2020 Daniel Rodriguez
 
 nav:
-- Home: index.md
-- Getting started: getting-started.ipynb
-- Layouts: layouts.ipynb
-- Plotting: plotting.ipynb
-- Voila & Widgets: voila-ipywidgets.ipynb
-- Customization: customization.ipynb
-- Reference: reference.md
+  - Home: index.md
+  - Getting started: getting-started.ipynb
+  - Layouts: layouts.ipynb
+  - Plotting: plotting.ipynb
+  - Voila & Widgets: voila-ipywidgets.ipynb
+  - Customization: customization.ipynb
+  - Reference: reference.md
 
 theme:
-  name: 'material'
-  custom_dir: 'docs/theme'
-  favicon: '/assets/img/favicon.ico'
+  name: "material"
+  custom_dir: "docs/theme"
+  favicon: "/assets/img/favicon.ico"
   logo: /assets/img/icon.png
 
 extra_css:
   - assets/css/custom.css
 
 extra_javascript:
-  - 'assets/js/custom.js'
-  - 'assets/js/require.min.js'
+  - "assets/js/custom.js"
+  - "assets/js/require.min.js"
 
-repo_name: 'danielfrg/jupyter-flex'
-repo_url: 'https://github.com/danielfrg/jupyter-flex'
+repo_name: "danielfrg/jupyter-flex"
+repo_url: "https://github.com/danielfrg/jupyter-flex"
+edit_uri: ""
 
 plugins:
   - search
@@ -40,5 +41,5 @@ markdown_extensions:
       permalink: true
 
 google_analytics:
-  - 'UA-35523657-6'
-  - 'auto'
+  - "UA-35523657-6"
+  - "auto"

@@ -1,4 +1,8 @@
-.page-wrapper {
+.navbar .container-fluid {
+    background-color: #000 !important;
+}
+
+.page {
     background-color: red;
 }
 
@@ -7,5 +11,5 @@
 }
 
 .card {
-    background-color: yellow;
+    background-color: #bbbb70;
 }

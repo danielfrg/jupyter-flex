@@ -1,24 +1,47 @@
 # Development
 
+Setting up development for quick iteration
+
+Deps:
+
+```
+# Download third-party CSS/JS assets
+make download-assets
+```
+
+Python:
+
 ```
 # Create conda env
 make env
 conda activate jupyter-flex
 
-# Downloads 3rd party CSS/JS assets
-make assets
-
 # Install package
 make develop
 ```
 
-Now you can use `nbconvert` or `voila` as in the docs and change the source to iterate.
+JS/React:
 
-## `.scss`
+```
+# Install deps
+make npm-install
+```
 
-If you are changing the styles, probably the easiest way is to configure it on your favourite editor.
+## Iteration cycle
 
-There is a `make sassc` that uses `libsass` but you have to run it for each change.
+Start webpack in watch mode, this will also place the build files in the voila
+static directory.
+
+```
+make npm-dev
+```
+
+Now you can just start voila and iterate quickly on the JS or Python code.
+To start the voila in the examples directory:
+
+```
+make serve-examples
+```
 
 ## Testing
 

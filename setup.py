@@ -1,5 +1,4 @@
 import os
-import shutil
 import sys
 
 from setuptools import find_packages, setup
@@ -15,71 +14,49 @@ def read_file(filename):
         return file.read()
 
 
+scm_version_write_to_prefix = os.environ.get(
+    "SETUPTOOLS_SCM_VERSION_WRITE_TO_PREFIX", setup_dir
+)
+
+
 def parse_git(root, **kwargs):
-    """
-    Parse function for setuptools_scm
-    """
     from setuptools_scm.git import parse
 
-    kwargs["describe_command"] = "git describe --dirty --tags --long"
+    kwargs["describe_command"] = 'git describe --dirty --tags --long --match "[0-9].*"'
     return parse(root, **kwargs)
 
 
-# -----------------------------------------------------------------------------
-# Create file struture for data_files
-# It takes the files on the module and copies them under `share`
-
-data_files = []
-
-if os.path.exists("share"):
-    shutil.rmtree("share")
-
-# Voila files
-voila_prefix = "share/jupyter/voila/templates/flex"
-os.makedirs(voila_prefix)
-shutil.copytree(
-    "jupyter_flex/nbconvert_templates",
-    os.path.join(voila_prefix, "nbconvert_templates"),
-)
-shutil.copytree("jupyter_flex/static", os.path.join(voila_prefix, "static"))
-shutil.copytree("jupyter_flex/templates", os.path.join(voila_prefix, "templates"))
-
-for root, dirs, files in os.walk("share"):
-    root_files = [os.path.join(root, i) for i in files]
-    data_files.append((root, root_files))
-
-# print("Data Files:")
-# print(data_files)
-
-# -----------------------------------------------------------------------------
+def get_data_files():
+    # Add the templates
+    data_files = []
+    for (dirpath, dirnames, filenames) in os.walk("share/jupyter/"):
+        if filenames:
+            data_files.append(
+                (dirpath, [os.path.join(dirpath, filename) for filename in filenames])
+            )
+    return data_files
 
 
 class DevelopCmd(develop):
-    """The DevelopCmd will create symlinks for voila under:
-        sys.prefix/share/jupyter
+    """The DevelopCmd will create symlinks for nbconvert and voila under:
+        sys.prefix/share/jupyter/
     """
 
     prefix_targets = [
-        ("voila/templates", "jupyter_flex", "flex"),
+        ("share/jupyter/nbconvert/templates", "flex"),
+        ("share/jupyter/voila/templates", "flex"),
     ]
 
     def run(self):
-        share_jupyter_dir = os.path.join(sys.prefix, "share", "jupyter")
+        for parent, name in self.prefix_targets:
+            source = os.path.join(os.path.abspath(parent), name)
+            target = os.path.join(sys.prefix, parent, name)
+            target = target.rstrip(os.path.sep)
+            print(source, target)
 
-        for prefix_target, source, name in self.prefix_targets:
-            source = os.path.abspath(source)
-            target = os.path.join(share_jupyter_dir, prefix_target, name).rstrip(
-                os.path.sep
-            )
-            target_subdir = os.path.dirname(target)
-            if not os.path.exists(target_subdir):
-                os.makedirs(target_subdir)
             if os.path.islink(target):
                 print("Removing link:", target)
                 os.remove(target)
-            elif os.path.exists(target):
-                print("Removing:", target)
-                shutil.rmtree(target)
 
             print("Linking", source, "->", target)
             os.symlink(source, target)
@@ -89,23 +66,27 @@ class DevelopCmd(develop):
 
 setup(
     name="jupyter-flex",
-    use_scm_version=True,
+    use_scm_version={
+        "root": setup_dir,
+        "parse": parse_git,
+        "write_to": os.path.join(
+            scm_version_write_to_prefix, "jupyter_flex/_generated_version.py"
+        ),
+    },
     packages=find_packages(),
     # package_dir={"": "src"},
     zip_safe=False,
     include_package_data=True,
     package_data={"jupyter_flex": ["static/*"]},
-    data_files=data_files,
+    data_files=get_data_files(),
     cmdclass={"develop": DevelopCmd},
-    entry_points={
-        "nbconvert.exporters": ["flex = jupyter_flex:NBConvertFlexExporter"],
-    },
+    entry_points={"nbconvert.exporters": ["flex = flex:FlexExporter"]},
     options={"bdist_wheel": {"universal": "1"}},
     python_requires=">=3.6",
     setup_requires=["setuptools_scm"],
     install_requires=read_file("requirements-package.txt").splitlines(),
     extras_require={
-        "test": ["pytest"],
+        "test": ["pytest", "pytest-cov", "toml"],
         "dev": read_file("requirements.txt").splitlines(),
     },
     description="Easily create Dashboards using Jupyter Notebooks",

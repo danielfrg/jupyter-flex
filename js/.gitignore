@@ -1,0 +1,25 @@
+# Build generated
+lib/
+dist/
+build/
+.cache/
+docs/
+test/build
+test/coverage
+
+# Dependency directories
+node_modules
+
+# npm
+.npm
+npm-debug.log
+
+# yarn
+.yarn-integrity
+
+# Optional eslint cache
+.eslintcache
+
+# Typescript
+*.tsbuildinfo
+typings/tsd.d.ts
