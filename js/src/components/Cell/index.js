@@ -42,7 +42,7 @@ class Cell extends React.Component {
                     )}
                 ></div>
             );
-        } else {
+        } else if (this.props.cell_type == "code") {
             outputComponents = [];
             if (this.state.outputs) {
                 this.state.outputs.forEach((output, i) => {

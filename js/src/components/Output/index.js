@@ -32,8 +32,8 @@ export function runScript(script) {
             "let outputDiv = document.currentScript.previousElementSibling;",
             "let outputDiv = {id: 0};"
         );
-
-        // console.log("running script:", reportScript);
+        // console.log("running script:");
+        // console.log(reportScript);
         window.eval(reportScript);
     }
 }
@@ -47,6 +47,9 @@ class Output extends React.Component {
         this.ansiConverter = new Convert();
 
         let type = "";
+        // if ("application/vnd.bokehjs_exec.v0+json" in this.props.metadata) {
+        //     type = null;
+        // } else
         if (this.props.data) {
             if ("image/svg+xml" in this.props.data) {
                 type = "image/svg+xml";
@@ -87,12 +90,14 @@ class Output extends React.Component {
             // https://stackoverflow.com/questions/35614809/react-script-tag-not-working-when-inserted-using-dangerouslysetinnerhtml
 
             const content = this.props.data["text/html"];
-            let extractedScript = /<script[\s\S]*<\/script>/g.exec(content);
+            let extractedScript = /<script[\s\S]>*<\/script>/g.exec(content);
             if (extractedScript) {
                 onNextFrame(() => {
                     runScript(extractedScript[0]);
                 });
             }
+        } else if (this.state.displayData == "application/javascript") {
+            runScript(this.props.data["application/javascript"]);
         }
     }
 
@@ -162,7 +167,6 @@ class Output extends React.Component {
     }
 
     displayJavascript(data) {
-        runScript(data["application/javascript"]);
         return <script>{data["application/javascript"]}</script>;
     }
 

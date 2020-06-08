@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import Dashboard from "./components/Dashboard";
+import App from "./components/App";
 
-ReactDOM.render(<Dashboard />, document.getElementById("flex-root"));
+ReactDOM.render(<App />, document.getElementById("flex-root"));
