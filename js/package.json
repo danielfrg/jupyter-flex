@@ -46,9 +46,9 @@
         "webpack-cli": "^3.3.11"
     },
     "scripts": {
-        "dev": "clear && webpack --watch --mode=development",
-        "dev:prod": "clear && webpack --watch --mode=production",
-        "build": "clear && webpack --mode=production",
+        "dev": "webpack --watch --mode=development",
+        "dev:prod": "webpack --watch --mode=production",
+        "build": "webpack --mode=production",
         "fmt": "prettier --write \"src/**/*.{js,jsx}\"",
         "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
         "clean": "rm -rf .cache/ dist/ lib/",
