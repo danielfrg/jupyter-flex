@@ -22,7 +22,7 @@ class Card extends React.Component {
     }
 
     render() {
-        const { sectionOrientation, header, cells, help, footer } = this.props;
+        const { sectionOrientation, header, body, help, footer } = this.props;
 
         let headerHtml;
         let modal;
@@ -66,10 +66,10 @@ class Card extends React.Component {
             }
         }
 
-        let contentComponents = [];
-        if (cells.length > 0) {
-            cells.forEach((cell, i) => {
-                contentComponents.push(<Cell key={i} {...cell} />);
+        let bodyComponents = [];
+        if (body.length > 0) {
+            body.forEach((cell, i) => {
+                bodyComponents.push(<Cell key={i} {...cell} />);
             });
         }
 
@@ -92,7 +92,7 @@ class Card extends React.Component {
                 {headerHtml}
 
                 <div className="card-body d-flex flex-column">
-                    {contentComponents}
+                    {bodyComponents}
                 </div>
 
                 {footerComponents}
