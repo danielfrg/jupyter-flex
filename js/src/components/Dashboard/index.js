@@ -1,19 +1,12 @@
 import React from "react";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 
-import { PageConfig } from "@jupyterlab/coreutils";
-import {
-    WidgetManager,
-    connectKernel,
-    RenderMimeRegistry,
-    standardRendererFactories,
-} from "../../voila";
-
 import NavBar from "../NavBar";
 import Sidebar from "../Sidebar";
 import Page from "../Page";
 import Cell from "../Cell";
 import { slugify } from "../utils";
+import { requirePromise } from "../loader";
 
 import "./style.scss";
 
@@ -21,87 +14,110 @@ class Dashboard extends React.Component {
     constructor(props) {
         super(props);
 
+        // Load page config
+        const pageConfigScriptTag = document.body.querySelector(
+            `script[id="jupyter-config-data"]`
+        );
+        let pageConfigJSON;
+        if (pageConfigScriptTag) {
+            pageConfigJSON = JSON.parse(pageConfigScriptTag.innerHTML);
+        }
+
         // Load dashboard json
-        const dashboardTag = document.body.querySelector(
+        const dashboardScriptTag = document.body.querySelector(
             `script[id="jupyter-flex-dashboard"]`
         );
-        const json = JSON.parse(dashboardTag.innerHTML);
+        let dashboardJSON;
 
+        dashboardJSON = JSON.parse(dashboardScriptTag.innerHTML);
         // Default is verticalLayout=fill
-        const verticalLayout = json["props"]["vertical_layout"]
-            ? json["props"]["vertical_layout"]
+        const verticalLayout = dashboardJSON["props"]["vertical_layout"]
+            ? dashboardJSON["props"]["vertical_layout"]
             : "fill";
 
         // Default orientation based on the layout
         let orientation = verticalLayout == "scroll" ? "rows" : "columns";
-        const orientationTag = json["props"]["orientation"];
-        if (orientationTag) {
-            orientation = orientationTag;
+        const orientationProp = dashboardJSON["props"]["orientation"];
+        if (orientationProp) {
+            orientation = orientationProp;
         }
-
         this.state = {
-            dashboard: json,
-            title: json["props"]["title"],
-            author: json["props"]["author"],
-            kernelName: json["props"]["kernel_name"],
+            title: dashboardJSON["props"]["title"],
+            author: dashboardJSON["props"]["author"],
+            kernelName: dashboardJSON["props"]["kernel_name"],
             verticaLayout: verticalLayout,
             orientation: orientation,
-            sourceCode: json["props"]["source_code"],
-            meta: json["meta"],
-            pages: json["pages"],
-            kernel: null,
-            widgetManager: null,
+            sourceCode: dashboardJSON["props"]["source_code"],
+            meta: dashboardJSON["meta"],
+            pages: dashboardJSON["pages"],
+            pageConfig: pageConfigJSON,
+            dashboard: dashboardJSON,
         };
     }
 
     async componentDidMount() {
-        // TODO: Check if we should connect to kernel or not for nbconvert.
-        // If nbconvert change widgetManager for HTML Manager
-        // This is the same as voila/main.js
-        // https://github.com/voila-dashboards/voila/blob/master/share/jupyter/voila/templates/base/static/main.js
-        // const bu = PageConfig.getBaseUrl;
-        const kernelId = PageConfig.getOption("kernelId");
-        window.kernelId = kernelId;
-        console.log("KernelID");
-        console.log(kernelId);
+        const kernelId = this.state.pageConfig
+            ? this.state.pageConfig.kernelId
+            : null;
+
         if (kernelId !== undefined && kernelId != "") {
-            console.log("AAAAA");
-            window.chica = "AAAA";
-            var kernel = await connectKernel();
-            const context = {
-                session: {
-                    kernel,
-                    kernelChanged: {
+            // This is the same as Voila's main.js
+            // https://github.com/voila-dashboards/voila/blob/master/share/jupyter/voila/templates/base/static/main.js
+            requirePromise(["static/voila"]).then(async (voila) => {
+                var kernel = await voila.connectKernel();
+
+                const context = {
+                    session: {
+                        kernel,
+                        kernelChanged: {
+                            connect: () => {},
+                        },
+                        statusChanged: {
+                            connect: () => {},
+                        },
+                    },
+                    saveState: {
                         connect: () => {},
                     },
-                    statusChanged: {
-                        connect: () => {},
-                    },
-                },
-                saveState: {
-                    connect: () => {},
-                },
-            };
-            const settings = {
-                saveState: false,
-            };
-            const rendermime = new RenderMimeRegistry({
-                initialFactories: standardRendererFactories,
+                };
+
+                const settings = {
+                    saveState: false,
+                };
+
+                const rendermime = new voila.RenderMimeRegistry({
+                    initialFactories: voila.standardRendererFactories,
+                });
+
+                var widgetManager = new voila.WidgetManager(
+                    context,
+                    rendermime,
+                    settings
+                );
+
+                async function init() {
+                    // it seems if we attach this to early, it will not be called
+                    window.addEventListener("beforeunload", function (e) {
+                        kernel.shutdown();
+                        kernel.dispose();
+                    });
+                    // We do this on Page.componentDidUpdate
+                    // await widgetManager.build_widgets();
+                    voila.renderMathJax();
+                }
+
+                if (document.readyState === "complete") {
+                    init();
+                } else {
+                    window.addEventListener("load", init);
+                }
+
+                this.setState({
+                    kernel: kernel,
+                    widgetManager: widgetManager,
+                    voila: voila,
+                });
             });
-            let widgetManager = new WidgetManager(
-                context,
-                rendermime,
-                settings
-            );
-            // eslint-disable-next-line no-unused-vars
-            window.addEventListener("beforeunload", function (e) {
-                kernel.shutdown();
-                kernel.dispose();
-            });
-            // We do this on Page.componentDidUpdate
-            // await widgetManager.build_widgets();
-            // renderMathJax();
-            this.setState({ kernel: kernel, widgetManager: widgetManager });
         }
     }
 

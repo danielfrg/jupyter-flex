@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import { renderMathJax } from "../../voila";
 
 import Section from "../Section";
 import Sidebar from "../Sidebar";
@@ -34,7 +33,6 @@ class Page extends React.Component {
         if (this.props.widgetManager) {
             onNextFrame(() => {
                 this.props.widgetManager.build_widgets();
-                renderMathJax();
             });
         }
     }
@@ -43,7 +41,6 @@ class Page extends React.Component {
         if (this.props.widgetManager) {
             onNextFrame(() => {
                 this.props.widgetManager.build_widgets();
-                renderMathJax();
             });
         }
     }

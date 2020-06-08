@@ -1,7 +1,8 @@
 import React from "react";
-var Convert = require("ansi-to-html");
+import Convert from "ansi-to-html";
 
 import { createMarkup, uuidv4, onNextFrame } from "../utils";
+
 import "./style.scss";
 
 export function runScript(script) {
