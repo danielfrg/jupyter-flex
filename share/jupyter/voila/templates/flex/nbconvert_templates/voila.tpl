@@ -13,8 +13,8 @@
     <link rel="shortcut icon" type="image/ico" href="{{ resources.base_url }}voila/static/favicon.ico" />
 
     {%- block html_head_css %}
-    <link rel="stylesheet" href="{{ resources.base_url }}voila/static/bootstrap-4.5.0.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link href="{{ resources.base_url }}voila/static/FlexRenderer.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ resources.base_url }}voila/static/dist/bootstrap-4.5.0.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="{{ resources.base_url }}voila/static/dist/FlexRenderer.css" rel="stylesheet">
     {%- endblock html_head_css %}
 
     {%- set custom_css = flex.get_custom_css() -%}
@@ -111,24 +111,24 @@
     </script>
     {%- endblock dashboard_data -%}
 
-    {%- block footer %}
     {%- set mimetype = 'application/vnd.jupyter.widget-state+json' -%}
     {%- if mimetype in nb.metadata.get("widgets",{}) %}
     <script type="{{ mimetype }}">
     {{ nb.metadata.widgets[mimetype] | json_dumps }}
     </script>
     {%- endif %}
-    {%- endblock footer-%}
 
     {%- block footer_js -%}
-    <script src="{{ resources.base_url }}voila/static/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="{{ resources.base_url }}voila/static/bootstrap-4.5.0.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-    <script src="{{ resources.base_url }}voila/static/require-2.3.6.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>
+    <script src="{{ resources.base_url }}voila/static/dist/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="{{ resources.base_url }}voila/static/dist/bootstrap-4.5.0.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="{{ resources.base_url }}voila/static/dist/require-2.3.6.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>
     <script>
         requirejs.config({ baseUrl: '{{resources.base_url}}voila/static/', waitSeconds: 30})
     </script>
-    <script src="{{ resources.base_url }}voila/static/FlexRenderer.js"></script>
-    <script src="{{ resources.base_url }}voila/static/embed-amd-0.19.0.js" crossorigin="anonymous"></script>
+    <script src="{{ resources.base_url }}voila/static/dist/FlexRenderer.js"></script>
     {%- endblock footer_js -%}
 </voila>
 {%- endblock body -%}
+
+{%- block footer %}
+{%- endblock footer -%}

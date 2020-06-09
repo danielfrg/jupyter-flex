@@ -13,7 +13,11 @@
     <link rel="shortcut icon" type="image/ico" href="favicon.ico" />
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
-    <style>{{ include_template("static/FlexRenderer.css") }}</style>
+    {%- if dev_mode %}
+    <link rel="stylesheet" href="http://localhost:8866/voila/static/dist/FlexRenderer.css" />
+    {%- else %}
+    <style>{{ include_template("static/dist/FlexRenderer.css") }}</style>
+    {%- endif %}
 
     {%- set custom_css = flex.get_custom_css() -%}
     {%- if custom_css | trim | length %}
@@ -41,14 +45,26 @@
     </script>
     {%- endblock dashboard_data -%}
 
+    {%- set mimetype = 'application/vnd.jupyter.widget-state+json' -%}
+    {%- if mimetype in nb.metadata.get("widgets",{}) %}
+    <script type="{{ mimetype }}">
+    {{ nb.metadata.widgets[mimetype] | json_dumps }}
+    </script>
+    {%- endif %}
+
+    {%- if dev_mode %}
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>
-    {%- if dev_mode %}
-    <script src="http://localhost:8866/voila/static/FlexRenderer.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@0.19.0/dist/embed-amd.js" crossorigin="anonymous"></script>
+    <script src="http://localhost:8866/voila/static/dist/FlexRenderer.js"></script>
     {%- else %}
-    <script>{{ include_template("./static/FlexRenderer.js") }}</script>
+    <script>{{ include_template("./static/dist/jquery-3.5.1.slim.min.js") }}</script>
+    <script>{{ include_template("./static/dist/bootstrap-4.5.0.min.js") }}</script>
+    <script>{{ include_template("./static/dist/require-2.3.6.min.js") }}</script>
+    <script>{{ include_template("./static/dist/FlexRenderer.js") }}</script>
     {%- endif %}
 </body>
 {%- endblock body %}
+
+{%- block footer %}
+{%- endblock footer -%}

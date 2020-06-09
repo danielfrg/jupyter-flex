@@ -68,7 +68,8 @@ var distRoot = path.resolve(
     "voila",
     "templates",
     "flex",
-    "static"
+    "static",
+    "dist"
 );
 
 module.exports = [

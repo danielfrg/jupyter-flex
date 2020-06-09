@@ -4,12 +4,13 @@ import Dashboard from "../Dashboard";
 import Cell from "../Cell";
 import { requireLoader } from "../loader";
 
-import { HTMLManager } from "@jupyter-widgets/html-manager";
-import { renderWidgets } from "@jupyter-widgets/html-manager/lib/libembed";
-import { requireLoader as embedRequireLoader } from "@jupyter-widgets/html-manager/lib/libembed-amd";
+import * as htmlManager from "./HtmlManager";
 
 class App extends React.Component {
     firstRender = true;
+    voila;
+    kernel;
+    widgetManager;
 
     constructor(props) {
         super(props);
@@ -44,6 +45,7 @@ class App extends React.Component {
         if (kernelId && kernelId != "") {
             // voila mode: Do the same as Voila's main.js
             // https://github.com/voila-dashboards/voila/blob/master/share/jupyter/voila/templates/base/static/main.js
+
             requireLoader("voila").then(async (voila) => {
                 var kernel = await voila.connectKernel();
 
@@ -77,8 +79,8 @@ class App extends React.Component {
                 );
 
                 async function init() {
-                    // it seems if we attach this to early, it will not be called
-                    window.addEventListener("beforeunload", function (e) {
+                    // eslint-disable-next-line no-unused-vars
+                    window.addEventListener("beforeunload", function (event) {
                         kernel.shutdown();
                         kernel.dispose();
                     });
@@ -93,39 +95,40 @@ class App extends React.Component {
                     window.addEventListener("load", init);
                 }
 
-                this.setState({
-                    voila: voila,
-                    kernel: kernel,
-                    widgetManager: widgetManager,
-                });
+                this.voila = voila;
+                this.kernel = kernel;
+                this.widgetManager = widgetManager;
+
+                this.refreshWidgets();
             });
         } else {
             // nbconvert mode
-
-            this.setState({
-                nbconvert: true,
-                firstRender: false,
-            });
+            this.nbconvert = true;
+            this.firstRender = false;
         }
     }
 
     refreshWidgets = () => {
-        if (this.state) {
-            if (this.state.voila) {
-                // voila mode
-                this.state.widgetManager.build_widgets();
-            } else if (this.state.nbconvert) {
-                // nbconvert mode
+        if (this.voila) {
+            // voila mode
+            this.widgetManager.build_widgets();
+        } else if (this.nbconvert) {
+            // nbconvert mode
 
-                if (this.firstRender) {
-                    this.firstRender = false;
-                    return;
-                }
-
-                renderWidgets(
-                    () => new HTMLManager({ loader: embedRequireLoader })
-                );
+            if (this.firstRender) {
+                // We ignore the first render because thats done
+                // by the embed-amd.js that is included in the page
+                this.firstRender = false;
+                return;
             }
+
+            // console.log(htmlManager);
+            htmlManager.renderWidgets(
+                () =>
+                    new htmlManager.HTMLManager({
+                        loader: htmlManager.embedRequireLoader,
+                    })
+            );
         }
     };
 

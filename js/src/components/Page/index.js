@@ -38,11 +38,11 @@ class Page extends React.Component {
     }
 
     componentDidUpdate() {
-        // if (this.props.refreshWidgets) {
-        //     onNextFrame(() => {
-        //         this.props.refreshWidgets();
-        //     });
-        // }
+        if (this.props.refreshWidgets) {
+            onNextFrame(() => {
+                this.props.refreshWidgets();
+            });
+        }
     }
 
     render() {
