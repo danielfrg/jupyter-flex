@@ -3,6 +3,7 @@ import sys
 
 import jinja2
 from nbconvert.exporters.html import HTMLExporter
+
 from .utils import DEV_MODE
 
 
