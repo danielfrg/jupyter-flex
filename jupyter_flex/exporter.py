@@ -79,7 +79,6 @@ class FlexExporter(HTMLExporter):
         super().__init__(*args, **kwargs)
         self.environment.globals["dev_mode"] = DEV_MODE
         self.environment.globals["include_file"] = include_file
-        self.environment.globals["include_base64"] = include_base64
         self.environment.globals["include_external_file"] = include_external_file
         self.environment.globals["include_external_base64"] = include_external_base64
 
