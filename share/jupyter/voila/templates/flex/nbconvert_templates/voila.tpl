@@ -112,6 +112,16 @@
     </script>
     {%- endblock dashboard_data -%}
 
+    {%- block footer %}
+    {%- set mimetype = 'application/vnd.jupyter.widget-state+json' -%}
+    {%- if mimetype in nb.metadata.get("widgets",{}) %}
+    <script type="{{ mimetype }}">
+    {{ nb.metadata.widgets[mimetype] | json_dumps }}
+    </script>
+    {%- endif %}
+    {%- endblock footer-%}
+
+    {%- block footer_js -%}
     <script src="{{ resources.base_url }}voila/static/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="{{ resources.base_url }}voila/static/bootstrap-4.5.0.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="{{ resources.base_url }}voila/static/require-2.3.6.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>
@@ -120,8 +130,6 @@
     </script>
     <script src="{{ resources.base_url }}voila/static/FlexRenderer.js"></script>
     <script src="{{ resources.base_url }}voila/static/embed-amd-0.19.0.js" crossorigin="anonymous"></script>
-
-    {%- block footer_js -%}
     {%- endblock footer_js -%}
-
+</voila>
 {%- endblock body -%}
