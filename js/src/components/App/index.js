@@ -38,7 +38,7 @@ class App extends React.Component {
         if (kernelId && kernelId != "") {
             // This is the same as Voila's main.js
             // https://github.com/voila-dashboards/voila/blob/master/share/jupyter/voila/templates/base/static/main.js
-            requirePromise(["static/voila"]).then(async (voila) => {
+            requirePromise(["voila"]).then(async (voila) => {
                 var kernel = await voila.connectKernel();
 
                 const context = {

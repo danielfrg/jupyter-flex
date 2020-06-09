@@ -116,7 +116,7 @@
     <script src="{{ resources.base_url }}voila/static/bootstrap-4.5.0.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="{{ resources.base_url }}voila/static/require-2.3.6.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>
     <script>
-        requirejs.config({ baseUrl: '{{resources.base_url}}voila/', waitSeconds: 30})
+        requirejs.config({ baseUrl: '{{resources.base_url}}voila/static/', waitSeconds: 30})
     </script>
     <script src="{{ resources.base_url }}voila/static/FlexRenderer.js"></script>
     <script src="{{ resources.base_url }}voila/static/embed-amd-0.19.0.js" crossorigin="anonymous"></script>
