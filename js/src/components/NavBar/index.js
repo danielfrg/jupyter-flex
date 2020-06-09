@@ -66,7 +66,7 @@ class NavBar extends React.Component {
                             rel="noreferrer"
                             aria-label="Source Code"
                         >
-                            <i className="material-icons">code</i> Source Code
+                            Source Code
                         </a>
                     </li>
                 </ul>

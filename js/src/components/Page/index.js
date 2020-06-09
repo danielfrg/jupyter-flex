@@ -30,19 +30,19 @@ class Page extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.widgetManager) {
+        if (this.props.refreshWidgets) {
             onNextFrame(() => {
-                this.props.widgetManager.build_widgets();
+                this.props.refreshWidgets();
             });
         }
     }
 
     componentDidUpdate() {
-        if (this.props.widgetManager) {
-            onNextFrame(() => {
-                this.props.widgetManager.build_widgets();
-            });
-        }
+        // if (this.props.refreshWidgets) {
+        //     onNextFrame(() => {
+        //         this.props.refreshWidgets();
+        //     });
+        // }
     }
 
     render() {

@@ -2,9 +2,15 @@ import React, { Fragment } from "react";
 
 import Dashboard from "../Dashboard";
 import Cell from "../Cell";
-import { requirePromise } from "../loader";
+import { requireLoader } from "../loader";
+
+import { HTMLManager } from "@jupyter-widgets/html-manager";
+import { renderWidgets } from "@jupyter-widgets/html-manager/lib/libembed";
+import { requireLoader as embedRequireLoader } from "@jupyter-widgets/html-manager/lib/libembed-amd";
 
 class App extends React.Component {
+    firstRender = true;
+
     constructor(props) {
         super(props);
 
@@ -36,9 +42,9 @@ class App extends React.Component {
             : null;
 
         if (kernelId && kernelId != "") {
-            // This is the same as Voila's main.js
+            // voila mode: Do the same as Voila's main.js
             // https://github.com/voila-dashboards/voila/blob/master/share/jupyter/voila/templates/base/static/main.js
-            requirePromise(["voila"]).then(async (voila) => {
+            requireLoader("voila").then(async (voila) => {
                 var kernel = await voila.connectKernel();
 
                 const context = {
@@ -88,13 +94,40 @@ class App extends React.Component {
                 }
 
                 this.setState({
+                    voila: voila,
                     kernel: kernel,
                     widgetManager: widgetManager,
-                    voila: voila,
                 });
+            });
+        } else {
+            // nbconvert mode
+
+            this.setState({
+                nbconvert: true,
+                firstRender: false,
             });
         }
     }
+
+    refreshWidgets = () => {
+        if (this.state) {
+            if (this.state.voila) {
+                // voila mode
+                this.state.widgetManager.build_widgets();
+            } else if (this.state.nbconvert) {
+                // nbconvert mode
+
+                if (this.firstRender) {
+                    this.firstRender = false;
+                    return;
+                }
+
+                renderWidgets(
+                    () => new HTMLManager({ loader: embedRequireLoader })
+                );
+            }
+        }
+    };
 
     render() {
         let metaCells = [];
@@ -128,7 +161,7 @@ class App extends React.Component {
                     verticalLayout={vertical_layout}
                     orientation={orientation}
                     pages={this.state.dashboard.pages}
-                    widgetManager={this.state.widgetManager}
+                    refreshWidgets={this.refreshWidgets}
                 />
             </Fragment>
         );

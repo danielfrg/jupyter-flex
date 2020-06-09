@@ -10,9 +10,8 @@
     {%- block html_head_title %}
     <title>{{ flex.get_title() }}</title>
     {%- endblock html_head_title %}
-    <link rel="shortcut icon" type="image/ico" href="voila/static/favicon.ico"/>
+    <link rel="shortcut icon" type="image/ico" href="favicon.ico" />
 
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
     <style>{{ include_template("static/FlexRenderer.css") }}</style>
 
@@ -26,10 +25,13 @@
 
 {%- block body %}
 <body>
+
     <div id="flex-modal"></div>
     <div id="flex-root">
-        <div class="loading">
-            Loading React...
+        <div class="container-fluid d-flex flex-row loading">
+            <div class="text-center">
+                <p id="loading_text">... loading ...</p>
+            </div>
         </div>
     </div>
 
@@ -42,6 +44,11 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>
-    <script>{{ include_template("static/FlexRenderer.js") }}</script>
+    {%- if dev_mode %}
+    <script src="http://localhost:8866/voila/static/FlexRenderer.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@0.19.0/dist/embed-amd.js" crossorigin="anonymous"></script>
+    {%- else %}
+    <script>{{ include_template("./static/FlexRenderer.js") }}</script>
+    {%- endif %}
+</body>
 {%- endblock body %}

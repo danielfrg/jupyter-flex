@@ -3,6 +3,7 @@ import sys
 
 import jinja2
 from nbconvert.exporters.html import HTMLExporter
+from .utils import DEV_MODE
 
 
 @jinja2.contextfunction
@@ -78,6 +79,7 @@ class FlexExporter(HTMLExporter):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.environment.globals["dev_mode"] = DEV_MODE
         self.environment.globals["include_template"] = include_template
         self.environment.globals["include_external_file"] = include_external_file
         self.environment.globals[

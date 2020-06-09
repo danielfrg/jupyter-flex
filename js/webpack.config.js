@@ -19,27 +19,44 @@ var rules = [
     // required to load font-awesome
     {
         test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-        use:
-            "url-loader?limit=10000&mimetype=application/font-woff&publicPath=/voila/static/",
+        use: {
+            loader: "url-loader",
+            options: {
+                limit: 10000,
+                mimetype: "application/font-woff",
+            },
+        },
     },
     {
         test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-        use:
-            "url-loader?limit=10000&mimetype=application/font-woff&publicPath=/voila/static/",
+        use: {
+            loader: "url-loader",
+            options: {
+                limit: 10000,
+                mimetype: "application/font-woff",
+            },
+        },
     },
     {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-        use:
-            "url-loader?limit=10000&mimetype=application/octet-stream&publicPath=/voila/static/",
+        use: {
+            loader: "url-loader",
+            options: {
+                limit: 10000,
+                mimetype: "application/octet-stream",
+            },
+        },
     },
-    {
-        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        use: "file-loader&publicPath=/voila/static/",
-    },
+    { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, use: "file-loader" },
     {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        use:
-            "url-loader?limit=10000&mimetype=image/svg+xml&publicPath=/voila/static/",
+        use: {
+            loader: "url-loader",
+            options: {
+                limit: 10000,
+                mimetype: "image/svg+xml",
+            },
+        },
     },
 ];
 
