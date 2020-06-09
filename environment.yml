@@ -5,55 +5,53 @@ dependencies:
   - python=3.7
   - pip
 
-  # Base conda deps
-  - setuptools
-  - setuptools-scm
-  - pylint
-  - flake8
-  - black
-  - isort
-  - twine
-  - wheel
-  - pytest
-  - pytest-cov
-
-  # This project conda deps: Examples
-  - numpy
-  - pandas
-  - scipy
-  - matplotlib
-  - scikit-learn
-  - statsmodels
-
   - pip:
-    # Base pip deps: Docs
-    - mkdocs
-    - mkdocs-material
-    - mkdocs-jupyter
-    - mkdocs-minify-plugin
-    - pygments
-    - pymdown-extensions
+      # Base conda deps
+      - setuptools
+      - setuptools-scm
+      - pylint
+      - flake8
+      - black
+      - isort
+      - twine
+      - wheel
+      - pytest
+      - pytest-cov
 
-    # This project pip deps
-    - notebook
-    - jupyterlab
-    - nbconvert
-    - voila
-    - ipywidgets
-    - libsass
-    - pytest-html
-    - pytest-base-url
-    - pytest-selenium
-    - pytest-needle
+      # Base pip deps: Docs
+      - mkdocs
+      - mkdocs-material
+      - mkdocs-jupyter
+      - mkdocs-minify-plugin
+      - pygments
+      - pymdown-extensions
 
-    # This project pip deps: Examples
-    - altair
-    - plotly
-    - bqplot
-    - bokeh
-    - jupyter_bokeh
-    - qgrid
-    - ipyleaflet
-    - pandas-datareader
-    - colorlover
-    - vega_datasets
+      # This project pip deps
+      - notebook
+      - jupyterlab
+      - nbconvert
+      - voila
+      - ipywidgets
+      - libsass
+      - pytest-html
+      - pytest-base-url
+      - pytest-selenium
+      - pytest-needle
+
+      # This project pip deps: Examples
+      - numpy
+      - pandas
+      - scipy
+      - matplotlib
+      - scikit-learn
+      - statsmodels
+      - altair
+      - plotly
+      - bqplot
+      - bokeh
+      - jupyter_bokeh
+      - qgrid
+      - ipyleaflet
+      - pandas-datareader
+      - colorlover
+      - vega_datasets

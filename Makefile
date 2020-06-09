@@ -29,6 +29,8 @@ download-assets:  ## Download .css/.js assets
 	@curl -o share/jupyter/voila/templates/flex/static/bootstrap.min.css.map https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css.map
 	@curl -o share/jupyter/voila/templates/flex/static/require-2.3.6.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
 	@curl -o share/jupyter/voila/templates/flex/static/embed-amd-0.19.0.js https://unpkg.com/@jupyter-widgets/html-manager@0.19.0/dist/embed-amd.js
+	# We need to include qgrid because of: https://github.com/quantopian/qgrid/pull/325
+	@curl -o share/jupyter/voila/templates/flex/static/qgrid.js https://unpkg.com/qgrid2@1.1.3/dist/index.js
 
 
 # ------------------------------------------------------------------------------
@@ -40,6 +42,13 @@ python-build:  ## Build Python package (sdist)
 
 env:  ## Create virtualenv
 	conda env create
+
+
+extensions:
+	jupyter nbextension enable --py --sys-prefix widgetsnbextension
+	jupyter nbextension enable --py --sys-prefix ipyleaflet
+	jupyter labextension install @jupyter-widgets/jupyterlab-manager jupyter-leaflet
+	jupyter nbextension enable --py --sys-prefix qgrid
 
 
 develop:  ## Install package for development

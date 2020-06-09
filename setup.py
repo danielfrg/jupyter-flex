@@ -54,6 +54,10 @@ class DevelopCmd(develop):
             target = target.rstrip(os.path.sep)
             print(source, target)
 
+            if not os.path.exists(os.path.dirname(target)):
+                print("Creating:", os.path.dirname(target))
+                os.makedirs(os.path.dirname(target))
+
             if os.path.islink(target):
                 print("Removing link:", target)
                 os.remove(target)
