@@ -10,7 +10,7 @@
     {%- block html_head_title %}
     <title>{{ flex.get_title() }}</title>
     {%- endblock html_head_title %}
-    <link rel="shortcut icon" type="image/ico" href="{{ resources.base_url }}voila/static/favicon.ico" />
+    <link rel="shortcut icon" type="image/ico" href="{{ resources.base_url }}voila/static/favicon.png" />
 
     {%- block html_head_css %}
     <link rel="stylesheet" href="{{ resources.base_url }}voila/static/dist/bootstrap-4.5.0.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">

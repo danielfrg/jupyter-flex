@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
 
+import { requirePromise } from "../loader";
 import Dashboard from "../Dashboard";
 import Cell from "../Cell";
-import { requireLoader } from "../loader";
 
 import * as htmlManager from "./HtmlManager";
 
@@ -43,10 +43,10 @@ class App extends React.Component {
             : null;
 
         if (kernelId && kernelId != "") {
-            // voila mode: Do the same as Voila's main.js
+            // voila mode: Load Voila using RequireJS
             // https://github.com/voila-dashboards/voila/blob/master/share/jupyter/voila/templates/base/static/main.js
 
-            requireLoader("voila").then(async (voila) => {
+            requirePromise(["voila"]).then(async (voila) => {
                 var kernel = await voila.connectKernel();
 
                 const context = {
@@ -153,6 +153,7 @@ class App extends React.Component {
         if (!orientation) {
             orientation = vertical_layout == "scroll" ? "rows" : "columns";
         }
+
         return (
             <Fragment>
                 <div style={{ display: "none" }}>{metaCells}</div>

@@ -10,13 +10,12 @@
     {%- block html_head_title %}
     <title>{{ flex.get_title() }}</title>
     {%- endblock html_head_title %}
-    <link rel="shortcut icon" type="image/ico" href="favicon.ico" />
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
     {%- if dev_mode %}
     <link rel="stylesheet" href="http://localhost:8866/voila/static/dist/FlexRenderer.css" />
     {%- else %}
-    <style>{{ include_template("static/dist/FlexRenderer.css") }}</style>
+    <style>{{ include_file("static/dist/FlexRenderer.css") }}</style>
     {%- endif %}
 
     {%- set custom_css = flex.get_custom_css() -%}
@@ -58,10 +57,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>
     <script src="http://localhost:8866/voila/static/dist/FlexRenderer.js"></script>
     {%- else %}
-    <script>{{ include_template("./static/dist/jquery-3.5.1.slim.min.js") }}</script>
-    <script>{{ include_template("./static/dist/bootstrap-4.5.0.min.js") }}</script>
-    <script>{{ include_template("./static/dist/require-2.3.6.min.js") }}</script>
-    <script>{{ include_template("./static/dist/FlexRenderer.js") }}</script>
+    <script>{{ include_file("./static/dist/jquery-3.5.1.slim.min.js") }}</script>
+    <script>{{ include_file("./static/dist/bootstrap-4.5.0.min.js") }}</script>
+    <script>{{ include_file("./static/dist/require-2.3.6.min.js") }}</script>
+    <script>{{ include_file("./static/dist/FlexRenderer.js") }}</script>
     {%- endif %}
 </body>
 {%- endblock body %}

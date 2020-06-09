@@ -122,7 +122,7 @@ selenium:  ## Run selenium in docker-compose
 	docker-compose up
 
 
-serve-examples:  ## Serve examples using voila
+voila-examples:  ## Serve examples using voila
 	voila --debug --template flex --no-browser --Voila.ip='0.0.0.0' --port 8866 --VoilaConfiguration.file_whitelist="['.*']" $(CURDIR)/examples
 
 
