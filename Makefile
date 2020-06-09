@@ -57,7 +57,7 @@ develop:  ## Install package for development
 
 check:  ## Check linting
 	@flake8
-	@isort --check-only --diff --recursive --project jupyter_flex --section-default THIRDPARTY .
+	# @isort --check-only --diff --recursive --project jupyter_flex --section-default THIRDPARTY .
 	@black --check .
 
 

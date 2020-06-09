@@ -1,6 +1,6 @@
+import base64
 import os
 import sys
-import base64
 
 import jinja2
 from nbconvert.exporters.html import HTMLExporter
