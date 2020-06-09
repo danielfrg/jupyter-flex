@@ -44,4 +44,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>
     <script>{{ include_template("static/FlexRenderer.js") }}</script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@0.19.0/dist/embed-amd.js" crossorigin="anonymous"></script>
+</body>
 {%- endblock body %}

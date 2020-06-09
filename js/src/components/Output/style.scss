@@ -42,7 +42,26 @@
             }
         }
 
-        // Plotting libraries
+        // Widgets
+        .widget-play .jupyter-button {
+            min-height: 28px;
+        }
+
+        .jupyter-widgets.leaflet-widgets {
+            height: 100% !important;
+        }
+
+        .widget-vbox {
+            height: 100%;
+        }
+
+        .q-grid-container {
+            .filter-icon {
+                margin-top: 7px;
+            }
+        }
+
+        // Plots
 
         img:not(.widget-image) {
             width: 100%;
@@ -89,22 +108,7 @@
 
         .bqplot {
             height: 100% !important;
-            width: 100% !important;
-        }
-
-        // Widgets
-        .widget-play .jupyter-button {
-            min-height: 28px;
-        }
-
-        .q-grid-container {
-            .filter-icon {
-                margin-top: 7px;
-            }
-        }
-
-        .jupyter-widgets.leaflet-widgets {
-            height: 100% !important;
+            width: 99% !important;
         }
     }
 
