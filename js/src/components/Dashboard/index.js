@@ -21,6 +21,8 @@ class Dashboard extends React.Component {
     render() {
         let sidebar;
         let routes = [];
+
+        console.log(this.props);
         if (this.props.pages.length > 0) {
             this.props.pages.forEach((page) => {
                 if (page.tags && page.tags.includes("sidebar")) {
@@ -40,7 +42,7 @@ class Dashboard extends React.Component {
                 }
             });
         }
-
+        console.log(routes);
         const routeComponents = routes.map(({ path, component }, key) => (
             <Route exact path={path} key={key}>
                 {component}
