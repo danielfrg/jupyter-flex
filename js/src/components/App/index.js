@@ -4,7 +4,7 @@ import { requirePromise } from "../loader";
 import Dashboard from "../Dashboard";
 import Cell from "../Cell";
 
-import * as htmlWidgetManager from "./HtmlWidgetManager";
+import WidgetManager, * as htmlWidgetManager from "./WidgetManager";
 import "./style.scss";
 
 class App extends React.Component {
@@ -99,12 +99,12 @@ class App extends React.Component {
                 this.voila = voila;
                 this.kernel = kernel;
                 this.widgetManager = widgetManager;
-
                 this.refreshWidgets();
             });
         } else {
             // nbconvert mode
             this.nbconvert = true;
+            this.widgetManager = new WidgetManager();
         }
     }
 
@@ -113,14 +113,7 @@ class App extends React.Component {
             // voila mode
             this.widgetManager.build_widgets();
         } else if (this.nbconvert) {
-            // nbconvert mode
-
-            htmlWidgetManager.renderWidgets(
-                () =>
-                    new htmlWidgetManager.HTMLManager({
-                        loader: htmlWidgetManager.embedRequireLoader,
-                    })
-            );
+            this.widgetManager.build_widgets();
         }
     };
 

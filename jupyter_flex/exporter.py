@@ -5,6 +5,12 @@ import sys
 import jinja2
 from nbconvert.exporters.html import HTMLExporter
 
+try:
+    from illusionist.preprocessor import IllusionistPreprocessor
+except ImportError:
+    IllusionistPreprocessor = None
+
+
 from .utils import DEV_MODE
 
 
@@ -32,10 +38,18 @@ def include_external_base64(ctx, name):
     return jinja2.Markup(encoded_string.decode())
 
 
+preprocessors = []
+if IllusionistPreprocessor:
+    preprocessors.append(IllusionistPreprocessor)
+
+
 class FlexExporter(HTMLExporter):
 
     # "File -> Download as" menu in the notebook
     export_from_notebook = "Flex Dashboard"
+
+    # Add illusionist
+    preprocessors = preprocessors
 
     # We add the Voila installed templates to the paths were jinja looks for templates
     # so we can import flex.j2 and include the static files directly from there
