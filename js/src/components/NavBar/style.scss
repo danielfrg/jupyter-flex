@@ -4,12 +4,12 @@
     height: 51px;
     padding: 0;
     z-index: 999;
-    background-color: $dark-bg !important;
+    background-color: $header-bg !important;
     color: #fff;
 
     .container-fluid {
         padding: 0.35rem 1rem;
-        background-color: $dark-bg; // For mobile collapsible menu
+        background-color: $header-bg; // For mobile collapsible menu
     }
 
     .logo {

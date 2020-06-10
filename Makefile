@@ -75,7 +75,7 @@ upload-test:  ## Upload package to test PyPI
 	twine upload --repository test dist/*.tar.gz
 
 
-clean-python:  ## Clean Python build files
+cleanpython:  ## Clean Python build files
 	@rm -rf build dist site htmlcov .pytest_cache .eggs
 	@rm -f .coverage coverage.xml jupyter_flex/_generated_version.py
 	@find . -type f -name '*.py[co]' -delete
@@ -101,7 +101,7 @@ npm-install:  ## Install JS dependencies
 	cd js/; npm install
 
 
-clean-js:  ## Clean JS build files
+cleanjs:  ## Clean JS build files
 	rm -rf share/jupyter/voila/templates/flex/static/dist/*.js
 	rm -rf share/jupyter/voila/templates/flex/static/dist/*.js.map
 	rm -rf share/jupyter/voila/templates/flex/static/dist/*.css
@@ -179,7 +179,7 @@ serve-docs:  ## Serve docs
 # ------------------------------------------------------------------------------
 # Other
 
-cleanall: clean-python clean-js  ## Clean everything
+cleanall: cleanpython cleanjs  ## Clean everything
 	@rm -rf *.egg-info
 	@cd js/; rm -rf node_modules
 

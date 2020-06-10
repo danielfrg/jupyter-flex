@@ -50,15 +50,13 @@ class Dashboard extends React.Component {
         return (
             <Router>
                 <div id="dashboard" className={this.props.verticalLayout}>
-                    <header>
-                        <NavBar
-                            title={this.props.title}
-                            author={this.props.author}
-                            sourceCode={this.props.sourceCode}
-                            kernelName={this.props.kernelName}
-                            pages={this.props.pages}
-                        />
-                    </header>
+                    <NavBar
+                        title={this.props.title}
+                        author={this.props.author}
+                        sourceCode={this.props.sourceCode}
+                        kernelName={this.props.kernelName}
+                        pages={this.props.pages}
+                    />
 
                     <main
                         role="main"

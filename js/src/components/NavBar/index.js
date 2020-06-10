@@ -74,24 +74,29 @@ class NavBar extends React.Component {
         }
 
         return (
-            <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-                <div className="container-fluid">
-                    <span className="navbar-brand">{title}</span>
-                    {pagesHtml.length > 1 || sourceCode || author
-                        ? togglerButton
-                        : null}
-                    <div className="collapse navbar-collapse" id="navPages">
-                        <ul className="nav navbar-nav mr-auto">
-                            {pagesHtml.length > 1 ? pagesHtml : null}
-                        </ul>
-                        {authorHtml}
-                        {sourceHtml}
-                        <span className="d-inline-block" data-toggle="tooltip">
-                            <div id="kernel-activity"></div>
-                        </span>
+            <header>
+                <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+                    <div className="container-fluid">
+                        <span className="navbar-brand">{title}</span>
+                        {pagesHtml.length > 1 || sourceCode || author
+                            ? togglerButton
+                            : null}
+                        <div className="collapse navbar-collapse" id="navPages">
+                            <ul className="nav navbar-nav mr-auto">
+                                {pagesHtml.length > 1 ? pagesHtml : null}
+                            </ul>
+                            {authorHtml}
+                            {sourceHtml}
+                            <span
+                                className="d-inline-block"
+                                data-toggle="tooltip"
+                            >
+                                <div id="kernel-activity"></div>
+                            </span>
+                        </div>
                     </div>
-                </div>
-            </nav>
+                </nav>
+            </header>
         );
     }
 }

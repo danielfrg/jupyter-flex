@@ -1,0 +1,95 @@
+@import "../variables.scss";
+
+body {
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #333;
+    text-align: left;
+    background-color: $body-bg;
+}
+
+// -----------------------------------------------------------------------------
+// These are used by Voila base pages
+// -----------------------------------------------------------------------------
+
+.loading {
+    width: 100%;
+    height: 100%;
+    display: flex;
+
+    .text-center {
+        width: 100%;
+        max-width: 720px;
+        padding: 15px;
+        margin: auto;
+        text-align: center;
+    }
+
+    p#loading_text {
+        margin: 1rem 0;
+    }
+}
+
+.filetree {
+    border-radius: 0.25rem;
+    background: #fff;
+    padding: 10px;
+
+    h6 {
+        color: #000;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        font-size: 0.9rem;
+        margin-top: 0;
+    }
+
+    .list-group {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #eef2f7;
+        border-radius: 0.25rem;
+
+        .list-group-item {
+            border: none;
+            border-bottom: 1px solid #eef2f7;
+            width: 100%;
+            color: #495057;
+            text-align: inherit;
+            text-decoration: none;
+            line-height: 0;
+
+            &:hover {
+                text-decoration: none;
+                background-color: #f8f9fa;
+            }
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+
+        i.material-icons {
+            font-size: 18px;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+    }
+
+    ul.voila-notebooks {
+        margin: 10px 0;
+        padding: 0;
+        color: #333;
+        list-style: none;
+
+        li {
+            padding: 7px 15px;
+            border-bottom: 1px solid #eef2f7;
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
+}

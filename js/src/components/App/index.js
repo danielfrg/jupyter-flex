@@ -4,13 +4,14 @@ import { requirePromise } from "../loader";
 import Dashboard from "../Dashboard";
 import Cell from "../Cell";
 
-import * as htmlManager from "./HtmlManager";
+import * as htmlWidgetManager from "./HtmlWidgetManager";
+import "./style.scss";
 
 class App extends React.Component {
-    firstRender = true;
     voila;
     kernel;
     widgetManager;
+    nbconvert;
 
     constructor(props) {
         super(props);
@@ -104,7 +105,6 @@ class App extends React.Component {
         } else {
             // nbconvert mode
             this.nbconvert = true;
-            this.firstRender = false;
         }
     }
 
@@ -115,18 +115,10 @@ class App extends React.Component {
         } else if (this.nbconvert) {
             // nbconvert mode
 
-            if (this.firstRender) {
-                // We ignore the first render because thats done
-                // by the embed-amd.js that is included in the page
-                this.firstRender = false;
-                return;
-            }
-
-            // console.log(htmlManager);
-            htmlManager.renderWidgets(
+            htmlWidgetManager.renderWidgets(
                 () =>
-                    new htmlManager.HTMLManager({
-                        loader: htmlManager.embedRequireLoader,
+                    new htmlWidgetManager.HTMLManager({
+                        loader: htmlWidgetManager.embedRequireLoader,
                     })
             );
         }
