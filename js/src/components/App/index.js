@@ -3,15 +3,13 @@ import React, { Fragment } from "react";
 import { requirePromise } from "../loader";
 import Dashboard from "../Dashboard";
 import Cell from "../Cell";
+import { Provider } from "../DashboardContext";
 
 import WidgetManager, * as htmlWidgetManager from "./WidgetManager";
 import "./style.scss";
 
 class App extends React.Component {
-    voila;
-    kernel;
-    widgetManager;
-    nbconvert;
+    appMode = "";
 
     constructor(props) {
         super(props);
@@ -20,35 +18,37 @@ class App extends React.Component {
         const pageConfigScriptTag = document.body.querySelector(
             `script[id="jupyter-config-data"]`
         );
-        let pageConfigJSON;
+        let pageConfig;
         if (pageConfigScriptTag) {
-            pageConfigJSON = JSON.parse(pageConfigScriptTag.innerHTML);
+            pageConfig = JSON.parse(pageConfigScriptTag.innerHTML);
         }
 
         // Load dashboard json
         const dashboardScriptTag = document.body.querySelector(
             `script[id="jupyter-flex-dashboard"]`
         );
-        let dashboardJSON;
-        dashboardJSON = JSON.parse(dashboardScriptTag.innerHTML);
+        let dashboard;
+        dashboard = JSON.parse(dashboardScriptTag.innerHTML);
+
+        // Get defaults
+        this.appMode =
+            pageConfig && pageConfig.kernelId ? "voila" : "nbconvert";
 
         this.state = {
-            pageConfig: pageConfigJSON,
-            dashboard: dashboardJSON,
+            pageConfig: pageConfig,
+            dashboard: dashboard,
+            kernel: null,
+            widgetManager: null,
         };
     }
 
     async componentDidMount() {
-        const kernelId = this.state.pageConfig
-            ? this.state.pageConfig.kernelId
-            : null;
-
-        if (kernelId && kernelId != "") {
-            // voila mode: Load Voila using RequireJS
+        if (this.appMode == "voila") {
+            // Load Voila using RequireJS, adapted from:
             // https://github.com/voila-dashboards/voila/blob/master/share/jupyter/voila/templates/base/static/main.js
 
             requirePromise(["voila"]).then(async (voila) => {
-                var kernel = await voila.connectKernel();
+                const kernel = await voila.connectKernel();
 
                 const context = {
                     session: {
@@ -73,49 +73,45 @@ class App extends React.Component {
                     initialFactories: voila.standardRendererFactories,
                 });
 
-                var widgetManager = new voila.WidgetManager(
+                const widgetManager = new voila.WidgetManager(
                     context,
                     rendermime,
                     settings
                 );
 
-                async function init() {
+                // eslint-disable-next-line no-unused-vars
+                window.addEventListener("beforeunload", function (event) {
+                    kernel.shutdown();
+                    kernel.dispose();
+                });
+
+                widgetManager.models = await widgetManager._build_models();
+
+                // We add this function to Voila's Widget Manager
+                widgetManager.renderWidget = async function (modelId) {
+                    const viewEl = document.body.querySelector(
+                        `div[id="${modelId}"]`
+                    );
+                    const model = widgetManager.models[modelId];
+
                     // eslint-disable-next-line no-unused-vars
-                    window.addEventListener("beforeunload", function (event) {
-                        kernel.shutdown();
-                        kernel.dispose();
-                    });
-                    // We do this on Page.componentDidUpdate
-                    // await widgetManager.build_widgets();
-                    voila.renderMathJax();
-                }
+                    const view = await widgetManager.display_model(
+                        undefined,
+                        model,
+                        { el: viewEl }
+                    );
+                };
 
-                if (document.readyState === "complete") {
-                    init();
-                } else {
-                    window.addEventListener("load", init);
-                }
+                // voila.renderMathJax();
 
-                this.voila = voila;
-                this.kernel = kernel;
-                this.widgetManager = widgetManager;
-                this.refreshWidgets();
+                this.setState({ kernel: kernel, widgetManager: widgetManager });
             });
-        } else {
-            // nbconvert mode
-            this.nbconvert = true;
-            this.widgetManager = new WidgetManager();
+        } else if (this.appMode == "nbconvert") {
+            const widgetManager = new WidgetManager();
+            await widgetManager.load_states();
+            this.setState({ widgetManager: widgetManager });
         }
     }
-
-    refreshWidgets = () => {
-        if (this.voila) {
-            // voila mode
-            this.widgetManager.build_widgets();
-        } else if (this.nbconvert) {
-            this.widgetManager.build_widgets();
-        }
-    };
 
     render() {
         let metaCells = [];
@@ -140,7 +136,12 @@ class App extends React.Component {
         }
 
         return (
-            <Fragment>
+            <Provider
+                value={{
+                    kernel: this.state.kernel,
+                    widgetManager: this.state.widgetManager,
+                }}
+            >
                 <div style={{ display: "none" }}>{metaCells}</div>
                 <Dashboard
                     title={title}
@@ -150,9 +151,8 @@ class App extends React.Component {
                     verticalLayout={vertical_layout}
                     orientation={orientation}
                     pages={this.state.dashboard.pages}
-                    refreshWidgets={this.refreshWidgets}
                 />
-            </Fragment>
+            </Provider>
         );
     }
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import Convert from "ansi-to-html";
 
+import { DashboardContext } from "../DashboardContext";
 import { createMarkup, uuidv4, onNextFrame } from "../utils";
 
 import "./style.scss";
@@ -8,7 +9,7 @@ import "./style.scss";
 export function runScript(script) {
     // This runs the contents in script tag on a window/global scope
 
-    // We do that weird closing script tag replace so it works in dev mode...
+    // Hack: We do that weird closing script tag replace so it works in dev mode
     let reportScript = script.trim();
     if (
         reportScript.startsWith("<script") &&
@@ -288,11 +289,21 @@ class Output extends React.Component {
 
     displayWidgetView(data) {
         const uuid = uuidv4();
+        const { widgetManager } = this.context;
+
+        let model_id;
+        if (widgetManager) {
+            model_id =
+                data["application/vnd.jupyter.widget-view+json"]["model_id"];
+
+            onNextFrame(() => {
+                this.context.widgetManager.renderWidget(model_id);
+            });
+        }
+
         return (
             <div id={uuid} className="output_subarea output_widget_state">
-                <script type="text/javascript">
-                    {`var element = document.getElementById("${uuid}");`}
-                </script>
+                <div id={model_id}></div>
                 <script type="application/vnd.jupyter.widget-view+json">
                     {JSON.stringify(
                         data["application/vnd.jupyter.widget-view+json"]
@@ -321,5 +332,6 @@ class Output extends React.Component {
         );
     }
 }
+Output.contextType = DashboardContext;
 
 export default Output;

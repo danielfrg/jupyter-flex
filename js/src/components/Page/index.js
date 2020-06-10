@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 
 import Section from "../Section";
 import Sidebar from "../Sidebar";
-import { getTagValue, slugify, onNextFrame } from "../utils";
+import { getTagValue, slugify } from "../utils";
 
 import "./style.scss";
 
@@ -27,22 +27,6 @@ class Page extends React.Component {
             classNames: getTagValue(tags, "class", " "),
             loading: false,
         };
-    }
-
-    componentDidMount() {
-        if (this.props.refreshWidgets) {
-            onNextFrame(() => {
-                this.props.refreshWidgets();
-            });
-        }
-    }
-
-    componentDidUpdate() {
-        if (this.props.refreshWidgets) {
-            onNextFrame(() => {
-                this.props.refreshWidgets();
-            });
-        }
     }
 
     render() {

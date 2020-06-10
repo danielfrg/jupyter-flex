@@ -1,7 +1,3 @@
-// Used by nbconvert mode
-// This is another bundle, see webpack
-// export { HTMLManager } from "@jupyter-widgets/html-manager";
-export { renderWidgets } from "@jupyter-widgets/html-manager/lib/libembed";
 export { requireLoader as embedRequireLoader } from "@jupyter-widgets/html-manager/lib/libembed-amd";
 
 import { HTMLManager } from "@jupyter-widgets/html-manager";
@@ -49,27 +45,16 @@ const STRING_WIDGETS = [
     "ImageModel",
 ];
 
-const WIDGET_MIMETYPE = "application/vnd.jupyter.widget-view+json";
-
 export default class WidgetManager extends HTMLManager {
-    onChangeValues = {};
+    onChangeState = {};
 
-    /**
-     * Main entry point to build the widgets to the DOM
-     */
-    async build_widgets() {
-        // Set state
-        console.log(this._models);
+    async load_states() {
         await this.load_initial_state();
-        await this.load_onchange();
-
-        // Display models
-        await this.display_models();
-        // console.log(this);
+        await this.load_onchange_state();
     }
 
     /**
-     * Loads the widget state.
+     * Loads the widget initial state
      */
     async load_initial_state() {
         const tags = document.body.querySelectorAll(
@@ -77,167 +62,156 @@ export default class WidgetManager extends HTMLManager {
         );
         for (let stateTag of tags) {
             const widgetState = JSON.parse(stateTag.innerHTML);
+            // console.log("Init state");
             // console.log(widgetState);
             await this.set_state(widgetState);
         }
     }
 
     /**
-     * Loads the onchange state.
+     * Loads the onChange widget state
      */
-    async load_onchange() {
+    async load_onchange_state() {
         const onChangeTags = document.body.querySelectorAll(
             `script[type="${WIDGET_ONCHANGE_MIMETYPE}"]`
         );
-        for (let i = 0; i != onChangeTags.length; ++i) {
-            const tag = onChangeTags[i];
-            this.onChangeValues = JSON.parse(tag.innerHTML);
+        for (let tag of onChangeTags) {
+            this.onChangeState = JSON.parse(tag.innerHTML);
         }
-        // console.log(this.onChangeValues);
+        // console.log("onChange state");
+        // console.log(this.onChangeState);
+
+        this.widgetAffects = {};
+
+        this.onChangeState.control_widgets.forEach((controlId) => {
+            this.widgetAffects[controlId] = [];
+            for (let [outputId, obj] of Object.entries(
+                this.onChangeState.onchange
+            )) {
+                if (obj.affected_by.includes(controlId)) {
+                    // console.log(`${controlId} + ${outputId}: ${obj}`);
+                    this.widgetAffects[controlId].push(outputId);
+                }
+            }
+        });
+
+        // console.log("WidgetAffects");
+        // console.log(this.widgetAffects);
     }
 
-    async display_models(model_name_filter = "") {
+    /*
+     * Render one widgetd based on a ModelId
+     */
+    async renderWidget(modelId) {
+        const viewEl = document.body.querySelector(`div[id="${modelId}"]`);
+        const model = await this.get_model(modelId);
+
+        const view = await this.create_view(model);
+
+        // TODO: only add listeners to enabled widgets
+        // (the ones on the onChange[controls] list )
+        view.listenTo(model, "change", () => {
+            this.onWidgetChange(modelId);
+        });
+        await this.display_view(view, viewEl);
+    }
+
+    /**
+     * Build all the widgets
+     */
+    async renderAllWidgets() {
         const viewTags = document.body.querySelectorAll(
             `script[type="${WIDGET_VIEW_MIMETYPE}"]`
         );
-        for (let i = 0; i != viewTags.length; ++i) {
+        viewTags.forEach(async (viewtag) => {
             try {
-                const viewtag = viewTags[i];
                 const widgetViewObject = JSON.parse(viewtag.innerHTML);
                 const { model_id } = widgetViewObject;
-                const model = await this.get_model(model_id);
-                // console.log(model_id);
-                // console.log(model);
-                if (model_name_filter) {
-                    if (model && model.name != model_name_filter) {
-                        continue;
-                    }
-                }
-                const widgetEl = document.createElement("div");
-                if (model && viewtag && viewtag.parentElement) {
-                    // console.log(model_id);
-                    // console.log(model);
-                    viewtag.parentElement.insertBefore(widgetEl, viewtag);
-                    let dommodel = model;
-                    const view = await this.create_view(dommodel);
-                    // console.log("View");
-                    // console.log(view);
-                    await this.display_view(view, widgetEl);
-
-                    view.listenTo(view.model, "change", () => {
-                        this.onWidgetChange(view.model);
-                    });
-                }
+                await this.renderWidget(model_id);
             } catch (error) {
                 console.error(error);
             }
-        }
+        });
     }
 
     /**
      * Handles the state update
      * It will trigger the update of the Widget Views.
      */
-    async onWidgetChange(model) {
-        const { model_id } = model;
-        const state = await this.get_state();
-        const onChange = this.onChangeValues["onchange"];
+    async onWidgetChange(modelId) {
+        // console.log("onWidgetChange");
+        // console.log(modelId);
+        let state = await this.get_state();
+        const onChange = this.onChangeState["onchange"];
 
-        for (let output_id in onChange) {
-            // console.log("----");
-            // console.log("Output ID:");
-            // console.log(output_id);
-            const output_onchange_data = onChange[output_id];
-            const affected_by_ids = output_onchange_data["affected_by"];
-            const output_model = state["state"][output_id]["state"];
+        const outputsAffected = this.widgetAffects[modelId];
 
-            if (!affected_by_ids.includes(model_id)) {
-                // Only update if this output is affected by the widget
-                // console.log("Ignored");
-                continue;
-            }
+        if (!outputsAffected) {
+            return;
+        }
 
-            // Iterat inputs and get the values to make the has
-            let inputs = [];
-            for (let input_id of affected_by_ids) {
-                const input_model = state["state"][input_id]["state"];
+        outputsAffected.forEach(async (outputId) => {
+            const outputModel = state["state"][outputId]["state"];
+            const outputOnChangeData = onChange[outputId];
+            const outputAffectedBy = outputOnChangeData["affected_by"];
+
+            // console.log("Affected by:");
+            // console.log(outputAffectedBy);
+
+            // 1. Iterate controlValues and get the values to make the has
+            let controlValues = [];
+            for (let controlId of outputAffectedBy) {
+                const inputModel = state["state"][controlId]["state"];
                 // console.log("Input ID:");
-                // console.log(input_id);
-                const key = this.getWidgetValueKey(input_model["_model_name"]);
-                let input_value = input_model[key];
+                // console.log(controlId);
+                const key = this.getWidgetValueKey(inputModel["_model_name"]);
+                let inputValue = inputModel[key];
                 // console.log("Input/index Value:");
-                // console.log(input_value);
+                // console.log(inputValue);
 
-                if (input_value !== undefined) {
-                    // Ints and Booleans
-                    if (
-                        typeof input_value === "number" ||
-                        typeof input_value === "boolean"
-                    ) {
-                        inputs.push(input_value);
-                    } else if (input_value instanceof Array) {
+                if (inputValue !== undefined) {
+                    if (inputValue instanceof Array) {
                         // IntRangeSlider
-                        inputs.push(`[${input_value.toString()}]`);
+                        controlValues.push(`[${inputValue.toString()}]`);
+                    } else {
+                        controlValues.push(inputValue);
                     }
                 }
             }
 
-            // console.log("Inputs final:");
-            // console.log(inputs);
-            let hash = this.hash_fn(inputs);
-            console.log("Hash:");
-            console.log(hash);
+            // 2. Make hash based on the controlValues
+            let hash = this.hash_fn(controlValues);
+            // console.log("Hash:");
+            // console.log(hash);
 
-            const output_value = output_onchange_data["values"][hash];
-            console.log("Output value");
-            console.log(output_value);
-            if (output_value !== undefined) {
-                const key = this.getWidgetValueKey(output_model["_model_name"]);
-                state["state"][output_id]["state"][key] = output_value;
-                // await this.get_state();
+            // 3. Update affected widgets
+            const outputValue = outputOnChangeData["values"][hash];
+            // console.log("Output value");
+            // console.log(outputValue);
+            if (outputValue !== undefined) {
+                const key = this.getWidgetValueKey(outputModel["_model_name"]);
+                state["state"][outputId]["state"][key] = outputValue;
 
-                // clear_state() {
+                // If its an OutputModel clear the state
+                // This avoids objects being outputed multiple times
+                // based on this.clear_state()
                 await resolvePromisesDict(this._models).then((models) => {
                     Object.keys(models).forEach((id) => {
-                        // (models as any)[id].close();
-                        // this._models = Object.create(null);
-
                         let model = models[id];
                         if (model.name == "OutputModel") {
                             models[id].close();
                             this._models[model.model_id] = null;
-
-                            // console.log(id);
-                            // const modelCreate = {
-                            //     model_id: model.model_id,
-                            //     model_name: model.name,
-                            //     model_module: model.module,
-                            //     model_module_version:
-                            //         model.attributes._model_module_version,
-                            // };
-                            // console.log(modelCreate);
-
-                            // const modelState =
-                            //     state["state"][output_id]["state"];
-
-                            // const modelPromise = this.new_model(
-                            //     modelCreate,
-                            //     modelState
-                            // );
-                            // this._models[model.model_id] = modelPromise;
                         }
                     });
                 });
 
-                // console.log(this._models);
-                // this._models[
-                //     "a3b8fd18b4bc4ee2bc73cbcdc514cce7"
-                // ] = Object.create(null);
-                // console.log(this._models);
                 await this.set_state(state);
-                this.display_models("OutputModel");
+                if (outputModel["_model_name"] == "OuptuModel") {
+                    this.renderWidget(outputId);
+                }
+                // this.display_models("OutputModel");
             }
-        }
+        });
     }
 
     getWidgetValueKey(model_name) {

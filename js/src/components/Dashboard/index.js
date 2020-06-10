@@ -33,7 +33,6 @@ class Dashboard extends React.Component {
                         <Page
                             dashboardOrientation={this.props.orientation}
                             dashboardverticalLayout={this.props.verticalLayout}
-                            refreshWidgets={this.props.refreshWidgets}
                             {...page}
                         />
                     );
