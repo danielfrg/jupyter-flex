@@ -1,9 +1,6 @@
-export { requireLoader as embedRequireLoader } from "@jupyter-widgets/html-manager/lib/libembed-amd";
-
 import { HTMLManager } from "@jupyter-widgets/html-manager";
-
-import Papa from "papaparse";
 import { resolvePromisesDict } from "@jupyter-widgets/base";
+import Papa from "papaparse";
 
 const WIDGET_STATE_MIMETYPE = "application/vnd.jupyter.widget-state+json";
 const WIDGET_VIEW_MIMETYPE = "application/vnd.jupyter.widget-view+json";
@@ -108,12 +105,12 @@ export default class WidgetManager extends HTMLManager {
 
         const view = await this.create_view(model);
 
+        await this.display_view(view, viewEl);
         // TODO: only add listeners to enabled widgets
         // (the ones on the onChange[controls] list )
         view.listenTo(model, "change", () => {
             this.onWidgetChange(modelId);
         });
-        await this.display_view(view, viewEl);
     }
 
     /**

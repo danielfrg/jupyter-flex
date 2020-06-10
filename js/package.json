@@ -16,7 +16,6 @@
         "@jupyter-widgets/html-manager": "^0.20.0-alpha.0",
         "@primer/css": "^14.4.0",
         "ansi-to-html": "^0.6.14",
-        "font-awesome": "^4.7.0",
         "papaparse": "^5.2.0",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",

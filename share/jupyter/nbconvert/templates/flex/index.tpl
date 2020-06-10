@@ -6,17 +6,22 @@
 <head>
 {%- block html_head %}
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {%- block html_head_title %}
     <title>{{ flex.get_title() }}</title>
     {%- endblock html_head_title %}
 
+    {%- block html_head_css %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
     {%- if dev_mode %}
     <link rel="stylesheet" href="http://localhost:8866/voila/static/dist/FlexRenderer.css" />
     {%- else %}
     <style>{{ include_file("static/dist/FlexRenderer.css") }}</style>
     {%- endif %}
+    {%- endblock html_head_css %}
 
     {%- set custom_css = flex.get_custom_css() -%}
     {%- if custom_css | trim | length %}
@@ -58,15 +63,15 @@
     </script>
     {%- endif %}
 
-    {%- if dev_mode %}
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>
+    {%- if dev_mode %}
     <script src="http://localhost:8866/voila/static/dist/FlexRenderer.js"></script>
     {%- else %}
-    <script>{{ include_file("./static/dist/jquery-3.5.1.slim.min.js") }}</script>
-    <script>{{ include_file("./static/dist/bootstrap-4.5.0.min.js") }}</script>
-    <script>{{ include_file("./static/dist/require-2.3.6.min.js") }}</script>
+    {# <script>{{ include_file("./static/dist/jquery-3.5.1.slim.min.js") }}</script> #}
+    {# <script>{{ include_file("./static/dist/bootstrap-4.5.0.min.js") }}</script> #}
+    {# <script>{{ include_file("./static/dist/require-2.3.6.min.js") }}</script> #}
     <script>{{ include_file("./static/dist/FlexRenderer.js") }}</script>
     {%- endif %}
 </body>
