@@ -1,12 +1,15 @@
+import base64
 import os
 import sys
 
 import jinja2
 from nbconvert.exporters.html import HTMLExporter
 
+from .utils import DEV_MODE
+
 
 @jinja2.contextfunction
-def include_template(ctx, name):
+def include_file(ctx, name):
     """Include a file relative to this file
     """
     env = ctx.environment
@@ -15,7 +18,7 @@ def include_template(ctx, name):
 
 @jinja2.contextfunction
 def include_external_file(ctx, name):
-    """Include an encoded base64 image
+    """Include a file relative to the notebook
     """
     with open(os.path.abspath(name), "r") as f:
         content = f.read()
@@ -23,11 +26,7 @@ def include_external_file(ctx, name):
 
 
 @jinja2.contextfunction
-def include_external_base64_img(ctx, name):
-    """Include an encoded base64 image
-    """
-    import base64
-
+def include_external_base64(ctx, name):
     with open(os.path.abspath(name), "rb") as f:
         encoded_string = base64.b64encode(f.read())
     return jinja2.Markup(encoded_string.decode())
@@ -78,11 +77,10 @@ class FlexExporter(HTMLExporter):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.environment.globals["include_template"] = include_template
+        self.environment.globals["dev_mode"] = DEV_MODE
+        self.environment.globals["include_file"] = include_file
         self.environment.globals["include_external_file"] = include_external_file
-        self.environment.globals[
-            "include_external_base64_img"
-        ] = include_external_base64_img
+        self.environment.globals["include_external_base64"] = include_external_base64
 
     def default_filters(self):
         for pair in super().default_filters():

@@ -1,10 +1,17 @@
 import React, { Fragment } from "react";
 
+import { requirePromise } from "../loader";
 import Dashboard from "../Dashboard";
 import Cell from "../Cell";
-import { requirePromise } from "../loader";
+
+import * as htmlManager from "./HtmlManager";
 
 class App extends React.Component {
+    firstRender = true;
+    voila;
+    kernel;
+    widgetManager;
+
     constructor(props) {
         super(props);
 
@@ -36,8 +43,9 @@ class App extends React.Component {
             : null;
 
         if (kernelId && kernelId != "") {
-            // This is the same as Voila's main.js
+            // voila mode: Load Voila using RequireJS
             // https://github.com/voila-dashboards/voila/blob/master/share/jupyter/voila/templates/base/static/main.js
+
             requirePromise(["voila"]).then(async (voila) => {
                 var kernel = await voila.connectKernel();
 
@@ -71,8 +79,8 @@ class App extends React.Component {
                 );
 
                 async function init() {
-                    // it seems if we attach this to early, it will not be called
-                    window.addEventListener("beforeunload", function (e) {
+                    // eslint-disable-next-line no-unused-vars
+                    window.addEventListener("beforeunload", function (event) {
                         kernel.shutdown();
                         kernel.dispose();
                     });
@@ -87,14 +95,42 @@ class App extends React.Component {
                     window.addEventListener("load", init);
                 }
 
-                this.setState({
-                    kernel: kernel,
-                    widgetManager: widgetManager,
-                    voila: voila,
-                });
+                this.voila = voila;
+                this.kernel = kernel;
+                this.widgetManager = widgetManager;
+
+                this.refreshWidgets();
             });
+        } else {
+            // nbconvert mode
+            this.nbconvert = true;
+            this.firstRender = false;
         }
     }
+
+    refreshWidgets = () => {
+        if (this.voila) {
+            // voila mode
+            this.widgetManager.build_widgets();
+        } else if (this.nbconvert) {
+            // nbconvert mode
+
+            if (this.firstRender) {
+                // We ignore the first render because thats done
+                // by the embed-amd.js that is included in the page
+                this.firstRender = false;
+                return;
+            }
+
+            // console.log(htmlManager);
+            htmlManager.renderWidgets(
+                () =>
+                    new htmlManager.HTMLManager({
+                        loader: htmlManager.embedRequireLoader,
+                    })
+            );
+        }
+    };
 
     render() {
         let metaCells = [];
@@ -117,6 +153,7 @@ class App extends React.Component {
         if (!orientation) {
             orientation = vertical_layout == "scroll" ? "rows" : "columns";
         }
+
         return (
             <Fragment>
                 <div style={{ display: "none" }}>{metaCells}</div>
@@ -128,7 +165,7 @@ class App extends React.Component {
                     verticalLayout={vertical_layout}
                     orientation={orientation}
                     pages={this.state.dashboard.pages}
-                    widgetManager={this.state.widgetManager}
+                    refreshWidgets={this.refreshWidgets}
                 />
             </Fragment>
         );

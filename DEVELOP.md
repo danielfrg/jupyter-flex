@@ -40,13 +40,13 @@ Now you can just start voila and iterate quickly on the JS or Python code.
 To start the voila in the examples directory:
 
 ```
-make serve-examples
+make voila-examples
 ```
 
 ## Testing
 
 1. `make selenium`: Start Selenium in docker-compose
-2. `make serve-examples`: Start voila server locally
+2. `make voila-examples`: Start voila server locally
 3. `make test`: Run pytest locally agains Selenium
 
 ## Docs

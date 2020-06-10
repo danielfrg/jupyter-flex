@@ -77,7 +77,7 @@ jobs:
 
       - name: Serve Voila
         run: |
-          make serve-examples &
+          make voila-examples &
 
       - name: Verify Voila
         run: |

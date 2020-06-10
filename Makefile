@@ -22,15 +22,15 @@ first: help
 build: download-assets npm-build python-build  ## Build assets and Python package
 
 download-assets:  ## Download .css/.js assets
-	@curl -o share/jupyter/voila/templates/flex/static/jquery-3.5.1.slim.min.js https://code.jquery.com/jquery-3.5.1.slim.min.js
-	@curl -o share/jupyter/voila/templates/flex/static/bootstrap-4.5.0.min.js https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js
-	@curl -o share/jupyter/voila/templates/flex/static/bootstrap.min.js.map https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js.map
-	@curl -o share/jupyter/voila/templates/flex/static/bootstrap-4.5.0.min.css https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css
-	@curl -o share/jupyter/voila/templates/flex/static/bootstrap.min.css.map https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css.map
-	@curl -o share/jupyter/voila/templates/flex/static/require-2.3.6.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
-	@curl -o share/jupyter/voila/templates/flex/static/embed-amd-0.19.0.js https://unpkg.com/@jupyter-widgets/html-manager@0.19.0/dist/embed-amd.js
+	@curl -o share/jupyter/voila/templates/flex/static/dist/jquery-3.5.1.slim.min.js https://code.jquery.com/jquery-3.5.1.slim.min.js
+	@curl -o share/jupyter/voila/templates/flex/static/dist/bootstrap-4.5.0.min.js https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js
+	@curl -o share/jupyter/voila/templates/flex/static/dist/bootstrap.min.js.map https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js.map
+	@curl -o share/jupyter/voila/templates/flex/static/dist/bootstrap-4.5.0.min.css https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css
+	@curl -o share/jupyter/voila/templates/flex/static/dist/bootstrap.min.css.map https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css.map
+	@curl -o share/jupyter/voila/templates/flex/static/dist/require-2.3.6.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
+	@curl -o share/jupyter/voila/templates/flex/static/dist/embed-amd-0.19.0.js https://unpkg.com/@jupyter-widgets/html-manager@0.19.0/dist/embed-amd.js
 	# We need to include qgrid because of: https://github.com/quantopian/qgrid/pull/325
-	@curl -o share/jupyter/voila/templates/flex/static/qgrid.js https://unpkg.com/qgrid2@1.1.3/dist/index.js
+	@curl -o share/jupyter/voila/templates/flex/static/dist/qgrid.js https://unpkg.com/qgrid2@1.1.3/dist/index.js
 
 
 # ------------------------------------------------------------------------------
@@ -57,7 +57,7 @@ develop:  ## Install package for development
 
 check:  ## Check linting
 	@flake8
-	@isort --check-only --diff --recursive --project jupyter_flex --section-default THIRDPARTY .
+	# @isort --check-only --diff --recursive --project jupyter_flex --section-default THIRDPARTY .
 	@black --check .
 
 
@@ -102,15 +102,16 @@ npm-install:  ## Install JS dependencies
 
 
 clean-js:  ## Clean JS build files
-	rm -rf share/jupyter/voila/templates/flex/static/*.js
-	rm -rf share/jupyter/voila/templates/flex/static/*.js.map
-	rm -rf share/jupyter/voila/templates/flex/static/*.css
-	rm -rf share/jupyter/voila/templates/flex/static/*.css.map
-	rm -rf share/jupyter/voila/templates/flex/static/*.html
-	rm -rf share/jupyter/voila/templates/flex/static/*.woff
-	rm -rf share/jupyter/voila/templates/flex/static/*.woff2
-	rm -rf share/jupyter/voila/templates/flex/static/*.eot
-	rm -rf share/jupyter/voila/templates/flex/static/*.ttf
+	rm -rf share/jupyter/voila/templates/flex/static/dist/*.js
+	rm -rf share/jupyter/voila/templates/flex/static/dist/*.js.map
+	rm -rf share/jupyter/voila/templates/flex/static/dist/*.css
+	rm -rf share/jupyter/voila/templates/flex/static/dist/*.css.map
+	rm -rf share/jupyter/voila/templates/flex/static/dist/*.html
+	rm -rf share/jupyter/voila/templates/flex/static/dist/*.woff
+	rm -rf share/jupyter/voila/templates/flex/static/dist/*.woff2
+	rm -rf share/jupyter/voila/templates/flex/static/dist/*.eot
+	rm -rf share/jupyter/voila/templates/flex/static/dist/*.ttf
+	rm -rf share/jupyter/voila/templates/flex/static/dist/*.svg
 	cd js/; rm -rf .cache dist lib
 
 
@@ -121,7 +122,7 @@ selenium:  ## Run selenium in docker-compose
 	docker-compose up
 
 
-serve-examples:  ## Serve examples using voila
+voila-examples:  ## Serve examples using voila
 	voila --debug --template flex --no-browser --Voila.ip='0.0.0.0' --port 8866 --VoilaConfiguration.file_whitelist="['.*']" $(CURDIR)/examples
 
 
