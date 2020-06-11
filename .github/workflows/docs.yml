@@ -9,10 +9,6 @@ jobs:
   docs:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        python-version: [3.7]
-
     steps:
       - uses: actions/checkout@v2
       - run: git fetch --prune --unshallow
