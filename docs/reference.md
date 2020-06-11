@@ -40,8 +40,8 @@ To change the dashboard parameters tag one code cell with the `parameters`.
 
 | Param | Description |
 |---|---|
-| `chart` | Show the output of this cell on the current section as a card |
-| `footer` | Show the output of this cell on the current card footer, should go in a cell after a `chart` tag |
+| `body` | Show the output of this cell on the current section as a card |
+| `footer` | Show the output of this cell on the current card footer, should go in a cell after a `body` tag |
 | `sidebar` | Show the output of this cell as a sidebar for the current page, usually used with ipywidgets |
 | `meta` | Render the values of this cell on the html but hidden, useful for adding CSS and JS |
 | `orientation={value}` | Overwrite the default orientation for the page (level-1 header) and section (level-2 header) |
