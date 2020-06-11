@@ -7,9 +7,10 @@ on:
 
 jobs:
   docs:
+    runs-on: ubuntu-latest
+
     strategy:
       matrix:
-        os: [ubuntu-latest]
         python-version: [3.8]
 
     steps:
