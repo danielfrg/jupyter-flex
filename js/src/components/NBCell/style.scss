@@ -3,7 +3,68 @@
 .codecell {
     height: 100%;
 
+    pre {
+        margin: 8px 0;
+    }
+
+    table.dataframe {
+        border: none;
+        border-collapse: collapse;
+        border-spacing: 0;
+        color: #000;
+        font-size: 12px;
+        table-layout: fixed;
+        width: 100%;
+
+        thead {
+            border-bottom: 1px solid #000;
+            vertical-align: bottom;
+        }
+        tr,
+        th,
+        td {
+            text-align: right;
+            vertical-align: middle;
+            padding: 0.5em 0.5em;
+            line-height: normal;
+            white-space: normal;
+            max-width: none;
+            border: none;
+        }
+        th {
+            font-weight: bold;
+        }
+        tbody tr:nth-child(odd) {
+            background: #f5f5f5;
+        }
+        tbody tr:hover {
+            background: rgba(66, 165, 245, 0.2);
+        }
+        * + table {
+            margin-top: 1em;
+        }
+    }
+
     // Widgets
+    .loading-widget {
+        text-align: center !important;
+        margin-bottom: 1rem;
+
+        .spinner-grow {
+            width: 0.5rem;
+            height: 0.5rem;
+            color: #555;
+            z-index: 1000;
+        }
+
+        .loading-text {
+            color: #555;
+            font-size: 0.8em;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+    }
+
     .widget-play .jupyter-button {
         min-height: 28px;
     }

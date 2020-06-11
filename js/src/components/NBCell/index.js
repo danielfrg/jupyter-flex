@@ -8,7 +8,8 @@ import {
     KernelOutputError,
 } from "@nteract/outputs";
 import { Provider } from "@nteract/mathjax";
-// const { Provider, Node } = require("@nteract/mathjax");
+
+import Widget from "./Widget";
 
 import "./style.scss";
 
@@ -31,6 +32,7 @@ class NBCell extends React.Component {
                     // if (output_type == "execute_result")
                     return (
                         <RichMedia key={i} data={{ ...output.data }}>
+                            <Widget />
                             <Media.HTML />
                             <Media.SVG />
                             <Media.Image />

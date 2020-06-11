@@ -38,7 +38,7 @@
     <div id="flex-root">
         <div class="container-fluid d-flex flex-row loading">
             <div class="text-center">
-                <p id="loading_text">... loading ...</p>
+                <p id="flex-loading-text">... loading ...</p>
             </div>
         </div>
     </div>

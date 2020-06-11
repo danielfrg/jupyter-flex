@@ -94,6 +94,7 @@ class App extends React.Component {
                     );
                     const model = widgetManager.models[modelId];
 
+                    viewEl.innerHTML = "";
                     // eslint-disable-next-line no-unused-vars
                     const view = await widgetManager.display_model(
                         undefined,

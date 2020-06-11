@@ -40,7 +40,7 @@
                     <div class="spinner-grow" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>
-                    <p id="loading_text">Executing notebook</p>
+                    <p id="flex-loading-text">Executing notebook</p>
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@
         <script>
             var voilaCellExecuteAfter = function(cellIndex, cellCount) {};
             var voilaCellExecuteBefore = function(cellIndex, cellCount) {
-                var el = document.getElementById("loading_text");
+                var el = document.getElementById("flex-loading-text");
                 el.innerHTML = "Executing cell " + cellIndex + " of " + cellCount;
             };
         </script>
@@ -96,7 +96,7 @@
     <div id="flex-root">
         <div class="container-fluid d-flex flex-row loading">
             <div class="text-center">
-                <p id="loading_text">... loading ...</p>
+                <p id="flex-loading-text">... loading ...</p>
             </div>
         </div>
     </div>

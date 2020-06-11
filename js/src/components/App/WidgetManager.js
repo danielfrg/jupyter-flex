@@ -107,9 +107,9 @@ export default class WidgetManager extends HTMLManager {
     async renderWidget(modelId) {
         const viewEl = document.body.querySelector(`div[id="${modelId}"]`);
         const model = await this.get_model(modelId);
-
         const view = await this.create_view(model);
 
+        viewEl.innerHTML = "";
         await this.display_view(view, viewEl);
 
         if (this.onChangeState) {
