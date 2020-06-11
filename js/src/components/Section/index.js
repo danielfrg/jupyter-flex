@@ -35,13 +35,12 @@ class Section extends React.Component {
     }
 
     render() {
-        const { title, cards } = this.props;
+        const { pageOrientation, title, cards } = this.props;
 
         // Flip for flex
         let flexDirection =
             this.state.elOrientation == "columns" ? "row" : "column";
-        let sectionClassName =
-            this.state.elOrientation == "columns" ? "row" : "column";
+        let sectionClassName = pageOrientation == "columns" ? "column" : "row";
 
         const sectionSlug = slugify(title);
         const sectionTabs = this.state.useTabs ? "section-tabs" : "";
