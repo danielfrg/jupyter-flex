@@ -12,6 +12,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: [3.6, 3.7, 3.8]
+
     container:
       image: python:3.7.6
       options: --network-alias testhost
@@ -81,7 +86,7 @@ jobs:
 
       - name: Verify Voila
         run: |
-          ls /__t/Python/3.7.7/x64/share/jupyter/voila/templates
+          # ls /__t/Python/3.7.7/x64/share/jupyter/voila/templates
           curl http://localhost:8866/
 
       - name: Check linting
