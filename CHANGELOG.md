@@ -2,11 +2,18 @@
 
 ## [Unreleased]
 
-- Moved all Frontend code from monster Jinja to React!
+- Moved all Frontend code from the gigantic monster Jinja to React!
+- Replaced `chart` and `text` tags with `body`, tagss reflects better location instead of type
 - Added option to have "scroll" vertical layout, default is the same "fill"
-- Added option to have help button on the card header that shows a modal with content
+- Added option to have help button on the card header that shows a modal with cell content
 - Added option to have individual Page sidebars, Global Sidebar is still possible
 - Added better rendering for Sidebars and markdown on body cells
+- Improved rendering of widgets to be one at a time when needed instead of all at once
+- Improved and standardized rendering of multiple data-types
+- Improved Sectioin and Card layout limits when content was bigger than the space available
+- Added option to show the card source cells using `flex_include_source` (default es Voila `strip_source`)
+- Renamed `flex_source_code` to `flex_source_link`, reflects better what it does
+- Fix issue with qgrid by including qgrid.js
 
 ## 0.5.0
 

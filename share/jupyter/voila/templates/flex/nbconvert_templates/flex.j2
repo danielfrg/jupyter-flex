@@ -5,7 +5,7 @@
 {#- Default parameters for the dashboard -#}
 {%- set default_title = nb.metadata.get("title", "") or resources["metadata"]["name"] -%}
 {%- set kernel_display_name = nb.metadata.get("kernelspec", {}).get("display_name", "") -%}
-{%- set props = {"title": default_title, "kernel_name": kernel_display_name} -%}
+{%- set props = {"title": default_title, "kernel_name": kernel_display_name, "include_source": resources.global_content_filter.include_input} -%}
 
 {#- Iterate notebook cells -#}
 {#- We only look at props prefixed with `flex_` -#}
@@ -83,6 +83,9 @@
     {%- for cell in nb.cells -%}
         {%- set cell_type = cell["cell_type"] -%}
         {%- set cell_source = cell["source"] -%}
+        {%- if not props.include_source -%}
+            {%- set _ = cell.pop("source") -%}
+        {%- endif -%}
         {%- set cell_tags = cell.get("metadata", {}).get("tags", []) -%}
 
         {%- if cell_type == "markdown" -%}
@@ -189,26 +192,11 @@
 
         {%- elif cell_type == "code" -%}
             {%- set is_meta = find_item_startswith(cell_tags, "meta") -%}
-
-            {%- if is_meta -%}
-                {#- Metadata cells dont create section or pages -#}
-                {%- set _ = dashboard.meta.append(cell) -%}
-                {%- continue -%}
-            {%- endif -%}
-
-            {%- set is_help = find_item_startswith(cell_tags, "help") -%}
-            {%- if is_help -%}
-                {%- set _ = vars.current_card.help.append(cell) -%}
-                {%- continue -%}
-            {%- endif -%}
-
-            {%- set is_footer = find_item_startswith(cell_tags, "footer") -%}
-            {%- if is_footer -%}
-                {%- set _ = vars.current_card.footer.append(cell) -%}
-                {%- continue -%}
-            {%- endif -%}
-
             {%- set is_body = find_item_startswith(cell_tags, "body") -%}
+            {%- set is_source = find_item_startswith(cell_tags, "source") -%}
+            {%- set is_help = find_item_startswith(cell_tags, "help") -%}
+            {%- set is_footer = find_item_startswith(cell_tags, "footer") -%}
+
             {%- if is_body -%}
                 {#- Create current_* objects if notebook starts with a tagged cell -#}
                 {%- if not vars.current_page -%}
@@ -221,8 +209,40 @@
                     {%- set _ = vars.update({"current_card": {"header": "", "body": [], "footer": [], "help": [], "tags": []}}) -%}
                 {%- endif -%}
 
-                {#- Encode outputs to safely insert them on <script> tags -#}
                 {%- set _ = vars.current_card.body.append(cell) -%}
+            {%- endif -%}
+
+            {%- if is_source -%}
+                {#- Create current_* objects if notebook starts with a tagged cell -#}
+                {%- if not vars.current_page -%}
+                    {%- set _ = vars.update({"current_page": {"title": "", "sections": [] } }) -%}
+                {%- endif -%}
+                {%- if not vars.current_section -%}
+                    {%- set _ = vars.update({"current_section": {"title": "", "cards": [], "tags": []}}) -%}
+                {%- endif -%}
+                {%- if not vars.current_card -%}
+                    {%- set _ = vars.update({"current_card": {"header": "", "body": [], "footer": [], "help": [], "tags": []}}) -%}
+                {%- endif -%}
+
+                {#- We just want to include the souce for this cell, remove the outputs -#}
+                {%- set _ = cell.pop("outputs") -%}
+                {%- set _ = vars.current_card.body.append(cell) -%}
+            {%- endif -%}
+
+            {%- if is_help -%}
+                {%- set _ = vars.current_card.help.append(cell) -%}
+                {%- continue -%}
+            {%- endif -%}
+
+            {%- if is_footer -%}
+                {%- set _ = vars.current_card.footer.append(cell) -%}
+                {%- continue -%}
+            {%- endif -%}
+
+            {%- if is_meta -%}
+                {#- Metadata cells dont create section or pages -#}
+                {%- set _ = dashboard.meta.append(cell) -%}
+                {%- continue -%}
             {%- endif -%}
         {%- endif -%}
 

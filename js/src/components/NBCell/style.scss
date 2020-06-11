@@ -85,6 +85,14 @@
 
     // Plots
 
+    // SVG outputs from MPL
+    .jp-RenderedSVG {
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
     .js-plotly-plot {
         width: 100% !important;
         height: 100% !important;
@@ -126,5 +134,16 @@
     .bqplot {
         height: 100% !important;
         width: 99% !important;
+    }
+}
+
+.sidebar {
+    .loading-widget {
+        .spinner-grow {
+            color: #fff;
+        }
+        .loading-text {
+            color: #fff;
+        }
     }
 }

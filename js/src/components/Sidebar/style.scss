@@ -28,6 +28,10 @@
             h6 {
                 color: #fff;
             }
+
+            .modal-btn {
+                color: #fff;
+            }
         }
 
         .card-body {
@@ -60,13 +64,13 @@
             // NBConvert and voila end up with different structure so we use both
             color: #fff;
 
-            button {
-                color: #000;
-            }
-
             input {
                 line-height: normal;
             }
+        }
+
+        button.jupyter-widgets {
+            color: #000;
         }
     }
 }

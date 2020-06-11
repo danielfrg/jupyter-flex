@@ -125,7 +125,8 @@ class App extends React.Component {
             title,
             author,
             kernel_name,
-            source_code,
+            source_link,
+            include_source,
         } = this.state.dashboard.props;
         let { vertical_layout, orientation } = this.state.dashboard.props;
 
@@ -142,6 +143,7 @@ class App extends React.Component {
                 value={{
                     kernel: this.state.kernel,
                     widgetManager: this.state.widgetManager,
+                    showCardCells: include_source,
                 }}
             >
                 <div style={{ display: "none" }}>{metaCells}</div>
@@ -149,7 +151,7 @@ class App extends React.Component {
                     title={title}
                     author={author}
                     kernelName={kernel_name}
-                    sourceCode={source_code}
+                    sourceCodeLink={source_link}
                     verticalLayout={vertical_layout}
                     orientation={orientation}
                     pages={this.state.dashboard.pages}
