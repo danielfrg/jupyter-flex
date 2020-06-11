@@ -24,6 +24,7 @@
     {%- if custom_css | trim | length %}
     <link href="{{ resources.base_url }}voila/files/{{ custom_css }}" rel="stylesheet">
     {%- endif %}
+
 {%- endblock html_head %}
 </head>
 {%- endblock header %}

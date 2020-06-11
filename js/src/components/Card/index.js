@@ -1,6 +1,6 @@
 import React from "react";
 
-import Cell from "../Cell";
+import NBCell from "../NBCell";
 import { getTagValue } from "../utils";
 
 import Modal from "../Modal";
@@ -24,6 +24,8 @@ class Card extends React.Component {
     render() {
         const { sectionOrientation, header, body, help, footer } = this.props;
 
+        let cardClassName = sectionOrientation == "columns" ? "column" : "row";
+
         let headerHtml;
         let modal;
         if (header || (help && help.length > 0)) {
@@ -44,7 +46,7 @@ class Card extends React.Component {
 
                     let helpCells = [];
                     help.forEach((cell, i) => {
-                        helpCells.push(<Cell key={i} {...cell} />);
+                        helpCells.push(<NBCell key={i} {...cell} />);
                     });
 
                     modal = (
@@ -69,14 +71,14 @@ class Card extends React.Component {
         let bodyComponents = [];
         if (body.length > 0) {
             body.forEach((cell, i) => {
-                bodyComponents.push(<Cell key={i} {...cell} />);
+                bodyComponents.push(<NBCell key={i} {...cell} />);
             });
         }
 
         let footerComponents = [];
         if (footer && footer.length > 0) {
             footer.forEach((cell, i) => {
-                footerComponents.push(<Cell key={i} {...cell} />);
+                footerComponents.push(<NBCell key={i} {...cell} />);
             });
 
             footerComponents = (
@@ -86,7 +88,7 @@ class Card extends React.Component {
 
         return (
             <div
-                className={`card card-${sectionOrientation} ${this.state.classNames}`}
+                className={`card card-${cardClassName} ${this.state.classNames}`}
                 style={{ flex: `${this.state.size} ${this.state.size} 0px` }}
             >
                 {headerHtml}

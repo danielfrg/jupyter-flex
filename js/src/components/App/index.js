@@ -1,11 +1,11 @@
-import React, { Fragment } from "react";
+import React from "react";
 
 import { requirePromise } from "../loader";
 import Dashboard from "../Dashboard";
-import Cell from "../Cell";
+import NBCell from "../NBCell";
 import { Provider } from "../DashboardContext";
 
-import WidgetManager, * as htmlWidgetManager from "./WidgetManager";
+import WidgetManager from "./WidgetManager";
 import "./style.scss";
 
 class App extends React.Component {
@@ -116,7 +116,8 @@ class App extends React.Component {
     render() {
         let metaCells = [];
         this.state.dashboard.meta.forEach((cell, i) => {
-            metaCells.push(<Cell key={i} {...cell} />);
+            // TODO uncomment this!! when I am done
+            metaCells.push(<NBCell key={i} {...cell} />);
         });
 
         const {
