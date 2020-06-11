@@ -68,13 +68,13 @@ change underlying parameters and see the results immediately using
     <figcaption>ipywidgets-gallery (runs in binder.org)</figcaption>
   </figure>
   <figure class="image-card">
-    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.5.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fplots%2Fbqplot.ipynb">
+    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fplots%2Fbqplot.ipynb">
         <img src="/assets/img/screenshots/plots/bqplot.png" alt="Jupyter-flex: bqplot">
     </a>
     <figcaption>bqplot plots (runs in mybinder.org)</figcaption>
   </figure>
   <figure class="image-card">
-    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.5.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fmovie-explorer.ipynb">
+    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fmovie-explorer.ipynb">
         <img src="/assets/img/screenshots/movie-explorer.png" alt="Jupyter-flex: Movie Explorer">
     </a>
     <figcaption>Movie Explorer (runs in mybinder.org)</figcaption>
@@ -83,13 +83,13 @@ change underlying parameters and see the results immediately using
 
 <div class="image-grid-row">
   <figure class="image-card">
-    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.5.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
+    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
         <img src="/assets/img/screenshots/wealth-of-nations.png" alt="Jupyter-flex: Wealth of Nations">
     </a>
     <figcaption>Wealth of Nations (runs in mybinder.org)</figcaption>
   </figure>
   <figure class="image-card">
-    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.5.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
+    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
         <img src="/assets/img/screenshots/iris-clustering.png" alt="Jupyter-flex: Iris Clustering">
     </a>
     <figcaption>Iris clustering (runs in mybinder.org)</figcaption>

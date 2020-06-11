@@ -33,8 +33,9 @@ Merge branch when CI passes
 
 ## Upload to PyPI
 
--   Update `CHANGELOG.md`
--   Update `README.md` and docs as needed
+- Update `CHANGELOG.md`
+- Update `README.md` and docs:
+    -  Links to Binder
 
 ```
 export VERSION=1.0.0
