@@ -1,5 +1,3 @@
-# Used for CI - It should match environment.yml
-
 # Base conda deps
 setuptools
 setuptools-scm
@@ -12,14 +10,6 @@ wheel
 pytest
 pytest-cov
 
-# This project conda deps: Examples
-numpy
-pandas
-scipy
-matplotlib
-scikit-learn
-statsmodels
-
 # Base pip deps: Docs
 mkdocs
 mkdocs-material
@@ -30,8 +20,10 @@ pymdown-extensions
 
 # This project pip deps
 notebook
-nbconvert
-voila
+jupyterlab
+voila<0.2>=0.1.21
+nbconvert<6,>=5.5.0
+nbclient>=0.4.0a1
 ipywidgets
 libsass
 pytest-html
@@ -40,6 +32,12 @@ pytest-selenium
 pytest-needle
 
 # This project pip deps: Examples
+numpy
+pandas
+scipy
+matplotlib
+scikit-learn
+statsmodels
 altair
 plotly
 bqplot
