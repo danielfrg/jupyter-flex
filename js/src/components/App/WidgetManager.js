@@ -43,21 +43,25 @@ const STRING_WIDGETS = [
 ];
 
 export default class WidgetManager extends HTMLManager {
-    onChangeState = {};
+    onChangeState = null;
 
-    async load_states() {
-        await this.load_initial_state();
-        await this.load_onchange_state();
+    async loadState() {
+        await this.loadInitialState();
+        await this.loadOnChangeState();
     }
 
     /**
      * Loads the widget initial state
      */
-    async load_initial_state() {
-        const tags = document.body.querySelectorAll(
+    async loadInitialState() {
+        const stateTags = document.body.querySelectorAll(
             `script[type="${WIDGET_STATE_MIMETYPE}"]`
         );
-        for (let stateTag of tags) {
+        if (stateTags.length == 0) {
+            console.log("Jupyter-flex: Didn't find widget state");
+            return;
+        }
+        for (let stateTag of stateTags) {
             const widgetState = JSON.parse(stateTag.innerHTML);
             // console.log("Init state");
             // console.log(widgetState);
@@ -68,16 +72,17 @@ export default class WidgetManager extends HTMLManager {
     /**
      * Loads the onChange widget state
      */
-    async load_onchange_state() {
+    async loadOnChangeState() {
         const onChangeTags = document.body.querySelectorAll(
             `script[type="${WIDGET_ONCHANGE_MIMETYPE}"]`
         );
+        if (onChangeTags.length == 0) {
+            console.log("Jupyter-flex: Didn't find widget onchange state");
+            return;
+        }
         for (let tag of onChangeTags) {
             this.onChangeState = JSON.parse(tag.innerHTML);
         }
-        // console.log("onChange state");
-        // console.log(this.onChangeState);
-
         this.widgetAffects = {};
 
         this.onChangeState.control_widgets.forEach((controlId) => {
@@ -106,11 +111,15 @@ export default class WidgetManager extends HTMLManager {
         const view = await this.create_view(model);
 
         await this.display_view(view, viewEl);
-        // TODO: only add listeners to enabled widgets
-        // (the ones on the onChange[controls] list )
-        view.listenTo(model, "change", () => {
-            this.onWidgetChange(modelId);
-        });
+
+        if (this.onChangeState) {
+            if (this.onChangeState.control_widgets.includes(modelId)) {
+                // If its on the list of control widgets add the listener
+                view.listenTo(model, "change", () => {
+                    this.onWidgetChange(modelId);
+                });
+            }
+        }
     }
 
     /**

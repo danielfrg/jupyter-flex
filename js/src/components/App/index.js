@@ -108,7 +108,7 @@ class App extends React.Component {
             });
         } else if (this.appMode == "nbconvert") {
             const widgetManager = new WidgetManager();
-            await widgetManager.load_states();
+            await widgetManager.loadState();
             this.setState({ widgetManager: widgetManager });
         }
     }
