@@ -1,9 +1,17 @@
 import React from "react";
 
 import NBCell from "../NBCell";
+import { DashboardContext } from "../DashboardContext";
 import { getTagValue } from "../utils";
-
 import Modal from "../Modal";
+
+import {
+    Cells,
+    Cell,
+    Input,
+    Prompt,
+    Source,
+} from "@nteract/presentational-components";
 
 import "./style.scss";
 
@@ -17,55 +25,105 @@ class Card extends React.Component {
         this.state = {
             size: sizeTag ? sizeTag : 500,
             classNames: getTagValue(tags, "class", " "),
-            showModal: false,
+            showSourceModal: false,
+            showHelpModal: false,
         };
     }
 
+    toggleSourceModal = () => {
+        console.log("toogleSource");
+        this.setState({ showSourceModal: !this.state.showSourceModal });
+    };
+
+    toggleHelpModal = () =>
+        this.setState({ showHelpModal: !this.state.showHelpModal });
+
     render() {
         const { sectionOrientation, header, body, help, footer } = this.props;
+        const { showCardCells } = this.context;
 
         let cardClassName = sectionOrientation == "columns" ? "column" : "row";
 
         let headerHtml;
-        let modal;
-        if (header || (help && help.length > 0)) {
-            let headerTitle;
-            if (!this.props.insideTabs) {
-                headerTitle = <h6>{header}</h6>;
+        let sourceModal;
+        let helpModal;
+        if (header || showCardCells || (help && help.length > 0)) {
+            let buttons = [];
 
-                let buttons;
-                if (help.length > 0) {
-                    buttons = (
-                        <button
-                            className="modal-btn"
-                            onClick={this.toggleModal}
-                        >
-                            <i className="material-icons">help_outline</i>
-                        </button>
-                    );
+            // Source Cells
+            if (showCardCells) {
+                buttons.push(
+                    <button
+                        key="source"
+                        className="modal-btn"
+                        onClick={this.toggleSourceModal}
+                    >
+                        <i className="material-icons">code</i>
+                    </button>
+                );
 
-                    let helpCells = [];
-                    help.forEach((cell, i) => {
-                        helpCells.push(<NBCell key={i} {...cell} />);
-                    });
+                const sourceCells = body.map((cell, i) => {
+                    if (cell.cell_type == "code") {
+                        return (
+                            <Cells key={i} className="source-cells">
+                                <Cell className="source-cell">
+                                    <Input>
+                                        <Prompt
+                                            counter={cell.execution_count}
+                                        />
+                                        <Source language="python">
+                                            {cell.source}
+                                        </Source>
+                                    </Input>
+                                </Cell>
+                            </Cells>
+                        );
+                    }
+                });
 
-                    modal = (
-                        <Modal
-                            title={`${header}`}
-                            onCloseClick={this.toggleModal}
-                        >
-                            {helpCells}
-                        </Modal>
-                    );
-                }
-
-                headerHtml = (
-                    <div className="card-header d-flex justify-content-between align-items-baseline">
-                        {headerTitle}
-                        {buttons}
-                    </div>
+                sourceModal = (
+                    <Modal
+                        title={`${header} - Source`}
+                        onCloseClick={this.toggleSourceModal}
+                    >
+                        {sourceCells}
+                    </Modal>
                 );
             }
+
+            // Help Cells
+            if (help.length > 0) {
+                buttons.push(
+                    <button
+                        key="help"
+                        className="modal-btn"
+                        onClick={this.toggleHelpModal}
+                    >
+                        <i className="material-icons">help_outline</i>
+                    </button>
+                );
+
+                let helpCells = [];
+                help.forEach((cell, i) => {
+                    helpCells.push(<NBCell key={i} {...cell} />);
+                });
+
+                helpModal = (
+                    <Modal
+                        title={`${header} - Help`}
+                        onCloseClick={this.toggleHelpModal}
+                    >
+                        {helpCells}
+                    </Modal>
+                );
+            }
+
+            headerHtml = (
+                <div className="card-header d-flex justify-content-between align-items-baseline">
+                    <h6>{!this.props.insideTabs ? header : null}</h6>
+                    {buttons.length > 0 ? <div>{buttons}</div> : null}
+                </div>
+            );
         }
 
         let bodyComponents = [];
@@ -98,12 +156,12 @@ class Card extends React.Component {
                 </div>
 
                 {footerComponents}
-                {this.state.showModal ? modal : null}
+                {this.state.showSourceModal ? sourceModal : null}
+                {this.state.showHelpModal ? helpModal : null}
             </div>
         );
     }
-
-    toggleModal = () => this.setState({ showModal: !this.state.showModal });
 }
+Card.contextType = DashboardContext;
 
 export default Card;

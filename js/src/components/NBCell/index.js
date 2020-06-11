@@ -15,13 +15,16 @@ import "./style.scss";
 
 class NBCell extends React.Component {
     render() {
-        const { cell_type } = this.props;
+        const { cell_type, outputs } = this.props;
 
         let childs;
         if (cell_type == "markdown") {
             childs = <Media.Markdown data={this.props.source} />;
         } else if (cell_type == "code") {
-            childs = this.props.outputs.map((output, i) => {
+            if (!outputs) {
+                return null;
+            }
+            childs = outputs.map((output, i) => {
                 const { output_type } = output;
 
                 if (output_type == "stream") {

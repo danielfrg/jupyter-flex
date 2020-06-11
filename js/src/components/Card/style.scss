@@ -1,5 +1,11 @@
 @import "../variables.scss";
 
+.source-cells {
+    .source-cell {
+        margin: 0;
+    }
+}
+
 .card {
     // width: 0;
     // max-width: 100%;

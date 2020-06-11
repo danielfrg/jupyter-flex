@@ -53,7 +53,7 @@ class Dashboard extends React.Component {
                     <NavBar
                         title={this.props.title}
                         author={this.props.author}
-                        sourceCode={this.props.sourceCode}
+                        sourceCodeLink={this.props.sourceCodeLink}
                         kernelName={this.props.kernelName}
                         pages={this.props.pages}
                     />
