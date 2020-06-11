@@ -63,8 +63,6 @@ export default class WidgetManager extends HTMLManager {
         }
         for (let stateTag of stateTags) {
             const widgetState = JSON.parse(stateTag.innerHTML);
-            // console.log("Init state");
-            // console.log(widgetState);
             await this.set_state(widgetState);
         }
     }
@@ -77,7 +75,6 @@ export default class WidgetManager extends HTMLManager {
             `script[type="${WIDGET_ONCHANGE_MIMETYPE}"]`
         );
         if (onChangeTags.length == 0) {
-            console.log("Jupyter-flex: Didn't find widget onchange state");
             return;
         }
         for (let tag of onChangeTags) {
@@ -91,14 +88,10 @@ export default class WidgetManager extends HTMLManager {
                 this.onChangeState.onchange
             )) {
                 if (obj.affected_by.includes(controlId)) {
-                    // console.log(`${controlId} + ${outputId}: ${obj}`);
                     this.widgetAffects[controlId].push(outputId);
                 }
             }
         });
-
-        // console.log("WidgetAffects");
-        // console.log(this.widgetAffects);
     }
 
     /*
@@ -168,16 +161,11 @@ export default class WidgetManager extends HTMLManager {
             let controlValues = [];
             for (let controlId of outputAffectedBy) {
                 const inputModel = state["state"][controlId]["state"];
-                // console.log("Input ID:");
-                // console.log(controlId);
                 const key = this.getWidgetValueKey(inputModel["_model_name"]);
                 let inputValue = inputModel[key];
-                // console.log("Input/index Value:");
-                // console.log(inputValue);
 
                 if (inputValue !== undefined) {
                     if (inputValue instanceof Array) {
-                        // IntRangeSlider
                         controlValues.push(`[${inputValue.toString()}]`);
                     } else {
                         controlValues.push(inputValue);
@@ -187,13 +175,9 @@ export default class WidgetManager extends HTMLManager {
 
             // 2. Make hash based on the controlValues
             let hash = this.hash_fn(controlValues);
-            // console.log("Hash:");
-            // console.log(hash);
 
             // 3. Update affected widgets
             const outputValue = outputOnChangeData["values"][hash];
-            // console.log("Output value");
-            // console.log(outputValue);
             if (outputValue !== undefined) {
                 const key = this.getWidgetValueKey(outputModel["_model_name"]);
                 state["state"][outputId]["state"][key] = outputValue;
@@ -215,7 +199,6 @@ export default class WidgetManager extends HTMLManager {
                 if (outputModel["_model_name"] == "OuptuModel") {
                     this.renderWidget(outputId);
                 }
-                // this.display_models("OutputModel");
             }
         });
     }
@@ -238,8 +221,6 @@ export default class WidgetManager extends HTMLManager {
                 quotes.push(true);
             }
         }
-        // console.log("quotes:");
-        // console.log(quotes);
 
         var results = Papa.unparse([inputs], {
             quotes: quotes,

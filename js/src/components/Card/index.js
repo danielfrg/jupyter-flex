@@ -31,7 +31,6 @@ class Card extends React.Component {
     }
 
     toggleSourceModal = () => {
-        console.log("toogleSource");
         this.setState({ showSourceModal: !this.state.showSourceModal });
     };
 
