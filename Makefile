@@ -28,9 +28,9 @@ download-assets:  ## Download .css/.js assets
 	@curl -o share/jupyter/voila/templates/flex/static/dist/bootstrap-4.5.0.min.css https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css
 	@curl -o share/jupyter/voila/templates/flex/static/dist/bootstrap.min.css.map https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css.map
 	@curl -o share/jupyter/voila/templates/flex/static/dist/require-2.3.6.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
-	@curl -o share/jupyter/voila/templates/flex/static/dist/embed-amd-0.19.0.js https://unpkg.com/@jupyter-widgets/html-manager@0.19.0/dist/embed-amd.js
 	# We need to include qgrid because of: https://github.com/quantopian/qgrid/pull/325
-	@curl -o share/jupyter/voila/templates/flex/static/dist/qgrid.js https://unpkg.com/qgrid2@1.1.3/dist/index.js
+	# We also put it directly on static so its requireJS can find it
+	@curl -o share/jupyter/voila/templates/flex/static/qgrid.js https://unpkg.com/qgrid2@1.1.3/dist/index.js
 
 
 # ------------------------------------------------------------------------------
