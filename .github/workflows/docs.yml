@@ -7,11 +7,10 @@ on:
 
 jobs:
   docs:
-    runs-on: ubuntu-latest
-
-    container:
-      image: python:3.7.6
-      options: --network-alias testhost
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.8]
 
     steps:
       - uses: actions/checkout@v2
@@ -20,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
-          python-version: 3.7
+          python-version: ${{ matrix.python }}
 
       - name: Setup node
         uses: actions/setup-node@v2-beta
