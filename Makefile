@@ -45,10 +45,11 @@ env:  ## Create virtualenv
 
 
 extensions:
-	jupyter nbextension enable --py --sys-prefix widgetsnbextension
-	jupyter nbextension enable --py --sys-prefix ipyleaflet
+	# jupyter nbextension enable --py --sys-prefix widgetsnbextension
+	# jupyter nbextension enable --py --sys-prefix ipyleaflet
+	# jupyter nbextension enable --py --sys-prefix qgrid
 	jupyter labextension install @jupyter-widgets/jupyterlab-manager jupyter-leaflet
-	jupyter nbextension enable --py --sys-prefix qgrid
+	jupyter labextension install @jupyter-voila/jupyterlab-preview
 
 
 develop:  ## Install package for development
