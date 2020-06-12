@@ -22,69 +22,68 @@ first: help
 build: download-assets npm-build python-build  ## Build assets and Python package
 
 download-assets:  ## Download .css/.js assets
-	@curl -o share/jupyter/voila/templates/flex/static/dist/jquery-3.5.1.slim.min.js https://code.jquery.com/jquery-3.5.1.slim.min.js
-	@curl -o share/jupyter/voila/templates/flex/static/dist/bootstrap-4.5.0.min.js https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js
-	@curl -o share/jupyter/voila/templates/flex/static/dist/bootstrap.min.js.map https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js.map
-	@curl -o share/jupyter/voila/templates/flex/static/dist/bootstrap-4.5.0.min.css https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css
-	@curl -o share/jupyter/voila/templates/flex/static/dist/bootstrap.min.css.map https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css.map
-	@curl -o share/jupyter/voila/templates/flex/static/dist/require-2.3.6.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
+	curl -o python/share/jupyter/voila/templates/flex/static/dist/jquery-3.5.1.slim.min.js https://code.jquery.com/jquery-3.5.1.slim.min.js
+	curl -o python/share/jupyter/voila/templates/flex/static/dist/bootstrap-4.5.0.min.js https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js
+	curl -o python/share/jupyter/voila/templates/flex/static/dist/bootstrap.min.js.map https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js.map
+	curl -o python/share/jupyter/voila/templates/flex/static/dist/bootstrap-4.5.0.min.css https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css
+	curl -o python/share/jupyter/voila/templates/flex/static/dist/bootstrap.min.css.map https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css.map
+	curl -o python/share/jupyter/voila/templates/flex/static/dist/require-2.3.6.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
 	# We need to include qgrid because of: https://github.com/quantopian/qgrid/pull/325
 	# We also put it directly on static so its requireJS can find it
-	@curl -o share/jupyter/voila/templates/flex/static/qgrid.js https://unpkg.com/qgrid2@1.1.3/dist/index.js
+	curl -o python/share/jupyter/voila/templates/flex/static/qgrid.js https://unpkg.com/qgrid2@1.1.3/dist/index.js
 
 
 # ------------------------------------------------------------------------------
 # Python
 
 python-build:  ## Build Python package (sdist)
-	python setup.py sdist
+	cd python; python setup.py sdist
 
 
 env:  ## Create virtualenv
-	conda env create
-
-
-extensions:
-	# jupyter nbextension enable --py --sys-prefix widgetsnbextension
-	# jupyter nbextension enable --py --sys-prefix ipyleaflet
-	# jupyter nbextension enable --py --sys-prefix qgrid
-	jupyter labextension install @jupyter-widgets/jupyterlab-manager jupyter-leaflet
-	jupyter labextension install @jupyter-voila/jupyterlab-preview
+	cd python; conda env create
 
 
 develop:  ## Install package for development
-	python -m pip install --no-build-isolation -e .
+	cd python; python -m pip install --no-build-isolation -e .
+
+
+extensions:
+	# cd python; jupyter nbextension enable --py --sys-prefix widgetsnbextension
+	# cd python; jupyter nbextension enable --py --sys-prefix ipyleaflet
+	# cd python; jupyter nbextension enable --py --sys-prefix qgrid
+	cd python; jupyter labextension install @jupyter-widgets/jupyterlab-manager jupyter-leaflet
+	cd python; jupyter labextension install @jupyter-voila/jupyterlab-preview
 
 
 check:  ## Check linting
-	@flake8
-	# @isort --check-only --diff --recursive --project jupyter_flex --section-default THIRDPARTY .
-	@black --check .
+	cd python; flake8
+	cd python; isort --check-only --diff --recursive --project jupyter_flex --section-default THIRDPARTY .
+	cd python; black --check .
 
 
 fmt:  ## Format source
-	@isort --recursive --project jupyter-flex --section-default THIRDPARTY .
-	@black .
+	cd python; isort --recursive --project jupyter-flex --section-default THIRDPARTY .
+	cd python; black .
 
 
 upload-pypi:  ## Upload package to PyPI
-	twine upload dist/*.tar.gz
+	cd python; twine upload dist/*.tar.gz
 
 
 .PHONY: upload-test
 upload-test:  ## Upload package to test PyPI
-	twine upload --repository test dist/*.tar.gz
+	cd python; twine upload --repository test dist/*.tar.gz
 
 
 cleanpython:  ## Clean Python build files
-	@rm -rf build dist site htmlcov .pytest_cache .eggs
-	@rm -f .coverage coverage.xml jupyter_flex/_generated_version.py
-	@find . -type f -name '*.py[co]' -delete
-	@find . -type d -name __pycache__ -exec rm -rf {} +
-	@find . -type d -name .ipynb_checkpoints -exec rm -rf {} +
-	@rm -rf docs/examples test-results
-	@rm -f examples/*.html examples/**/*.html
-	@rm -f jupyter_flex/nbconvert_templates/*.js jupyter_flex/nbconvert_templates/*.css
+	cd python; rm -rf build dist htmlcov .pytest_cache test-results .eggs
+	cd python; rm -f .coverage coverage.xml jupyter_flex/_generated_version.py
+	cd python; find . -type f -name '*.py[co]' -delete
+	cd python; find . -type d -name __pycache__ -exec rm -rf {} +
+	cd python; find . -type d -name .ipynb_checkpoints -exec rm -rf {} +
+	rm -rf site docs/examples
+	rm -f examples/*.html examples/**/*.html
 
 
 # ------------------------------------------------------------------------------
@@ -103,16 +102,16 @@ npm-install:  ## Install JS dependencies
 
 
 cleanjs:  ## Clean JS build files
-	rm -rf share/jupyter/voila/templates/flex/static/dist/*.js
-	rm -rf share/jupyter/voila/templates/flex/static/dist/*.js.map
-	rm -rf share/jupyter/voila/templates/flex/static/dist/*.css
-	rm -rf share/jupyter/voila/templates/flex/static/dist/*.css.map
-	rm -rf share/jupyter/voila/templates/flex/static/dist/*.html
-	rm -rf share/jupyter/voila/templates/flex/static/dist/*.woff
-	rm -rf share/jupyter/voila/templates/flex/static/dist/*.woff2
-	rm -rf share/jupyter/voila/templates/flex/static/dist/*.eot
-	rm -rf share/jupyter/voila/templates/flex/static/dist/*.ttf
-	rm -rf share/jupyter/voila/templates/flex/static/dist/*.svg
+	rm -rf python/share/jupyter/voila/templates/flex/static/dist/*.js
+	rm -rf python/share/jupyter/voila/templates/flex/static/dist/*.js.map
+	rm -rf python/share/jupyter/voila/templates/flex/static/dist/*.css
+	rm -rf python/share/jupyter/voila/templates/flex/static/dist/*.css.map
+	rm -rf python/share/jupyter/voila/templates/flex/static/dist/*.html
+	rm -rf python/share/jupyter/voila/templates/flex/static/dist/*.woff
+	rm -rf python/share/jupyter/voila/templates/flex/static/dist/*.woff2
+	rm -rf python/share/jupyter/voila/templates/flex/static/dist/*.eot
+	rm -rf python/share/jupyter/voila/templates/flex/static/dist/*.ttf
+	rm -rf python/share/jupyter/voila/templates/flex/static/dist/*.svg
 	cd js/; rm -rf .cache dist lib
 
 
@@ -148,8 +147,8 @@ test-baselines:  ## Create test baselines
 
 
 report:  ## Generate coverage reports
-	@coverage xml
-	@coverage html
+	coverage xml
+	coverage html
 
 
 # ------------------------------------------------------------------------------
@@ -161,16 +160,16 @@ docs: docs-examples  ## mkdocs build
 
 
 docs-nbs:  ## Convert notebooks inside docs
-	@cd $(CURDIR)/docs && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/docs && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True
 
 
 docs-examples:  ## Run nbconvert on the examples
-	@cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb --to=flex --output-dir=../docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	@cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb --to=flex --output-dir=../docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	@cd $(CURDIR)/examples && jupyter-nbconvert getting-started/*.ipynb --to=flex --output-dir=../docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	@cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb --to=flex --output-dir=../docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	@cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb --to=flex --output-dir=../docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	@cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb --to=flex --output-dir=../docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb --to=flex --output-dir=../docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb --to=flex --output-dir=../docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert getting-started/*.ipynb --to=flex --output-dir=../docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb --to=flex --output-dir=../docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb --to=flex --output-dir=../docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb --to=flex --output-dir=../docs/examples --execute --ExecutePreprocessor.store_widget_state=True
 
 
 serve-docs:  ## Serve docs
@@ -181,8 +180,8 @@ serve-docs:  ## Serve docs
 # Other
 
 cleanall: cleanpython cleanjs  ## Clean everything
-	@rm -rf *.egg-info
-	@cd js/; rm -rf node_modules
+	rm -rf *.egg-info
+	cd js/; rm -rf node_modules
 
 
 help:  ## Show this help menu

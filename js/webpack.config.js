@@ -63,6 +63,7 @@ var rules = [
 var distRoot = path.resolve(
     __dirname,
     "..",
+    "python",
     "share",
     "jupyter",
     "voila",

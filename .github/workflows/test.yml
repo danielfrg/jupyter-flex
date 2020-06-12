@@ -55,6 +55,7 @@ jobs:
 
       - name: Install Python dependencies
         run: |
+          cd python
           python -m pip install --upgrade pip
           pip install -U -r requirements.txt
           pip freeze
@@ -76,6 +77,7 @@ jobs:
       - name: Install package
         run: |
           make build
+          cd python
           pip install dist/*.tar.gz
           pip freeze
 

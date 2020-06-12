@@ -2,7 +2,8 @@
 requires = ["setuptools>=42", "setuptools_scm[toml]>=3.4", "wheel"]
 
 [tool.setuptools_scm]
-write_to = "jupyter_flex/_generated_version.py"
+root = "../"
+write_to = "python/jupyter_flex/_generated_version.py"
 
 [tool.coverage.run]
 parallel = true
