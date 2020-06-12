@@ -5,13 +5,13 @@ import sys
 import jinja2
 from nbconvert.exporters.html import HTMLExporter
 
+from .utils import DEV_MODE
+
+
 try:
     from illusionist.preprocessor import IllusionistPreprocessor
 except ImportError:
     IllusionistPreprocessor = None
-
-
-from .utils import DEV_MODE
 
 
 @jinja2.contextfunction
