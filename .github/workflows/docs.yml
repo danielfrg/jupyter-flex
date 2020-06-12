@@ -40,9 +40,9 @@ jobs:
       - name: Install package
         run: |
           make build
-          cd python
-          pip install dist/*.tar.gz
-          pip freeze
+          # cd python
+          # pip install dist/*.tar.gz
+          # pip freeze
 
       - name: Build docs
         run: |
