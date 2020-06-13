@@ -74,12 +74,19 @@ jobs:
           # Download Bokeh sample data
           bokeh sampledata
 
-      - name: Install package
+      - name: Build package
         run: |
           make build
+
+      - name: Install package
+        run: |
           cd python
           pip install dist/*.tar.gz
           pip freeze
+
+      - name: Check linting
+        run: |
+          make check
 
       - name: Serve Voila
         run: |
@@ -89,10 +96,6 @@ jobs:
         run: |
           # ls /__t/Python/3.7.7/x64/share/jupyter/voila/templates
           curl http://localhost:8866/
-
-      - name: Check linting
-        run: |
-          make check
 
       - name: Run tests
         if: always()
