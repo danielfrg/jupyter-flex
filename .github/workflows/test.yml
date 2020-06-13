@@ -106,7 +106,7 @@ jobs:
       - name: Codecov
         uses: codecov/codecov-action@v1
         with:
-          file: ./coverage.xml
+          file: ./python/coverage.xml
           fail_ci_if_error: true
 
       - name: Upload restuls
