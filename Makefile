@@ -57,7 +57,6 @@ extensions:
 
 
 check:  ## Check linting
-	cat $(CURDIR)/python/jupyter_flex/_generated_version.py
 	cd $(CURDIR)/python; flake8
 	cd $(CURDIR)/python; isort --check-only --diff --recursive --project jupyter_flex --section-default THIRDPARTY .
 	cd $(CURDIR)/python; black --check .

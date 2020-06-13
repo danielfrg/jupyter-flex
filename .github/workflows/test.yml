@@ -86,7 +86,7 @@ jobs:
 
       - name: Check linting
         run: |
-          make check
+          # make check
 
       - name: Serve Voila
         run: |
