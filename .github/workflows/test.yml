@@ -55,6 +55,7 @@ jobs:
 
       - name: Install Python dependencies
         run: |
+          cd python
           python -m pip install --upgrade pip
           pip install -U -r requirements.txt
           pip freeze
@@ -73,11 +74,19 @@ jobs:
           # Download Bokeh sample data
           bokeh sampledata
 
-      - name: Install package
+      - name: Build package
         run: |
           make build
+
+      - name: Install package
+        run: |
+          cd python
           pip install dist/*.tar.gz
           pip freeze
+
+      - name: Check linting
+        run: |
+          # make check
 
       - name: Serve Voila
         run: |
@@ -88,10 +97,6 @@ jobs:
           # ls /__t/Python/3.7.7/x64/share/jupyter/voila/templates
           curl http://localhost:8866/
 
-      - name: Check linting
-        run: |
-          make check
-
       - name: Run tests
         if: always()
         run: |
@@ -101,7 +106,7 @@ jobs:
       - name: Codecov
         uses: codecov/codecov-action@v1
         with:
-          file: ./coverage.xml
+          file: python/coverage.xml
           fail_ci_if_error: true
 
       - name: Upload restuls
@@ -109,4 +114,4 @@ jobs:
         if: always()
         with:
           name: test-results
-          path: test-results
+          path: python/test-results

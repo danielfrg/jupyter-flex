@@ -71,7 +71,7 @@ class DevelopCmd(develop):
 setup(
     name="jupyter-flex",
     use_scm_version={
-        "root": setup_dir,
+        "root": os.path.dirname(setup_dir),
         "parse": parse_git,
         "write_to": os.path.join(
             scm_version_write_to_prefix, "jupyter_flex/_generated_version.py"
