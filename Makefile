@@ -57,9 +57,9 @@ extensions:
 
 
 check:  ## Check linting
-	cd python; flake8
-	cd python; isort --check-only --diff --recursive --project jupyter_flex --section-default THIRDPARTY .
-	cd python; black --check .
+	cd $(CURDIR)/python; flake8
+	cd $(CURDIR)/python; isort --check-only --diff --recursive --project jupyter_flex --section-default THIRDPARTY .
+	cd $(CURDIR)/python; black --check .
 
 
 fmt:  ## Format source
@@ -127,28 +127,28 @@ voila-examples:  ## Serve examples using voila
 
 
 test:  ## Run tests
-	mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
-	pytest --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
+	cd python; mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
+	cd python; pytest --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
 		-k $(PYTEST_K) -m $(TEST_MARKERS) --html=test-results/report.html --self-contained-html
 
 
 test-all:  ## Run all tests
-	mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
-	pytest --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
+	cd python; mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
+	cd python; pytest --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
 		-k $(PYTEST_K) --html=test-results/report.html --self-contained-html
 
 
 test-baselines:  ## Create test baselines
-	pytest --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
+	cd python; pytest --driver Remote --headless --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-save-baseline --needle-baseline-dir docs/assets/img/screenshots \
 		-k $(PYTEST_K)
 
 
 report:  ## Generate coverage reports
-	coverage xml
-	coverage html
+	cd python; coverage xml
+	cd python; coverage html
 
 
 # ------------------------------------------------------------------------------
