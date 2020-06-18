@@ -1,6 +1,9 @@
 # Jupyter-flex Change Log
 
-## [Unreleased]
+## [0.6.1]
+- Fix include_source behaviour to be the same in Voila and nbconvert
+
+## [0.6.0]
 
 - Moved all Frontend code from the gigantic monster Jinja to React!
 - Replaced `chart` and `text` tags with `body`, tagss reflects better location instead of type
