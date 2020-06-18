@@ -5,7 +5,7 @@
 [![Coverage Status](https://codecov.io/gh/danielfrg/jupyter-flex/branch/master/graph/badge.svg)](https://codecov.io/gh/danielfrg/jupyter-flex?branch=master)
 [![License](http://img.shields.io/:license-Apache%202-blue.svg)](https://github.com/danielfrg/jupyter-flex/blob/master/LICENSE.txt)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.0)
-[![Testing](https://github.com/danielfrg/jupyter-flex/workflows/docs/badge.svg)](https://jupyter-flex.extrapolations.dev/)
+[![Docs](https://github.com/danielfrg/jupyter-flex/workflows/docs/badge.svg)](https://jupyter-flex.extrapolations.dev/)
 
 Use Jupyter Notebooks to quickly create interactive dashboards.
 

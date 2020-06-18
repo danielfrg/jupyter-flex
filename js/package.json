@@ -1,9 +1,13 @@
 {
-    "name": "jupyter-flex",
+    "name": "@danielfrg/jupyter-flex",
     "version": "1.0.0",
     "description": "Build interactive dashboards using Jupyter Notebooks",
     "author": "Daniel Rodriguez",
     "license": "Apache-2.0",
+    "homepage": "https://github.com/danielfrg/jupyter-flex",
+    "bugs": {
+        "url": "https://github.com/danielfrg/jupyter-flex/issues"
+    },
     "repository": {
         "type": "git",
         "url": "https://github.com/danielfrg/jupyter-flex/js"

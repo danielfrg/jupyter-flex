@@ -20,7 +20,7 @@ conda activate jupyter-flex
 make develop
 ```
 
-JS/React:
+JS:
 
 ```
 # Install deps

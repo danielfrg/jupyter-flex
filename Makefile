@@ -48,7 +48,7 @@ develop:  ## Install package for development
 	cd $(CURDIR)/python; python -m pip install --no-build-isolation -e .
 
 
-extensions:
+extensions:  ## Install Jupyter extensions
 	# cd $(CURDIR)/python; jupyter nbextension enable --py --sys-prefix widgetsnbextension
 	# cd $(CURDIR)/python; jupyter nbextension enable --py --sys-prefix ipyleaflet
 	# cd $(CURDIR)/python; jupyter nbextension enable --py --sys-prefix qgrid
@@ -92,12 +92,12 @@ npm-build:  ## Build JS
 	cd $(CURDIR)/js/; npm run build
 
 
-npm-dev:  ## Build JS with watch
-	cd $(CURDIR)/js/; npm run dev
-
-
 npm-install:  ## Install JS dependencies
 	cd $(CURDIR)/js/; npm install
+
+
+npm-dev:  ## Build JS with watch
+	cd $(CURDIR)/js/; npm run dev
 
 
 cleanjs:  ## Clean JS build files
