@@ -1,6 +1,5 @@
 {%- extends "base.tpl" -%}
 {% import "flex.j2" as flex with context %}
-
 {%- block header -%}
 <html>
 <head>
@@ -31,7 +30,6 @@
 
 {%- block body %}
 <body>
-
 {%- block body_header %}
     <div id="voila_body_loop">
         <div id="executing">
