@@ -29,6 +29,12 @@
     {%- endif -%}
 {%- endfor -%}
 
+{%- set _ = props.update({"include_source": props.include_source == "True"}) -%}
+
+{%- macro get_props() -%}
+{{ props }}
+{%- endmacro -%}
+
 {%- macro get_title() -%}
 {{ props.get("title", "Jupyter-flex dashboard") }}
 {%- endmacro -%}
@@ -83,9 +89,6 @@
     {%- for cell in nb.cells -%}
         {%- set cell_type = cell["cell_type"] -%}
         {%- set cell_source = cell["source"] -%}
-        {%- if not props.include_source -%}
-            {%- set _ = cell.pop("source") -%}
-        {%- endif -%}
         {%- set cell_tags = cell.get("metadata", {}).get("tags", []) -%}
 
         {%- if cell_type == "markdown" -%}
@@ -191,6 +194,11 @@
             {%- endif -%}
 
         {%- elif cell_type == "code" -%}
+            {# Remove source #}
+            {%- if not props.include_source -%}
+                {%- set _ = cell.pop("source") -%}
+            {%- endif -%}
+
             {%- set is_meta = find_item_startswith(cell_tags, "meta") -%}
             {%- set is_body = find_item_startswith(cell_tags, "body") -%}
             {%- set is_source = find_item_startswith(cell_tags, "source") -%}
