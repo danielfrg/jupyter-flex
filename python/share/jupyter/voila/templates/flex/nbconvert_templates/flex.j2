@@ -39,6 +39,10 @@
 {{ props.get("title", "Jupyter-flex dashboard") }}
 {%- endmacro -%}
 
+{%- macro get_favicon() -%}
+{{ props.get("favicon", "") }}
+{%- endmacro -%}
+
 {%- macro get_custom_css() -%}
 {{ props.get("custom_css", "") }}
 {%- endmacro -%}

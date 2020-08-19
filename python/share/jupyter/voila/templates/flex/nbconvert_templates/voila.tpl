@@ -10,12 +10,18 @@
     {%- block html_head_title %}
     <title>{{ flex.get_title() }}</title>
     {%- endblock html_head_title %}
+
+    {%- set custom_favicon = flex.get_favicon() -%}
+    {%- if custom_favicon | trim | length %}
+    <link rel="shortcut icon" type="image/ico" href="{{ resources.base_url }}voila/files/{{ custom_favicon }}" />
+    {%- else %}
     <link rel="shortcut icon" type="image/ico" href="{{ resources.base_url }}voila/static/favicon.png" />
+    {%- endif %}
 
     {%- block html_head_css %}
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ resources.base_url }}voila/static/dist/bootstrap-4.5.0.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ resources.base_url }}voila/static/dist/bootstrap-4.5.2.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link href="{{ resources.base_url }}voila/static/dist/FlexRenderer.css" rel="stylesheet">
     {%- endblock html_head_css %}
 
@@ -94,7 +100,7 @@
     <div id="flex-root">
         <div class="container-fluid d-flex flex-row loading">
             <div class="text-center">
-                <p id="flex-loading-text">... loading ...</p>
+                <p id="flex-loading-text">... building dashboard ...</p>
             </div>
         </div>
     </div>
@@ -122,7 +128,7 @@
 
     {%- block footer_js -%}
     <script src="{{ resources.base_url }}voila/static/dist/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="{{ resources.base_url }}voila/static/dist/bootstrap-4.5.0.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="{{ resources.base_url }}voila/static/dist/bootstrap-4.5.2.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <script src="{{ resources.base_url }}voila/static/dist/require-2.3.6.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>
     <script>
         requirejs.config({ baseUrl: '{{resources.base_url}}voila/static/', waitSeconds: 30})

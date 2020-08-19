@@ -1,6 +1,6 @@
 # Development
 
-Setting up development for quick iteration
+Setting up development environment:
 
 Python:
 
@@ -29,7 +29,7 @@ make npm-install
 
 ## Iteration cycle
 
-Start webpack in watch mode, this will also place the build files in the voila
+Start webpack in watch mode, this will also place the built files in the voila
 static directory.
 
 ```

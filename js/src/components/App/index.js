@@ -115,20 +115,30 @@ class App extends React.Component {
     }
 
     render() {
-        let metaCells = [];
-        this.state.dashboard.meta.forEach((cell, i) => {
-            // TODO uncomment this!! when I am done
-            metaCells.push(<NBCell key={i} {...cell} />);
-        });
-
         const {
             title,
+            logo,
             author,
             kernel_name,
             source_link,
             include_source,
         } = this.state.dashboard.props;
+
         let { vertical_layout, orientation } = this.state.dashboard.props;
+
+        let metaCells = [];
+        this.state.dashboard.meta.forEach((cell, i) => {
+            metaCells.push(<NBCell key={i} {...cell} />);
+        });
+
+        let logoURL = "";
+        if (logo) {
+            if (this.appMode == "voila") {
+                logoURL = `/voila/files/${logo}`;
+            } else if (this.appMode == "nbconvert") {
+                logoURL = `${logo}`;
+            }
+        }
 
         // Default is if missing vertical_layout=fill
         vertical_layout = vertical_layout ? vertical_layout : "fill";
@@ -149,6 +159,7 @@ class App extends React.Component {
                 <div style={{ display: "none" }}>{metaCells}</div>
                 <Dashboard
                     title={title}
+                    logo={logoURL}
                     author={author}
                     kernelName={kernel_name}
                     sourceCodeLink={source_link}

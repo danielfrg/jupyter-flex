@@ -9,7 +9,12 @@ class NavBar extends React.Component {
     componentDidMount() {}
 
     render() {
-        const { title, author, sourceCodeLink, pages } = this.props;
+        const { title, logo, author, sourceCodeLink, pages } = this.props;
+
+        let logoEl = "";
+        if (logo) {
+            logoEl = <img alt="logo" className="logo" src={logo}></img>;
+        }
 
         let togglerButton = (
             <button
@@ -78,7 +83,10 @@ class NavBar extends React.Component {
             <header>
                 <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                     <div className="container-fluid">
-                        <span className="navbar-brand">{title}</span>
+                        <span className="navbar-brand">
+                            {logoEl}
+                            {title}
+                        </span>
                         {pagesHtml.length > 1 || sourceCodeLink || author
                             ? togglerButton
                             : null}
