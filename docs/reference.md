@@ -43,6 +43,7 @@ To change the dashboard parameters tag one code cell with the `parameters`.
 | `body` | Show the output of this cell on the current section as a card |
 | `footer` | Show the output of this cell on the current card footer, should go in a cell after a `body` tag |
 | `sidebar` | Show the output of this cell as a sidebar for the current page, usually used with ipywidgets |
+| `source` | Add this cell as part of the source code for the card |
 | `meta` | Render the values of this cell on the html but hidden, useful for adding CSS and JS |
 | `orientation={value}` | Overwrite the default orientation for the page (level-1 header) and section (level-2 header) |
 | `size={value}` | Proportion size of the current section or chart with respect to its sibilings, default: `500` |

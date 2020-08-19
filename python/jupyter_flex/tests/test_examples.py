@@ -135,6 +135,7 @@ def test_plots(needle, myselenium, base_url, nb_name):
         "ipywidgets-sidebar",
         "mpl-histogram",
         "qgrid",
+        "ipysheet",
     ],
 )
 def test_widgets(needle, myselenium, base_url, nb_name):

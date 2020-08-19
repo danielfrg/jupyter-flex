@@ -104,3 +104,7 @@ change underlying parameters and see the results immediately using
 
 !!! info
     Source for all examples can be found [on Github](https://github.com/danielfrg/jupyter-flex/tree/master/examples).
+
+## Some apps developed using Jupyter-flex
+
+-  Investment Flow Type Classification [[App](https://flow-classification.herokuapp.com/)] [[Source](https://github.com/unkletam/Investment_Flow_Type_Classification)]

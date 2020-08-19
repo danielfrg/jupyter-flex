@@ -2,13 +2,6 @@
 
 Setting up development for quick iteration
 
-Deps:
-
-```
-# Download third-party CSS/JS assets
-make download-assets
-```
-
 Python:
 
 ```
@@ -16,8 +9,15 @@ Python:
 make env
 conda activate jupyter-flex
 
-# Install package
+# Install package on dev mode
 make develop
+```
+
+Download assets (bootstrap and others):
+
+```
+# Download third-party CSS/JS assets
+make download-assets
 ```
 
 JS:
@@ -48,6 +48,9 @@ make voila-examples
 1. `make selenium`: Start Selenium in docker-compose
 2. `make voila-examples`: Start voila server locally
 3. `make test`: Run pytest locally agains Selenium
+
+Generate/update baselines: `make test-baselines` or
+for just one test: `make test-baselines PYTEST_K=ipysheet`
 
 ## Docs
 

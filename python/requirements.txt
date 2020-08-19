@@ -44,6 +44,7 @@ bqplot
 bokeh
 jupyter_bokeh
 qgrid
+ipysheet
 ipyleaflet
 pandas-datareader
 colorlover
