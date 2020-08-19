@@ -52,12 +52,12 @@ class Dashboard extends React.Component {
                 <div id="dashboard" className={this.props.verticalLayout}>
                     <NavBar
                         title={this.props.title}
+                        logo={this.props.logo}
                         author={this.props.author}
                         sourceCodeLink={this.props.sourceCodeLink}
                         kernelName={this.props.kernelName}
                         pages={this.props.pages}
                     />
-
                     <main
                         role="main"
                         className="container-fluid content-wrapper"

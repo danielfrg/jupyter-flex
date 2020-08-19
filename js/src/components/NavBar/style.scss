@@ -9,11 +9,14 @@
 
     .container-fluid {
         padding: 0.35rem 1rem;
-        background-color: $header-bg; // For mobile collapsible menu
+        background-color: inherit;
     }
 
     .logo {
-        margin-right: 0.5rem;
+        margin-right: 0.4rem;
+        margin-bottom: 3px;
+        max-width: 25px;
+        max-height: 25px;
     }
 
     .navbar-brand {
