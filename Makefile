@@ -179,6 +179,7 @@ serve-docs:  ## Serve docs
 # ------------------------------------------------------------------------------
 # Other
 
+reset: cleanall  ## Same as cleanall
 cleanall: cleanpython cleanjs  ## Clean everything
 	rm -rf *.egg-info
 	cd $(CURDIR)/js/; rm -rf node_modules

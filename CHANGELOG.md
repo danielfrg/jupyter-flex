@@ -1,5 +1,8 @@
 # Jupyter-flex Change Log
 
+## [0.6.2]
+- Added back the missing flex_logo and flex_favicon options
+
 ## [0.6.1]
 - Fix include_source behaviour to be the same in Voila and nbconvert
 
