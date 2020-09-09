@@ -107,4 +107,5 @@ change underlying parameters and see the results immediately using
 
 ## Some apps developed using Jupyter-flex
 
--  Investment Flow Type Classification [[App](https://flow-classification.herokuapp.com/)] [[Source](https://github.com/unkletam/Investment_Flow_Type_Classification)]
+-  Investment Flow Type Classification: [App](https://flow-classification.herokuapp.com/) - [Source](https://github.com/unkletam/Investment_Flow_Type_Classification)
+- John Hunter - Excellence in Plotting Context: [App](https://mybinder.org/v2/gh/sbonaretti/Hunter_viz_2020/master?urlpath=%2Fvoila%2Frender%2Fopen_literature_flex.ipynb) - [Source](https://github.com/sbonaretti/Hunter_viz_2020)
