@@ -134,7 +134,7 @@ class App extends React.Component {
         let logoURL = "";
         if (logo) {
             if (this.appMode == "voila") {
-                logoURL = `/voila/files/${logo}`;
+                logoURL = `${this.state.pageConfig.baseUrl}voila/files/${logo}`;
             } else if (this.appMode == "nbconvert") {
                 logoURL = `${logo}`;
             }

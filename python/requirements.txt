@@ -21,8 +21,8 @@ pymdown-extensions
 # This project pip deps
 notebook
 jupyterlab
-voila<0.2>=0.1.21
-nbconvert<6,>=5.5.0
+voila<0.3>=0.2.0
+nbconvert<7,>=6.0.0
 nbclient>=0.4.0
 ipywidgets
 libsass

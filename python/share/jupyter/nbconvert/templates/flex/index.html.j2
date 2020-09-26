@@ -1,4 +1,4 @@
-{% extends "basic.tpl" %}
+{% extends "lab/index.html.j2" %}
 {% import "flex.j2" as flex with context %}
 
 {%- block header -%}
@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {%- block html_head_title %}
-    <title>{{ flex.get_title() }}</title>
+    <title>{{ flex.get_title() }} </title>
     {%- endblock html_head_title %}
 
     {%- block html_head_css %}
@@ -19,13 +19,13 @@
     {%- if dev_mode %}
     <link rel="stylesheet" href="http://localhost:8866/voila/static/dist/FlexRenderer.css" />
     {%- else %}
-    <style>{{ include_file("static/dist/FlexRenderer.css") }}</style>
+    {{ resources.include_css("static/dist/FlexRenderer.css") }}
     {%- endif %}
     {%- endblock html_head_css %}
 
     {%- set custom_css = flex.get_custom_css() -%}
     {%- if custom_css | trim | length %}
-    <style>{{ include_external_file(custom_css) }}</style>
+    {{ resources.include_css(custom_css) }}
     {%- endif %}
 {%- endblock html_head %}
 </head>
@@ -69,10 +69,7 @@
     {%- if dev_mode %}
     <script src="http://localhost:8866/voila/static/dist/FlexRenderer.js"></script>
     {%- else %}
-    {# <script>{{ include_file("./static/dist/jquery-3.5.1.slim.min.js") }}</script> #}
-    {# <script>{{ include_file("./static/dist/bootstrap-4.5.2.min.js") }}</script> #}
-    {# <script>{{ include_file("./static/dist/require-2.3.6.min.js") }}</script> #}
-    <script>{{ include_file("./static/dist/FlexRenderer.js") }}</script>
+    {{ resources.include_js("./static/dist/FlexRenderer.js") }}
     {%- endif %}
 </body>
 {%- endblock body %}

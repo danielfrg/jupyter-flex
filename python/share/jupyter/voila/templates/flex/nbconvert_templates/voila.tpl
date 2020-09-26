@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {%- block html_head_title %}
-    <title>{{ flex.get_title() }}</title>
+    <title>{{ flex.get_title() }} lol2</title>
     {%- endblock html_head_title %}
 
     {%- set custom_favicon = flex.get_favicon() -%}
