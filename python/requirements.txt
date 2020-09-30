@@ -13,7 +13,7 @@ pytest-cov
 # Base pip deps: Docs
 mkdocs
 mkdocs-material
-mkdocs-jupyter
+mkdocs-jupyter>=0.14.0
 mkdocs-minify-plugin
 pygments
 pymdown-extensions
