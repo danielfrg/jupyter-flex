@@ -66,7 +66,7 @@ var distRoot = path.resolve(
     "python",
     "share",
     "jupyter",
-    "voila",
+    "nbconvert",
     "templates",
     "flex",
     "static",

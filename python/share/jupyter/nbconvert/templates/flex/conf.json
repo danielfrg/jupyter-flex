@@ -1,1 +1,6 @@
-{ "base_template": "lab" }
+{
+  "base_template": "lab",
+  "mimetypes": {
+    "text/html": true
+  }
+}

@@ -74,6 +74,11 @@
         flex: 1 1 auto; // This works for scroll
         overflow: auto;
         padding: 0.5rem 1.25rem;
+
+        .jupyter-widgets {
+            max-width: 99%;
+            margin: 0;
+        }
     }
 }
 
