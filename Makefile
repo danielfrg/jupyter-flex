@@ -112,6 +112,7 @@ cleanjs:  ## Clean JS build files
 	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.eot
 	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.ttf
 	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.svg
+	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/qgrid.js
 	cd $(CURDIR)/js/; rm -rf .cache dist lib
 
 
@@ -151,6 +152,10 @@ report:  ## Generate coverage reports
 	cd $(CURDIR)/python; coverage html
 
 
+convert-example:  ## Run nbconver on one example
+	cd $(CURDIR)/examples && jupyter-nbconvert demos/data-types.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
+
+
 # ------------------------------------------------------------------------------
 # Docs
 
@@ -166,6 +171,7 @@ docs-nbs:  ## Convert notebooks inside docs
 docs-examples:  ## Run nbconvert on the examples
 	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert demos/*.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
 	cd $(CURDIR)/examples && jupyter-nbconvert getting-started/*.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True

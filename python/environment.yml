@@ -29,15 +29,16 @@ dependencies:
       # This project pip deps
       - notebook
       - jupyterlab
-      - voila<0.2>=0.1.21
-      - nbconvert<6,>=5.5.0
+      - voila>=0.2.0,<0.3
+      - nbconvert>=6.0.0,<7
       - nbclient>=0.4.0
       - ipywidgets
       - libsass
       - pytest-html
+      - pytest-needle
       - pytest-base-url
       - pytest-selenium
-      - pytest-needle
+      - pytest-tornasync
 
       # This project pip deps: Examples
       - numpy
