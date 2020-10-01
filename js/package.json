@@ -17,7 +17,7 @@
     ],
     "main": "src/FlexRenderer.js",
     "dependencies": {
-        "@jupyter-widgets/html-manager": "^0.20.0-alpha.0",
+        "@danielfrg/illusionist": "^0.2.0",
         "@nteract/mathjax": "^4.0.9",
         "@nteract/outputs": "^3.0.9",
         "@nteract/presentational-components": "^3.3.14",

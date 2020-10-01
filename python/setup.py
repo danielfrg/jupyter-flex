@@ -39,7 +39,7 @@ def get_data_files():
 
 class DevelopCmd(develop):
     """The DevelopCmd will create symlinks for nbconvert and voila under:
-        sys.prefix/share/jupyter/
+    sys.prefix/share/jupyter/
     """
 
     prefix_targets = [
@@ -84,7 +84,12 @@ setup(
     package_data={"jupyter_flex": ["static/*"]},
     data_files=get_data_files(),
     cmdclass={"develop": DevelopCmd},
-    entry_points={"nbconvert.exporters": ["flex = jupyter_flex:FlexExporter"]},
+    entry_points={
+        "nbconvert.exporters": [
+            "flex = jupyter_flex:FlexExporter",
+            "flex-illusionist = jupyter_flex:FlexIllusionistExporter",
+        ]
+    },
     options={"bdist_wheel": {"universal": "1"}},
     python_requires=">=3.7",
     setup_requires=["setuptools_scm"],
@@ -111,7 +116,6 @@ setup(
     ],
     classifiers=[
         "License :: OSI Approved :: Apache Software License",
-
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
     ],

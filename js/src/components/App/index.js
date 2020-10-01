@@ -1,11 +1,12 @@
 import React from "react";
 
+import IllusionistWidgetManager from "@danielfrg/illusionist";
+
 import { requirePromise } from "../loader";
 import Dashboard from "../Dashboard";
 import NBCell from "../NBCell";
 import { Provider } from "../DashboardContext";
 
-import WidgetManager from "./WidgetManager";
 import "./style.scss";
 
 class App extends React.Component {
@@ -108,7 +109,7 @@ class App extends React.Component {
                 this.setState({ kernel: kernel, widgetManager: widgetManager });
             });
         } else if (this.appMode == "nbconvert") {
-            const widgetManager = new WidgetManager();
+            const widgetManager = new IllusionistWidgetManager();
             await widgetManager.loadState();
             this.setState({ widgetManager: widgetManager });
         }
