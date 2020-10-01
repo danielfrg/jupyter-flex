@@ -50,3 +50,4 @@ ipyleaflet
 pandas-datareader
 colorlover
 vega_datasets
+illusionist
