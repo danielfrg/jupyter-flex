@@ -105,12 +105,11 @@ p.code-header {
     background-color: rgba(219, 219, 219, 0.8);
     margin: 1em 0 -1.2em;
     padding: 0.1em 1em;
-    font-size: 0.9em;
+    font-size: 0.8em;
     font-family: "Roboto Mono", "Courier New", Courier, monospace;
 }
 
 pre {
-    /* Fix for jupyter */
     overflow: auto;
 }
 
@@ -120,16 +119,8 @@ pre .code-noselect {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    /* padding-right: 6px; */
 }
 
 .md-footer-meta {
     background: none;
-}
-
-p.img-footer {
-    margin-top: -20px !important;
-    text-align: center;
-    color: #444;
-    font-size: 15px;
 }
