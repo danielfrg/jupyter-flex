@@ -1,4 +1,4 @@
-@import "../variables.scss";
+@import "variables.scss";
 
 body {
     font-size: 0.9rem;
@@ -10,8 +10,7 @@ body {
 }
 
 // -----------------------------------------------------------------------------
-// These are used by Voila base pages
-// -----------------------------------------------------------------------------
+// These are for Voila pages (tree.html and so on)
 
 .loading {
     width: 100%;

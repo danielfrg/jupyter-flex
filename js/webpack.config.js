@@ -75,9 +75,9 @@ var distRoot = path.resolve(
 
 module.exports = [
     {
-        entry: [path.resolve(__dirname, "src", "FlexRenderer.js")],
+        entry: [path.resolve(__dirname, "src", "index.js")],
         output: {
-            filename: "FlexRenderer.js",
+            filename: "index.js",
             path: distRoot,
         },
         module: { rules: rules },
@@ -85,7 +85,22 @@ module.exports = [
         devtool: "source-map",
         plugins: [
             new MiniCssExtractPlugin({
-                filename: "FlexRenderer.css",
+                filename: "jupyter-flex.css",
+            }),
+        ],
+    },
+    {
+        entry: [path.resolve(__dirname, "src", "embed.js")],
+        output: {
+            filename: "embed.js",
+            path: distRoot,
+        },
+        module: { rules: rules },
+        mode: "development",
+        devtool: "source-map",
+        plugins: [
+            new MiniCssExtractPlugin({
+                filename: "jupyter-flex.css",
             }),
         ],
     },

@@ -22,8 +22,8 @@
     {%- block html_head_css %}
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    {{ resources.include_css("static/dist/bootstrap-4.5.2.min.css") }}
-    {{ resources.include_css("static/dist/FlexRenderer.css") }}
+    {{ resources.include_css("static/dist/bootstrap.min.css") }}
+    {{ resources.include_css("static/dist/jupyter-flex.css") }}
     {%- endblock html_head_css %}
 
     {%- set custom_css = flex.get_custom_css() -%}
@@ -128,15 +128,15 @@
     {%- endif %}
 
     {%- block footer_js -%}
-    {{ resources.include_js("static/dist/jquery-3.5.1.slim.min.js") }}
-    {{ resources.include_js("static/dist/bootstrap-4.5.2.min.js") }}
-    {{ resources.include_js("static/dist/require-2.3.6.min.js") }}
+    {{ resources.include_js("static/dist/jquery.slim.min.js") }}
+    {{ resources.include_js("static/dist/bootstrap.min.js") }}
+    {{ resources.include_js("static/dist/require.min.js") }}
 
     <script>
         requirejs.config({ baseUrl: '{{resources.base_url}}voila/static/', waitSeconds: 30})
     </script>
 
-    {{ resources.include_js("static/dist/FlexRenderer.js") }}
+    {{ resources.include_js("static/dist/embed.js") }}
 
     {%- endblock footer_js -%}
 </voila>

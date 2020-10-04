@@ -1,6 +1,6 @@
 {
     "name": "@danielfrg/jupyter-flex",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "description": "Build interactive dashboards using Jupyter Notebooks",
     "author": "Daniel Rodriguez",
     "license": "Apache-2.0",
@@ -69,6 +69,8 @@
         "test": "jest --silent",
         "test:coverage": "jest --coverage",
         "test:update": "jest -u",
-        "test:watch": "jest --watch"
+        "test:watch": "jest --watch",
+        "version": "npm version",
+        "publish": "npm publish --access public"
     }
 }

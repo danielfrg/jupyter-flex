@@ -22,14 +22,14 @@ first: help
 build: download-assets npm-build python-build  ## Build assets and Python package
 
 download-assets:  ## Download .css/.js assets
-	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/jquery-3.5.1.slim.min.js https://code.jquery.com/jquery-3.5.1.slim.min.js
-	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/bootstrap-4.5.2.min.js https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js
+	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/jquery.slim.min.js https://code.jquery.com/jquery-3.5.1.slim.min.js
+	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/bootstrap.min.js https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js
 	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/bootstrap.min.js.map https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js.map
-	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/bootstrap-4.5.2.min.css https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css
+	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/bootstrap.min.css https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css
 	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/bootstrap.min.css.map https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css.map
-	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/require-2.3.6.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
-	# We need to include qgrid because of: nbconvert://github.com/quantopian/qgrid/pull/325
-	# We also put it directly on static so nbconvertequireJS can find it
+	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/require.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
+	# We need to include qgrid because of: http://github.com/quantopian/qgrid/pull/325
+	# We need to put it directly on static so requireJS can find it
 	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/qgrid.js https://unpkg.com/qgrid2@1.1.3/dist/index.js
 
 
@@ -93,12 +93,18 @@ npm-build:  ## Build JS
 	cd $(CURDIR)/js/; npm run build
 
 
+npm-i: npm-install
 npm-install:  ## Install JS dependencies
 	cd $(CURDIR)/js/; npm install
 
 
 npm-dev:  ## Build JS with watch
 	cd $(CURDIR)/js/; npm run dev
+
+
+npm-publish:  ## Publish NPM
+	cd $(CURDIR)/js/; npm version
+	cd $(CURDIR)/js/; npm publish --access public
 
 
 cleanjs:  ## Clean JS build files

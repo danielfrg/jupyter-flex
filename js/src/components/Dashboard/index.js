@@ -9,21 +9,23 @@ import { slugify } from "../utils";
 import "./style.scss";
 
 class Dashboard extends React.Component {
-    state = {
-        title: "",
-        author: "",
-        kernelName: "",
-        verticalLayout: "",
-        orientation: "",
-        sourceCode: "",
-    };
-
     render() {
+        const {
+            verticalLayout,
+            orientation,
+            title,
+            logo,
+            author,
+            sourceCodeLink,
+            kernelName,
+            pages,
+        } = this.props;
+
         let sidebar;
         let routes = [];
 
-        if (this.props.pages.length > 0) {
-            this.props.pages.forEach((page) => {
+        if (pages.length > 0) {
+            pages.forEach((page) => {
                 if (page.tags && page.tags.includes("sidebar")) {
                     sidebar = <Sidebar {...page.sections[0]} />;
                 } else {
@@ -31,8 +33,8 @@ class Dashboard extends React.Component {
                     const pagePath = routes.length == 0 ? "/" : `/${pageSlug}`;
                     const el = (
                         <Page
-                            dashboardOrientation={this.props.orientation}
-                            dashboardverticalLayout={this.props.verticalLayout}
+                            dashboardOrientation={orientation}
+                            dashboardverticalLayout={verticalLayout}
                             {...page}
                         />
                     );
@@ -49,14 +51,14 @@ class Dashboard extends React.Component {
 
         return (
             <Router>
-                <div id="dashboard" className={this.props.verticalLayout}>
+                <div id="dashboard" className={verticalLayout}>
                     <NavBar
-                        title={this.props.title}
-                        logo={this.props.logo}
-                        author={this.props.author}
-                        sourceCodeLink={this.props.sourceCodeLink}
-                        kernelName={this.props.kernelName}
-                        pages={this.props.pages}
+                        title={title}
+                        logo={logo}
+                        author={author}
+                        sourceCodeLink={sourceCodeLink}
+                        kernelName={kernelName}
+                        pages={pages}
                     />
                     <main
                         role="main"

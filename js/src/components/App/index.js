@@ -2,34 +2,38 @@ import React from "react";
 
 import IllusionistWidgetManager from "@danielfrg/illusionist";
 
-import { requirePromise } from "../loader";
+import { requirePromise } from "../require-loader";
 import Dashboard from "../Dashboard";
 import NBCell from "../NBCell";
 import { Provider } from "../DashboardContext";
 
 import "./style.scss";
 
-class App extends React.Component {
+class JupyterFlexApp extends React.Component {
     appMode = "";
 
     constructor(props) {
         super(props);
 
-        // Load page config
-        const pageConfigScriptTag = document.body.querySelector(
-            `script[id="jupyter-config-data"]`
-        );
-        let pageConfig;
-        if (pageConfigScriptTag) {
-            pageConfig = JSON.parse(pageConfigScriptTag.innerHTML);
+        let { dashboard, pageConfig } = this.props;
+
+        // Load dashboard JSON from page (if not passed as a prop)
+        if (!dashboard) {
+            const dashboardScriptTag = document.body.querySelector(
+                `script[id="jupyter-flex-dashboard"]`
+            );
+            dashboard = JSON.parse(dashboardScriptTag.innerHTML);
         }
 
-        // Load dashboard json
-        const dashboardScriptTag = document.body.querySelector(
-            `script[id="jupyter-flex-dashboard"]`
-        );
-        let dashboard;
-        dashboard = JSON.parse(dashboardScriptTag.innerHTML);
+        // Load page config from page (if not passed as a prop)
+        if (!pageConfig) {
+            const pageConfigScriptTag = document.body.querySelector(
+                `script[id="jupyter-config-data"]`
+            );
+            if (pageConfigScriptTag) {
+                pageConfig = JSON.parse(pageConfigScriptTag.innerHTML);
+            }
+        }
 
         // Get defaults
         this.appMode =
@@ -173,4 +177,4 @@ class App extends React.Component {
     }
 }
 
-export default App;
+export default JupyterFlexApp;
