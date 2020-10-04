@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import App from "./components/App";
+import JupyterFlexApp from "./components/App";
 
-ReactDOM.render(<App />, document.getElementById("flex-root"));
+ReactDOM.render(<JupyterFlexApp />, document.getElementById("flex-root"));

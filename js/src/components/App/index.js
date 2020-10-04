@@ -10,10 +10,9 @@ import { Provider } from "../DashboardContext";
 import "./style.scss";
 
 class JupyterFlexApp extends React.Component {
-    appMode = "";
-
     constructor(props) {
         super(props);
+        this.appMode = "";
 
         let { dashboard, pageConfig } = this.props;
 
@@ -22,7 +21,13 @@ class JupyterFlexApp extends React.Component {
             const dashboardScriptTag = document.body.querySelector(
                 `script[id="jupyter-flex-dashboard"]`
             );
-            dashboard = JSON.parse(dashboardScriptTag.innerHTML);
+            if (dashboardScriptTag) {
+                dashboard = JSON.parse(dashboardScriptTag.innerHTML);
+            } else {
+                throw new Error(
+                    "jupyter-flex: Dashboard JSON not passed as property or found in HTML"
+                );
+            }
         }
 
         // Load page config from page (if not passed as a prop)

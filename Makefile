@@ -104,7 +104,7 @@ npm-dev:  ## Build JS with watch
 
 npm-publish:  ## Publish NPM
 	cd $(CURDIR)/js/; npm version
-	cd $(CURDIR)/js/; npm publish --access public
+	cd $(CURDIR)/js/; npm publish
 
 
 cleanjs:  ## Clean JS build files

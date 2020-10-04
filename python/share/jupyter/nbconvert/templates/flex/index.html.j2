@@ -67,9 +67,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>
     {%- if dev_mode %}
-    <script src="http://localhost:8866/voila/static/dist/embed.js"></script>
+    <script src="http://localhost:8866/voila/static/dist/jupyter-flex-embed.js"></script>
     {%- else %}
-    {{ resources.include_js("./static/dist/embed.js") }}
+    {{ resources.include_js("./static/dist/jupyter-flex-embed.js") }}
     {%- endif %}
 </body>
 {%- endblock body %}

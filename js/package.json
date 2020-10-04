@@ -1,6 +1,6 @@
 {
     "name": "@danielfrg/jupyter-flex",
-    "version": "0.1.0",
+    "version": "0.1.4",
     "description": "Build interactive dashboards using Jupyter Notebooks",
     "author": "Daniel Rodriguez",
     "license": "Apache-2.0",
@@ -12,12 +12,25 @@
         "type": "git",
         "url": "https://github.com/danielfrg/jupyter-flex/js"
     },
+    "keywords": [
+        "jupyter",
+        "notebook",
+        "dashboards"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "module": "src/index.js",
+    "main": "lib/index.js",
+    "files": [
+        "lib",
+        "dist"
+    ],
     "browserslist": [
         "last 2 Chrome versions"
     ],
-    "main": "src/FlexRenderer.js",
-    "dependencies": {
-        "@danielfrg/illusionist": "^0.2.0",
+    "peerDependencies": {
+        "@danielfrg/illusionist": "^0.2.3",
         "@nteract/mathjax": "^4.0.9",
         "@nteract/outputs": "^3.0.9",
         "@nteract/presentational-components": "^3.3.14",
@@ -28,10 +41,16 @@
         "react-router-dom": "^5.2.0"
     },
     "devDependencies": {
-        "@babel/core": "^7.10.2",
+        "@babel/cli": "^7.11.6",
+        "@babel/core": "^7.11.6",
         "@babel/plugin-proposal-class-properties": "^7.4.0",
         "@babel/preset-env": "^7.10.2",
         "@babel/preset-react": "^7.0.0",
+        "@danielfrg/illusionist": "^0.2.3",
+        "@nteract/mathjax": "^4.0.9",
+        "@nteract/outputs": "^3.0.9",
+        "@nteract/presentational-components": "^3.3.14",
+        "@primer/css": "^14.4.0",
         "@types/react": "^16.9.35",
         "@types/react-dom": "^16.9.8",
         "babel-eslint": "^10.1.0",
@@ -46,9 +65,14 @@
         "eslint-plugin-react": "^7.20.0",
         "eslint-plugin-react-hooks": "^4.0.4",
         "file-loader": "^6.0.0",
+        "filemanager-webpack-plugin": "^3.0.0-alpha.1",
         "jest": "^26.0.1",
         "mini-css-extract-plugin": "^0.9.0",
+        "papaparse": "^5.2.0",
         "prettier": "^2.0.5",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "react-router-dom": "^5.2.0",
         "react-test-renderer": "^16.13.1",
         "sass": "^1.26.8",
         "sass-loader": "^8.0.2",
@@ -56,12 +80,15 @@
         "styled-components": "^5.1.1",
         "url-loader": "^4.1.0",
         "webpack": "^4.43.0",
+        "webpack-bundle-analyzer": "^3.9.0",
         "webpack-cli": "^3.3.11"
     },
     "scripts": {
-        "dev": "webpack --watch --mode=development",
-        "dev:prod": "webpack --watch --mode=production",
-        "build": "webpack --mode=production",
+        "dev": "npm run clean && webpack --watch --mode=development",
+        "build": "npm run clean && webpack --mode=production",
+        "build:lib": "npx babel src/ --out-dir lib",
+        "build:all": "npm run build && npm run build:lib",
+        "build:watch": "npm run clean && webpack --mode=production --watch",
         "fmt": "prettier --write \"src/**/*.{js,jsx}\"",
         "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
         "clean": "rm -rf .cache/ dist/ lib/",
@@ -69,8 +96,6 @@
         "test": "jest --silent",
         "test:coverage": "jest --coverage",
         "test:update": "jest -u",
-        "test:watch": "jest --watch",
-        "version": "npm version",
-        "publish": "npm publish --access public"
+        "test:watch": "jest --watch"
     }
 }
