@@ -28,13 +28,7 @@ class NBCell extends React.Component {
                 if (output_type == "stream") {
                     return <StreamText key={i} output={{ ...output }} />;
                 } else if (output_type == "error") {
-                    console.log("ERROR");
-                    console.log(output);
-                    return (
-                        <RichMedia key={i} data={{ ...output.data }}>
-                            <KernelOutputError key={i} output={{ ...output }} />
-                        </RichMedia>
-                    );
+                    return <KernelOutputError key={i} output={{ ...output }} />;
                 } else {
                     // if (output_type == "execute_result")
                     return (
@@ -52,7 +46,7 @@ class NBCell extends React.Component {
                     );
                 }
             });
-            console.log(childs);
+
             childs = <div className="codecell">{childs}</div>;
         } else {
             return null;
