@@ -1,3 +1,3 @@
-import JupyterFlexApp from "./App";
+import JupyterFlexDashboard from "./App";
 
-export default JupyterFlexApp;
+export default JupyterFlexDashboard;

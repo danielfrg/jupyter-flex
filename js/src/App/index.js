@@ -2,12 +2,12 @@ import React from "react";
 
 import IllusionistWidgetManager from "@danielfrg/illusionist";
 
-import { requirePromise } from "../require-loader";
-import Dashboard from "../Dashboard";
 import NBCell from "../NBCell";
-import { Provider } from "../DashboardContext";
+import { requirePromise } from "../require-loader";
+import Dashboard from "./dashboard";
+import { Provider } from "./context";
 
-class JupyterFlexApp extends React.Component {
+class JupyterFlexDashboard extends React.Component {
     constructor(props) {
         super(props);
         this.appMode = "";
@@ -180,4 +180,4 @@ class JupyterFlexApp extends React.Component {
     }
 }
 
-export default JupyterFlexApp;
+export default JupyterFlexDashboard;

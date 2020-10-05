@@ -1,7 +1,7 @@
 import React from "react";
 
 import NBCell from "../NBCell";
-import { DashboardContext } from "../DashboardContext";
+import { DashboardContext } from "../App/context";
 import { getTagValue } from "../utils";
 import Modal from "../Modal";
 

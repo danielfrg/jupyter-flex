@@ -43,7 +43,7 @@
         "test:watch": "jest --watch"
     },
     "peerDependencies": {
-        "@danielfrg/illusionist": "^0.2.3",
+        "@danielfrg/illusionist": "^0.3.0-beta.0",
         "@nteract/mathjax": "^4.0.9",
         "@nteract/outputs": "^3.0.9",
         "@nteract/presentational-components": "^3.3.14",
@@ -58,7 +58,7 @@
         "@babel/plugin-proposal-class-properties": "^7.4.0",
         "@babel/preset-env": "^7.10.2",
         "@babel/preset-react": "^7.0.0",
-        "@danielfrg/illusionist": "^0.2.3",
+        "@danielfrg/illusionist": "^0.3.0-beta.0",
         "@nteract/mathjax": "^4.0.9",
         "@nteract/outputs": "^3.0.9",
         "@nteract/presentational-components": "^3.3.14",
