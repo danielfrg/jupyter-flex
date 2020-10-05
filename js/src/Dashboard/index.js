@@ -50,7 +50,7 @@ class Dashboard extends React.Component {
         return (
             <Router className={`jupyter-flex`}>
                 <div className={`jupyter-flex`}>
-                    <div className={`fill`}>
+                    <div className={`${verticalLayout}`}>
                         <NavBar
                             title={title}
                             logo={logo}
