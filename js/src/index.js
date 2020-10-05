@@ -1,3 +1,3 @@
-import JupyterFlexApp from "./components/App";
+import JupyterFlexApp from "./App";
 
 export default JupyterFlexApp;

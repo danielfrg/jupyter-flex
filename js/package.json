@@ -5,12 +5,12 @@
     "author": "Daniel Rodriguez",
     "license": "Apache-2.0",
     "homepage": "https://github.com/danielfrg/jupyter-flex",
-    "bugs": {
-        "url": "https://github.com/danielfrg/jupyter-flex/issues"
-    },
     "repository": {
         "type": "git",
         "url": "https://github.com/danielfrg/jupyter-flex/js"
+    },
+    "bugs": {
+        "url": "https://github.com/danielfrg/jupyter-flex/issues"
     },
     "keywords": [
         "jupyter",
@@ -20,15 +20,28 @@
     "publishConfig": {
         "access": "public"
     },
-    "module": "src/index.js",
+    "source": "src/index.js",
+    "module": "lib/index.js",
     "main": "lib/index.js",
     "files": [
         "lib",
         "dist"
     ],
-    "browserslist": [
-        "last 2 Chrome versions"
-    ],
+    "scripts": {
+        "dev": "npm run clean && webpack --watch --mode=development",
+        "build": "npm run clean && webpack --mode=production",
+        "build:lib": "babel src/ --out-dir lib",
+        "build:all": "npm run build && npm run build:lib",
+        "build:watch": "npm run clean && webpack --mode=production --watch",
+        "fmt": "prettier --write \"src/**/*.{js,jsx}\"",
+        "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
+        "clean": "rm -rf .cache/ dist/ lib/",
+        "reset": "npm run clean && rm -rf node_modules",
+        "test": "jest --silent",
+        "test:coverage": "jest --coverage",
+        "test:update": "jest -u",
+        "test:watch": "jest --watch"
+    },
     "peerDependencies": {
         "@danielfrg/illusionist": "^0.2.3",
         "@nteract/mathjax": "^4.0.9",
@@ -81,21 +94,7 @@
         "url-loader": "^4.1.0",
         "webpack": "^4.43.0",
         "webpack-bundle-analyzer": "^3.9.0",
-        "webpack-cli": "^3.3.11"
-    },
-    "scripts": {
-        "dev": "npm run clean && webpack --watch --mode=development",
-        "build": "npm run clean && webpack --mode=production",
-        "build:lib": "npx babel src/ --out-dir lib",
-        "build:all": "npm run build && npm run build:lib",
-        "build:watch": "npm run clean && webpack --mode=production --watch",
-        "fmt": "prettier --write \"src/**/*.{js,jsx}\"",
-        "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
-        "clean": "rm -rf .cache/ dist/ lib/",
-        "reset": "npm run clean && rm -rf node_modules",
-        "test": "jest --silent",
-        "test:coverage": "jest --coverage",
-        "test:update": "jest -u",
-        "test:watch": "jest --watch"
+        "webpack-cli": "^3.3.11",
+        "webpack-node-externals": "^2.5.2"
     }
 }
