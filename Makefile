@@ -108,17 +108,8 @@ npm-publish:  ## Publish NPM
 
 
 cleanjs:  ## Clean JS build files
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.js
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.js.map
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.css
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.css.map
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.html
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.woff
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.woff2
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.eot
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.ttf
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.svg
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/qgrid.js
+	cd $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/; find . ! -name '.gitignore' -type f -exec rm -f {} +
+	cd $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/'; rm -rf qgrid.js
 	cd $(CURDIR)/js/; rm -rf .cache dist lib
 
 

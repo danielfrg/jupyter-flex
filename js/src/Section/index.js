@@ -3,8 +3,6 @@ import React from "react";
 import Card from "../Card";
 import { getTagValue, slugify } from "../utils";
 
-import "./style.scss";
-
 class Section extends React.Component {
     constructor(props) {
         super(props);

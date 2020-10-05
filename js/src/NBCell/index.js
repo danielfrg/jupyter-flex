@@ -11,8 +11,6 @@ import { Provider } from "@nteract/mathjax";
 
 import Widget from "./Widget";
 
-import "./style.scss";
-
 class NBCell extends React.Component {
     render() {
         const { cell_type, outputs } = this.props;

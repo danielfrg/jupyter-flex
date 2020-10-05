@@ -13,8 +13,6 @@ import {
     Source,
 } from "@nteract/presentational-components";
 
-import "./style.scss";
-
 class Card extends React.Component {
     constructor(props) {
         super(props);

@@ -1,16 +1,5 @@
-@import "variables.scss";
-
-body {
-    font-size: 0.9rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #333;
-    text-align: left;
-    background-color: $body-bg;
-}
-
 // -----------------------------------------------------------------------------
-// These are for Voila pages (tree.html and so on)
+// These are for nbconvert and voila
 
 .loading {
     width: 100%;
@@ -23,10 +12,10 @@ body {
         padding: 15px;
         margin: auto;
         text-align: center;
-    }
 
-    p#flex-loading-text {
-        margin: 1rem 0;
+        p {
+            margin: 1rem 0;
+        }
     }
 }
 

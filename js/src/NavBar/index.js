@@ -3,8 +3,6 @@ import { NavLink } from "react-router-dom";
 
 import { slugify } from "../utils";
 
-import "./style.scss";
-
 class NavBar extends React.Component {
     componentDidMount() {}
 

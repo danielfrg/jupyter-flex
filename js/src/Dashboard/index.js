@@ -6,8 +6,6 @@ import Sidebar from "../Sidebar";
 import Page from "../Page";
 import { slugify } from "../utils";
 
-import "./style.scss";
-
 class Dashboard extends React.Component {
     render() {
         const {
@@ -50,31 +48,33 @@ class Dashboard extends React.Component {
         ));
 
         return (
-            <Router>
-                <div id="dashboard" className={verticalLayout}>
-                    <NavBar
-                        title={title}
-                        logo={logo}
-                        author={author}
-                        sourceCodeLink={sourceCodeLink}
-                        kernelName={kernelName}
-                        pages={pages}
-                    />
-                    <main
-                        role="main"
-                        className="container-fluid content-wrapper"
-                    >
-                        {sidebar}
-                        <div
-                            className={
-                                sidebar
-                                    ? "col-md-9 ml-sm-auto col-lg-10 p-0"
-                                    : ""
-                            }
+            <Router className={`jupyter-flex`}>
+                <div className={`jupyter-flex`}>
+                    <div className={`fill`}>
+                        <NavBar
+                            title={title}
+                            logo={logo}
+                            author={author}
+                            sourceCodeLink={sourceCodeLink}
+                            kernelName={kernelName}
+                            pages={pages}
+                        />
+                        <main
+                            role="main"
+                            className="container-fluid content-wrapper"
                         >
-                            <Switch>{routeComponents}</Switch>
-                        </div>
-                    </main>
+                            {sidebar}
+                            <div
+                                className={
+                                    sidebar
+                                        ? "col-md-9 ml-sm-auto col-lg-10 p-0"
+                                        : ""
+                                }
+                            >
+                                <Switch>{routeComponents}</Switch>
+                            </div>
+                        </main>
+                    </div>
                 </div>
             </Router>
         );

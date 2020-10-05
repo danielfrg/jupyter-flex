@@ -3,8 +3,6 @@ import React from "react";
 import Card from "../Card";
 import { getTagValue } from "../utils";
 
-import "./style.scss";
-
 class Sidebar extends React.Component {
     constructor(props) {
         super(props);

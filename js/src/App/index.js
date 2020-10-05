@@ -7,8 +7,6 @@ import Dashboard from "../Dashboard";
 import NBCell from "../NBCell";
 import { Provider } from "../DashboardContext";
 
-import "./style.scss";
-
 class JupyterFlexApp extends React.Component {
     constructor(props) {
         super(props);

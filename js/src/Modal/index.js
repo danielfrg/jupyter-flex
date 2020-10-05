@@ -1,8 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import "./style.scss";
-
 const modalRoot = document.getElementById("flex-modal");
 
 class Modal extends React.Component {
