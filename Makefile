@@ -90,7 +90,7 @@ cleanpython:  ## Clean Python build files
 # JS
 
 npm-build:  ## Build JS
-	cd $(CURDIR)/js/; npm run build
+	cd $(CURDIR)/js/; npm run build:all
 
 
 npm-i: npm-install

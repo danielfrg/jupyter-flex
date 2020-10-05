@@ -1,6 +1,6 @@
 var path = require("path");
-const FileManagerPlugin = require("filemanager-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const FileManagerPlugin = require("filemanager-webpack-plugin");
 const FixStyleOnlyEntriesPlugin = require("webpack-fix-style-only-entries");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
     .BundleAnalyzerPlugin;
@@ -54,7 +54,6 @@ module.exports = (env, argv) => {
         optimization: {
             minimize: false,
         },
-        // externals: [nodeExternals()],
         mode: IS_PRODUCTION ? "production" : "development",
         devtool: "source-map",
     };
@@ -65,6 +64,30 @@ module.exports = (env, argv) => {
         output: {
             path: path.resolve(__dirname, "dist"),
             filename: "jupyter-flex-embed.js",
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.(js)$/,
+                    exclude: /node_modules/,
+                    use: ["babel-loader"],
+                },
+                {
+                    test: /\.s?[ac]ss$/,
+                    use: [extractPlugin, "css-loader", "sass-loader"],
+                    // use: ["null-loader"],
+                },
+                // Bundle Jupyter Widgets and Font Awesome in the CSS
+                {
+                    test: /\.(eot|ttf|woff|woff2|svg|png|gif|jpe?g)$/,
+                    loader: require.resolve("url-loader"),
+                    // loader: require.resolve("file-loader"),
+                    // options: {
+                    //     name: "[name].[ext]?[hash]",
+                    // outputPath: "assets/",
+                    // },
+                },
+            ],
         },
         plugins: [
             new MiniCssExtractPlugin({
@@ -83,30 +106,6 @@ module.exports = (env, argv) => {
             }),
             // new BundleAnalyzerPlugin(),
         ],
-        module: {
-            rules: [
-                {
-                    test: /\.(js)$/,
-                    exclude: /node_modules/,
-                    use: ["babel-loader"],
-                },
-                {
-                    test: /\.s?[ac]ss$/,
-                    use: [extractPlugin, "css-loader", "sass-loader"],
-                    // use: ["null-loader"],
-                },
-                // Bundle Jupyter Widgets and Font Awesome
-                {
-                    test: /\.(eot|ttf|woff|woff2|svg|png|gif|jpe?g)$/,
-                    loader: require.resolve("url-loader"),
-                    // loader: require.resolve("file-loader"),
-                    // options: {
-                    //     name: "[name].[ext]?[hash]",
-                    // outputPath: "assets/",
-                    // },
-                },
-            ],
-        },
         mode: IS_PRODUCTION ? "production" : "development",
         devtool: "source-map",
     };
