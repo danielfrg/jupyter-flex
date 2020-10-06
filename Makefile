@@ -157,12 +157,8 @@ convert-example:  ## Run nbconver on one example
 # Docs
 
 .PHONY: docs
-docs: docs-examples  ## mkdocs build
-	mkdocs build --config-file $(CURDIR)/mkdocs.yml
-
-
-docs-nbs:  ## Convert notebooks inside docs
-	cd $(CURDIR)/docs && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True
+docs: ## mkdocs build
+	mkdocs build
 
 
 docs-examples: examples-nbs  ## Run examples to HTML Dashboards
@@ -174,6 +170,10 @@ docs-examples: examples-nbs  ## Run examples to HTML Dashboards
 	cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb 			--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb 			--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert illusionist/*.ipynb 		--to=flex-illusionist --output-dir=$(CURDIR)/docs/examples/illusionist --execute --ExecutePreprocessor.store_widget_state=True
+
+
+examples-clear-output:  ## Clear output of notebooks
+	cd $(CURDIR)/examples && jupyter nbconvert */*.ipynb --clear-output --inplace
 
 
 examples-nbs:  ## Execute example notebooks
