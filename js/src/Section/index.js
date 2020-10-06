@@ -34,17 +34,24 @@ class Section extends React.Component {
 
     render() {
         const { pageOrientation, title, cards } = this.props;
+        let {
+            size,
+            elOrientation,
+            classNames,
+            useTabs,
+            tabsFill,
+            tabsFade,
+        } = this.state;
 
         // Flip for flex
-        let flexDirection =
-            this.state.elOrientation == "columns" ? "row" : "column";
+        let flexDirection = elOrientation == "columns" ? "row" : "column";
         let sectionClassName = pageOrientation == "columns" ? "column" : "row";
 
         const sectionSlug = slugify(title);
-        const sectionTabs = this.state.useTabs ? "section-tabs" : "";
+        const sectionTabs = useTabs ? "section-tabs" : "";
 
         let tabsButtons;
-        if (this.state.useTabs) {
+        if (useTabs) {
             flexDirection = "column";
             let tabsItems = [];
             cards.forEach((card, i) => {
@@ -70,7 +77,7 @@ class Section extends React.Component {
                 );
             });
 
-            const tabsFill = this.state.tabsFill ? "nav-fill" : "";
+            tabsFill = tabsFill ? "nav-fill" : "";
             tabsButtons = (
                 <ul
                     className={`nav nav-tabs nav-bordered ${tabsFill}`}
@@ -84,14 +91,14 @@ class Section extends React.Component {
 
         let cardComponents;
         if (cards && cards.length > 0) {
-            if (!this.state.useTabs) {
+            if (!useTabs) {
                 cardComponents = [];
 
                 cards.forEach((card, i) => {
                     const cardComponent = (
                         <Card
                             key={i}
-                            sectionOrientation={this.state.elOrientation}
+                            sectionOrientation={elOrientation}
                             {...card}
                         />
                     );
@@ -101,11 +108,10 @@ class Section extends React.Component {
                 let tabDivs = [];
 
                 cards.forEach((card, i) => {
-                    console.log(card);
                     const cardSlug = slugify(card.title);
                     const tabName = `${cardSlug}-tab`;
                     const active = i == 0 ? "active show" : "";
-                    const tabsFade = this.state.tabsFade ? "fade" : "";
+                    tabsFade = tabsFade ? "fade" : "";
 
                     const el = (
                         <div
@@ -117,7 +123,7 @@ class Section extends React.Component {
                         >
                             <Card
                                 key={i}
-                                sectionOrientation={this.state.elOrientation}
+                                sectionOrientation={elOrientation}
                                 insideTabs={true}
                                 {...card}
                             />
@@ -136,8 +142,8 @@ class Section extends React.Component {
 
         return (
             <div
-                className={`section section-${sectionClassName} ${sectionTabs} d-flex flex-${flexDirection} ${this.state.classNames}`}
-                style={{ flex: `${this.state.size} ${this.state.size} 0px` }}
+                className={`section section-${sectionClassName} ${sectionTabs} d-flex flex-${flexDirection} ${classNames}`}
+                style={{ flex: `${size} ${size} 0px` }}
             >
                 {tabsButtons}
                 {cardComponents}

@@ -36,7 +36,14 @@ class Card extends React.Component {
         this.setState({ showHelpModal: !this.state.showHelpModal });
 
     render() {
-        const { sectionOrientation, header, body, help, footer } = this.props;
+        const {
+            sectionOrientation,
+            title,
+            body,
+            help,
+            footer,
+            insideTabs,
+        } = this.props;
         const { showCardCells } = this.context;
 
         let cardClassName = sectionOrientation == "columns" ? "column" : "row";
@@ -44,7 +51,7 @@ class Card extends React.Component {
         let headerHtml;
         let sourceModal;
         let helpModal;
-        if (header || showCardCells || (help && help.length > 0)) {
+        if (title || showCardCells || (help && help.length > 0)) {
             let buttons = [];
 
             // Source Cells
@@ -80,7 +87,7 @@ class Card extends React.Component {
 
                 sourceModal = (
                     <Modal
-                        title={`${header} - Source`}
+                        title={`${title} - Source`}
                         onCloseClick={this.toggleSourceModal}
                     >
                         {sourceCells}
@@ -107,7 +114,7 @@ class Card extends React.Component {
 
                 helpModal = (
                     <Modal
-                        title={`${header} - Help`}
+                        title={`${title} - Help`}
                         onCloseClick={this.toggleHelpModal}
                     >
                         {helpCells}
@@ -117,7 +124,7 @@ class Card extends React.Component {
 
             headerHtml = (
                 <div className="card-header d-flex justify-content-between align-items-baseline">
-                    <h6>{!this.props.insideTabs ? header : null}</h6>
+                    <h6>{!insideTabs ? title : null}</h6>
                     {buttons.length > 0 ? <div>{buttons}</div> : null}
                 </div>
             );
