@@ -97,10 +97,10 @@
 
         {%- if cell_type == "markdown" -%}
 
-            {#- Tagged cells have priority over headers -#}
+            {#- Tagged cells have priority over layout headers -#}
             {%- set is_body = find_item_startswith(cell_tags, "body") -%}
-            {%- set is_footer = find_item_startswith(cell_tags, "footer") -%}
             {%- set is_help = find_item_startswith(cell_tags, "help") -%}
+            {%- set is_footer = find_item_startswith(cell_tags, "footer") -%}
 
             {%- if is_body or is_footer or is_help -%}
                 {#- Check if current_* objects are created -#}
@@ -130,8 +130,6 @@
                 {%- set _ = vars.current_card.help.append(cell) -%}
                 {%- continue -%}
             {%- endif -%}
-
-            {#- If markdown cell is not tagged use it for layout structure -#}
 
             {%- set h1_title = startswith_remove_prefix(cell_source, "# ") -%}
             {%- if h1_title -%}
@@ -215,52 +213,31 @@
             {%- set is_help = find_item_startswith(cell_tags, "help") -%}
             {%- set is_footer = find_item_startswith(cell_tags, "footer") -%}
 
-            {%- if is_body -%}
-                {#- Create current_* objects if notebook starts with a tagged cell -#}
-                {%- if not vars.current_page -%}
-                    {%- set _ = vars.update({"current_page": {"title": "", "sections": [] } }) -%}
-                {%- endif -%}
-                {%- if not vars.current_section -%}
-                    {%- set _ = vars.update({"current_section": {"title": "", "cards": [], "tags": []}}) -%}
-                {%- endif -%}
-                {%- if not vars.current_card -%}
-                    {%- set _ = vars.update({"current_card": {"title": "", "body": [], "footer": [], "help": [], "tags": []}}) -%}
-                {%- endif -%}
-
-                {%- set _ = vars.current_card.body.append(cell) -%}
+            {#- Check if current_* objects are created -#}
+            {#- Used when the notebook starts with tagged cell -#}
+            {%- if not vars.current_page -%}
+                {%- set _ = vars.update({"current_page": {"title": "", "sections": [] } }) -%}
+            {%- endif -%}
+            {%- if not vars.current_section -%}
+                {%- set _ = vars.update({"current_section": {"title": "", "cards": [], "tags": []}}) -%}
+            {%- endif -%}
+            {%- if not vars.current_card -%}
+                {%- set _ = vars.update({"current_card": {"title": "", "body": [], "footer": [], "help": [], "tags": []}}) -%}
             {%- endif -%}
 
-            {%- if is_source -%}
-                {#- Create current_* objects if notebook starts with a tagged cell -#}
-                {%- if not vars.current_page -%}
-                    {%- set _ = vars.update({"current_page": {"title": "", "sections": [] } }) -%}
-                {%- endif -%}
-                {%- if not vars.current_section -%}
-                    {%- set _ = vars.update({"current_section": {"title": "", "cards": [], "tags": []}}) -%}
-                {%- endif -%}
-                {%- if not vars.current_card -%}
-                    {%- set _ = vars.update({"current_card": {"title": "", "body": [], "footer": [], "help": [], "tags": []}}) -%}
-                {%- endif -%}
-
-                {#- We just want to include the souce for this cell, remove the outputs -#}
+            {%- if is_body -%}
+                {%- set _ = vars.current_card.body.append(cell) -%}
+            {%- else if is_source -%}
+                {#- We just want to include the source for this cell, remove the outputs -#}
                 {%- set _ = cell.pop("outputs") -%}
                 {%- set _ = vars.current_card.body.append(cell) -%}
-            {%- endif -%}
-
-            {%- if is_help -%}
+            {%- else if is_help -%}
                 {%- set _ = vars.current_card.help.append(cell) -%}
-                {%- continue -%}
-            {%- endif -%}
-
-            {%- if is_footer -%}
+            {%- else if is_footer -%}
                 {%- set _ = vars.current_card.footer.append(cell) -%}
-                {%- continue -%}
-            {%- endif -%}
-
-            {%- if is_meta -%}
+            {%- else if is_meta -%}
                 {#- Metadata cells dont create section or pages -#}
                 {%- set _ = dashboard.meta.append(cell) -%}
-                {%- continue -%}
             {%- endif -%}
         {%- endif -%}
 
