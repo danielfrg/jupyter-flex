@@ -157,11 +157,16 @@ convert-example:  ## Run nbconver on one example
 # Docs
 
 .PHONY: docs
-docs: ## mkdocs build
+docs: docs-examples-html  ## mkdocs build
 	mkdocs build
+	$(MAKE) docs-copy-notebooks
 
 
-docs-examples: examples-nbs  ## Run examples to HTML Dashboards
+serve-docs:  ## Serve docs
+	mkdocs serve
+
+
+docs-examples-html:  ## Convert examples to HTML dashboards
 	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb 					--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb 		--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert demos/*.ipynb 			--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
@@ -172,22 +177,19 @@ docs-examples: examples-nbs  ## Run examples to HTML Dashboards
 	cd $(CURDIR)/examples && jupyter-nbconvert illusionist/*.ipynb 		--to=flex-illusionist --output-dir=$(CURDIR)/docs/examples/illusionist --execute --ExecutePreprocessor.store_widget_state=True
 
 
+docs-copy-notebooks:  ## Execute example notebooks into docs output
+	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb 		        	--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb		--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert demos/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
+	cd $(CURDIR)/examples && jupyter-nbconvert getting-started/*.ipynb 	--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
+
+
 examples-clear-output:  ## Clear output of notebooks
 	cd $(CURDIR)/examples && jupyter nbconvert */*.ipynb --clear-output --inplace
 
-
-examples-nbs:  ## Execute example notebooks
-	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb 		        	--to=notebook --output-dir=$(CURDIR)/docs/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb		--to=notebook --output-dir=$(CURDIR)/docs/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert demos/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/docs/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
-	cd $(CURDIR)/examples && jupyter-nbconvert getting-started/*.ipynb 	--to=notebook --output-dir=$(CURDIR)/docs/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/docs/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/docs/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/docs/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
-
-
-serve-docs:  ## Serve docs
-	mkdocs serve
 
 
 # ------------------------------------------------------------------------------
