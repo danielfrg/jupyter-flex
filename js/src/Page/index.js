@@ -36,7 +36,7 @@ class Page extends React.Component {
 
         let sidebar;
         let sectionComponents = [];
-        if (sections.length > 0) {
+        if (sections && sections.length > 0) {
             sections.forEach((section, i) => {
                 if (section.tags && section.tags.includes("sidebar")) {
                     sidebar = <Sidebar {...section} />;

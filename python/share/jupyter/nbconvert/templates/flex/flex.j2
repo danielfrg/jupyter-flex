@@ -102,7 +102,7 @@
             {%- set is_help = find_item_startswith(cell_tags, "help") -%}
             {%- set is_footer = find_item_startswith(cell_tags, "footer") -%}
 
-            {%- if is_body or is_footer or is_help -%}
+            {%- if is_body or is_help or is_footer -%}
                 {#- Check if current_* objects are created -#}
                 {#- Used when the notebook starts with tagged cell -#}
                 {%- if not vars.current_page -%}
@@ -207,23 +207,26 @@
                 {%- set _ = cell.pop("source") -%}
             {%- endif -%}
 
-            {%- set is_meta = find_item_startswith(cell_tags, "meta") -%}
             {%- set is_body = find_item_startswith(cell_tags, "body") -%}
-            {%- set is_source = find_item_startswith(cell_tags, "source") -%}
             {%- set is_help = find_item_startswith(cell_tags, "help") -%}
             {%- set is_footer = find_item_startswith(cell_tags, "footer") -%}
+            {%- set is_meta = find_item_startswith(cell_tags, "meta") -%}
+            {%- set is_source = find_item_startswith(cell_tags, "source") -%}
 
-            {#- Check if current_* objects are created -#}
-            {#- Used when the notebook starts with tagged cell -#}
-            {%- if not vars.current_page -%}
-                {%- set _ = vars.update({"current_page": {"title": "", "sections": [] } }) -%}
+            {%- if is_body or is_help or is_footer or is_meta or is_source -%}
+                {#- Check if current_* objects are created -#}
+                {#- Used when the notebook starts with tagged cell -#}
+                {%- if not vars.current_page -%}
+                    {%- set _ = vars.update({"current_page": {"title": "", "sections": [] } }) -%}
+                {%- endif -%}
+                {%- if not vars.current_section -%}
+                    {%- set _ = vars.update({"current_section": {"title": "", "cards": [], "tags": []}}) -%}
+                {%- endif -%}
+                {%- if not vars.current_card -%}
+                    {%- set _ = vars.update({"current_card": {"title": "", "body": [], "footer": [], "help": [], "tags": []}}) -%}
+                {%- endif -%}
             {%- endif -%}
-            {%- if not vars.current_section -%}
-                {%- set _ = vars.update({"current_section": {"title": "", "cards": [], "tags": []}}) -%}
-            {%- endif -%}
-            {%- if not vars.current_card -%}
-                {%- set _ = vars.update({"current_card": {"title": "", "body": [], "footer": [], "help": [], "tags": []}}) -%}
-            {%- endif -%}
+
 
             {%- if is_body -%}
                 {%- set _ = vars.current_card.body.append(cell) -%}
