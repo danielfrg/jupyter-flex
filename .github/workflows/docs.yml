@@ -46,7 +46,6 @@ jobs:
 
       - name: Build docs
         run: |
-          make docs-nbs
           make docs
 
       - name: Push docs (branch)

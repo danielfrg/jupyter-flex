@@ -191,7 +191,6 @@ examples-clear-output:  ## Clear output of notebooks
 	cd $(CURDIR)/examples && jupyter nbconvert */*.ipynb --clear-output --inplace
 
 
-
 # ------------------------------------------------------------------------------
 # Other
 
