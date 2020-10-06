@@ -110,7 +110,8 @@ module.exports = (env, argv) => {
         devtool: "source-map",
     };
 
-    let config = [config_dist];
+    let config = [];
+    // let config = [config_dist];
     if (IS_PRODUCTION) {
         config.push(config_lib_sass);
     }

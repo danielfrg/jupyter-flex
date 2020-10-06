@@ -9,20 +9,20 @@ import { slugify } from "../utils";
 class Dashboard extends React.Component {
     render() {
         const {
-            verticalLayout,
-            orientation,
             title,
             logo,
             author,
-            sourceCodeLink,
             kernelName,
+            sourceCodeLink,
+            verticalLayout,
+            orientation,
             pages,
         } = this.props;
 
         let sidebar;
         let routes = [];
 
-        if (pages.length > 0) {
+        if (pages && pages.length > 0) {
             pages.forEach((page) => {
                 if (page.tags && page.tags.includes("sidebar")) {
                     sidebar = <Sidebar {...page.sections[0]} />;

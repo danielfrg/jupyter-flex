@@ -83,7 +83,7 @@ class Section extends React.Component {
         }
 
         let cardComponents;
-        if (cards.length > 0) {
+        if (cards && cards.length > 0) {
             if (!this.state.useTabs) {
                 cardComponents = [];
 
@@ -101,7 +101,8 @@ class Section extends React.Component {
                 let tabDivs = [];
 
                 cards.forEach((card, i) => {
-                    const cardSlug = slugify(card.header);
+                    console.log(card);
+                    const cardSlug = slugify(card.title);
                     const tabName = `${cardSlug}-tab`;
                     const active = i == 0 ? "active show" : "";
                     const tabsFade = this.state.tabsFade ? "fade" : "";

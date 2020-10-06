@@ -123,21 +123,24 @@ class JupyterFlexDashboard extends React.Component {
     }
 
     render() {
-        const {
+        let {
             title,
             logo,
             author,
             kernel_name,
             source_link,
             include_source,
-        } = this.state.dashboard.props;
-
-        let { vertical_layout, orientation } = this.state.dashboard.props;
+            vertical_layout,
+            orientation,
+        } = this.state.dashboard.props || {};
+        const { meta, pages } = this.state.dashboard;
 
         let metaCells = [];
-        this.state.dashboard.meta.forEach((cell, i) => {
-            metaCells.push(<NBCell key={i} {...cell} />);
-        });
+        if (meta) {
+            meta.forEach((cell, i) => {
+                metaCells.push(<NBCell key={i} {...cell} />);
+            });
+        }
 
         let logoURL = "";
         if (logo) {
@@ -173,7 +176,7 @@ class JupyterFlexDashboard extends React.Component {
                     sourceCodeLink={source_link}
                     verticalLayout={vertical_layout}
                     orientation={orientation}
-                    pages={this.state.dashboard.pages}
+                    pages={pages}
                 />
             </Provider>
         );

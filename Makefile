@@ -165,18 +165,26 @@ docs-nbs:  ## Convert notebooks inside docs
 	cd $(CURDIR)/docs && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True
 
 
-docs-examples: docs-examples-illusionist  ## Run nbconvert on the examples
-	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert demos/*.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
-	cd $(CURDIR)/examples && jupyter-nbconvert getting-started/*.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+docs-examples: examples-nbs  ## Run examples to HTML Dashboards
+	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb 					--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb 		--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert demos/*.ipynb 			--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
+	cd $(CURDIR)/examples && jupyter-nbconvert getting-started/*.ipynb 	--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb 			--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb 			--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb 			--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert illusionist/*.ipynb 		--to=flex-illusionist --output-dir=$(CURDIR)/docs/examples/illusionist --execute --ExecutePreprocessor.store_widget_state=True
 
 
-docs-examples-illusionist:
-	cd $(CURDIR)/examples && jupyter-nbconvert illusionist/*.ipynb --to=flex-illusionist --output-dir=$(CURDIR)/docs/examples/illusionist --execute --ExecutePreprocessor.store_widget_state=True
+examples-nbs:  ## Execute example notebooks
+	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb 		        	--to=notebook --output-dir=$(CURDIR)/docs/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb		--to=notebook --output-dir=$(CURDIR)/docs/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert demos/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/docs/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
+	cd $(CURDIR)/examples && jupyter-nbconvert getting-started/*.ipynb 	--to=notebook --output-dir=$(CURDIR)/docs/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/docs/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/docs/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/docs/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
+
 
 serve-docs:  ## Serve docs
 	mkdocs serve
