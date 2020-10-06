@@ -227,15 +227,15 @@
 
             {%- if is_body -%}
                 {%- set _ = vars.current_card.body.append(cell) -%}
-            {%- else if is_source -%}
+            {%- elif is_source -%}
                 {#- We just want to include the source for this cell, remove the outputs -#}
                 {%- set _ = cell.pop("outputs") -%}
                 {%- set _ = vars.current_card.body.append(cell) -%}
-            {%- else if is_help -%}
+            {%- elif is_help -%}
                 {%- set _ = vars.current_card.help.append(cell) -%}
-            {%- else if is_footer -%}
+            {%- elif is_footer -%}
                 {%- set _ = vars.current_card.footer.append(cell) -%}
-            {%- else if is_meta -%}
+            {%- elif is_meta -%}
                 {#- Metadata cells dont create section or pages -#}
                 {%- set _ = dashboard.meta.append(cell) -%}
             {%- endif -%}
