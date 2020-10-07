@@ -112,7 +112,7 @@ module.exports = (env, argv) => {
 
     let config = [];
     if (IS_PRODUCTION) {
-        // config.push(config_dist);
+        config.push(config_dist);
         config.push(config_lib_sass);
     } else {
         config.push(config_dist);
