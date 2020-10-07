@@ -2,7 +2,6 @@ import React from "react";
 
 import IllusionistWidgetManager from "@danielfrg/illusionist";
 
-import DashboardCell from "../Cell";
 import { requirePromise } from "../require-loader";
 import Dashboard from "./dashboard";
 import { Provider } from "./context";
@@ -135,13 +134,6 @@ class JupyterFlexDashboard extends React.Component {
         } = this.state.dashboard.props || {};
         const { meta, pages } = this.state.dashboard;
 
-        let metaCells = [];
-        if (meta) {
-            meta.forEach((cell, i) => {
-                metaCells.push(<DashboardCell key={i} {...cell} />);
-            });
-        }
-
         let logoURL = "";
         if (logo) {
             if (this.appMode == "voila") {
@@ -167,7 +159,6 @@ class JupyterFlexDashboard extends React.Component {
                     showCardCells: include_source,
                 }}
             >
-                <div style={{ display: "none" }}>{metaCells}</div>
                 <Dashboard
                     title={title}
                     logo={logoURL}
@@ -176,6 +167,7 @@ class JupyterFlexDashboard extends React.Component {
                     sourceCodeLink={source_link}
                     verticalLayout={vertical_layout}
                     orientation={orientation}
+                    meta={meta}
                     pages={pages}
                 />
             </Provider>

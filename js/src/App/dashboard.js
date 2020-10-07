@@ -4,6 +4,7 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import NavBar from "../NavBar";
 import Sidebar from "../Sidebar";
 import Page from "../Page";
+import DashboardCell from "../Cell";
 import { slugify } from "../utils";
 
 class Dashboard extends React.Component {
@@ -16,11 +17,20 @@ class Dashboard extends React.Component {
             sourceCodeLink,
             verticalLayout,
             orientation,
+            meta,
             pages,
         } = this.props;
 
         let sidebar;
+        let metaCells = [];
         let routes = [];
+
+        if (meta && meta.length > 0) {
+            console.log(meta);
+            meta.forEach((cell, i) => {
+                metaCells.push(<DashboardCell key={i} {...cell} />);
+            });
+        }
 
         if (pages && pages.length > 0) {
             pages.forEach((page) => {
@@ -48,8 +58,9 @@ class Dashboard extends React.Component {
         ));
 
         return (
-            <Router>
+            <Router hashType="noslash">
                 <div className={`jupyter-flex`}>
+                    <div className="meta-cells">{metaCells}</div>
                     <div className={`dashboard-${verticalLayout}`}>
                         <NavBar
                             title={title}

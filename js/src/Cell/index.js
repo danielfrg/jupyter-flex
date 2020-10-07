@@ -9,7 +9,7 @@ import {
 // import { Outputs } from "@nteract/presentational-components";
 import { Provider as MathJaxProvider } from "@nteract/mathjax";
 
-import Widget from "./Widget";
+import Widget from "./widget";
 
 class DashboardCell extends React.Component {
     render() {
@@ -38,7 +38,10 @@ class DashboardCell extends React.Component {
                     return <StreamText key={i} output={{ ...output }} />;
                 } else if (output_type == "error") {
                     return <KernelOutputError key={i} output={{ ...output }} />;
-                } else if (output_type == "execute_result") {
+                } else if (
+                    output_type == "execute_result" ||
+                    output_type == "display_data"
+                ) {
                     // Saved .ipynb files split the outputs into an array
                     for (let key in output.data) {
                         if (Array.isArray(output.data[key])) {

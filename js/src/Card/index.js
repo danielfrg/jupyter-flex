@@ -87,7 +87,7 @@ class Card extends React.Component {
 
                 sourceModal = (
                     <Modal
-                        title={`${title} - Source`}
+                        title={title ? `${title} - Source` : "Source"}
                         onCloseClick={this.toggleSourceModal}
                     >
                         {sourceCells}
@@ -114,7 +114,7 @@ class Card extends React.Component {
 
                 helpModal = (
                     <Modal
-                        title={`${title} - Help`}
+                        title={title ? `${title} - Help` : "Help"}
                         onCloseClick={this.toggleHelpModal}
                     >
                         {helpCells}
