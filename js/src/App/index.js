@@ -2,7 +2,7 @@ import React from "react";
 
 import IllusionistWidgetManager from "@danielfrg/illusionist";
 
-import NBCell from "../NBCell";
+import DashboardCell from "../Cell";
 import { requirePromise } from "../require-loader";
 import Dashboard from "./dashboard";
 import { Provider } from "./context";
@@ -138,7 +138,7 @@ class JupyterFlexDashboard extends React.Component {
         let metaCells = [];
         if (meta) {
             meta.forEach((cell, i) => {
-                metaCells.push(<NBCell key={i} {...cell} />);
+                metaCells.push(<DashboardCell key={i} {...cell} />);
             });
         }
 
