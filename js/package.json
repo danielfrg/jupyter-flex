@@ -48,8 +48,8 @@
         "@nteract/outputs": "3.0.9",
         "@nteract/presentational-components": "3.3.14",
         "@primer/css": "^14.4.0",
-        "react": "^16.13.1",
-        "react-dom": "^16.13.1",
+        "react": "16.13.1",
+        "react-dom": "16.13.1",
         "react-router-dom": "^5.2.0"
     },
     "devDependencies": {

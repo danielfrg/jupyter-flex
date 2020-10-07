@@ -1,10 +1,5 @@
 import React from "react";
 
-import NBCell from "../NBCell";
-import { DashboardContext } from "../App/context";
-import { getTagValue } from "../utils";
-import Modal from "../Modal";
-
 import {
     Cells,
     Cell,
@@ -12,6 +7,11 @@ import {
     Prompt,
     Source,
 } from "@nteract/presentational-components";
+
+import DashboardCell from "../Cell";
+import { DashboardContext } from "../App/context";
+import { getTagValue } from "../utils";
+import Modal from "../Modal";
 
 class Card extends React.Component {
     constructor(props) {
@@ -109,7 +109,7 @@ class Card extends React.Component {
 
                 let helpCells = [];
                 help.forEach((cell, i) => {
-                    helpCells.push(<NBCell key={i} {...cell} />);
+                    helpCells.push(<DashboardCell key={i} {...cell} />);
                 });
 
                 helpModal = (
@@ -133,14 +133,14 @@ class Card extends React.Component {
         let bodyComponents = [];
         if (body.length > 0) {
             body.forEach((cell, i) => {
-                bodyComponents.push(<NBCell key={i} {...cell} />);
+                bodyComponents.push(<DashboardCell key={i} {...cell} />);
             });
         }
 
         let footerComponents = [];
         if (footer && footer.length > 0) {
             footer.forEach((cell, i) => {
-                footerComponents.push(<NBCell key={i} {...cell} />);
+                footerComponents.push(<DashboardCell key={i} {...cell} />);
             });
 
             footerComponents = (
