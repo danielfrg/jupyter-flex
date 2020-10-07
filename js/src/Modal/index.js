@@ -20,7 +20,6 @@ class Modal extends React.Component {
     render() {
         let children = (
             <div
-                id="modal"
                 className="modal fade show"
                 tabIndex="-1"
                 role="dialog"

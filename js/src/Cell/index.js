@@ -1,81 +1,138 @@
 import React from "react";
 
 import {
+    Cell,
+    Input,
+    Prompt,
+    Source,
+    Outputs,
+} from "@nteract/presentational-components";
+import {
+    Output,
     RichMedia,
     Media,
     StreamText,
     KernelOutputError,
 } from "@nteract/outputs";
-// import { Outputs } from "@nteract/presentational-components";
 import { Provider as MathJaxProvider } from "@nteract/mathjax";
 
 import Widget from "./widget";
 
 class DashboardCell extends React.Component {
     render() {
-        let { cell_type, source, outputs } = this.props;
+        let {
+            cell_type,
+            execution_count,
+            source,
+            outputs,
+            showInputs,
+            showOutputs,
+        } = this.props;
 
-        if (Array.isArray(source)) {
-            // Saved .ipynb files split the source into an array
-            source = source.join("\n");
+        // Saved .ipynb files split the source and outputs into an arrays
+        // We merged them into a string for nteract
+        if (source && Array.isArray(source)) {
+            source = source.join("");
         }
-
-        let childs;
-        if (cell_type == "markdown") {
-            childs = <Media.Markdown data={source} />;
-        } else if (cell_type == "code") {
-            if (!outputs) {
-                return null;
-            }
-            childs = outputs.map((output, i) => {
-                const { output_type } = output;
-
-                if (output_type == "stream") {
-                    if (Array.isArray(output.text)) {
-                        // Saved .ipynb files split the text into an array
-                        output.text = output.text.join("\n");
-                    }
-                    return <StreamText key={i} output={{ ...output }} />;
-                } else if (output_type == "error") {
-                    return <KernelOutputError key={i} output={{ ...output }} />;
-                } else if (
-                    output_type == "execute_result" ||
-                    output_type == "display_data"
-                ) {
-                    // Saved .ipynb files split the outputs into an array
-                    for (let key in output.data) {
-                        if (Array.isArray(output.data[key])) {
-                            output.data[key] = output.data[key].join("\n");
+        if (outputs) {
+            outputs.map((output) => {
+                const { text, data } = output;
+                if (text && Array.isArray(text)) {
+                    output.text = output.text.join("");
+                }
+                if (data) {
+                    for (const [key, value] of Object.entries(data)) {
+                        if (Array.isArray(value)) {
+                            data[key] = value.join("");
                         }
                     }
-
-                    return (
-                        <RichMedia key={i} data={{ ...output.data }}>
-                            <Widget />
-                            <Media.HTML />
-                            <Media.SVG />
-                            <Media.Image />
-                            <Media.JavaScript />
-                            <Media.Json />
-                            <Media.LaTeX />
-                            <Media.Markdown />
-                            <Media.Plain />
-                        </RichMedia>
-                    );
                 }
             });
+        }
 
-            childs = <div className="codecell">{childs}</div>;
+        let contentEl;
+
+        if (cell_type == "markdown") {
+            contentEl = <Media.Markdown data={source} />;
+        } else if (cell_type == "code") {
+            let inputEls, outputEls;
+            if (showInputs) {
+                inputEls = (
+                    <Input>
+                        <Prompt className="prompt" counter={execution_count} />
+                        <Source language="python">{source}</Source>
+                    </Input>
+                );
+            }
+
+            if (showOutputs && outputs) {
+                outputEls = (
+                    <Outputs>
+                        {outputs.map((output, i) => {
+                            const { output_type } = output;
+
+                            if (output_type == "stream") {
+                                return (
+                                    <Output key={i} output={output}>
+                                        <StreamText />
+                                    </Output>
+                                );
+                            } else if (output_type == "error") {
+                                return (
+                                    <Output key={i} output={output}>
+                                        <KernelOutputError />
+                                    </Output>
+                                );
+                            } else {
+                                return (
+                                    <RichMedia
+                                        key={i}
+                                        data={{ ...output.data }}
+                                    >
+                                        <Widget />
+                                        <Media.HTML />
+                                        <Media.SVG />
+                                        <Media.Image mediaType="image/png" />
+                                        <Media.Image mediaType="image/jpeg" />
+                                        <Media.Image mediaType="image/gif" />
+                                        <Media.JavaScript />
+                                        <Media.Json />
+                                        <Media.LaTeX />
+                                        <Media.Markdown />
+                                        <Media.Plain />
+                                    </RichMedia>
+                                );
+                            }
+                        })}
+                    </Outputs>
+                );
+            }
+
+            if (inputEls || outputEls) {
+                contentEl = (
+                    <Cell className="code-cell">
+                        {inputEls}
+                        {outputEls}
+                    </Cell>
+                );
+            } else {
+                return null;
+            }
         } else {
             return null;
         }
 
         return (
             <MathJaxProvider src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML">
-                {childs}
+                {contentEl}
             </MathJaxProvider>
         );
     }
 }
+
+DashboardCell.defaultProps = {
+    showInputs: true,
+    showOutputs: true,
+};
 
 export default DashboardCell;

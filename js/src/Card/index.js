@@ -70,16 +70,12 @@ class Card extends React.Component {
                     if (cell.cell_type == "code") {
                         return (
                             <Cells key={i} className="source-cells">
-                                <Cell className="source-cell">
-                                    <Input>
-                                        <Prompt
-                                            counter={cell.execution_count}
-                                        />
-                                        <Source language="python">
-                                            {cell.source}
-                                        </Source>
-                                    </Input>
-                                </Cell>
+                                <DashboardCell
+                                    key={i}
+                                    showInputs={true}
+                                    showOutputs={false}
+                                    {...cell}
+                                />
                             </Cells>
                         );
                     }
@@ -109,7 +105,9 @@ class Card extends React.Component {
 
                 let helpCells = [];
                 help.forEach((cell, i) => {
-                    helpCells.push(<DashboardCell key={i} {...cell} />);
+                    helpCells.push(
+                        <DashboardCell key={i} showInputs={false} {...cell} />
+                    );
                 });
 
                 helpModal = (
@@ -133,14 +131,18 @@ class Card extends React.Component {
         let bodyComponents = [];
         if (body.length > 0) {
             body.forEach((cell, i) => {
-                bodyComponents.push(<DashboardCell key={i} {...cell} />);
+                bodyComponents.push(
+                    <DashboardCell showInputs={false} key={i} {...cell} />
+                );
             });
         }
 
         let footerComponents = [];
         if (footer && footer.length > 0) {
             footer.forEach((cell, i) => {
-                footerComponents.push(<DashboardCell key={i} {...cell} />);
+                footerComponents.push(
+                    <DashboardCell key={i} showInputs={false} {...cell} />
+                );
             });
 
             footerComponents = (

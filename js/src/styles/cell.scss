@@ -1,7 +1,17 @@
 @import "@primer/css/markdown/index.scss";
 
-.codecell {
-    height: 100%;
+.card-body {
+    .code-cell {
+        height: 100%;
+    }
+}
+
+.code-cell {
+    background: transparent !important;
+
+    .nteract-outputs {
+        padding: 0;
+    }
 
     pre {
         margin: 8px 0;

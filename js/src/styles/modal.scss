@@ -1,11 +1,14 @@
 #flex-modal {
-    .source-cells {
-        .source-cell {
-            margin: 0;
+    .code-cell {
+        height: 100%;
+        margin: 0;
+
+        .nteract-outputs {
+            padding: 0;
         }
     }
 
-    #modal.modal {
+    .modal {
         background-color: rgba(0, 0, 0, 0.4);
 
         .modal-dialog {
