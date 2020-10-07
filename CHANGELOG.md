@@ -1,5 +1,9 @@
 # Jupyter-flex Change Log
 
+## [Unreleased]
+- Refactor JS modules and release to NPM
+- Multiple CSS and JS clean ups
+
 ## [0.6.2]
 - Added back the missing flex_logo and flex_favicon options
 
