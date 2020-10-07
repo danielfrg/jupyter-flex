@@ -9,12 +9,12 @@
 
         {% block html_head_css %}
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
-        <link href="{{ base_url }}voila/static/dist/FlexRenderer.css" rel="stylesheet"/>
+        <link href="{{ base_url }}voila/static/dist/bootstrap.min.css" rel="stylesheet"/>
+        <link href="{{ base_url }}voila/static/dist/jupyter-flex-embed.css" rel="stylesheet"/>
         {% endblock html_head_css %}
     </head>
 
-    <body data-base-url="{{ base_url }}voila/">
+    <body class="jupyter-flex-page" data-base-url="{{ base_url }}voila/">
         <noscript>
             <div class="text-center">
                 <h1>

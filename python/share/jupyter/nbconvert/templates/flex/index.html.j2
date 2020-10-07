@@ -7,19 +7,18 @@
 {%- block html_head %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     {%- block html_head_title %}
     <title>{{ flex.get_title() }}</title>
     {%- endblock html_head_title %}
 
     {%- block html_head_css %}
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     {%- if dev_mode %}
-    <link rel="stylesheet" href="http://localhost:8866/voila/static/dist/FlexRenderer.css" />
+    <link rel="stylesheet" href="http://localhost:8866/voila/static/dist/jupyter-flex-embed.css" />
     {%- else %}
-    {{ resources.include_css("static/dist/FlexRenderer.css") }}
+    {{ resources.include_css("static/dist/jupyter-flex-embed.css") }}
     {%- endif %}
     {%- endblock html_head_css %}
 
@@ -32,13 +31,13 @@
 {%- endblock header %}
 
 {%- block body %}
-<body>
+<body class="jupyter-flex-page">
 
     <div id="flex-modal"></div>
     <div id="flex-root">
         <div class="container-fluid d-flex flex-row loading">
             <div class="text-center">
-                <p id="flex-loading-text">... building dashboard ...</p>
+                <p>... building dashboard ...</p>
             </div>
         </div>
     </div>
@@ -67,9 +66,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha256-1fEPhSsRKlFKGfK3eO710tEweHh1fwokU5wFGDHO+vg=" crossorigin="anonymous"></script>
     {%- if dev_mode %}
-    <script src="http://localhost:8866/voila/static/dist/FlexRenderer.js"></script>
+    <script src="http://localhost:8866/voila/static/dist/jupyter-flex-embed.js"></script>
     {%- else %}
-    {{ resources.include_js("./static/dist/FlexRenderer.js") }}
+    {{ resources.include_js("./static/dist/jupyter-flex-embed.js") }}
     {%- endif %}
 </body>
 {%- endblock body %}

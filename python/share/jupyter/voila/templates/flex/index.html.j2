@@ -7,7 +7,7 @@
 {%- block html_head %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     {%- block html_head_title %}
     <title>{{ flex.get_title() }}</title>
     {%- endblock html_head_title %}
@@ -21,9 +21,8 @@
 
     {%- block html_head_css %}
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    {{ resources.include_css("static/dist/bootstrap-4.5.2.min.css") }}
-    {{ resources.include_css("static/dist/FlexRenderer.css") }}
+    {{ resources.include_css("static/dist/bootstrap.min.css") }}
+    {{ resources.include_css("static/dist/jupyter-flex-embed.css") }}
     {%- endblock html_head_css %}
 
     {%- set custom_css = flex.get_custom_css() -%}
@@ -36,16 +35,16 @@
 {%- endblock header %}
 
 {%- block body %}
-<body>
+<body class="jupyter-flex-page">
 {%- block body_header %}
     <div id="voila_body_loop">
-        <div id="executing">
+        <div id="voila-executing">
             <div class="container-fluid d-flex flex-row loading">
                 <div class="text-center">
                     <div class="spinner-grow" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>
-                    <p id="flex-loading-text">Executing notebook</p>
+                    <p id="voila-cell-count">Executing notebook</p>
                 </div>
             </div>
         </div>
@@ -53,7 +52,7 @@
         <script>
             var voilaCellExecuteAfter = function(cellIndex, cellCount) {};
             var voilaCellExecuteBefore = function(cellIndex, cellCount) {
-                var el = document.getElementById("flex-loading-text");
+                var el = document.getElementById("voila-cell-count");
                 el.innerHTML = "Executing cell " + cellIndex + " of " + cellCount;
             };
         </script>
@@ -101,7 +100,7 @@
     <div id="flex-root">
         <div class="container-fluid d-flex flex-row loading">
             <div class="text-center">
-                <p id="flex-loading-text">... building dashboard ...</p>
+                <p>... building dashboard ...</p>
             </div>
         </div>
     </div>
@@ -109,7 +108,7 @@
     <script type="text/javascript">
     (function() {
         // Remove the loading element
-        var el = document.getElementById("executing");
+        var el = document.getElementById("voila-executing");
         el.parentNode.removeChild(el);
     })();
     </script>
@@ -128,15 +127,15 @@
     {%- endif %}
 
     {%- block footer_js -%}
-    {{ resources.include_js("static/dist/jquery-3.5.1.slim.min.js") }}
-    {{ resources.include_js("static/dist/bootstrap-4.5.2.min.js") }}
-    {{ resources.include_js("static/dist/require-2.3.6.min.js") }}
+    {{ resources.include_js("static/dist/jquery.slim.min.js") }}
+    {{ resources.include_js("static/dist/bootstrap.min.js") }}
+    {{ resources.include_js("static/dist/require.min.js") }}
 
     <script>
         requirejs.config({ baseUrl: '{{resources.base_url}}voila/static/', waitSeconds: 30})
     </script>
 
-    {{ resources.include_js("static/dist/FlexRenderer.js") }}
+    {{ resources.include_js("static/dist/jupyter-flex-embed.js") }}
 
     {%- endblock footer_js -%}
 </voila>

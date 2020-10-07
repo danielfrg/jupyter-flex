@@ -22,14 +22,14 @@ first: help
 build: download-assets npm-build python-build  ## Build assets and Python package
 
 download-assets:  ## Download .css/.js assets
-	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/jquery-3.5.1.slim.min.js https://code.jquery.com/jquery-3.5.1.slim.min.js
-	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/bootstrap-4.5.2.min.js https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js
+	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/jquery.slim.min.js https://code.jquery.com/jquery-3.5.1.slim.min.js
+	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/bootstrap.min.js https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js
 	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/bootstrap.min.js.map https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js.map
-	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/bootstrap-4.5.2.min.css https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css
+	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/bootstrap.min.css https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css
 	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/bootstrap.min.css.map https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css.map
-	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/require-2.3.6.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
-	# We need to include qgrid because of: nbconvert://github.com/quantopian/qgrid/pull/325
-	# We also put it directly on static so nbconvertequireJS can find it
+	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/require.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
+	# We need to include qgrid because of: http://github.com/quantopian/qgrid/pull/325
+	# We need to put it directly on static so requireJS can find it
 	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/qgrid.js https://unpkg.com/qgrid2@1.1.3/dist/index.js
 
 
@@ -90,9 +90,10 @@ cleanpython:  ## Clean Python build files
 # JS
 
 npm-build:  ## Build JS
-	cd $(CURDIR)/js/; npm run build
+	cd $(CURDIR)/js/; npm run build:all
 
 
+npm-i: npm-install
 npm-install:  ## Install JS dependencies
 	cd $(CURDIR)/js/; npm install
 
@@ -101,18 +102,14 @@ npm-dev:  ## Build JS with watch
 	cd $(CURDIR)/js/; npm run dev
 
 
+npm-publish:  ## Publish NPM
+	cd $(CURDIR)/js/; npm version
+	cd $(CURDIR)/js/; npm publish
+
+
 cleanjs:  ## Clean JS build files
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.js
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.js.map
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.css
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.css.map
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.html
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.woff
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.woff2
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.eot
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.ttf
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/*.svg
-	rm -rf $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/qgrid.js
+	cd $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/; find . ! -name '.gitignore' -type f -exec rm -f {} +
+	cd $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/'; rm -rf qgrid.js
 	cd $(CURDIR)/js/; rm -rf .cache dist lib
 
 
@@ -160,29 +157,38 @@ convert-example:  ## Run nbconver on one example
 # Docs
 
 .PHONY: docs
-docs: docs-examples  ## mkdocs build
-	mkdocs build --config-file $(CURDIR)/mkdocs.yml
+docs: docs-examples-html  ## mkdocs build
+	mkdocs build
+	$(MAKE) docs-copy-notebooks
 
-
-docs-nbs:  ## Convert notebooks inside docs
-	cd $(CURDIR)/docs && jupyter-nbconvert *.ipynb --to=notebook --inplace --execute --ExecutePreprocessor.store_widget_state=True
-
-
-docs-examples: docs-examples-illusionist  ## Run nbconvert on the examples
-	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert demos/*.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
-	cd $(CURDIR)/examples && jupyter-nbconvert getting-started/*.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-
-
-docs-examples-illusionist:
-	cd $(CURDIR)/examples && jupyter-nbconvert illusionist/*.ipynb --to=flex-illusionist --output-dir=$(CURDIR)/docs/examples/illusionist --execute --ExecutePreprocessor.store_widget_state=True
 
 serve-docs:  ## Serve docs
 	mkdocs serve
+
+
+docs-examples-html:  ## Convert examples to HTML dashboards
+	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb 					--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb 		--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert demos/*.ipynb 			--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
+	cd $(CURDIR)/examples && jupyter-nbconvert getting-started/*.ipynb 	--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb 			--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb 			--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb 			--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert illusionist/*.ipynb 		--to=flex-illusionist --output-dir=$(CURDIR)/docs/examples/illusionist --execute --ExecutePreprocessor.store_widget_state=True
+
+
+docs-copy-notebooks:  ## Execute example notebooks into docs output
+	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb 		        	--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb		--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert demos/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
+	cd $(CURDIR)/examples && jupyter-nbconvert getting-started/*.ipynb 	--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
+
+
+examples-clear-output:  ## Clear output of notebooks
+	cd $(CURDIR)/examples && jupyter nbconvert */*.ipynb --clear-output --inplace
 
 
 # ------------------------------------------------------------------------------

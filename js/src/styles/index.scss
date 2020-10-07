@@ -1,0 +1,25 @@
+.jupyter-flex-page {
+    background-color: #f0f2f6;
+    color: #333;
+
+    @import "voila.scss";
+    @import "modal.scss";
+}
+
+.jupyter-flex {
+    @import "variables.scss";
+    @import "card.scss";
+    @import "cell.scss";
+    @import "dashboard.scss";
+    @import "navbar.scss";
+    @import "page.scss";
+    @import "section.scss";
+    @import "sidebar.scss";
+
+    background-color: $body-bg;
+    color: #333;
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: left;
+}
