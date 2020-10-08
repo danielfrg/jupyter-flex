@@ -20,7 +20,7 @@ def test_example_site(needle, myselenium):
     needle.assert_screenshot("example_site", threshold=300000)
 
 
-@pytest.mark.parametrize("name,path", [("tree", ""), ("404", "/intentional-404")])
+@pytest.mark.parametrize("name,path", [("tree", ""), ("404", "/fake-page-404")])
 def test_voila(needle, myselenium, base_url, name, path):
     target_url = "{0}/{1}".format(base_url, path)
     needle.driver.get(target_url)
@@ -56,6 +56,18 @@ def test_customize(needle, myselenium, base_url, nb_name):
 
     # Take an element screen diff
     needle.assert_screenshot(f"customize/{nb_name}", threshold=800000)
+
+
+@pytest.mark.parametrize("nb_name", ["data-types"])
+def test_demos(needle, myselenium, base_url, nb_name):
+    target_url = "{0}/voila/render/demos/{1}.ipynb".format(base_url, nb_name)
+    needle.driver.get(target_url)
+
+    # Wait for dashboard components to render
+    time.sleep(5)
+
+    # Take an element screen diff
+    needle.assert_screenshot(f"demos/{nb_name}", threshold=800000)
 
 
 @pytest.mark.parametrize(
@@ -105,9 +117,9 @@ def test_layouts(needle, myselenium, base_url, nb_name):
 @pytest.mark.parametrize(
     "nb_name",
     [
+        "altair-scroll",
         "altair-single",
         "altair",
-        "altair-scroll",
         "bokeh-single",
         "bokeh",
         "bqplot-single",
@@ -131,11 +143,11 @@ def test_plots(needle, myselenium, base_url, nb_name):
     "nb_name",
     [
         "ipyleaflet",
-        "widgets-gallery",
-        "widgets-sidebar",
+        "ipysheet",
         "mpl-histogram",
         "qgrid",
-        "ipysheet",
+        "widgets-gallery",
+        "widgets-sidebar",
     ],
 )
 def test_widgets(needle, myselenium, base_url, nb_name):
