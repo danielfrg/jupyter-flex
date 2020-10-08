@@ -30,3 +30,7 @@ pip install jupyter-flex
 ## Learning More
 
 Learn more in the [jupyter-flex documentation](https://jupyter-flex.extrapolations.dev).
+
+## How to Contribute
+
+See [CONTRIBUTING.md](https://github.com/danielfrg/jupyter-flex/blob/master/CONTRIBUTING.md).
