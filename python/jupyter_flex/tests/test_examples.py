@@ -17,7 +17,7 @@ def test_example_site(needle, myselenium):
     needle.driver.get(target_url)
 
     # Take an element screen diff
-    needle.assert_screenshot("example_site", threshold=200000)
+    needle.assert_screenshot("example_site", threshold=300000)
 
 
 @pytest.mark.parametrize(
@@ -36,7 +36,7 @@ def test_voila(needle, myselenium, base_url, name, path):
     time.sleep(2)
 
     # Take an element screen diff
-    needle.assert_screenshot(f"voila-{name}", threshold=200000)
+    needle.assert_screenshot(f"voila-{name}", threshold=300000)
 
 
 @pytest.mark.parametrize(
@@ -50,7 +50,7 @@ def test_apps(needle, myselenium, base_url, nb_name):
     time.sleep(10)
 
     # Take an element screen diff
-    needle.assert_screenshot(f"{nb_name}", threshold=200000)
+    needle.assert_screenshot(f"{nb_name}", threshold=300000)
 
 
 @pytest.mark.parametrize("nb_name", ["classes-colors", "custom-css"])
@@ -62,7 +62,7 @@ def test_customize(needle, myselenium, base_url, nb_name):
     time.sleep(5)
 
     # Take an element screen diff
-    needle.assert_screenshot(f"customize/{nb_name}", threshold=200000)
+    needle.assert_screenshot(f"customize/{nb_name}", threshold=300000)
 
 
 @pytest.mark.parametrize("nb_name", ["data-types"])
@@ -74,7 +74,7 @@ def test_demos(needle, myselenium, base_url, nb_name):
     time.sleep(5)
 
     # Take an element screen diff
-    needle.assert_screenshot(f"demos/{nb_name}", threshold=200000)
+    needle.assert_screenshot(f"demos/{nb_name}", threshold=300000)
 
 
 @pytest.mark.parametrize(
@@ -88,7 +88,7 @@ def test_getting_started(needle, myselenium, base_url, nb_name):
     time.sleep(5)
 
     # Take an element screen diff
-    needle.assert_screenshot(f"getting-started/{nb_name}", threshold=200000)
+    needle.assert_screenshot(f"getting-started/{nb_name}", threshold=300000)
 
 
 @pytest.mark.parametrize(
@@ -118,7 +118,7 @@ def test_layouts(needle, myselenium, base_url, nb_name):
     time.sleep(5)
 
     # Take an element screen diff
-    needle.assert_screenshot(f"layouts/{nb_name}", threshold=200000)
+    needle.assert_screenshot(f"layouts/{nb_name}", threshold=300000)
 
 
 @pytest.mark.parametrize(
@@ -143,7 +143,7 @@ def test_plots(needle, myselenium, base_url, nb_name):
     time.sleep(5)
 
     # Take an element screen diff
-    needle.assert_screenshot(f"plots/{nb_name}", threshold=200000)
+    needle.assert_screenshot(f"plots/{nb_name}", threshold=300000)
 
 
 @pytest.mark.parametrize(
@@ -165,4 +165,4 @@ def test_widgets(needle, myselenium, base_url, nb_name):
     time.sleep(10)
 
     # Take an element screen diff
-    needle.assert_screenshot(f"widgets/{nb_name}", threshold=200000)
+    needle.assert_screenshot(f"widgets/{nb_name}", threshold=300000)
