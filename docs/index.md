@@ -39,67 +39,76 @@ change underlying parameters and see the results immediately using
 
 ## Examples
 
-<div class="image-grid-row">
-  <figure class="image-card">
-    <a href="/examples/altair.html">
-        <img src="/assets/img/screenshots/plots/altair.png" alt="Jupyter-flex: altair">
-    </a>
-    <figcaption>Altair plots</figcaption>
-  </figure>
-  <figure class="image-card">
-    <a href="/examples/plotly.html">
-        <img src="/assets/img/screenshots/plots/plotly.png" alt="Jupyter-flex: Plotly Plots">
-    </a>
-    <figcaption>Plotly plots</figcaption>
-  </figure>
-  <figure class="image-card">
-    <a href="/examples/bokeh.html">
-        <img src="/assets/img/screenshots/plots/bokeh.png" alt="Jupyter-flex: Bokeh Plots">
-    </a>
-    <figcaption>Bokeh plots</figcaption>
-  </figure>
-</div>
+<div class="image-grid">
+  <a class="image-card" href="/examples/altair.html">
+    <figure>
+      <img src="/assets/img/screenshots/plots/altair.png" alt="Jupyter-flex: altair">
+      <figcaption>Altair plots</figcaption>
+    </figure>
+  </a>
 
-<div class="image-grid-row">
-  <figure class="image-card">
-    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/master?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwidgets%2Fjupyter-widgtets-gallery.ipynb">
-        <img src="/assets/img/screenshots/widgets/widgets-gallery.png">
-    </a>
-    <figcaption>jupyter-widgets-gallery (runs in binder.org)</figcaption>
-  </figure>
-  <figure class="image-card">
-    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fplots%2Fbqplot.ipynb">
-        <img src="/assets/img/screenshots/plots/bqplot.png" alt="Jupyter-flex: bqplot">
-    </a>
-    <figcaption>bqplot plots (runs in mybinder.org)</figcaption>
-  </figure>
-  <figure class="image-card">
-    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fmovie-explorer.ipynb">
-        <img src="/assets/img/screenshots/movie-explorer.png" alt="Jupyter-flex: Movie Explorer">
-    </a>
-    <figcaption>Movie Explorer (runs in mybinder.org)</figcaption>
-  </figure>
-</div>
+  <a class="image-card" href="/examples/plotly.html">
+    <figure>
+      <img src="/assets/img/screenshots/plots/plotly.png" alt="Jupyter-flex: Plotly Plots">
+      <figcaption>Plotly plots</figcaption>
+    </figure>
+  </a>
 
-<div class="image-grid-row">
-  <figure class="image-card">
-    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
-        <img src="/assets/img/screenshots/wealth-of-nations.png" alt="Jupyter-flex: Wealth of Nations">
-    </a>
-    <figcaption>Wealth of Nations (runs in mybinder.org)</figcaption>
-  </figure>
-  <figure class="image-card">
-    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
-        <img src="/assets/img/screenshots/iris-clustering.png" alt="Jupyter-flex: Iris Clustering">
-    </a>
-    <figcaption>Iris clustering (runs in mybinder.org)</figcaption>
-  </figure>
-  <figure class="image-card">
-    <a href="/examples/nba-scoring.html">
-        <img src="/assets/img/screenshots/nba-scoring.png" alt="Jupyter-flex: NBA Scoring">
-    </a>
-    <figcaption>NBA Scoring</figcaption>
-  </figure>
+  <a class="image-card" href="/examples/bokeh.html">
+    <figure>
+      <img src="/assets/img/screenshots/plots/bokeh.png" alt="Jupyter-flex: Bokeh Plots">
+      <figcaption>Bokeh plots</figcaption>
+    </figure>
+  </a>
+
+  <a class="image-card" href="/examples/data-types.html">
+    <figure>
+      <img src="/assets/img/screenshots/demos/data-types.png" alt="All data types">
+      <figcaption>All data types</figcaption>
+    </figure>
+  </a>
+
+  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/master?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwidgets%2Fjupyter-widgtets-gallery.ipynb">
+    <figure>
+      <img src="/assets/img/screenshots/widgets/widgets-gallery.png">
+      <figcaption>jupyter-widgets-gallery (runs in binder.org)</figcaption>
+    </figure>
+  </a>
+
+  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fplots%2Fbqplot.ipynb">
+    <figure>
+      <img src="/assets/img/screenshots/plots/bqplot.png" alt="Jupyter-flex: bqplot">
+      <figcaption>bqplot plots (runs in mybinder.org)</figcaption>
+    </figure>
+  </a>
+
+  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fmovie-explorer.ipynb">
+    <figure>
+      <img src="/assets/img/screenshots/movie-explorer.png" alt="Jupyter-flex: Movie Explorer">
+      <figcaption>Movie Explorer (runs in mybinder.org)</figcaption>
+    </figure>
+  </a>
+
+  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
+    <figure>
+      <img src="/assets/img/screenshots/wealth-of-nations.png" alt="Jupyter-flex: Wealth of Nations">
+      <figcaption>Wealth of Nations (runs in mybinder.org)</figcaption>
+    </figure>
+  </a>
+
+  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
+    <figure>
+      <img src="/assets/img/screenshots/iris-clustering.png" alt="Jupyter-flex: Iris Clustering">
+      <figcaption>Iris clustering (runs in mybinder.org)</figcaption>
+    </figure>
+  </a>
+
+  <a class="image-card" href="/examples/nba-scoring.html">
+    <figure>
+      <img src="/assets/img/screenshots/nba-scoring.png" alt="Jupyter-flex: NBA Scoring">
+      <figcaption>NBA Scoring</figcaption>
+    </figure>
+  </a>
 </div>
 
 !!! info
