@@ -141,7 +141,7 @@ test-all:  ## Run all tests
 test-baselines:  ## Create test baselines
 	cd $(CURDIR)/python; pytest --driver Remote --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-save-baseline --needle-baseline-dir $(CURDIR)/docs/assets/img/screenshots \
-		-k $(PYTEST_K)
+		-s -k $(PYTEST_K)
 
 
 report:  ## Generate coverage reports
