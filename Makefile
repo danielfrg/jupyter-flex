@@ -41,7 +41,7 @@ python-build:  ## Build Python package (sdist)
 
 
 env:  ## Create virtualenv
-	cd $(CURDIR)/python; conda env create
+	conda env create
 
 
 develop:  ## Install package for development
