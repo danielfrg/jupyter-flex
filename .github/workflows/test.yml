@@ -113,5 +113,5 @@ jobs:
         uses: actions/upload-artifact@v1
         if: always()
         with:
-          name: docs
+          name: test-results
           path: python/test-results

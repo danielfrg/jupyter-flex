@@ -69,5 +69,5 @@ jobs:
         uses: actions/upload-artifact@v1
         if: always()
         with:
-          name: test-results
+          name: docs
           path: site
