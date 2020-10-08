@@ -32,6 +32,19 @@ class Section extends React.Component {
         };
     }
 
+    onTabClick = (event) => {
+        // Resize very 200ms
+        function resizeWindow() {
+            window.dispatchEvent(new Event("resize"));
+        }
+        var interval = setInterval(resizeWindow, 200);
+
+        // Clear interval after 2 seconds
+        setTimeout(function () {
+            clearInterval(interval);
+        }, 2000);
+    };
+
     render() {
         const { pageOrientation, title, cards } = this.props;
         let {
@@ -70,6 +83,7 @@ class Section extends React.Component {
                             role="tab"
                             aria-controls={cardSlug}
                             aria-selected={ariaSelected}
+                            onClick={this.onTabClick}
                         >
                             {card.title}
                         </a>
