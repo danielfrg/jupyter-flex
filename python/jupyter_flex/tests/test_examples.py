@@ -131,8 +131,8 @@ def test_plots(needle, myselenium, base_url, nb_name):
     "nb_name",
     [
         "ipyleaflet",
-        "ipywidgets-gallery",
-        "ipywidgets-sidebar",
+        "widgets-gallery",
+        "widgets-sidebar",
         "mpl-histogram",
         "qgrid",
         "ipysheet",

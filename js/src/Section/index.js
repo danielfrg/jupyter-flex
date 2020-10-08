@@ -55,7 +55,7 @@ class Section extends React.Component {
             flexDirection = "column";
             let tabsItems = [];
             cards.forEach((card, i) => {
-                const cardSlug = slugify(card.header);
+                const cardSlug = slugify(card.title);
                 const tabName = `${cardSlug}-tab`;
                 const active = i == 0 ? "active show" : "";
                 const ariaSelected = i == 0 ? "true" : "false";
@@ -71,7 +71,7 @@ class Section extends React.Component {
                             aria-controls={cardSlug}
                             aria-selected={ariaSelected}
                         >
-                            {card.header}
+                            {card.title}
                         </a>
                     </li>
                 );

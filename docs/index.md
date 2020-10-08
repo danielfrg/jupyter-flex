@@ -7,7 +7,7 @@ Use Jupyter Notebooks to quickly create interactive dashboards.
 -   Use [nbconvert](https://nbconvert.readthedocs.io/en/latest/) to create static reports
 -   Use [Voila](https://github.com/voila-dashboards/voila) to start a live
     Jupyter Kernel for fully dynamic applications
--   Support for [ipywidgets](https://ipywidgets.readthedocs.io/en/latest/)
+-   Support for [Jupyter widgets](https://ipywidgets.readthedocs.io/en/latest/)
 
 Inspired by [Flex Dashboards](https://rmarkdown.rstudio.com/flexdashboard/).
 
@@ -32,10 +32,10 @@ content of Jupyter-flex dashboards.
 The [Plotting](/plotting) page goes through some considerations around different
 plotting libraries in Jupyter-flex dashboards.
 
-The [Voila and IPywidgets](/voila-ipywidgets/) page describes how to leverage
+The [Voila and Jupyter widgets](/voila-widgets/) page describes how to leverage
 Voila to create dashboards that use a live Jupyter kernel that enable viewers to
 change underlying parameters and see the results immediately using
-[ipywidgets](https://ipywidgets.readthedocs.io/).
+[Jupyter widgets](https://ipywidgets.readthedocs.io/).
 
 ## Examples
 
@@ -62,10 +62,10 @@ change underlying parameters and see the results immediately using
 
 <div class="image-grid-row">
   <figure class="image-card">
-    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/master?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwidgets%2Fipywidgets-gallery.ipynb">
-        <img src="/assets/img/screenshots/widgets/ipywidgets-gallery.png">
+    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/master?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwidgets%2Fjupyter-widgtets-gallery.ipynb">
+        <img src="/assets/img/screenshots/widgets/widgets-gallery.png">
     </a>
-    <figcaption>ipywidgets-gallery (runs in binder.org)</figcaption>
+    <figcaption>jupyter-widgets-gallery (runs in binder.org)</figcaption>
   </figure>
   <figure class="image-card">
     <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fplots%2Fbqplot.ipynb">

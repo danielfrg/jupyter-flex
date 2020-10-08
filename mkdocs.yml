@@ -7,7 +7,7 @@ nav:
   - Getting started: getting-started.ipynb
   - Layouts: layouts.ipynb
   - Plotting: plotting.ipynb
-  - Voila & Widgets: voila-ipywidgets.ipynb
+  - Voila & Widgets: voila-widgets.ipynb
   - Customization: customization.ipynb
   - Reference: reference.md
 
