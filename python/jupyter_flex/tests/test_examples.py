@@ -30,7 +30,6 @@ def test_example_site(needle, myselenium):
 )
 def test_voila(needle, myselenium, base_url, name, path):
     target_url = "{0}/{1}".format(base_url, path)
-    print(target_url)
     needle.driver.get(target_url)
 
     # Wait for page components to render
