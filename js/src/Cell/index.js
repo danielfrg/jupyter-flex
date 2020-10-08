@@ -17,17 +17,21 @@ import {
 import { Provider as MathJaxProvider } from "@nteract/mathjax";
 
 import Widget from "./widget";
+import { getTagValue } from "../utils";
 
 class DashboardCell extends React.Component {
     render() {
         let {
             cell_type,
             execution_count,
+            metadata,
             source,
             outputs,
             showInputs,
             showOutputs,
         } = this.props;
+
+        const classNames = getTagValue(metadata.tags, "class", " ");
 
         // Saved .ipynb files split the source and outputs into an arrays
         // We merged them into a string for nteract
@@ -53,7 +57,11 @@ class DashboardCell extends React.Component {
         let contentEl;
 
         if (cell_type == "markdown") {
-            contentEl = <Media.Markdown data={source} />;
+            contentEl = (
+                <Cell className={`md-cell ${classNames}`}>
+                    <Media.Markdown className={classNames} data={source} />
+                </Cell>
+            );
         } else if (cell_type == "code") {
             let inputEls, outputEls;
             if (showInputs) {
@@ -110,7 +118,7 @@ class DashboardCell extends React.Component {
 
             if (inputEls || outputEls) {
                 contentEl = (
-                    <Cell className="code-cell">
+                    <Cell className={`code-cell ${classNames}`}>
                         {inputEls}
                         {outputEls}
                     </Cell>

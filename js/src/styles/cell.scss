@@ -6,6 +6,10 @@
     }
 }
 
+.md-cell {
+    background: transparent;
+}
+
 .code-cell {
     background: transparent !important;
 
@@ -110,12 +114,25 @@
     .js-plotly-plot {
         width: 100% !important;
         height: 100% !important;
-    }
 
-    .plot-container.plotly .modebar-container svg {
+        svg.svg-container {
+            width: 100% !important;
+            min-height: 100% !important;
+        }
+
+        .main-svg {
+            width: 100% !important;
+            // height: 100% !important;
+        }
+
         // Fix plotly toolbar icons
-        width: 1em;
-        height: 1em;
+        // Looks like this is no longer needed
+        // .plot-container.plotly {
+        //     .modebar-container svg {
+        //         width: 1em;
+        //         height: 1em;
+        //     }
+        // }
     }
 
     .vega-embed {

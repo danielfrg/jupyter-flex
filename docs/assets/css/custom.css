@@ -72,7 +72,61 @@ table code {
 
 /* Image grid */
 
-.image-grid-row {
+.image-grid {
+    display: flex;
+    flex: 1 1 100%;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 15px 0;
+}
+.image-grid .image-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+    padding: 5px;
+}
+.image-grid .image-card:hover {
+    background-color: #99999924;
+}
+.image-grid .image-card a {
+    color: #676767;
+}
+.image-grid .image-card a:hover {
+    color: #676767;
+}
+.image-grid .image-card figure:hover {
+    background: none;
+}
+.image-grid .image-card figcaption {
+    color: #676767;
+    font-size: 13px;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+.image-grid .image-card figcaption:hover {
+    color: #676767;
+}
+.image-grid img {
+    margin: 0 auto !important;
+    width: 100%;
+    vertical-align: middle;
+}
+@media (min-width: 576px) {
+    .image-grid {
+        flex-direction: row;
+    }
+    .image-grid .image-card {
+        width: 250px;
+    }
+    .image-grid img {
+        padding-bottom: 0;
+    }
+}
+
+/* .image-grid-row {
     display: flex;
     flex-direction: row;
     margin: 0;
@@ -96,7 +150,7 @@ figure.image-card {
     font-size: 13px;
     text-align: center;
     margin-top: 10px;
-}
+} */
 
 /* Terminal */
 

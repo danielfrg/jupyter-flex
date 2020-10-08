@@ -41,7 +41,7 @@ python-build:  ## Build Python package (sdist)
 
 
 env:  ## Create virtualenv
-	cd $(CURDIR)/python; conda env create
+	conda env create
 
 
 develop:  ## Install package for development
@@ -132,7 +132,7 @@ test:  ## Run tests
 
 
 test-all:  ## Run all tests
-	cd $(CURDIR)/python; mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
+	cd $(CURDIR)/python; mkdir -p test-results/screenshots/customize test-results/screenshots/demos test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
 	cd $(CURDIR)/python; pytest --driver Remote --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir $(CURDIR)/docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
 		-k $(PYTEST_K) --html=test-results/report.html --self-contained-html
@@ -141,7 +141,7 @@ test-all:  ## Run all tests
 test-baselines:  ## Create test baselines
 	cd $(CURDIR)/python; pytest --driver Remote --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-save-baseline --needle-baseline-dir $(CURDIR)/docs/assets/img/screenshots \
-		-k $(PYTEST_K)
+		-s -k $(PYTEST_K)
 
 
 report:  ## Generate coverage reports

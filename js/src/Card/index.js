@@ -123,7 +123,9 @@ class Card extends React.Component {
             headerHtml = (
                 <div className="card-header d-flex justify-content-between align-items-baseline">
                     <h6>{!insideTabs ? title : null}</h6>
-                    {buttons.length > 0 ? <div>{buttons}</div> : null}
+                    {buttons.length > 0 ? (
+                        <div className="buttons">{buttons}</div>
+                    ) : null}
                 </div>
             );
         }

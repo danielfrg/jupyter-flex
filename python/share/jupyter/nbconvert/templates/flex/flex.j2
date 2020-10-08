@@ -213,7 +213,7 @@
             {%- set is_meta = find_item_startswith(cell_tags, "meta") -%}
             {%- set is_source = find_item_startswith(cell_tags, "source") -%}
 
-            {%- if is_body or is_help or is_footer or is_meta or is_source -%}
+            {%- if is_body or is_help or is_footer or is_source -%}
                 {#- Check if current_* objects are created -#}
                 {#- Used when the notebook starts with tagged cell -#}
                 {%- if not vars.current_page -%}
