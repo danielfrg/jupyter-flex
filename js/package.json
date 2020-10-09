@@ -28,7 +28,7 @@
         "dist"
     ],
     "scripts": {
-        "dev": "npm run clean && webpack --watch --mode=development",
+        "dev": "npm run clean && webpack --mode=development --watch",
         "build": "npm run clean && webpack --mode=production",
         "build:lib": "babel src/ --out-dir lib",
         "build:all": "npm run build && npm run build:lib",

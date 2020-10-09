@@ -25,8 +25,7 @@ const extractPlugin = {
 module.exports = (env, argv) => {
     const IS_PRODUCTION = argv.mode === "production";
 
-    // Config to output the compiles styles into lib
-    const config_lib_sass = {
+    const config_lib_css = {
         entry: path.resolve(__dirname, "src", "styles/index.scss"),
         output: {
             path: path.resolve(__dirname, "lib", "styles"),
@@ -113,7 +112,7 @@ module.exports = (env, argv) => {
     let config = [];
     if (IS_PRODUCTION) {
         config.push(config_dist);
-        config.push(config_lib_sass);
+        config.push(config_lib_css);
     } else {
         config.push(config_dist);
     }

@@ -50,74 +50,87 @@ class JupyterFlexDashboard extends React.Component {
     }
 
     async componentDidMount() {
-        if (this.appMode == "voila") {
-            // Load Voila using RequireJS, adapted from:
-            // https://github.com/voila-dashboards/voila/blob/master/share/jupyter/voila/templates/base/static/main.js
+        let { widgetManager } = this.props;
 
-            requirePromise(["voila"]).then(async (voila) => {
-                const kernel = await voila.connectKernel();
-
-                const context = {
-                    session: {
-                        kernel,
-                        kernelChanged: {
-                            connect: () => {},
-                        },
-                        statusChanged: {
-                            connect: () => {},
-                        },
-                    },
-                    saveState: {
-                        connect: () => {},
-                    },
-                };
-
-                const settings = {
-                    saveState: false,
-                };
-
-                const rendermime = new voila.RenderMimeRegistry({
-                    initialFactories: voila.standardRendererFactories,
-                });
-
-                const widgetManager = new voila.WidgetManager(
-                    context,
-                    rendermime,
-                    settings
-                );
-
-                // eslint-disable-next-line no-unused-vars
-                window.addEventListener("beforeunload", function (event) {
-                    kernel.shutdown();
-                    kernel.dispose();
-                });
-
-                widgetManager.models = await widgetManager._build_models();
-
-                // We add this function to Voila's Widget Manager
-                widgetManager.renderWidget = async function (modelId) {
-                    const viewEl = document.body.querySelector(
-                        `div[id="${modelId}"]`
-                    );
-                    const model = widgetManager.models[modelId];
-
-                    viewEl.innerHTML = "";
-                    // eslint-disable-next-line no-unused-vars
-                    const view = await widgetManager.display_model(
-                        undefined,
-                        model,
-                        { el: viewEl }
-                    );
-                };
-
-                // voila.renderMathJax();
-
-                this.setState({ kernel: kernel, widgetManager: widgetManager });
-            });
-        } else if (this.appMode == "nbconvert") {
-            const widgetManager = new IllusionistWidgetManager();
-            await widgetManager.loadState();
+        if (widgetManager) {
             this.setState({ widgetManager: widgetManager });
+        } else {
+            // Create a WidgetManager if its missing
+
+            if (this.appMode == "voila") {
+                // Load Voila using RequireJS, adapted from:
+                // https://github.com/voila-dashboards/voila/blob/master/share/jupyter/voila/templates/base/static/main.js
+
+                requirePromise(["voila"]).then(async (voila) => {
+                    const kernel = await voila.connectKernel();
+
+                    const context = {
+                        session: {
+                            kernel,
+                            kernelChanged: {
+                                connect: () => {},
+                            },
+                            statusChanged: {
+                                connect: () => {},
+                            },
+                        },
+                        saveState: {
+                            connect: () => {},
+                        },
+                    };
+
+                    const settings = {
+                        saveState: false,
+                    };
+
+                    const rendermime = new voila.RenderMimeRegistry({
+                        initialFactories: voila.standardRendererFactories,
+                    });
+
+                    const widgetManager = new voila.WidgetManager(
+                        context,
+                        rendermime,
+                        settings
+                    );
+
+                    // eslint-disable-next-line no-unused-vars
+                    window.addEventListener("beforeunload", function (event) {
+                        kernel.shutdown();
+                        kernel.dispose();
+                    });
+
+                    widgetManager.models = await widgetManager._build_models();
+
+                    // We add this function to Voila's Widget Manager
+                    widgetManager.renderWidget = async function (modelId) {
+                        const viewEl = document.body.querySelector(
+                            `div[id="${modelId}"]`
+                        );
+                        const model = widgetManager.models[modelId];
+
+                        viewEl.innerHTML = "";
+                        // eslint-disable-next-line no-unused-vars
+                        const view = await widgetManager.display_model(
+                            undefined,
+                            model,
+                            { el: viewEl }
+                        );
+                        ``;
+                    };
+
+                    // voila.renderMathJax();
+
+                    this.setState({
+                        kernel: kernel,
+                        widgetManager: widgetManager,
+                    });
+                });
+            } else if (this.appMode == "nbconvert") {
+                const widgetManager = new IllusionistWidgetManager();
+                console.log("nooo");
+                await widgetManager.loadState();
+                this.setState({ widgetManager: widgetManager });
+            }
         }
     }
 
