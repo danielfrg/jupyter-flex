@@ -68,45 +68,45 @@ change underlying parameters and see the results immediately using
     </figure>
   </a>
 
-  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/master?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwidgets%widgets-gallery.ipynb">
+  <a class="image-card" href="/examples/nba-scoring.html">
+    <figure>
+      <img src="/assets/img/screenshots/nba-scoring.png" alt="Jupyter-flex: NBA Scoring">
+      <figcaption>NBA Scoring</figcaption>
+    </figure>
+  </a>
+
+  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.3?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwidgets%widgets-gallery.ipynb">
     <figure>
       <img src="/assets/img/screenshots/widgets/widgets-gallery.png">
       <figcaption>jupyter-widgets-gallery (runs in binder.org)</figcaption>
     </figure>
   </a>
 
-  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/master?urlpath=%2Fvoila%2Frender%2Fexamples%2Fplots%2Fbqplot.ipynb">
+  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.3?urlpath=%2Fvoila%2Frender%2Fexamples%2Fplots%2Fbqplot.ipynb">
     <figure>
       <img src="/assets/img/screenshots/plots/bqplot.png" alt="Jupyter-flex: bqplot">
       <figcaption>bqplot plots (runs in mybinder.org)</figcaption>
     </figure>
   </a>
 
-  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/master?urlpath=%2Fvoila%2Frender%2Fexamples%2Fmovie-explorer.ipynb">
+  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.3?urlpath=%2Fvoila%2Frender%2Fexamples%2Fmovie-explorer.ipynb">
     <figure>
       <img src="/assets/img/screenshots/movie-explorer.png" alt="Jupyter-flex: Movie Explorer">
       <figcaption>Movie Explorer (runs in mybinder.org)</figcaption>
     </figure>
   </a>
 
-  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/master?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
+  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.3?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
     <figure>
       <img src="/assets/img/screenshots/wealth-of-nations.png" alt="Jupyter-flex: Wealth of Nations">
       <figcaption>Wealth of Nations (runs in mybinder.org)</figcaption>
     </figure>
   </a>
 
-  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/master?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
+  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.3?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
     <figure>
       <img src="/assets/img/screenshots/iris-clustering.png" alt="Jupyter-flex: Iris Clustering">
       <figcaption>Iris clustering (runs in mybinder.org)</figcaption>
-    </figure>
-  </a>
-
-  <a class="image-card" href="/examples/nba-scoring.html">
-    <figure>
-      <img src="/assets/img/screenshots/nba-scoring.png" alt="Jupyter-flex: NBA Scoring">
-      <figcaption>NBA Scoring</figcaption>
     </figure>
   </a>
 </div>
