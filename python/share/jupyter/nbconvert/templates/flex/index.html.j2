@@ -23,11 +23,6 @@
     {% block html_head_css -%}
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    {% if dev_mode -%}
-    <link rel="stylesheet" href="http://localhost:8866/voila/static/dist/jupyter-flex-embed.css" />
-    {%- else -%}
-    {{ resources.include_css("static/dist/jupyter-flex-embed.css") }}
-    {%- endif %}
 	{% block flex_custom_css -%}
     {%- set custom_css = flex.get_custom_css() -%}
     {%- if custom_css | trim | length -%}
@@ -71,12 +66,19 @@
     {{ nb.metadata.widgets[mimetype] | json_dumps }}
     </script>
     {%- endif %}
-    
-    {%- if dev_mode %}
+
+    {% if dev_mode -%}
     <script src="http://localhost:8866/voila/static/dist/jupyter-flex-embed.js"></script>
-    {%- else %}
+    {%- else -%}
     {{ resources.include_js("./static/dist/jupyter-flex-embed.js") }}
     {%- endif %}
+
+    {% if dev_mode -%}
+    <link rel="stylesheet" href="http://localhost:8866/voila/static/dist/jupyter-flex-embed.css" />
+    {%- else -%}
+    {{ resources.include_css("static/dist/jupyter-flex-embed.css") }}
+    {%- endif %}
+    
 </body>
 {%- endblock body %}
 
