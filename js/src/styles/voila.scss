@@ -1,23 +1,7 @@
 // -----------------------------------------------------------------------------
 // These are for nbconvert and voila
 
-.loading {
-    width: 100%;
-    height: 100%;
-    display: flex;
-
-    .text-center {
-        width: 100%;
-        max-width: 720px;
-        padding: 15px;
-        margin: auto;
-        text-align: center;
-
-        p {
-            margin: 1rem 0;
-        }
-    }
-}
+@import "base.scss";
 
 .filetree {
     border-radius: 0.25rem;
