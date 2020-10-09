@@ -68,7 +68,7 @@ change underlying parameters and see the results immediately using
     </figure>
   </a>
 
-  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/master?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwidgets%2Fjupyter-widgets-gallery.ipynb">
+  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/master?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwidgets%widgets-gallery.ipynb">
     <figure>
       <img src="/assets/img/screenshots/widgets/widgets-gallery.png">
       <figcaption>jupyter-widgets-gallery (runs in binder.org)</figcaption>

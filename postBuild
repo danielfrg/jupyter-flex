@@ -4,6 +4,3 @@ set -ex
 
 # Download Bokeh sample data
 python -c "import bokeh.sampledata; bokeh.sampledata.download()"
-
-# Install package
-make develop
