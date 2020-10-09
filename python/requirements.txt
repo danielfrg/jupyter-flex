@@ -10,14 +10,6 @@ wheel
 pytest
 pytest-cov
 
-# Base pip deps: Docs
-mkdocs
-mkdocs-material
-mkdocs-jupyter>=0.15.0
-mkdocs-minify-plugin
-pygments
-pymdown-extensions
-
 # This project pip deps
 notebook
 jupyterlab
@@ -31,8 +23,10 @@ pytest-needle
 pytest-base-url
 pytest-selenium
 pytest-tornasync
+jupyter-flex
+illusionist
 
-# This project pip deps: Examples
+# Examples
 numpy
 pandas
 scipy
@@ -50,4 +44,11 @@ ipyleaflet
 pandas-datareader
 colorlover
 vega_datasets
-illusionist
+
+# Base pip deps: Docs
+mkdocs
+mkdocs-material
+mkdocs-jupyter>=0.15.0
+mkdocs-minify-plugin
+pygments
+pymdown-extensions

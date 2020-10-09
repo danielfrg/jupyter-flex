@@ -1,5 +1,6 @@
 {
-  "VoilaConfiguration": {
-    "template": "flex"
-  }
+    "VoilaConfiguration": {
+        "template": "flex",
+        "enable_nbextensions": true
+    }
 }
