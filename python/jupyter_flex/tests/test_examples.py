@@ -74,7 +74,7 @@ def test_demos(needle, myselenium, base_url, nb_name):
     time.sleep(5)
 
     # Take an element screen diff
-    needle.assert_screenshot(f"demos/{nb_name}", threshold=300000)
+    needle.assert_screenshot(f"demos/{nb_name}", threshold=600000)
 
 
 @pytest.mark.parametrize(
