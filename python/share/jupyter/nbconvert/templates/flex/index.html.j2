@@ -22,7 +22,14 @@
 
     {% block html_head_css -%}
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha84-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {%- block flex_embed_css -%}
+    {% if dev_mode -%}
+    <link rel="stylesheet" href="http://localhost:8866/voila/static/dist/jupyter-flex-embed.css" />
+    {%- else -%}
+    {{ resources.include_css("static/dist/jupyter-flex-embed.css") }}
+    {%- endif %}
+    {%- endblock flex_embed_css -%}
 	{% block flex_custom_css -%}
     {%- set custom_css = flex.get_custom_css() -%}
     {%- if custom_css | trim | length -%}
@@ -37,6 +44,9 @@
 
 {%- block body %}
 <body class="jupyter-flex-page">
+
+	{%- block body_before_flex -%}
+	{% endblock body_before_flex %}
 
     <div id="flex-modal"></div>
     <div id="flex-root">
@@ -72,12 +82,7 @@
     {%- else -%}
     {{ resources.include_js("./static/dist/jupyter-flex-embed.js") }}
     {%- endif %}
-
-    {% if dev_mode -%}
-    <link rel="stylesheet" href="http://localhost:8866/voila/static/dist/jupyter-flex-embed.css" />
-    {%- else -%}
-    {{ resources.include_css("static/dist/jupyter-flex-embed.css") }}
-    {%- endif %}
+    {{ self.flex_embed_css() }}
     
 </body>
 {%- endblock body %}

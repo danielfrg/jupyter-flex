@@ -23,3 +23,72 @@
     <link rel="shortcut icon" type="image/ico" href="{{ resources.base_url }}voila/static/favicon.png" />
     {%- endif -%}
 {%- endblock flex_custom_css %}
+
+{% block body_before_flex %}
+	{%- block body_header %}
+	    <div id="voila_body_loop">
+	        <div id="voila-executing">
+	            <div class="container-fluid d-flex flex-row loading">
+	                <div class="text-center">
+	                    <div class="spinner-grow" role="status">
+	                        <span class="sr-only">Loading...</span>
+	                    </div>
+	                    <p id="voila-cell-count">Executing notebook</p>
+	                </div>
+	            </div>
+	        </div>
+
+	        <script>
+	            var voilaCellExecuteAfter = function(cellIndex, cellCount) {};
+	            var voilaCellExecuteBefore = function(cellIndex, cellCount) {
+	                var el = document.getElementById("voila-cell-count");
+	                el.innerHTML = "Executing cell " + cellIndex + " of " + cellCount;
+	            };
+	        </script>
+	{%- endblock body_header -%}
+
+	{%- block execute_cells -%}
+	    {# From this point on, the kernel is started #}
+	    {# This is excuted on base.html.j2 #}
+
+	    {%- with kernel_id = kernel_start(nb) %}
+	        <script id="jupyter-config-data" type="application/json">
+	            {
+	                "baseUrl": "{{ resources.base_url }}",
+	                "kernelId": "{{ kernel_id }}"
+	            }
+	        </script>
+
+	        {%- set cellCount = nb.cells|length -%}
+	        {#
+	        Voila is using Jinja's Template.generate method to not render the whole template in one go.
+	        The current implementation of Jinja will however not yield template snippets if we call a blocks' super()
+	        Therefore it is important to have the cell loop in the template.
+	        The issue for Jinja is: https://github.com/pallets/jinja/issues/1044
+	        #}
+	        <script>
+	            voilaCellExecuteBefore(1, {{ cellCount }});
+	        </script>
+	        {% for cell in cell_generator(nb, kernel_id) %}
+	        {%- set cellLoop = loop -%}
+	        <script>
+	            voilaCellExecuteAfter({{ cellLoop.index }}, {{ cellCount }});
+	            {%- if cellLoop.index != cellCount %}
+	            voilaCellExecuteBefore({{ cellLoop.index }} + 1, {{ cellCount }});
+	            {%- endif %}
+	        </script>
+	        {% endfor %}
+	  {%- endwith -%}
+	{%- endblock execute_cells -%}
+
+	{% block after_body_loop %}
+	    </div>
+	{% endblock %}
+    <script type="text/javascript">
+    (function() {
+        // Remove the loading element
+        var el = document.getElementById("voila-executing");
+        el.parentNode.removeChild(el);
+    })();
+    </script>
+{% endblock body_before_flex %}
