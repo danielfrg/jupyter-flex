@@ -192,7 +192,7 @@ docs-copy-notebooks:  ## Execute example notebooks into docs output
 	cd $(CURDIR)/examples && jupyter-nbconvert getting-started/*.ipynb 	--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks/illusionist --execute --ExecutePreprocessor.store_widget_state=True
 
 
 examples-clear-output:  ## Clear output of notebooks
