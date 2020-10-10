@@ -6,7 +6,7 @@ import pytest
 pytestmark = [pytest.mark.nondestructive, pytest.mark.selenium]
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def myselenium(selenium):
     selenium.set_window_size(1440, 900)
     return selenium
