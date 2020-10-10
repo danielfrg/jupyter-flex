@@ -149,8 +149,8 @@ report:  ## Generate coverage reports
 	cd $(CURDIR)/python; coverage html
 
 
-convert-example:  ## Run nbconver on one example
-	cd $(CURDIR)/examples && jupyter-nbconvert demos/data-types.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
+nbconvert-example:  ## Run nbconver on one example
+	cd $(CURDIR)/examples && jupyter-nbconvert widgets/ipyleaflet.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
 
 
 # ------------------------------------------------------------------------------

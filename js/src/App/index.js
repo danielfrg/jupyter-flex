@@ -2,7 +2,7 @@ import React from "react";
 
 import IllusionistWidgetManager from "@danielfrg/illusionist";
 
-import { requirePromise } from "../require-loader";
+import { requirePromise } from "../loader";
 import Dashboard from "./dashboard";
 import { Provider } from "./context";
 
@@ -118,8 +118,6 @@ class JupyterFlexDashboard extends React.Component {
                         ``;
                     };
 
-                    // voila.renderMathJax();
-
                     this.setState({
                         kernel: kernel,
                         widgetManager: widgetManager,
@@ -127,7 +125,7 @@ class JupyterFlexDashboard extends React.Component {
                 });
             } else if (this.appMode == "nbconvert") {
                 const widgetManager = new IllusionistWidgetManager();
-                console.log("nooo");
+
                 await widgetManager.loadState();
                 this.setState({ widgetManager: widgetManager });
             }
