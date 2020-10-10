@@ -79,7 +79,7 @@ class NavBar extends React.Component {
 
         return (
             <header>
-                <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+                <nav className="navbar navbar-expand-md">
                     <div className="container-fluid">
                         <span className="navbar-brand">
                             {logoEl}

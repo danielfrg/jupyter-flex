@@ -133,6 +133,7 @@ class JupyterFlexDashboard extends React.Component {
     }
 
     render() {
+        const { kernel, widgetManager } = this.state;
         let {
             title,
             logo,
@@ -165,8 +166,8 @@ class JupyterFlexDashboard extends React.Component {
         return (
             <Provider
                 value={{
-                    kernel: this.state.kernel,
-                    widgetManager: this.state.widgetManager,
+                    kernel: kernel,
+                    widgetManager: widgetManager,
                     showCardCells: include_source,
                 }}
             >

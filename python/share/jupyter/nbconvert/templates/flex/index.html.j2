@@ -6,38 +6,35 @@
 {%- block html_head %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" /> 
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    {%- block favicon %}
+    {%- endblock favicon %}
     {% block html_head_title -%}
-    <title>{{ flex.get_title() }}</title> 
+    <title>{{ flex.get_title() }}</title>
     {%- endblock html_head_title %}
 
-    {% block html_head_js -%}
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-    {% block html_head_js_requirejs -%}
-    <script src="{{ resources.require_js_url }}"></script>
-    {%- endblock html_head_js_requirejs -%}
-    {%- endblock html_head_js %}
-
     {% block html_head_css -%}
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha84-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha84-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
     {%- block flex_embed_css -%}
-    {% if dev_mode -%}
-    <link rel="stylesheet" href="http://localhost:8866/voila/static/dist/jupyter-flex-embed.css" />
-    {%- else -%}
+    {%- if dev_mode %}
+    <link rel="stylesheet" type="text/css" href="http://localhost:8866/voila/static/dist/jupyter-flex-embed.css" />
+    {%- else %}
     {{ resources.include_css("static/dist/jupyter-flex-embed.css") }}
-    {%- endif %}
+    {%- endif -%}
     {%- endblock flex_embed_css -%}
-	{% block flex_custom_css -%}
+
+    {%- block flex_custom_css -%}
     {%- set custom_css = flex.get_custom_css() -%}
     {%- if custom_css | trim | length -%}
     <style>{{ resources.include_external_file(custom_css) }}</style>
     {%- endif -%}
 	{%- endblock flex_custom_css -%}
-    {%- endblock html_head_css %}
-	
+    {%- endblock html_head_css -%}
+
+    {%- block html_head_js -%}
+    {%- endblock html_head_js %}
 {%- endblock html_head %}
 </head>
 {%- endblock header %}
@@ -57,7 +54,7 @@
         </div>
     </div>
 
-    {%- block dashboard_data -%}
+    {% block dashboard_data -%}
     <script id="jupyter-flex-dashboard" type="application/json">
     {{ flex.make_dashboard(nb, resources) }}
     </script>
@@ -77,13 +74,20 @@
     </script>
     {%- endif %}
 
+    {% block body_end_js -%}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+    {% block body_end_js_requirejs -%}
+    <script src="{{ resources.require_js_url }}"></script>
+    {%- endblock body_end_js_requirejs -%}
+
     {% if dev_mode -%}
     <script src="http://localhost:8866/voila/static/dist/jupyter-flex-embed.js"></script>
     {%- else -%}
     {{ resources.include_js("./static/dist/jupyter-flex-embed.js") }}
     {%- endif %}
-    {{ self.flex_embed_css() }}
-    
+    {%- endblock body_end_js %}
 </body>
 {%- endblock body %}
 

@@ -10,6 +10,26 @@
     background: transparent;
 }
 
+.markdown-body {
+    a {
+        color: $text-color;
+        text-decoration: underline;
+
+        &:visited {
+            color: $text-color;
+        }
+    }
+
+    blockquote p {
+        display: block;
+    }
+
+    pre {
+        margin-bottom: 16px !important;
+        margin: 8px 0;
+    }
+}
+
 .code-cell {
     background: transparent !important;
 
@@ -17,10 +37,14 @@
         padding: 0;
     }
 
-    pre {
-        margin: 8px 0;
+    // If we are in a code cell leave the margin-bottom
+    .markdown-body {
+        & > *:last-child {
+            margin-bottom: 8px !important;
+        }
     }
 
+    // Pandas tables
     table.dataframe {
         border: none;
         border-collapse: collapse;
@@ -97,7 +121,7 @@
 
     // Plots
 
-    // SVG outputs from MPL
+    // Matplotlib: SVG
     .jp-RenderedSVG {
         img {
             width: 100%;
@@ -105,6 +129,7 @@
         }
     }
 
+    // Plotly
     .js-plotly-plot {
         width: 100% !important;
         height: 100% !important;
@@ -120,7 +145,7 @@
         }
 
         // Fix plotly toolbar icons
-        // Looks like this is no longer needed
+        // Looks like this is no longer needed but leaving here just in case
         // .plot-container.plotly {
         //     .modebar-container svg {
         //         width: 1em;
@@ -129,6 +154,7 @@
         // }
     }
 
+    // Altair
     .vega-embed {
         width: 100%;
         height: 95%;
@@ -151,11 +177,13 @@
         // }
     }
 
+    // Bokeh
     .bk-root {
         width: 100% !important;
         height: 100% !important;
     }
 
+    // bqplot
     .bqplot {
         height: 100% !important;
         width: 99% !important;

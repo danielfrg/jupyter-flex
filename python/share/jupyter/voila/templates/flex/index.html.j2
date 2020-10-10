@@ -1,96 +1,111 @@
 {% extends 'nbconvert/templates/flex/index.html.j2' %}
 
-{% block html_head_js -%}
-    {{ resources.include_js("static/dist/jquery.slim.min.js") }}
-    {{ resources.include_js("static/dist/bootstrap.min.js") }}
-    {% block html_head_js_requirejs -%}
-    {{- super() -}}
-    <script>
-        requirejs.config({ baseUrl: '{{resources.base_url}}voila/static/', waitSeconds: 30})
-    </script>
-    {%- endblock html_head_js_requirejs -%}
-{%- endblock html_head_js %}
+{%- block favicon %}
+	{%- set custom_favicon = flex.get_favicon() %}
+	{% if custom_favicon | trim | length -%}
+	<link rel="shortcut icon" type="image/ico" href="{{ resources.base_url }}voila/files/{{ custom_favicon }}" />
+	{% else -%}
+	<link rel="shortcut icon" type="image/ico" href="{{ resources.base_url }}voila/static/favicon.png" />
+	{%- endif %}
+{%- endblock favicon %}
 
-{%- block flex_custom_css %}
+{% block html_head_css -%}
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+	{{ resources.include_css("static/dist/bootstrap.min.css") }}
+
+	{%- block flex_embed_css %}
+	{{ resources.include_css("static/dist/jupyter-flex-embed.css") }}
+	{%- endblock flex_embed_css -%}
+
+	{%- block flex_custom_css %}
 	{%- set custom_css = flex.get_custom_css() -%}
-	{%- if custom_css | trim | length -%}
-	<link href="{{ resources.base_url }}voila/files/{{ custom_css }}" rel="stylesheet">
-	{%- endif -%}
-  
-  {%- set custom_favicon = flex.get_favicon() -%}
-  {%- if custom_favicon | trim | length -%}
-  <link rel="shortcut icon" type="image/ico" href="{{ resources.base_url }}voila/files/{{ custom_favicon }}" />
-  {%- else -%}
-  <link rel="shortcut icon" type="image/ico" href="{{ resources.base_url }}voila/static/favicon.png" />
-  {%- endif -%}
-{%- endblock flex_custom_css %}
+	{%- if custom_css | trim | length %}
+    <link rel="stylesheet" type="text/css" href="{{ resources.base_url }}voila/files/{{ custom_css }}" >
+    {%- endif %}
+	{%- endblock flex_custom_css -%}
+{%- endblock html_head_css -%}
 
-{% block body_before_flex %}
-	{%- block body_header %}
-	    <div id="voila_body_loop">
-	        <div id="voila-executing">
-	            <div class="container-fluid loading-full">
-	                <div class="text-center">
-	                    <div class="spinner-grow" role="status">
-	                        <span class="sr-only">Loading...</span>
-	                    </div>
-	                    <p id="voila-cell-count">Executing notebook</p>
-	                </div>
-	            </div>
-	        </div>
+{%- block body_before_flex -%}
+{%- block body_header %}
+	<div id="voila_body_loop">
+		<div id="voila-executing">
+			<div class="container-fluid loading-full">
+				<div class="text-center">
+					<div class="spinner-grow" role="status">
+						<span class="sr-only">Loading...</span>
+					</div>
+					<p id="voila-cell-count">Executing notebook</p>
+				</div>
+			</div>
+		</div>
 
-	        <script>
-	            var voilaCellExecuteAfter = function(cellIndex, cellCount) {};
-	            var voilaCellExecuteBefore = function(cellIndex, cellCount) {
-	                var el = document.getElementById("voila-cell-count");
-	                el.innerHTML = "Executing cell " + cellIndex + " of " + cellCount;
-	            };
-	        </script>
-	{%- endblock body_header -%}
+		<script>
+			var voilaCellExecuteAfter = function(cellIndex, cellCount) {};
+			var voilaCellExecuteBefore = function(cellIndex, cellCount) {
+				var el = document.getElementById("voila-cell-count");
+				el.innerHTML = "Executing cell " + cellIndex + " of " + cellCount;
+			};
+		</script>
+{%- endblock body_header -%}
 
-	{%- block execute_cells -%}
-	    {# From this point on, the kernel is started #}
-	    {# This is excuted on base.html.j2 #}
+{%- block execute_cells -%}
+	{# From this point on, the kernel is started #}
+	{# This is excuted on base.html.j2 #}
 
-	    {%- with kernel_id = kernel_start(nb) %}
-	        <script id="jupyter-config-data" type="application/json">
-	            {
-	                "baseUrl": "{{ resources.base_url }}",
-	                "kernelId": "{{ kernel_id }}"
-	            }
-	        </script>
+	{%- with kernel_id = kernel_start(nb) %}
+		<script id="jupyter-config-data" type="application/json">
+			{
+				"baseUrl": "{{ resources.base_url }}",
+				"kernelId": "{{ kernel_id }}"
+			}
+		</script>
 
-	        {%- set cellCount = nb.cells|length -%}
-	        {#
-	        Voila is using Jinja's Template.generate method to not render the whole template in one go.
-	        The current implementation of Jinja will however not yield template snippets if we call a blocks' super()
-	        Therefore it is important to have the cell loop in the template.
-	        The issue for Jinja is: https://github.com/pallets/jinja/issues/1044
-	        #}
-	        <script>
-	            voilaCellExecuteBefore(1, {{ cellCount }});
-	        </script>
-	        {% for cell in cell_generator(nb, kernel_id) %}
-	        {%- set cellLoop = loop -%}
-	        <script>
-	            voilaCellExecuteAfter({{ cellLoop.index }}, {{ cellCount }});
-	            {%- if cellLoop.index != cellCount %}
-	            voilaCellExecuteBefore({{ cellLoop.index }} + 1, {{ cellCount }});
-	            {%- endif %}
-	        </script>
-	        {% endfor %}
-	  {%- endwith -%}
-	{%- endblock execute_cells -%}
+		{%- set cellCount = nb.cells|length -%}
+		{#
+		Voila is using Jinja's Template.generate method to not render the whole template in one go.
+		The current implementation of Jinja will however not yield template snippets if we call a blocks' super()
+		Therefore it is important to have the cell loop in the template.
+		The issue for Jinja is: https://github.com/pallets/jinja/issues/1044
+		#}
+		<script>
+			voilaCellExecuteBefore(1, {{ cellCount }});
+		</script>
+		{% for cell in cell_generator(nb, kernel_id) %}
+		{%- set cellLoop = loop -%}
+		<script>
+			voilaCellExecuteAfter({{ cellLoop.index }}, {{ cellCount }});
+			{%- if cellLoop.index != cellCount %}
+			voilaCellExecuteBefore({{ cellLoop.index }} + 1, {{ cellCount }});
+			{%- endif %}
+		</script>
+		{% endfor -%}
+	{%- endwith -%}
+{%- endblock execute_cells -%}
 
-	{% block after_body_loop %}
-	    </div>
-	{% endblock %}
+{% block after_body_loop %}
+	</div> <!-- voila_body_loop -->
+{%- endblock %}
 
-  <script type="text/javascript">
-  (function() {
-      // Remove the loading element
-      var el = document.getElementById("voila-executing");
-      el.parentNode.removeChild(el);
-  })();
-  </script>
-{% endblock body_before_flex %}
+	<script type="text/javascript">
+	(function() {
+		// Remove the loading element
+		var el = document.getElementById("voila-executing");
+		el.parentNode.removeChild(el);
+	})();
+	</script>
+{%- endblock body_before_flex %}
+
+{% block body_end_js -%}
+	{{ resources.include_js("static/dist/jquery.slim.min.js") }}
+	{{ resources.include_js("static/dist/bootstrap.min.js") }}
+
+	{%- block body_end_js_requirejs %}
+	{{ super() }}
+	<script>
+		requirejs.config({ baseUrl: '{{resources.base_url}}voila/static/', waitSeconds: 30})
+	</script>
+	{%- endblock body_end_js_requirejs %}
+
+	{{ resources.include_js("static/dist/jupyter-flex-embed.js") }}
+{%- endblock body_end_js %}
+
