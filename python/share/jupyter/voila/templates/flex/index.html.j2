@@ -5,9 +5,9 @@
     {{ resources.include_js("static/dist/bootstrap.min.js") }}
     {% block html_head_js_requirejs -%}
     {{- super() -}}
-	<script>
-	    requirejs.config({ baseUrl: '{{resources.base_url}}voila/static/', waitSeconds: 30})
-	</script>
+    <script>
+        requirejs.config({ baseUrl: '{{resources.base_url}}voila/static/', waitSeconds: 30})
+    </script>
     {%- endblock html_head_js_requirejs -%}
 {%- endblock html_head_js %}
 
@@ -16,19 +16,20 @@
 	{%- if custom_css | trim | length -%}
 	<link href="{{ resources.base_url }}voila/files/{{ custom_css }}" rel="stylesheet">
 	{%- endif -%}
-    {%- set custom_favicon = flex.get_favicon() -%}
-    {%- if custom_favicon | trim | length -%}
-    <link rel="shortcut icon" type="image/ico" href="{{ resources.base_url }}voila/files/{{ custom_favicon }}" />
-    {%- else -%}
-    <link rel="shortcut icon" type="image/ico" href="{{ resources.base_url }}voila/static/favicon.png" />
-    {%- endif -%}
+  
+  {%- set custom_favicon = flex.get_favicon() -%}
+  {%- if custom_favicon | trim | length -%}
+  <link rel="shortcut icon" type="image/ico" href="{{ resources.base_url }}voila/files/{{ custom_favicon }}" />
+  {%- else -%}
+  <link rel="shortcut icon" type="image/ico" href="{{ resources.base_url }}voila/static/favicon.png" />
+  {%- endif -%}
 {%- endblock flex_custom_css %}
 
 {% block body_before_flex %}
 	{%- block body_header %}
 	    <div id="voila_body_loop">
 	        <div id="voila-executing">
-	            <div class="container-fluid d-flex flex-row loading">
+	            <div class="container-fluid loading-full">
 	                <div class="text-center">
 	                    <div class="spinner-grow" role="status">
 	                        <span class="sr-only">Loading...</span>
@@ -84,11 +85,12 @@
 	{% block after_body_loop %}
 	    </div>
 	{% endblock %}
-    <script type="text/javascript">
-    (function() {
-        // Remove the loading element
-        var el = document.getElementById("voila-executing");
-        el.parentNode.removeChild(el);
-    })();
-    </script>
+
+  <script type="text/javascript">
+  (function() {
+      // Remove the loading element
+      var el = document.getElementById("voila-executing");
+      el.parentNode.removeChild(el);
+  })();
+  </script>
 {% endblock body_before_flex %}

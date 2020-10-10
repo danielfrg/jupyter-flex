@@ -124,15 +124,23 @@ voila-examples:  ## Serve examples using voila
 	voila --debug --template flex --no-browser --Voila.ip='0.0.0.0' --port 8866 --VoilaConfiguration.file_whitelist="['.*']" $(CURDIR)/examples
 
 
-test:  ## Run tests
-	cd $(CURDIR)/python; mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
+test-setup:
+	cd $(CURDIR)/python; mkdir -p test-results/screenshots/customize
+	cd $(CURDIR)/python; mkdir -p test-results/screenshots/demos
+	cd $(CURDIR)/python; mkdir -p test-results/screenshots/getting-started
+	cd $(CURDIR)/python; mkdir -p test-results/screenshots/illusionist
+	cd $(CURDIR)/python; mkdir -p test-results/screenshots/layouts
+	cd $(CURDIR)/python; mkdir -p test-results/screenshots/plots
+	cd $(CURDIR)/python; mkdir -p test-results/screenshots/widgets
+
+
+test: test-setup  ## Run tests
 	cd $(CURDIR)/python; pytest --driver Remote --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir $(CURDIR)/docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
 		-k $(PYTEST_K) -m $(TEST_MARKERS) --html=test-results/report.html --self-contained-html
 
 
-test-all:  ## Run all tests
-	cd $(CURDIR)/python; mkdir -p test-results/screenshots/customize test-results/screenshots/demos test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
+test-all: test-setup  ## Run all tests
 	cd $(CURDIR)/python; pytest --driver Remote --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir $(CURDIR)/docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
 		-k $(PYTEST_K) --html=test-results/report.html --self-contained-html
@@ -149,8 +157,8 @@ report:  ## Generate coverage reports
 	cd $(CURDIR)/python; coverage html
 
 
-convert-example:  ## Run nbconver on one example
-	cd $(CURDIR)/examples && jupyter-nbconvert demos/data-types.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
+nbconvert-example:  ## Run nbconver on one example
+	cd $(CURDIR)/examples && jupyter-nbconvert widgets/ipyleaflet.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
 
 
 # ------------------------------------------------------------------------------
@@ -167,24 +175,25 @@ serve-docs:  ## Serve docs
 
 
 docs-examples-html:  ## Convert examples to HTML dashboards
-	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb 					--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb 		--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert demos/*.ipynb 			--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
-	cd $(CURDIR)/examples && jupyter-nbconvert getting-started/*.ipynb 	--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb 			--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb 			--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb 			--to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert illusionist/*.ipynb 		--to=flex-illusionist --output-dir=$(CURDIR)/docs/examples/illusionist --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb 					--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb 		--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert demos/*.ipynb 			--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
+	cd $(CURDIR)/examples && jupyter-nbconvert getting-started/*.ipynb 	--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb 			--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb 			--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb 			--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert illusionist/*.ipynb 		--output-dir=$(CURDIR)/docs/examples/illusionist --to=flex-illusionist --execute --ExecutePreprocessor.store_widget_state=True
 
 
 docs-copy-notebooks:  ## Execute example notebooks into docs output
-	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb 		        	--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb		--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert demos/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
-	cd $(CURDIR)/examples && jupyter-nbconvert getting-started/*.ipynb 	--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb 			--to=notebook --output-dir=$(CURDIR)/site/examples/notebooks --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb 		        	--output-dir=$(CURDIR)/site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb		--output-dir=$(CURDIR)/site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert demos/*.ipynb 			--output-dir=$(CURDIR)/site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
+	cd $(CURDIR)/examples && jupyter-nbconvert getting-started/*.ipynb 	--output-dir=$(CURDIR)/site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb 			--output-dir=$(CURDIR)/site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb 			--output-dir=$(CURDIR)/site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb 			--output-dir=$(CURDIR)/site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert illusionist/*.ipynb 		--output-dir=$(CURDIR)/docs/examples/notebooks/illusionist --to=illusionist-nb --execute --ExecutePreprocessor.store_widget_state=True
 
 
 examples-clear-output:  ## Clear output of notebooks

@@ -60,22 +60,16 @@
     }
 
     // Widgets
-    .loading-widget {
-        text-align: center !important;
-        margin-bottom: 1rem;
+    .loading-full {
+        .text-center {
+            .spinner-grow {
+                width: 0.5rem;
+                height: 0.5rem;
+            }
 
-        .spinner-grow {
-            width: 0.5rem;
-            height: 0.5rem;
-            color: #555;
-            z-index: 1000;
-        }
-
-        .loading-text {
-            color: #555;
-            font-size: 0.8em;
-            margin-top: 0;
-            margin-bottom: 0;
+            p {
+                margin: 5px 0;
+            }
         }
     }
 
@@ -169,11 +163,10 @@
 }
 
 .sidebar {
-    .loading-widget {
-        .spinner-grow {
-            color: #fff;
-        }
-        .loading-text {
+    .loading-full {
+        height: unset;
+
+        .text-center {
             color: #fff;
         }
     }
