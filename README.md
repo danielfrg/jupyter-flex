@@ -1,4 +1,4 @@
-# jupyter-flex: Easy interactive dashboards for Jupyter
+# jupyter-flex: Dashboards for Jupyter
 
 [![PyPI](https://badge.fury.io/py/jupyter-flex.svg)](https://pypi.org/project/jupyter-flex/)
 [![Testing](https://github.com/danielfrg/jupyter-flex/workflows/test/badge.svg)](https://github.com/danielfrg/jupyter-flex/actions)
@@ -7,7 +7,7 @@
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.3?urlpath=voila%2Ftree%2Fexamples)
 [![Docs](https://github.com/danielfrg/jupyter-flex/workflows/docs/badge.svg)](https://jupyter-flex.extrapolations.dev/)
 
-Use Jupyter Notebooks to quickly create interactive dashboards.
+Build dashboard using Jupyter Notebooks.
 
 -  Use Markdown headers and Jupyter Notebook cell tags to define the dashboard layout and its components
 -  Flexible and easy way to specify row and column based layouts

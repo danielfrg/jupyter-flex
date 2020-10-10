@@ -1,6 +1,6 @@
-# Jupyter-flex: Easy interactive dashboards for Jupyter
+# Jupyter-flex: Dashboards for Jupyter
 
-Use Jupyter Notebooks to quickly create interactive dashboards.
+Build dashboard using Jupyter Notebooks.
 
 -   Use Markdown headers and Jupyter Notebook cell tags to define the dashboard components
 -   Flexible and easy way to specify row and column based layouts
