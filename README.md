@@ -2,10 +2,10 @@
 
 [![PyPI](https://badge.fury.io/py/jupyter-flex.svg)](https://pypi.org/project/jupyter-flex/)
 [![Testing](https://github.com/danielfrg/jupyter-flex/workflows/test/badge.svg)](https://github.com/danielfrg/jupyter-flex/actions)
+[![Docs](https://github.com/danielfrg/jupyter-flex/workflows/docs/badge.svg)](https://jupyter-flex.extrapolations.dev/)
 [![Coverage Status](https://codecov.io/gh/danielfrg/jupyter-flex/branch/master/graph/badge.svg)](https://codecov.io/gh/danielfrg/jupyter-flex?branch=master)
 [![License](http://img.shields.io/:license-Apache%202-blue.svg)](https://github.com/danielfrg/jupyter-flex/blob/master/LICENSE.txt)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.3?urlpath=voila%2Ftree%2Fexamples)
-[![Docs](https://github.com/danielfrg/jupyter-flex/workflows/docs/badge.svg)](https://jupyter-flex.extrapolations.dev/)
 
 Build dashboard using Jupyter Notebooks.
 
