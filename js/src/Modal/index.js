@@ -20,7 +20,7 @@ class Modal extends React.Component {
     render() {
         let children = (
             <div
-                className="modal fade show"
+                className="jupyter-flex modal fade show"
                 tabIndex="-1"
                 role="dialog"
                 style={{ display: "block", paddingRight: "15px" }}

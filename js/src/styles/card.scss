@@ -4,11 +4,6 @@
     border: none;
     color: $text-color;
 
-    a {
-        color: $text-color;
-        text-decoration: underline;
-    }
-
     // cards inside a row section
     &.card-columns {
         margin-right: 1rem;

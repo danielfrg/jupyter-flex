@@ -26,7 +26,6 @@ class Dashboard extends React.Component {
         let routes = [];
 
         if (meta && meta.length > 0) {
-            console.log(meta);
             meta.forEach((cell, i) => {
                 metaCells.push(<DashboardCell key={i} {...cell} />);
             });

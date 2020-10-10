@@ -1,5 +1,5 @@
 site_name: Jupyter-flex
-site_url: https://github.com/danielfrg/jupyter-flex
+site_url: https://jupyter-flex.extrapolations.dev
 copyright: Copyright 2019 - 2020 Daniel Rodriguez
 
 nav:
@@ -11,22 +11,21 @@ nav:
   - Customization: customization.ipynb
   - Reference: reference.md
 
+repo_name: danielfrg/jupyter-flex
+repo_url: https://github.com/danielfrg/jupyter-flex
+edit_uri: ""
+
 theme:
-  name: "material"
-  custom_dir: "docs/theme"
-  favicon: "/assets/img/favicon.ico"
-  logo: /assets/img/icon.png
+  name: material
+  custom_dir: docs/theme
+  favicon: assets/img/favicon.ico
+  logo: assets/img/icon.png
 
 extra_css:
   - assets/css/custom.css
 
 extra_javascript:
-  - "assets/js/custom.js"
-  - "assets/js/require.min.js"
-
-repo_name: "danielfrg/jupyter-flex"
-repo_url: "https://github.com/danielfrg/jupyter-flex"
-edit_uri: ""
+  - assets/js/custom.js
 
 plugins:
   - search

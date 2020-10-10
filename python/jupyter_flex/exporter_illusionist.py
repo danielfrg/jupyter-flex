@@ -1,10 +1,9 @@
-import base64
 import os
-import sys
-from traitlets import default
 
 import jinja2
 from nbconvert.exporters.html import HTMLExporter
+from traitlets import default
+
 
 try:
     from illusionist.preprocessor import IllusionistPreprocessor

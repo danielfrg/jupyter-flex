@@ -1,5 +1,5 @@
-.navbar {
-    background-color: #000 !important;
+.jupyter-flex .navbar {
+    background-color: blue;
 }
 
 .page {
