@@ -92,6 +92,20 @@ def test_getting_started(needle, myselenium, base_url, nb_name):
 
 
 @pytest.mark.parametrize(
+    "nb_name", ["linked", "matplotlib", "multiplier", "widget-gallery"]
+)
+def test_illusionist(needle, myselenium, base_url, nb_name):
+    target_url = "{0}/voila/render/illusionist/{1}.ipynb".format(base_url, nb_name)
+    needle.driver.get(target_url)
+
+    # Wait for dashboard components to render
+    time.sleep(5)
+
+    # Take an element screen diff
+    needle.assert_screenshot(f"illusionist/{nb_name}", threshold=300000)
+
+
+@pytest.mark.parametrize(
     "nb_name",
     [
         "card-complete",
