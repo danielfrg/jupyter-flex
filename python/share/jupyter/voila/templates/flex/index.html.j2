@@ -100,7 +100,7 @@
 	{{ resources.include_js("static/dist/bootstrap.min.js") }}
 
 	{%- block body_end_js_requirejs %}
-	{{ super() }}
+	{{ resources.include_js("static/dist/require.min.js") }}
 	<script>
 		requirejs.config({ baseUrl: '{{resources.base_url}}voila/static/', waitSeconds: 30})
 	</script>
