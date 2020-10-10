@@ -165,9 +165,11 @@ nbconvert-example:  ## Run nbconver on one example
 # Docs
 
 .PHONY: docs
-docs: docs-examples-html  ## mkdocs build
+docs:  ## mkdocs build
+	# $(MAKE) docs-examples-html
+	rm -rf $(CURDIR)/site;
 	mkdocs build
-	$(MAKE) docs-exec-notebooks
+	# $(MAKE) docs-exec-notebooks
 
 
 serve-docs:  ## Serve docs
