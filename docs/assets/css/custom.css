@@ -24,9 +24,7 @@
     --md-accent-bg-color: var(--md-default-bg-color);
     --md-accent-bg-color--light: var(--md-default-bg-color--light);
 
-    /* Code block color shades */
-    /* --md-code-bg-color:                  ...;
-  --md-code-fg-color:                  ...; */
+    --md-primary-fg-color--dark: #24292e;
 }
 
 .md-header {
@@ -47,14 +45,20 @@ a:hover {
 }
 
 a.md-nav__link:before {
-    color: var(--md-primary-fg-color);
-    content: "\203A";
-    left: 20px;
-    opacity: 0.8;
-    position: absolute;
-    height: 100%;
-    width: 8px;
-    margin-top: -1px;
+    content: "";
+}
+
+@media (min-width: 76.1875em) {
+    a.md-nav__link:before {
+        color: var(--md-primary-fg-color);
+        content: "\203A";
+        left: 20px;
+        opacity: 0.8;
+        position: absolute;
+        height: 100%;
+        width: 8px;
+        margin-top: -1px;
+    }
 }
 
 a.md-nav__link {
@@ -125,33 +129,6 @@ table code {
         padding-bottom: 0;
     }
 }
-
-/* .image-grid-row {
-    display: flex;
-    flex-direction: row;
-    margin: 0;
-}
-
-figure.image-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 300px;
-    margin: 5px;
-}
-
-.image-card img {
-    margin: auto;
-    vertical-align: middle;
-}
-
-.image-card figcaption {
-    color: #676767;
-    font-size: 13px;
-    text-align: center;
-    margin-top: 10px;
-} */
-
 /* Terminal */
 
 p.code-header {
