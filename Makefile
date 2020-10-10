@@ -166,10 +166,10 @@ nbconvert-example:  ## Run nbconver on one example
 
 .PHONY: docs
 docs:  ## mkdocs build
-	# $(MAKE) docs-examples-html
+	$(MAKE) docs-examples-html
 	rm -rf $(CURDIR)/site;
 	mkdocs build
-	# $(MAKE) docs-exec-notebooks
+	$(MAKE) docs-exec-notebooks
 
 
 serve-docs:  ## Serve docs
