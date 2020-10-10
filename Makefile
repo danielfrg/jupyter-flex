@@ -124,15 +124,23 @@ voila-examples:  ## Serve examples using voila
 	voila --debug --template flex --no-browser --Voila.ip='0.0.0.0' --port 8866 --VoilaConfiguration.file_whitelist="['.*']" $(CURDIR)/examples
 
 
-test:  ## Run tests
-	cd $(CURDIR)/python; mkdir -p test-results/screenshots/customize test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
+test-setup:
+	cd $(CURDIR)/python; mkdir -p test-results/screenshots/customize
+	cd $(CURDIR)/python; mkdir -p test-results/screenshots/demos
+	cd $(CURDIR)/python; mkdir -p test-results/screenshots/getting-started
+	cd $(CURDIR)/python; mkdir -p test-results/screenshots/illusionist
+	cd $(CURDIR)/python; mkdir -p test-results/screenshots/layouts
+	cd $(CURDIR)/python; mkdir -p test-results/screenshots/plots
+	cd $(CURDIR)/python; mkdir -p test-results/screenshots/widgets
+
+
+test: test-setup  ## Run tests
 	cd $(CURDIR)/python; pytest --driver Remote --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir $(CURDIR)/docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
 		-k $(PYTEST_K) -m $(TEST_MARKERS) --html=test-results/report.html --self-contained-html
 
 
-test-all:  ## Run all tests
-	cd $(CURDIR)/python; mkdir -p test-results/screenshots/customize test-results/screenshots/demos test-results/screenshots/getting-started test-results/screenshots/layouts test-results/screenshots/plots test-results/screenshots/widgets
+test-all: test-setup  ## Run all tests
 	cd $(CURDIR)/python; pytest --driver Remote --host $(SELENIUM_HUB_HOST) --port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir $(CURDIR)/docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
 		-k $(PYTEST_K) --html=test-results/report.html --self-contained-html

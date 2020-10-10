@@ -6,7 +6,7 @@ import pytest
 pytestmark = [pytest.mark.nondestructive, pytest.mark.selenium]
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def myselenium(selenium):
     selenium.set_window_size(1440, 900)
     return selenium
@@ -82,6 +82,20 @@ def test_demos(needle, myselenium, base_url, nb_name):
 )
 def test_getting_started(needle, myselenium, base_url, nb_name):
     target_url = "{0}/voila/render/getting-started/{1}.ipynb".format(base_url, nb_name)
+    needle.driver.get(target_url)
+
+    # Wait for dashboard components to render
+    time.sleep(5)
+
+    # Take an element screen diff
+    needle.assert_screenshot(f"getting-started/{nb_name}", threshold=300000)
+
+
+@pytest.mark.parametrize(
+    "nb_name", ["linked", "matplotlib", "multiplier", "widget-gallery"]
+)
+def test_illusionist(needle, myselenium, base_url, nb_name):
+    target_url = "{0}/voila/render/illusionist/{1}.ipynb".format(base_url, nb_name)
     needle.driver.get(target_url)
 
     # Wait for dashboard components to render
