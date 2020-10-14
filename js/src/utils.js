@@ -1,3 +1,16 @@
+export function resizeInterval() {
+    // Resize very 200ms
+    function resizeWindow() {
+        window.dispatchEvent(new Event("resize"));
+    }
+    var interval = setInterval(resizeWindow, 200);
+
+    // Clear interval after 2 seconds
+    setTimeout(function () {
+        clearInterval(interval);
+    }, 2000);
+}
+
 export function getTagValue(tags, tag, join = "") {
     if (!tags) {
         return;

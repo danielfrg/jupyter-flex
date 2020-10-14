@@ -1,7 +1,7 @@
 import React from "react";
 
 import Card from "../Card";
-import { getTagValue, slugify } from "../utils";
+import { resizeInterval, getTagValue, slugify } from "../utils";
 
 class Section extends React.Component {
     constructor(props) {
@@ -33,16 +33,7 @@ class Section extends React.Component {
     }
 
     onTabClick = (event) => {
-        // Resize very 200ms
-        function resizeWindow() {
-            window.dispatchEvent(new Event("resize"));
-        }
-        var interval = setInterval(resizeWindow, 200);
-
-        // Clear interval after 2 seconds
-        setTimeout(function () {
-            clearInterval(interval);
-        }, 2000);
+        resizeInterval();
     };
 
     render() {
@@ -157,7 +148,7 @@ class Section extends React.Component {
         return (
             <div
                 className={`section section-${sectionClassName} ${sectionTabs} d-flex flex-${flexDirection} ${classNames}`}
-                style={{ flex: `${size} ${size} 0px` }}
+                style={{ flex: `${size} ${size} auto` }}
             >
                 {tabsButtons}
                 {cardComponents}
