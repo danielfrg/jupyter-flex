@@ -168,7 +168,7 @@ class JupyterFlexDashboard extends React.Component {
                 value={{
                     kernel: kernel,
                     widgetManager: widgetManager,
-                    showCardCells: include_source,
+                    showCardSource: include_source,
                 }}
             >
                 <Dashboard
