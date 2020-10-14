@@ -63,7 +63,8 @@ class DashboardCell extends React.Component {
                 </Cell>
             );
         } else if (cell_type == "code") {
-            let inputEls, outputEls;
+            let inputEls;
+
             if (showInputs) {
                 inputEls = (
                     <Input>
@@ -73,7 +74,8 @@ class DashboardCell extends React.Component {
                 );
             }
 
-            if (showOutputs && outputs) {
+            let outputEls;
+            if (showOutputs && outputs && outputs.length > 0) {
                 outputEls = (
                     <Outputs>
                         {outputs.map((output, i) => {

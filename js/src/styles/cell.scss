@@ -1,11 +1,5 @@
 @import "@primer/css/markdown/index.scss";
 
-.card-body {
-    .code-cell {
-        height: 100%;
-    }
-}
-
 .md-cell {
     background: transparent;
 }
@@ -141,7 +135,7 @@
 
         .main-svg {
             width: 100% !important;
-            // height: 100% !important;
+            height: 100% !important;
         }
 
         // Fix plotly toolbar icons

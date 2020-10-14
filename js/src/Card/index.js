@@ -44,18 +44,20 @@ class Card extends React.Component {
             footer,
             insideTabs,
         } = this.props;
-        const { showCardCells } = this.context;
+        const { showCardSource } = this.context;
 
         let cardClassName = sectionOrientation == "columns" ? "column" : "row";
 
         let headerHtml;
         let sourceModal;
         let helpModal;
-        if (title || showCardCells || (help && help.length > 0)) {
+
+        // Create hdear
+        if (title || showCardSource || (help && help.length > 0)) {
             let buttons = [];
 
-            // Source Cells
-            if (showCardCells) {
+            // Source button and modal
+            if (showCardSource) {
                 buttons.push(
                     <button
                         key="source"
@@ -91,8 +93,8 @@ class Card extends React.Component {
                 );
             }
 
-            // Help Cells
-            if (help.length > 0) {
+            // Help button and modal
+            if (help && help.length > 0) {
                 buttons.push(
                     <button
                         key="help"
@@ -128,17 +130,22 @@ class Card extends React.Component {
                     ) : null}
                 </div>
             );
-        }
+        } // End header if
 
+        // Card body
         let bodyComponents = [];
         if (body.length > 0) {
             body.forEach((cell, i) => {
-                bodyComponents.push(
-                    <DashboardCell showInputs={false} key={i} {...cell} />
-                );
+                // Only show if they are tagged with body, ignore source tag
+                if (cell.metadata.tags.includes("body")) {
+                    bodyComponents.push(
+                        <DashboardCell showInputs={false} key={i} {...cell} />
+                    );
+                }
             });
         }
 
+        // Card footer
         let footerComponents = [];
         if (footer && footer.length > 0) {
             footer.forEach((cell, i) => {

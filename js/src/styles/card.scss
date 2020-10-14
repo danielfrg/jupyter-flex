@@ -1,26 +1,20 @@
 @import "variables.scss";
 
+.card-column {
+    + .card-column {
+        margin-left: 1rem;
+    }
+}
+
+.card-row {
+    + .card-row {
+        margin-top: 1rem;
+    }
+}
+
 .card {
     border: none;
     color: $text-color;
-
-    // cards inside a row section
-    &.card-columns {
-        margin-right: 1rem;
-
-        &:last-child {
-            margin-right: 0;
-        }
-    }
-
-    // cards inside a column section
-    &.card-rows {
-        margin-bottom: 1rem;
-
-        &:last-child {
-            margin-bottom: 0;
-        }
-    }
 
     .card-header {
         color: $text-color;
@@ -73,17 +67,5 @@
                 margin-right: 0;
             }
         }
-    }
-}
-
-.card-column {
-    + .card-column {
-        margin-left: 1rem;
-    }
-}
-
-.card-row {
-    + .card-row {
-        margin-top: 1rem;
     }
 }

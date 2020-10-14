@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 const modalRoot = document.getElementById("flex-modal");
+import { resizeInterval } from "../utils";
 
 class Modal extends React.Component {
     constructor(props) {
