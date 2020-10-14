@@ -113,6 +113,7 @@ def test_illusionist(needle, myselenium, base_url, nb_name):
         "focal-chart-top",
         "grid-2x2",
         "grid-2x3",
+        "header-columns-footer",
         "pages",
         "section-columns-columns",
         "section-columns",
