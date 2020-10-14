@@ -1,38 +1,10 @@
-{#----------------------------------------------------------------------------#}
-{#- Read properties if there is a cell tagged `parameters`                   -#}
-{#----------------------------------------------------------------------------#}
-
 {#- Default parameters for the dashboard -#}
 {%- set default_title = nb.metadata.get("title", "") or resources["metadata"]["name"] -%}
-{%- set kernel_display_name = nb.metadata.get("kernelspec", {}).get("display_name", "") -%}
-{%- set props = {"title": default_title, "kernel_name": kernel_display_name, "include_source": resources.global_content_filter.include_input} -%}
-
-{#- Iterate notebook cells -#}
-{#- We only look at parameters prefixed with `flex_` -#}
-{%- for cell in nb.cells -%}
-    {%- set tags = cell.metadata.get("tags", []) -%}
-    {%- if "parameters" in tags -%}
-        {%- for line in cell["source"].split("\n") -%}
-            {%- if line | trim | length -%}
-                {%- if line.startswith("flex_") -%}
-                    {%- if line.split("=") | length == 2 -%}
-                        {%- set key = line.split("=")[0] | trim  -%}
-                        {#- remove prefix: -#}
-                        {%- set key = key["flex_" | length:]  -%}
-                        {%- set value = line.split("=")[1] | replace("\\\"", "|?|") | replace("\"", " ") | replace("|?|", "\"") | trim -%}
-                        {%- set _ = props.update({key: value})  -%}
-                    {%- endif -%}
-                {%- endif -%}
-            {%- endif -%}
-        {%- endfor -%}
-        {%- break -%}
-    {%- endif -%}
-{%- endfor -%}
-
-{%- set _ = props.update({"include_source": props.include_source == "True"}) -%}
+{%- set include_source = resources.global_content_filter.include_source == "True" -%}
+{%- set props = {"title": default_title, "include_source": include_source} -%}
 
 {%- macro get_props() -%}
-{{ props }}
+{{ props | tojson }}
 {%- endmacro -%}
 
 {%- macro get_title() -%}
@@ -47,8 +19,33 @@
 {{ props.get("custom_css", "") }}
 {%- endmacro -%}
 
-{%- macro find_item_startswith(list, prefix, default="") -%}
+{# Update the props based on a cell #}
+{%- macro update_props(cell) -%}
+{%- for line in cell["source"].split("\n") -%}
+    {%- if line | trim | length -%}
+        {%- if line.startswith("flex_") -%}
+            {%- if line.split("=") | length == 2 -%}
+                {%- set key = line.split("=")[0] | trim  -%}
+                {#- Remove prefix -#}
+                {%- set key = key["flex_" | length:]  -%}
+                {%- set value = line.split("=")[1] | replace("\\\"", "|?|") | replace("\"", " ") | replace("|?|", "\"") | trim -%}
+
+                {#- Check booleans -#}
+                {%- if value == "True" -%}
+                {%- set value = true -%}
+                {%- elif value == "frue" -%}
+                {%- set value = false -%}
+                {%- endif -%}
+
+                {%- set _ = props.update({key: value})  -%}
+            {%- endif -%}
+        {%- endif -%}
+    {%- endif -%}
+{%- endfor -%}
+{%- endmacro -%}
+
 {# Iterate list and print the first value that starts with a prefix #}
+{%- macro find_item_startswith(list, prefix, default="") -%}
 {%- for item in list -%}
     {%- if item.startswith(prefix) -%}
         {{ item }}
@@ -58,15 +55,15 @@
 {{ default }}
 {%- endmacro -%}
 
+{# Output text if it starts with prefix (removes the prefix) #}
 {%- macro startswith_remove_prefix(text, prefix) -%}
-{# Print text if it starts with prefix (removes the prefix) #}
 {%- if text.startswith(prefix) -%}
 {{ text[prefix | length:] | trim }}
 {%- endif -%}
 {%- endmacro -%}
 
+{# Output joined text with all items that startswith a prefix #}
 {%- macro join_all_items_with_prefix(list, prefix, join_char=" ") -%}
-{# Print joined text with all items that startswith a prefix #}
 {%- set matches = [] -%}
 {%- for item in list -%}
     {%- set has_prefix = startswith_remove_prefix(item, "class=") -%}
@@ -80,7 +77,7 @@
 {#----------------------------------------------------------------------------#}
 {#- Creates a dashboard structure variable by iterating the notebook cells   -#}
 {#----------------------------------------------------------------------------#}
-{%- macro make_dashboard(nb, resources) -%}
+{%- macro make_dashboard(nb) -%}
     {%- set dashboard = {} -%}
     {%- set _ = dashboard.update({"props": props, "meta": [], "pages": [] }) -%}
 
@@ -202,11 +199,7 @@
             {%- endif -%}
 
         {%- elif cell_type == "code" -%}
-            {# Remove source #}
-            {%- if not props.include_source -%}
-                {%- set _ = cell.pop("source") -%}
-            {%- endif -%}
-
+            {%- set is_params = find_item_startswith(cell_tags, "parameters") -%}
             {%- set is_body = find_item_startswith(cell_tags, "body") -%}
             {%- set is_help = find_item_startswith(cell_tags, "help") -%}
             {%- set is_footer = find_item_startswith(cell_tags, "footer") -%}
@@ -227,10 +220,11 @@
                 {%- endif -%}
             {%- endif -%}
 
-
-            {%- if is_body -%}
+            {%- if is_params -%}
+                {{ update_props(cell) }}
+            {%- elif is_body -%}
                 {%- set _ = vars.current_card.body.append(cell) -%}
-            {%- elif is_source -%}
+            {%- elif is_source and props.include_source -%}
                 {#- We just want to include the source for this cell, remove the outputs -#}
                 {%- set _ = cell.pop("outputs") -%}
                 {%- set _ = vars.current_card.body.append(cell) -%}
@@ -241,6 +235,11 @@
             {%- elif is_meta -%}
                 {#- Metadata cells dont create section or pages -#}
                 {%- set _ = dashboard.meta.append(cell) -%}
+            {%- endif -%}
+
+            {#- Remove source -#}
+            {%- if not props.include_source -%}
+                {%- set _ = cell.pop("source") -%}
             {%- endif -%}
         {%- endif -%}
 

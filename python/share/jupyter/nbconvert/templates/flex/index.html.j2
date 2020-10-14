@@ -56,7 +56,7 @@
 
     {% block dashboard_data -%}
     <script id="jupyter-flex-dashboard" type="application/json">
-    {{ flex.make_dashboard(nb, resources) }}
+    {{ flex.make_dashboard(nb) }}
     </script>
     {%- endblock dashboard_data -%}
 
