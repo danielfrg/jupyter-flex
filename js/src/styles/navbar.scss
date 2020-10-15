@@ -8,7 +8,7 @@
     color: #fff;
 
     .container-fluid {
-        padding: 0.35rem 0 0.35rem 1rem;
+        padding: 0.35rem 0;
         background-color: inherit;
         white-space: nowrap !important;
         overflow-x: auto;
@@ -16,11 +16,25 @@
         @media (min-width: 768px) {
             padding-right: 1rem;
         }
+
+        .nav-content {
+            display: flex;
+            flex-wrap: nowrap;
+            padding: 0;
+            justify-content: space-between;
+            width: 100%;
+
+            @media (min-width: 768px) {
+                justify-content: normal;
+                width: unset;
+            }
+        }
     }
 
     a.home {
         color: #fff;
-        margin-right: 1rem;
+        margin-right: 0;
+        margin-left: 1rem;
 
         i.material-icons {
             font-size: 22px;
@@ -32,37 +46,37 @@
     }
 
     .logo {
-        margin-right: 0.4rem;
+        margin-right: 0.35rem;
         margin-bottom: 3px;
         max-width: 25px;
         max-height: 25px;
     }
 
     .navbar-brand {
-        font-weight: 300;
         margin-right: 0;
+        margin-left: 1rem;
+        font-weight: 300;
+        font-size: 1.15rem;
+    }
+
+    .navbar-collapse {
+        padding-left: 1rem;
     }
 
     .nav-pages {
-        margin-left: 0rem;
-
-        @media (min-width: 768px) {
-            margin-left: 1rem;
-        }
+        margin: 0;
+        padding: 0;
     }
 
-    ul.navbar-nav {
-        .nav-link {
-            color: #aeb7c2;
-            // padding: 0.6rem 0.5rem 0.4rem;
+    .nav-link {
+        color: #aeb7c2;
 
-            &:hover {
-                color: #fff;
-            }
+        &:hover {
+            color: #fff;
+        }
 
-            &.active {
-                color: #fff;
-            }
+        &.active {
+            color: #fff;
         }
     }
 

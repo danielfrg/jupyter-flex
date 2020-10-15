@@ -69,6 +69,7 @@ class Dashboard extends React.Component {
                             sourceCodeLink={sourceCodeLink}
                             kernelName={kernelName}
                             pages={pages}
+                            sidebar={sidebar !== undefined}
                         />
                         <main
                             role="main"
@@ -77,8 +78,8 @@ class Dashboard extends React.Component {
                             {sidebar}
                             <div
                                 className={
-                                    sidebar
-                                        ? "col-md-9 ml-sm-auto col-lg-10 p-0"
+                                    sidebar !== undefined
+                                        ? "ml-sm-auto col-md-8 col-lg-10 p-0"
                                         : ""
                                 }
                             >

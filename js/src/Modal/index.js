@@ -23,7 +23,6 @@ class Modal extends React.Component {
                 className="jupyter-flex modal fade show"
                 tabIndex="-1"
                 role="dialog"
-                style={{ display: "block", paddingRight: "15px" }}
             >
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">

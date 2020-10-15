@@ -33,6 +33,7 @@ class Section extends React.Component {
     }
 
     onTabClick = (event) => {
+        // Commenting this for now I dont think we need  it anymore
         resizeInterval();
     };
 
@@ -74,6 +75,7 @@ class Section extends React.Component {
                             role="tab"
                             aria-controls={cardSlug}
                             aria-selected={ariaSelected}
+                            // Commenting this for now, i dont think we need it anymore
                             onClick={this.onTabClick}
                         >
                             {card.title}
@@ -147,7 +149,7 @@ class Section extends React.Component {
 
         return (
             <div
-                className={`section section-${sectionClassName} ${sectionTabs} flex-${flexDirection} ${classNames}`}
+                className={`section section-${sectionClassName} flex-${flexDirection} ${sectionTabs} ${classNames}`}
                 style={{ flex: `${size} ${size} auto` }}
             >
                 {tabsButtons}
