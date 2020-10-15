@@ -49,6 +49,13 @@
                         height: 0;
                     }
 
+                    .section-tabs {
+                        .tab-content {
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+
                     .flex-column {
                         .card-row {
                             // Cards in a column direction are rows

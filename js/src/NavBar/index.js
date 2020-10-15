@@ -57,6 +57,10 @@ class NavBar extends React.Component {
                                 exact={true}
                                 className="nav-link"
                                 activeClassName="active"
+                                onClick={() => {
+                                    // eslint-disable-next-line no-undef
+                                    $("#navPages").collapse("hide");
+                                }}
                             >
                                 {page.title}
                             </NavLink>
