@@ -1,5 +1,8 @@
 # Jupyter-flex Change Log
 
+## [Unreleased]
+- Rename `flex_author` to `flex_subtitle`
+
 ## [0.6.3]
 - Refactor JS modules and release to NPM
 - Multiple small CSS and JS fixes
@@ -37,7 +40,7 @@
 ## 0.4.0
 
 - Standardized all parameters with a flex_ prefix
-- Added flex_author, flex_logo, flex_favicon parameters
+- Added flex_subtitle, flex_logo, flex_favicon parameters
 - Added option to include a custom.css file using flex_custom_css
 - Added option to have multiple outputs per card, including markdown cells
 - Added option to add custom CSS classes using `class={value}` tags

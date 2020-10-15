@@ -226,9 +226,11 @@
         {%- endif -%}
 
         {#- Remove source -#}
-        {%- if not props.include_source -%}
+        {#
+        {%- if not props.include_source and cell.source -%}
             {%- set _ = cell.pop("source") -%}
         {%- endif -%}
+        #}
     {%- endif -%}
 
 {%- endfor -%}

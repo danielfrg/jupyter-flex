@@ -8,8 +8,27 @@
     color: #fff;
 
     .container-fluid {
-        padding: 0.35rem 1rem;
+        padding: 0.35rem 0 0.35rem 1rem;
         background-color: inherit;
+        white-space: nowrap !important;
+        overflow-x: auto;
+
+        @media (min-width: 768px) {
+            padding-right: 1rem;
+        }
+    }
+
+    a.home {
+        color: #fff;
+        margin-right: 1rem;
+
+        i.material-icons {
+            font-size: 22px;
+        }
+
+        &:hover {
+            color: #aeb7c2;
+        }
     }
 
     .logo {
@@ -21,11 +40,21 @@
 
     .navbar-brand {
         font-weight: 300;
+        margin-right: 0;
+    }
+
+    .nav-pages {
+        margin-left: 0rem;
+
+        @media (min-width: 768px) {
+            margin-left: 1rem;
+        }
     }
 
     ul.navbar-nav {
         .nav-link {
             color: #aeb7c2;
+            // padding: 0.6rem 0.5rem 0.4rem;
 
             &:hover {
                 color: #fff;
@@ -37,10 +66,26 @@
         }
     }
 
-    i.material-icons {
-        font-size: 18px;
-        vertical-align: middle;
-        margin-right: 5px;
+    .subtitle {
+        color: #aeb7c2;
+    }
+
+    a.source-code {
+        color: #aeb7c2;
+
+        &:hover {
+            color: #fff;
+        }
+
+        i.material-icons {
+            font-size: 18px;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+    }
+
+    .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
     }
 
     .circle {

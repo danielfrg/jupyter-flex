@@ -10,9 +10,10 @@ import { slugify } from "../utils";
 class Dashboard extends React.Component {
     render() {
         const {
-            title,
+            home,
             logo,
-            author,
+            title,
+            subtitle,
             kernelName,
             sourceCodeLink,
             verticalLayout,
@@ -21,16 +22,15 @@ class Dashboard extends React.Component {
             pages,
         } = this.props;
 
-        let sidebar;
         let metaCells = [];
-        let routes = [];
-
         if (meta && meta.length > 0) {
             meta.forEach((cell, i) => {
                 metaCells.push(<DashboardCell key={i} {...cell} />);
             });
         }
 
+        let sidebar;
+        let routes = [];
         if (pages && pages.length > 0) {
             pages.forEach((page) => {
                 if (page.tags && page.tags.includes("sidebar")) {
@@ -62,9 +62,10 @@ class Dashboard extends React.Component {
                     <div className="meta-cells">{metaCells}</div>
                     <div className={`dashboard-${verticalLayout}`}>
                         <NavBar
-                            title={title}
+                            home={home}
                             logo={logo}
-                            author={author}
+                            title={title}
+                            subtitle={subtitle}
                             sourceCodeLink={sourceCodeLink}
                             kernelName={kernelName}
                             pages={pages}

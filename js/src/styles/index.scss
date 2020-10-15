@@ -11,7 +11,7 @@
     @import "variables.scss";
     @import "card.scss";
     @import "cell.scss";
-    @import "dashboard.scss";
+    @import "dashboard-fill.scss";
     @import "navbar.scss";
     @import "page.scss";
     @import "section.scss";
@@ -23,4 +23,12 @@
     font-weight: 400;
     line-height: 1.5;
     text-align: left;
+
+    .meta-cells {
+        display: none;
+    }
+
+    .content-wrapper {
+        padding: 0;
+    }
 }

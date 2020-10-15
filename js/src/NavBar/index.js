@@ -7,7 +7,23 @@ class NavBar extends React.Component {
     componentDidMount() {}
 
     render() {
-        const { title, logo, author, sourceCodeLink, pages } = this.props;
+        const {
+            home,
+            logo,
+            title,
+            subtitle,
+            sourceCodeLink,
+            pages,
+        } = this.props;
+
+        let homeEl = "";
+        if (home) {
+            homeEl = (
+                <a href={home} className="home">
+                    <i className="material-icons">home</i>
+                </a>
+            );
+        }
 
         let logoEl = "";
         if (logo) {
@@ -28,13 +44,12 @@ class NavBar extends React.Component {
             </button>
         );
 
-        let pagesHtml = [];
+        let pagesEl = [];
         if (pages && pages.length > 1) {
             pages.forEach((page) => {
                 if (page.title && !page.tags.includes("sidebar")) {
                     const pageSlug = slugify(page.title);
-                    const pagePath =
-                        pagesHtml.length == 0 ? "/" : `${pageSlug}`;
+                    const pagePath = pagesEl.length == 0 ? "/" : `${pageSlug}`;
                     const newPage = (
                         <li key={page.title} className="nav-item">
                             <NavLink
@@ -42,28 +57,34 @@ class NavBar extends React.Component {
                                 exact={true}
                                 className="nav-link"
                                 activeClassName="active"
+                                onClick={() => {
+                                    // eslint-disable-next-line no-undef
+                                    $("#navPages").collapse("hide");
+                                }}
                             >
                                 {page.title}
                             </NavLink>
                         </li>
                     );
-                    pagesHtml.push(newPage);
+                    pagesEl.push(newPage);
                 }
             });
         }
 
-        let authorHtml;
-        if (author) {
-            authorHtml = <span className="navbar-text">{author}</span>;
+        let subtitleEl;
+        if (subtitle) {
+            subtitleEl = (
+                <span className="subtitle navbar-text">{subtitle}</span>
+            );
         }
 
-        let sourceHtml;
+        let sourceEl;
         if (sourceCodeLink) {
-            sourceHtml = (
+            sourceEl = (
                 <ul className="navbar-nav">
                     <li key="source-code" className="nav-item">
                         <a
-                            className="nav-link"
+                            className="source-code nav-link"
                             href={sourceCodeLink}
                             target="_blank"
                             rel="noreferrer"
@@ -81,19 +102,20 @@ class NavBar extends React.Component {
             <header>
                 <nav className="navbar navbar-expand-md">
                     <div className="container-fluid">
+                        {homeEl}
                         <span className="navbar-brand">
                             {logoEl}
                             {title}
                         </span>
-                        {pagesHtml.length > 1 || sourceCodeLink || author
+                        {pagesEl.length > 1 || sourceCodeLink || subtitle
                             ? togglerButton
                             : null}
-                        <div className="collapse navbar-collapse" id="navPages">
-                            <ul className="nav navbar-nav mr-auto">
-                                {pagesHtml.length > 1 ? pagesHtml : null}
+                        <div id="navPages" className="collapse navbar-collapse">
+                            <ul className="nav-pages navbar-nav mr-auto">
+                                {pagesEl.length > 1 ? pagesEl : null}
                             </ul>
-                            {authorHtml}
-                            {sourceHtml}
+                            {subtitleEl}
+                            {sourceEl}
                             <span
                                 className="d-inline-block"
                                 data-toggle="tooltip"

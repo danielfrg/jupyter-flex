@@ -147,7 +147,7 @@ class Section extends React.Component {
 
         return (
             <div
-                className={`section section-${sectionClassName} ${sectionTabs} d-flex flex-${flexDirection} ${classNames}`}
+                className={`section section-${sectionClassName} ${sectionTabs} flex-${flexDirection} ${classNames}`}
                 style={{ flex: `${size} ${size} auto` }}
             >
                 {tabsButtons}

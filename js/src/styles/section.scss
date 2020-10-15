@@ -3,6 +3,11 @@
 .section {
     border: none;
     border-radius: 0.25rem;
+    display: block;
+
+    @media (min-width: 768px) {
+        display: flex;
+    }
 
     &.section-row {
         // This are for orientation=columns -> flex direction=row
@@ -24,7 +29,11 @@
 
     &.section-column {
         // This are for orientation=rows -> flex direction=column
-        margin-left: 1rem;
+        margin: 0;
+
+        @media (min-width: 768px) {
+            margin-left: 1rem;
+        }
 
         &:first-child {
             margin-left: 0;
@@ -37,6 +46,14 @@
         + .section-row {
             margin-top: 0;
             margin-left: 1rem;
+        }
+
+        + .section-column {
+            margin-top: 1rem;
+
+            @media (min-width: 768px) {
+                margin-top: 0;
+            }
         }
     }
 
@@ -62,7 +79,6 @@
 
         .tab-content {
             width: 100%;
-            height: 100%;
             background-color: #fff;
 
             .card {
