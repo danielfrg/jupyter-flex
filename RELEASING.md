@@ -54,3 +54,17 @@ make upload-pypi
 git push origin ${VERSION}
 git push
 ```
+
+### NPM release
+
+```
+export VERSION=1.0.0
+
+cd js
+
+npm version ${VERSION}
+npm publish
+
+git commit -am "NPM Release ${VERSION}" --allow-empty
+git push
+```
