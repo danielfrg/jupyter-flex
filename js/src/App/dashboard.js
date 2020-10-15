@@ -32,12 +32,12 @@ class Dashboard extends React.Component {
         let sidebar;
         let routes = [];
         if (pages && pages.length > 0) {
-            pages.forEach((page, i) => {
+            pages.forEach((page) => {
                 if (page.tags && page.tags.includes("sidebar")) {
                     sidebar = <Sidebar {...page.sections[0]} />;
                 } else {
                     const pageSlug = slugify(page.title);
-                    const pagePath = i == 0 ? "/" : `/${pageSlug}`;
+                    const pagePath = routes.length == 0 ? "/" : `/${pageSlug}`;
                     const el = (
                         <Page
                             dashboardOrientation={orientation}
