@@ -69,6 +69,7 @@ class Dashboard extends React.Component {
                             sourceCodeLink={sourceCodeLink}
                             kernelName={kernelName}
                             pages={pages}
+                            sidebar={sidebar !== undefined}
                         />
                         <main
                             role="main"

@@ -8,7 +8,7 @@
     color: #fff;
 
     .container-fluid {
-        padding: 0.35rem 0 0.35rem 1rem;
+        padding: 0.35rem 0;
         background-color: inherit;
         white-space: nowrap !important;
         overflow-x: auto;
@@ -20,6 +20,7 @@
 
     a.home {
         color: #fff;
+        margin-left: 0.35rem;
         margin-right: 1rem;
 
         i.material-icons {
@@ -32,6 +33,7 @@
     }
 
     .logo {
+        margin-left: 0.35rem;
         margin-right: 0.4rem;
         margin-bottom: 3px;
         max-width: 25px;
@@ -39,30 +41,33 @@
     }
 
     .navbar-brand {
+        margin-left: 0.35rem;
         font-weight: 300;
         margin-right: 0;
         font-size: 1.15rem;
     }
 
-    .nav-pages {
-        margin-left: 0rem;
-
-        @media (min-width: 768px) {
-            margin-left: 1rem;
-        }
+    .navbar-collapse {
+        padding-left: 1rem;
     }
 
-    ul.navbar-nav {
-        .nav-link {
-            color: #aeb7c2;
+    .nav-pages {
+        margin: 0;
+        padding: 0;
+        // @media (min-width: 768px) {
+        //     margin-left: 1rem;
+        // }
+    }
 
-            &:hover {
-                color: #fff;
-            }
+    .nav-link {
+        color: #aeb7c2;
 
-            &.active {
-                color: #fff;
-            }
+        &:hover {
+            color: #fff;
+        }
+
+        &.active {
+            color: #fff;
         }
     }
 

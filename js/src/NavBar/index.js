@@ -14,6 +14,7 @@ class NavBar extends React.Component {
             subtitle,
             sourceCodeLink,
             pages,
+            sidebar,
         } = this.props;
 
         let homeEl = "";
@@ -30,7 +31,21 @@ class NavBar extends React.Component {
             logoEl = <img alt="logo" className="logo" src={logo}></img>;
         }
 
-        let togglerButton = (
+        let collapseButtonSidebar = (
+            <button
+                className="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#sidebar"
+                aria-controls="sidebar"
+                aria-expanded="true"
+                aria-label="Toggle sidebar"
+            >
+                <span className="navbar-toggler-icon"></span>
+            </button>
+        );
+
+        let collapseButton = (
             <button
                 className="navbar-toggler"
                 type="button"
@@ -102,13 +117,14 @@ class NavBar extends React.Component {
             <header>
                 <nav className="navbar navbar-expand-md">
                     <div className="container-fluid">
+                        {sidebar ? collapseButtonSidebar : null}
                         {homeEl}
                         <span className="navbar-brand">
                             {logoEl}
                             {title}
                         </span>
                         {pagesEl.length > 1 || sourceCodeLink || subtitle
-                            ? togglerButton
+                            ? collapseButton
                             : null}
                         <div id="navPages" className="collapse navbar-collapse">
                             <ul className="nav-pages navbar-nav mr-auto">
