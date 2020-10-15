@@ -2,7 +2,13 @@
 
 .card-column {
     + .card-column {
-        margin-left: 1rem;
+        margin-top: 1rem;
+        margin-left: 0;
+
+        @media (min-width: 768px) {
+            margin-top: 0;
+            margin-left: 1rem;
+        }
     }
 }
 

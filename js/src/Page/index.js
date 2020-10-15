@@ -61,8 +61,8 @@ class Page extends React.Component {
                     <div
                         className={
                             sidebar
-                                ? `section-wrapper d-flex flex-${flexDirection} col-md-9 ml-sm-auto col-lg-10`
-                                : `section-wrapper d-flex flex-${flexDirection}`
+                                ? `section-wrapper flex-${flexDirection} col-md-9 ml-sm-auto col-lg-10`
+                                : `section-wrapper flex-${flexDirection}`
                         }
                     >
                         {sectionComponents}
