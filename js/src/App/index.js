@@ -135,14 +135,15 @@ class JupyterFlexDashboard extends React.Component {
     render() {
         const { kernel, widgetManager } = this.state;
         let {
-            title,
+            home,
             logo,
-            author,
-            kernel_name,
+            title,
+            subtitle,
             source_link,
-            include_source,
+            kernel_name,
             vertical_layout,
             orientation,
+            include_source,
         } = this.state.dashboard.props || {};
         const { meta, pages } = this.state.dashboard;
 
@@ -172,11 +173,12 @@ class JupyterFlexDashboard extends React.Component {
                 }}
             >
                 <Dashboard
-                    title={title}
+                    home={home}
                     logo={logoURL}
-                    author={author}
-                    kernelName={kernel_name}
+                    title={title}
+                    subtitle={subtitle}
                     sourceCodeLink={source_link}
+                    kernelName={kernel_name}
                     verticalLayout={vertical_layout}
                     orientation={orientation}
                     meta={meta}

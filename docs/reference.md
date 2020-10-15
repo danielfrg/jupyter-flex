@@ -11,7 +11,7 @@ To change the dashboard parameters tag one code cell with the `parameters`.
 | `flex_title` | Title for the dashboard | notebook file name |
 | `flex_orientation` | Orientation for the sections | `columns` - meaning each section is a column and default section orientation is `rows`, meaning each body item is a row |
 | `flex_source_code` | Link to the source Notebook on the navbar | `None` |
-| `flex_author` | Author name to be added on the navbar | `None` |
+| `flex_subtitle` | Extra textt to be added on the right of the navbar | `None` |
 | `flex_logo` | Path relative to the notebook with an image to add left of the title | `None` |
 | `flex_favicon` | Path relative to the notebook with an image to use as favicon | `None` |
 | `flex_custom_css` | Path relative to the notebook with a `.css` file to be included | `None` |
