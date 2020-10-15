@@ -117,7 +117,7 @@ class NavBar extends React.Component {
             <header>
                 <nav className="navbar navbar-expand-md">
                     <div className="container-fluid">
-                        <div className="nav-content container">
+                        <div className="nav-content">
                             {sidebar ? collapseButtonSidebar : null}
                             {homeEl}
                             <span className="navbar-brand">

@@ -5,25 +5,6 @@
     color: #fff;
     padding: 1rem;
 
-    @media (min-width: 768px) {
-        display: block;
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 100;
-        padding: 48px 1rem 1rem;
-
-        .section {
-            height: 100%;
-
-            .card {
-                height: 100%;
-                display: flex;
-            }
-        }
-    }
-
     .section {
         width: 100%;
         padding: 0;
@@ -50,7 +31,6 @@
 
         .card-body {
             padding: 0;
-            flex: 1 1 0;
 
             a {
                 color: #fff;
@@ -93,6 +73,34 @@
 
         button.jupyter-widgets {
             color: #000;
+        }
+    }
+
+    @media (min-width: 768px) {
+        display: block;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 100;
+        padding: 48px 1rem 1rem;
+
+        .section {
+            height: 100%;
+
+            .card {
+                display: flex;
+                height: 100%;
+            }
+        }
+
+        .flex-column {
+            .card-row {
+                // Cards in a column direction are rows
+                height: 0;
+                max-width: 100%;
+                max-height: 100%;
+            }
         }
     }
 }

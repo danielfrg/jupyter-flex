@@ -18,8 +18,16 @@
         }
 
         .nav-content {
+            display: flex;
             flex-wrap: nowrap;
             padding: 0;
+            justify-content: space-between;
+            width: 100%;
+
+            @media (min-width: 768px) {
+                justify-content: normal;
+                width: unset;
+            }
         }
     }
 
