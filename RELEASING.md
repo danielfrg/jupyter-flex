@@ -45,6 +45,7 @@ git tag ${VERSION}
 
 # Optional reset
 make cleanall
+make download-assets
 make npm-install
 
 # Build

@@ -31,7 +31,7 @@ dependencies:
       - pytest-base-url
       - pytest-selenium
       - pytest-tornasync
-      - jupyter-flex==0.6.3
+      - jupyter-flex==0.6.4
       - illusionist
 
       # Examples

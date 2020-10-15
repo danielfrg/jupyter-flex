@@ -1,6 +1,6 @@
 # Jupyter-flex Change Log
 
-## [Unreleased]
+## [0.6.4]
 - Rename `flex_author` to `flex_subtitle`
 - Added mobile styles so it's a lot more usable now
 
