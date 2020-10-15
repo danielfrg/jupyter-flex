@@ -6,6 +6,7 @@
     z-index: 999;
     background-color: $header-bg;
     color: #fff;
+    // overflow-x: auto;
 
     .container-fluid {
         padding: 0.35rem 0;
@@ -16,12 +17,16 @@
         @media (min-width: 768px) {
             padding-right: 1rem;
         }
+
+        .nav-content {
+            flex-wrap: nowrap;
+        }
     }
 
     a.home {
         color: #fff;
-        margin-left: 0.35rem;
-        margin-right: 1rem;
+        margin-right: 0;
+        margin-left: 1rem;
 
         i.material-icons {
             font-size: 22px;
@@ -33,17 +38,16 @@
     }
 
     .logo {
-        margin-left: 0.35rem;
-        margin-right: 0.4rem;
+        margin-right: 0.35rem;
         margin-bottom: 3px;
         max-width: 25px;
         max-height: 25px;
     }
 
     .navbar-brand {
-        margin-left: 0.35rem;
-        font-weight: 300;
         margin-right: 0;
+        margin-left: 1rem;
+        font-weight: 300;
         font-size: 1.15rem;
     }
 
@@ -54,9 +58,6 @@
     .nav-pages {
         margin: 0;
         padding: 0;
-        // @media (min-width: 768px) {
-        //     margin-left: 1rem;
-        // }
     }
 
     .nav-link {
