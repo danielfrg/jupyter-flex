@@ -6,7 +6,6 @@
     z-index: 999;
     background-color: $header-bg;
     color: #fff;
-    // overflow-x: auto;
 
     .container-fluid {
         padding: 0.35rem 0;
@@ -20,6 +19,7 @@
 
         .nav-content {
             flex-wrap: nowrap;
+            padding: 0;
         }
     }
 

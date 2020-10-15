@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 - Rename `flex_author` to `flex_subtitle`
+- Added mobile styles so it's a lot more usable now
 
 ## [0.6.3]
 - Refactor JS modules and release to NPM
