@@ -29,6 +29,7 @@
 
     .nteract-outputs {
         padding: 0;
+        overflow: auto;
     }
 
     // If we are in a code cell leave the margin-bottom

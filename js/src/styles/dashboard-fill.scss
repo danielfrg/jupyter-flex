@@ -1,4 +1,10 @@
 .dashboard-fill {
+    min-height: 100%;
+
+    .content-wrapper {
+        min-height: calc(100% - 51px);
+    }
+
     // Only apply fill styles when we are on tablet or more
     @media (min-width: 768px) {
         .content-wrapper {
