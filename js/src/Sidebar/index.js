@@ -10,7 +10,7 @@ class Sidebar extends React.Component {
 
     render() {
         return (
-            <div id="sidebar" className="sidebar collapse col-md-2">
+            <div id="sidebar" className="collapse sidebar col-md-2">
                 <Section {...this.props}></Section>
             </div>
         );
