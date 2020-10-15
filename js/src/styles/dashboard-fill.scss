@@ -1,13 +1,3 @@
-@import "variables.scss";
-
-.meta-cells {
-    display: none;
-}
-
-.content-wrapper {
-    padding: 0;
-}
-
 .dashboard-fill {
     // Only apply fill styles when we are on tablet or more
     @media (min-width: 768px) {
@@ -28,6 +18,14 @@
                     .card-body {
                         .code-cell {
                             height: 100%;
+
+                            .nteract-outputs {
+                                height: 100%;
+                            }
+
+                            .js-plotly-plot {
+                                height: 100% !important;
+                            }
                         }
                     }
 

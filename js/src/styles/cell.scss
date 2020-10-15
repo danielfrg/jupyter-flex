@@ -126,17 +126,17 @@
     // Plotly
     .js-plotly-plot {
         width: 100% !important;
-        height: 100% !important;
+        // height: 100% !important;
 
-        svg.svg-container {
-            width: 100% !important;
-            min-height: 100% !important;
-        }
+        // svg.svg-container {
+        //     width: 100% !important;
+        //     height: 100% !important;
+        // }
 
-        .main-svg {
-            width: 100% !important;
-            height: 100% !important;
-        }
+        // .main-svg {
+        //     width: 100% !important;
+        //     height: 100% !important;
+        // }
 
         // Fix plotly toolbar icons
         // Looks like this is no longer needed but leaving here just in case

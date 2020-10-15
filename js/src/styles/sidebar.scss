@@ -50,11 +50,19 @@
             pre {
                 color: #fff;
             }
-        }
 
-        // .jupyter-widgets {
-        //     max-width: 98%;
-        // }
+            .code-cell {
+                height: 100%;
+
+                .nteract-outputs {
+                    height: 100%;
+                }
+
+                .js-plotly-plot {
+                    height: 100% !important;
+                }
+            }
+        }
 
         .output_widget_view,
         .jupyter-widgets,
