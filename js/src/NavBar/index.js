@@ -13,7 +13,7 @@ class NavBar extends React.Component {
         const { pages } = this.props;
 
         pages.forEach((page) => {
-            if (page.tags.includes("sidebar")) {
+            if (page.tags && page.tags.includes("sidebar")) {
                 // Global sidebar
                 this.setState({ globalSidebar: true });
             }
@@ -29,7 +29,7 @@ class NavBar extends React.Component {
         this.setState({ pageSidebar: false });
         const pageID = event.target.getAttribute("data-page-id");
         this.props.pages[pageID].sections.forEach((section) => {
-            if (section.tags.includes("sidebar")) {
+            if (section.tags && section.tags.includes("sidebar")) {
                 // Global sidebar
                 this.setState({ pageSidebar: true });
             }
