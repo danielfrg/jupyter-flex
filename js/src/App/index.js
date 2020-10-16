@@ -2,9 +2,10 @@ import React from "react";
 
 import IllusionistWidgetManager from "@danielfrg/illusionist";
 
-import { requirePromise } from "../loader";
 import Dashboard from "./dashboard";
+import DashboardErrorBoundary from "./error";
 import { Provider } from "./context";
+import { requirePromise } from "../loader";
 
 class JupyterFlexDashboard extends React.Component {
     constructor(props) {
@@ -165,26 +166,28 @@ class JupyterFlexDashboard extends React.Component {
         }
 
         return (
-            <Provider
-                value={{
-                    kernel: kernel,
-                    widgetManager: widgetManager,
-                    showCardSource: include_source,
-                }}
-            >
-                <Dashboard
-                    home={home}
-                    logo={logoURL}
-                    title={title}
-                    subtitle={subtitle}
-                    sourceCodeLink={source_link}
-                    kernelName={kernel_name}
-                    verticalLayout={vertical_layout}
-                    orientation={orientation}
-                    meta={meta}
-                    pages={pages}
-                />
-            </Provider>
+            <DashboardErrorBoundary>
+                <Provider
+                    value={{
+                        kernel: kernel,
+                        widgetManager: widgetManager,
+                        showCardSource: include_source,
+                    }}
+                >
+                    <Dashboard
+                        home={home}
+                        logo={logoURL}
+                        title={title}
+                        subtitle={subtitle}
+                        sourceCodeLink={source_link}
+                        kernelName={kernel_name}
+                        verticalLayout={vertical_layout}
+                        orientation={orientation}
+                        meta={meta}
+                        pages={pages}
+                    />
+                </Provider>
+            </DashboardErrorBoundary>
         );
     }
 }
