@@ -4,7 +4,37 @@ import { NavLink } from "react-router-dom";
 import { slugify } from "../utils";
 
 class NavBar extends React.Component {
-    componentDidMount() {}
+    constructor(props) {
+        super(props);
+        this.state = { globalSidebar: false, pageSidebar: false };
+    }
+
+    componentDidMount() {
+        const { pages } = this.props;
+
+        pages.forEach((page) => {
+            if (page.tags.includes("sidebar")) {
+                // Global sidebar
+                this.setState({ globalSidebar: true });
+            }
+        });
+    }
+
+    onNavlinkClick = (event) => {
+        // Collapse when changing pages
+        // eslint-disable-next-line no-undef
+        $("#navPages").collapse("hide");
+
+        // See if the new page has a sidebar
+        this.setState({ pageSidebar: false });
+        const pageID = event.target.getAttribute("data-page-id");
+        this.props.pages[pageID].sections.forEach((section) => {
+            if (section.tags.includes("sidebar")) {
+                // Global sidebar
+                this.setState({ pageSidebar: true });
+            }
+        });
+    };
 
     render() {
         const {
@@ -14,8 +44,8 @@ class NavBar extends React.Component {
             subtitle,
             sourceCodeLink,
             pages,
-            sidebar,
         } = this.props;
+        const { globalSidebar, pageSidebar } = this.state;
 
         let homeEl = "";
         if (home) {
@@ -61,7 +91,7 @@ class NavBar extends React.Component {
 
         let pagesEl = [];
         if (pages && pages.length > 1) {
-            pages.forEach((page) => {
+            pages.forEach((page, i) => {
                 if (page.title && !page.tags.includes("sidebar")) {
                     const pageSlug = slugify(page.title);
                     const pagePath = pagesEl.length == 0 ? "/" : `${pageSlug}`;
@@ -72,10 +102,8 @@ class NavBar extends React.Component {
                                 exact={true}
                                 className="nav-link"
                                 activeClassName="active"
-                                onClick={() => {
-                                    // eslint-disable-next-line no-undef
-                                    $("#navPages").collapse("hide");
-                                }}
+                                onClick={this.onNavlinkClick}
+                                data-page-id={i}
                             >
                                 {page.title}
                             </NavLink>
@@ -118,7 +146,9 @@ class NavBar extends React.Component {
                 <nav className="navbar navbar-expand-md">
                     <div className="container-fluid">
                         <div className="nav-content">
-                            {sidebar ? collapseButtonSidebar : null}
+                            {globalSidebar || pageSidebar
+                                ? collapseButtonSidebar
+                                : null}
                             {homeEl}
                             <span className="navbar-brand">
                                 {logoEl}

@@ -2,7 +2,7 @@ name: jupyter-flex
 channels:
   - conda-forge
 dependencies:
-  - python=3.7
+  - python=3.8
   - pip
 
   - pip:
@@ -18,23 +18,22 @@ dependencies:
       - pytest
       - pytest-cov
 
-      # This project pip deps
-      - notebook
-      - jupyterlab
+      # This project deps
       - voila>=0.2.0,<0.3
       - nbconvert>=6.0.0,<7
       - nbclient>=0.4.0
-      - ipywidgets
-      - libsass
+      - illusionist>=0.2.0
+      - jupyter-flex>=0.6.4
       - pytest-html
       - pytest-needle
       - pytest-base-url
       - pytest-selenium
       - pytest-tornasync
-      - jupyter-flex==0.6.4
-      - illusionist
 
       # Examples
+      - notebook
+      - jupyterlab
+      - ipywidgets
       - numpy
       - pandas
       - scipy

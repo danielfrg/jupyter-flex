@@ -41,7 +41,7 @@ python-build:  ## Build Python package (sdist)
 
 
 env:  ## Create virtualenv
-	conda env create
+	mamba env create
 
 
 develop:  ## Install package for development

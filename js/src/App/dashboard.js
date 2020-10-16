@@ -29,12 +29,12 @@ class Dashboard extends React.Component {
             });
         }
 
-        let sidebar;
         let routes = [];
+        let globalSidebar;
         if (pages && pages.length > 0) {
             pages.forEach((page) => {
                 if (page.tags && page.tags.includes("sidebar")) {
-                    sidebar = <Sidebar {...page.sections[0]} />;
+                    globalSidebar = <Sidebar {...page.sections[0]} />;
                 } else {
                     const pageSlug = slugify(page.title);
                     const pagePath = routes.length == 0 ? "/" : `/${pageSlug}`;
@@ -69,16 +69,15 @@ class Dashboard extends React.Component {
                             sourceCodeLink={sourceCodeLink}
                             kernelName={kernelName}
                             pages={pages}
-                            sidebar={sidebar !== undefined}
                         />
                         <main
                             role="main"
                             className="content-wrapper container-fluid"
                         >
-                            {sidebar}
+                            {globalSidebar}
                             <div
                                 className={
-                                    sidebar !== undefined
+                                    globalSidebar !== undefined
                                         ? "ml-sm-auto col-md-8 col-lg-10 p-0"
                                         : ""
                                 }
