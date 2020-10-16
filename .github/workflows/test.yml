@@ -57,13 +57,17 @@ jobs:
         run: |
           make npm-install
 
-      - name: Set up Python
+      - name: Set up Python ${{ matrix.python }}
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python }}
 
       - name: Install Python dependencies
         run: |
+          which python
+          which pip
+          python --version
+          pip --version
           cd python
           python -m pip install --upgrade pip
           pip install -U -r requirements.txt
