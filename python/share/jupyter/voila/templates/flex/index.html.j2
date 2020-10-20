@@ -45,6 +45,9 @@
 				var el = document.getElementById("voila-cell-count");
 				el.innerHTML = "Executing cell " + cellIndex + " of " + cellCount;
 			};
+			var voila_heartbeat = function() {
+  				console.log('Ok, voila is still executing...');
+			}
 		</script>
 {%- endblock body_header -%}
 
