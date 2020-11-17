@@ -26,7 +26,7 @@ dependencies:
       - jupyter-flex>=0.6.4
       - pytest-html
       - pytest-needle
-      # - pytest-base-url
+      - pytest-base-url
       - pytest-selenium
       - pytest-tornasync
 
