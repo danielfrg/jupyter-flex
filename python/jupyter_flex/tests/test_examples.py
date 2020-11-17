@@ -1,9 +1,11 @@
+import os
 import time
 
 import pytest
 
 
 pytestmark = [pytest.mark.nondestructive]
+base_url = os.environ.get("PYTEST_BASE_URL", "http://localhost:8866")
 
 
 @pytest.fixture
@@ -28,11 +30,13 @@ def test_example_site(needle, myselenium):
         ("404-voila", "voila/render/fake-page-404"),
     ],
 )
-def test_voila(needle, myselenium, base_url, name, path):
+def test_voila(needle, myselenium, name, path):
     target_url = "{0}/{1}".format(base_url, path)
     needle.driver.get(target_url)
 
     # Wait for page components to render
+    import os
+
     time.sleep(2)
 
     # Take an element screen diff
@@ -42,7 +46,7 @@ def test_voila(needle, myselenium, base_url, name, path):
 @pytest.mark.parametrize(
     "nb_name", ["iris-clustering", "movie-explorer", "nba-scoring", "wealth-of-nations"]
 )
-def test_apps(needle, myselenium, base_url, nb_name):
+def test_apps(needle, myselenium, nb_name):
     target_url = "{0}/voila/render/{1}.ipynb".format(base_url, nb_name)
     needle.driver.get(target_url)
 
@@ -54,7 +58,7 @@ def test_apps(needle, myselenium, base_url, nb_name):
 
 
 @pytest.mark.parametrize("nb_name", ["classes-colors", "custom-css"])
-def test_customize(needle, myselenium, base_url, nb_name):
+def test_customize(needle, myselenium, nb_name):
     target_url = "{0}/voila/render/customize/{1}.ipynb".format(base_url, nb_name)
     needle.driver.get(target_url)
 
@@ -66,7 +70,7 @@ def test_customize(needle, myselenium, base_url, nb_name):
 
 
 @pytest.mark.parametrize("nb_name", ["data-types"])
-def test_demos(needle, myselenium, base_url, nb_name):
+def test_demos(needle, myselenium, nb_name):
     target_url = "{0}/voila/render/demos/{1}.ipynb".format(base_url, nb_name)
     needle.driver.get(target_url)
 
@@ -80,7 +84,7 @@ def test_demos(needle, myselenium, base_url, nb_name):
 @pytest.mark.parametrize(
     "nb_name", ["one-plot", "two-columns", "two-plots", "two-rows"]
 )
-def test_getting_started(needle, myselenium, base_url, nb_name):
+def test_getting_started(needle, myselenium, nb_name):
     target_url = "{0}/voila/render/getting-started/{1}.ipynb".format(base_url, nb_name)
     needle.driver.get(target_url)
 
@@ -94,7 +98,7 @@ def test_getting_started(needle, myselenium, base_url, nb_name):
 @pytest.mark.parametrize(
     "nb_name", ["linked", "matplotlib", "multiplier", "widget-gallery"]
 )
-def test_illusionist(needle, myselenium, base_url, nb_name):
+def test_illusionist(needle, myselenium, nb_name):
     target_url = "{0}/voila/render/illusionist/{1}.ipynb".format(base_url, nb_name)
     needle.driver.get(target_url)
 
@@ -125,7 +129,7 @@ def test_illusionist(needle, myselenium, base_url, nb_name):
         "sidebar-pages",
     ],
 )
-def test_layouts(needle, myselenium, base_url, nb_name):
+def test_layouts(needle, myselenium, nb_name):
     target_url = "{0}/voila/render/layouts/{1}.ipynb".format(base_url, nb_name)
     needle.driver.get(target_url)
 
@@ -150,7 +154,7 @@ def test_layouts(needle, myselenium, base_url, nb_name):
         "plotly",
     ],
 )
-def test_plots(needle, myselenium, base_url, nb_name):
+def test_plots(needle, myselenium, nb_name):
     target_url = "{0}/voila/render/plots/{1}.ipynb".format(base_url, nb_name)
     needle.driver.get(target_url)
 
@@ -172,7 +176,7 @@ def test_plots(needle, myselenium, base_url, nb_name):
         "widgets-sidebar",
     ],
 )
-def test_widgets(needle, myselenium, base_url, nb_name):
+def test_widgets(needle, myselenium, nb_name):
     target_url = "{0}/voila/render/widgets/{1}.ipynb".format(base_url, nb_name)
     needle.driver.get(target_url)
 
