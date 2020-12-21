@@ -12,7 +12,7 @@ def myselenium(selenium):
     return selenium
 
 
-def test_example_site(needle, myselenium):
+def test_example_site(needle, myselenium, base_url):
     target_url = "http://example.com/"
     needle.driver.get(target_url)
 
@@ -32,7 +32,7 @@ def test_voila(needle, myselenium, base_url, name, path):
     target_url = "{0}/{1}".format(base_url, path)
     needle.driver.get(target_url)
 
-    # Wait for page components to render
+    # Wait for dashboard to render
     time.sleep(2)
 
     # Take an element screen diff
@@ -46,7 +46,7 @@ def test_apps(needle, myselenium, base_url, nb_name):
     target_url = "{0}/voila/render/{1}.ipynb".format(base_url, nb_name)
     needle.driver.get(target_url)
 
-    # Wait for dashboard components to render
+    # Wait for dashboard to render
     time.sleep(10)
 
     # Take an element screen diff
@@ -58,7 +58,7 @@ def test_customize(needle, myselenium, base_url, nb_name):
     target_url = "{0}/voila/render/customize/{1}.ipynb".format(base_url, nb_name)
     needle.driver.get(target_url)
 
-    # Wait for dashboard components to render
+    # Wait for dashboard to render
     time.sleep(5)
 
     # Take an element screen diff
@@ -70,7 +70,7 @@ def test_demos(needle, myselenium, base_url, nb_name):
     target_url = "{0}/voila/render/demos/{1}.ipynb".format(base_url, nb_name)
     needle.driver.get(target_url)
 
-    # Wait for dashboard components to render
+    # Wait for dashboard to render
     time.sleep(5)
 
     # Take an element screen diff
@@ -84,7 +84,7 @@ def test_getting_started(needle, myselenium, base_url, nb_name):
     target_url = "{0}/voila/render/getting-started/{1}.ipynb".format(base_url, nb_name)
     needle.driver.get(target_url)
 
-    # Wait for dashboard components to render
+    # Wait for dashboard to render
     time.sleep(5)
 
     # Take an element screen diff
@@ -98,7 +98,7 @@ def test_illusionist(needle, myselenium, base_url, nb_name):
     target_url = "{0}/voila/render/illusionist/{1}.ipynb".format(base_url, nb_name)
     needle.driver.get(target_url)
 
-    # Wait for dashboard components to render
+    # Wait for dashboard to render
     time.sleep(5)
 
     # Take an element screen diff
@@ -129,7 +129,7 @@ def test_layouts(needle, myselenium, base_url, nb_name):
     target_url = "{0}/voila/render/layouts/{1}.ipynb".format(base_url, nb_name)
     needle.driver.get(target_url)
 
-    # Wait for dashboard components to render
+    # Wait for dashboard to render
     time.sleep(5)
 
     # Take an element screen diff
@@ -154,7 +154,7 @@ def test_plots(needle, myselenium, base_url, nb_name):
     target_url = "{0}/voila/render/plots/{1}.ipynb".format(base_url, nb_name)
     needle.driver.get(target_url)
 
-    # Wait for dashboard components to render
+    # Wait for dashboard to render
     time.sleep(5)
 
     # Take an element screen diff
@@ -176,7 +176,7 @@ def test_widgets(needle, myselenium, base_url, nb_name):
     target_url = "{0}/voila/render/widgets/{1}.ipynb".format(base_url, nb_name)
     needle.driver.get(target_url)
 
-    # Wait for dashboard components to render
+    # Wait for dashboard to render
     time.sleep(10)
 
     # Take an element screen diff

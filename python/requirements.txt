@@ -14,6 +14,7 @@ pytest-cov
 voila>=0.2.0,<0.3
 nbconvert>=6.0.0,<7
 nbclient>=0.4.0
+jupyter_server>=1.1.0
 illusionist>=0.2.0
 jupyter-flex>=0.6.4
 pytest-html
