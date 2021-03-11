@@ -15,10 +15,10 @@ jobs:
 
     strategy:
       matrix:
-        python-version: [3.7, 3.8]
+        python-version: [3.7, 3.8, 3.9]
 
     container:
-      image: python:3.8.3
+      image: python:3.9.2
       options: --network-alias testhost
 
     services:
@@ -66,9 +66,13 @@ jobs:
       - name: Install Python dependencies
         run: |
           which python
-          which pip
           python --version
+          python -c "import sys; print(sys.version)"
+          which pip
           pip --version
+
+      - name: Install Python dependencies
+        run: |
           cd python
           python -m pip install --upgrade pip
           pip install -U -r requirements.txt

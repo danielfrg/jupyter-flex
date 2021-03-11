@@ -41,7 +41,7 @@ class Dashboard extends React.Component {
                     const el = (
                         <Page
                             dashboardOrientation={orientation}
-                            dashboardverticalLayout={verticalLayout}
+                            dashboardVerticalLayout={verticalLayout}
                             {...page}
                         />
                     );
