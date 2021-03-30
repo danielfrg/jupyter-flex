@@ -4,14 +4,14 @@ If you find any issues please create [Github Issue](https://github.com/danielfrg
 with as much info as possible, the best way is a submit reproducible notebook and
 some screenshots.
 
-# Development environment
+## Development environment
 
 If you are interested in submiting a PR with new features or fixing bugs
 here are some instructions to setup the dev environment.
 
 Dependencies are:
-- npm
-- python
+- NodeJS and npm
+- Python
 
 ### 1. Download third-party CSS/JS assets (bootstrap and others):
 
