@@ -93,10 +93,10 @@ setup(
     options={"bdist_wheel": {"universal": "1"}},
     python_requires=">=3.7",
     setup_requires=["setuptools_scm"],
-    install_requires=read_file("requirements-package.txt").splitlines(),
+    install_requires=read_file("requirements.txt").splitlines(),
     extras_require={
         "test": ["pytest", "pytest-cov", "toml"],
-        "dev": read_file("requirements.txt").splitlines(),
+        "dev": read_file("requirements-dev.txt").splitlines(),
     },
     description="Easily create Dashboards using Jupyter Notebooks",
     long_description=read_file("README.md"),

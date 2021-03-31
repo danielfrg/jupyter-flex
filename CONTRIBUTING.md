@@ -29,7 +29,7 @@ make npm-install
 
 ### 3. Python:
 
-Create conda env (or use the requirements.txt file if you want to use virtualenv)
+Create conda env (or use the requirements-dev.txt file if you want to use virtualenv)
 
 ```
 make env

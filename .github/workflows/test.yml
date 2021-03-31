@@ -76,7 +76,7 @@ jobs:
         run: |
           cd python
           python -m pip install --upgrade pip
-          pip install -U -r requirements.txt
+          pip install -U -r requirements-dev.txt
           pip freeze
 
       - name: Install other dependencies
