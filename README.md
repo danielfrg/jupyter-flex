@@ -1,11 +1,11 @@
 # jupyter-flex: Dashboards for Jupyter
 
-[![PyPI](https://badge.fury.io/py/jupyter-flex.svg)](https://pypi.org/project/jupyter-flex/)
-[![Testing](https://github.com/danielfrg/jupyter-flex/workflows/test/badge.svg)](https://github.com/danielfrg/jupyter-flex/actions)
-[![Docs](https://github.com/danielfrg/jupyter-flex/workflows/docs/badge.svg)]( https://jupyter-flex.danielfrg.com/)
+[![pypi](https://badge.fury.io/py/jupyter-flex.svg)](https://pypi.org/project/jupyter-flex/)
+[![build](https://github.com/danielfrg/jupyter-flex/workflows/test/badge.svg)](https://github.com/danielfrg/jupyter-flex/actions/workflows/test.yml)
+[![docs](https://github.com/danielfrg/jupyter-flex/workflows/docs/badge.svg)](https://github.com/danielfrg/jupyter-flex/actions/workflows/docs.yml)
 [![Coverage Status](https://codecov.io/gh/danielfrg/jupyter-flex/branch/master/graph/badge.svg)](https://codecov.io/gh/danielfrg/jupyter-flex?branch=master)
-[![License](https://img.shields.io/:license-Apache%202-blue.svg)](https://github.com/danielfrg/jupyter-flex/blob/master/LICENSE.txt)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.4?urlpath=voila%2Ftree%2Fexamples)
+[![license](https://img.shields.io/:license-Apache%202-blue.svg)](https://github.com/danielfrg/jupyter-flex/blob/master/LICENSE.txt)
+[![binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.4?urlpath=voila%2Ftree%2Fexamples)
 
 Build dashboard using Jupyter Notebooks.
 
