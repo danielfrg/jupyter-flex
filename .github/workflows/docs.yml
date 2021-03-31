@@ -13,26 +13,11 @@ jobs:
     strategy:
       matrix:
         python-version: [3.8]
+        node-version: ["15"]
 
     steps:
       - uses: actions/checkout@v2
       - run: git fetch --prune --unshallow
-
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Install Python dependencies
-        run: |
-          which python
-          which pip
-          python --version
-          pip --version
-          cd python
-          python -m pip install --upgrade pip
-          pip install -U -r requirements-dev.txt
-          pip freeze
 
       - name: Setup NodeJS ${{ matrix.node-version }}
         uses: actions/setup-node@v2
@@ -43,18 +28,36 @@ jobs:
         run: |
           make npm-install
 
-      - name: Install other dependencies
-        run: |
-          # Download Bokeh sample data
-          bokeh sampledata
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
 
-      - name: Install package
+      - name: Print Python versions
         run: |
           which python
           which pip
           python --version
           pip --version
+
+      - name: Install Python dependencies
+        run: |
+          cd python
+          python -m pip install --upgrade pip
+          pip install -U -r requirements-dev.txt
+          pip freeze
+
+      - name: Install other dependencies
+        run: |
+          # Download Bokeh sample data
+          bokeh sampledata
+
+      - name: Build package (JS and Python)
+        run: |
           make build
+
+      - name: Install package
+        run: |
           cd python
           pip install dist/*.tar.gz
           pip freeze
