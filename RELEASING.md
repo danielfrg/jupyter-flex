@@ -35,7 +35,7 @@ Merge branch when CI passes
 
 - Update `CHANGELOG.md`
 - Update `README.md` and docs:
-    -  Links to Binder
+    - Links to Binder
 
 ```
 export VERSION=1.0.0

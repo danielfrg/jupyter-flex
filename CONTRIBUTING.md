@@ -29,7 +29,7 @@ make npm-install
 
 ### 3. Python:
 
-Create conda env (or use the requirements-dev.txt file if you want to use virtualenv)
+Create conda env
 
 ```
 make env
@@ -42,7 +42,7 @@ Install the package on dev mode
 make develop
 ```
 
-## Iteration cycle
+### Iteration cycle
 
 To have a nice iteracion cycle between JS and Python:
 

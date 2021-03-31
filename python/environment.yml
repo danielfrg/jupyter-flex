@@ -5,31 +5,40 @@ dependencies:
   - python=3.8
   - pip
 
-  - pip:
-      # Base Python deps
-      - setuptools
-      - setuptools-scm
-      - pylint
-      - flake8
-      - black
-      - isort
-      - twine
-      - wheel
-      - pytest
-      - pytest-cov
+  # Dev tools
+  - setuptools
+  - setuptools_scm
+  - pylint
+  - flake8
+  - black
+  - isort
+  - twine
+  - wheel
+  - pytest
+  - pytest-cov
 
-      # This project deps
+  - pip:
+      # Package deps
       - voila>=0.2.0,<0.3
       - nbconvert>=6.0.0,<7
       - nbclient>=0.4.0
       - jupyter_server>=1.1.0
       - illusionist>=0.2.0
-      - jupyter-flex>=0.6.4
+
+      # Testing
       - pytest-html
       - pytest-needle
       - pytest-base-url
       - pytest-selenium
       - pytest-tornasync
+
+      # Docs
+      - mkdocs
+      - mkdocs-material==7.1.0
+      - mkdocs-jupyter>=0.16.1
+      - mkdocs-minify-plugin
+      - pygments
+      - pymdown-extensions
 
       # Examples
       - notebook
@@ -52,11 +61,3 @@ dependencies:
       - pandas-datareader
       - colorlover
       - vega_datasets
-
-      # Docs
-      - mkdocs
-      - mkdocs-material==7.1.0
-      - mkdocs-jupyter>=0.16.1
-      - mkdocs-minify-plugin
-      - pygments
-      - pymdown-extensions

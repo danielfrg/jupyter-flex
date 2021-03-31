@@ -41,7 +41,7 @@ python-build:  ## Build Python package (sdist)
 
 
 env:  ## Create virtualenv
-	mamba env create
+	cd $(CURDIR)/python; mamba env create
 
 
 develop:  ## Install package for development
@@ -59,12 +59,12 @@ extensions:  ## Install Jupyter extensions
 
 check:  ## Check linting
 	cd $(CURDIR)/python; flake8
-	cd $(CURDIR)/python; isort --check-only --diff --recursive --project jupyter_flex --section-default THIRDPARTY .
-	cd $(CURDIR)/python; black --check .
+	cd $(CURDIR)/python; isort . --project jupyter_flex --check-only --diff
+	cd $(CURDIR)/python; black . --check
 
 
 fmt:  ## Format source
-	cd $(CURDIR)/python; isort --recursive --project jupyter-flex --section-default THIRDPARTY .
+	cd $(CURDIR)/python; isort --project jupyter-flex .
 	cd $(CURDIR)/python; black .
 
 
