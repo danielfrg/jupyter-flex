@@ -14,7 +14,7 @@ markers = [
 pytest_plugin = ["jupyter_server.pytest_plugin"]
 
 [tool.coverage.report]
-omit = ["jupyter_flex/_generated_version.py"]
+omit = ["jupyter_flex/_generated_version.py", "jupyter_flex/tests/*"]
 
 [tool.black]
 target-version = ["py37", "py38"]
@@ -32,6 +32,7 @@ exclude = '''
   | buck-out
   | build
   | dist
+  | _generated_version.py
   | node_modules
 )
 '''

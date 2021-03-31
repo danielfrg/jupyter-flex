@@ -19,7 +19,7 @@ first: help
 # ------------------------------------------------------------------------------
 # Build
 
-build: download-assets npm-build python-build  ## Build assets and Python package
+build: download-assets npm-build build-python  ## Build JS and Python package
 
 download-assets:  ## Download .css/.js assets
 	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/jquery.slim.min.js https://code.jquery.com/jquery-3.5.1.slim.min.js
@@ -35,10 +35,6 @@ download-assets:  ## Download .css/.js assets
 
 # ------------------------------------------------------------------------------
 # Python
-
-python-build:  ## Build Python package (sdist)
-	cd $(CURDIR)/python; python setup.py sdist
-
 
 env:  ## Create virtualenv
 	cd $(CURDIR)/python; mamba env create
@@ -57,15 +53,8 @@ extensions:  ## Install Jupyter extensions
 	cd $(CURDIR)/python; jupyter labextension install ipysheet
 
 
-check:  ## Check linting
-	cd $(CURDIR)/python; flake8
-	cd $(CURDIR)/python; isort . --project jupyter_flex --check-only --diff
-	cd $(CURDIR)/python; black . --check
-
-
-fmt:  ## Format source
-	cd $(CURDIR)/python; isort --project jupyter_flex .
-	cd $(CURDIR)/python; black .
+build-python:  ## Build package
+	cd $(CURDIR)/python; python setup.py sdist
 
 
 upload-pypi:  ## Upload package to PyPI
@@ -87,15 +76,15 @@ cleanpython:  ## Clean Python build files
 
 
 # ------------------------------------------------------------------------------
-# JS
-
-npm-build:  ## Build JS
-	cd $(CURDIR)/js/; npm run build:all
-
+# Javascript
 
 npm-i: npm-install
 npm-install:  ## Install JS dependencies
 	cd $(CURDIR)/js/; npm install
+
+
+npm-build:  ## Build JS
+	cd $(CURDIR)/js/; npm run build:all
 
 
 npm-dev:  ## Build JS with watch
@@ -116,6 +105,18 @@ cleanjs:  ## Clean JS build files
 # ------------------------------------------------------------------------------
 # Testing
 
+
+check:  ## Check linting
+	cd $(CURDIR)/python; flake8
+	cd $(CURDIR)/python; isort . --project jupyter_flex --check-only --diff
+	cd $(CURDIR)/python; black . --check
+
+
+fmt:  ## Format source
+	cd $(CURDIR)/python; isort --project jupyter_flex .
+	cd $(CURDIR)/python; black .
+
+
 selenium:  ## Run selenium in docker-compose
 	docker-compose up
 
@@ -124,7 +125,7 @@ voila-examples:  ## Serve examples using voila
 	voila --debug --template flex --no-browser --Voila.ip='0.0.0.0' --port 8866 --VoilaConfiguration.file_whitelist="['.*']" $(CURDIR)/examples
 
 
-test-setup:
+setup-test:
 	cd $(CURDIR)/python; mkdir -p test-results/screenshots/customize
 	cd $(CURDIR)/python; mkdir -p test-results/screenshots/demos
 	cd $(CURDIR)/python; mkdir -p test-results/screenshots/getting-started
@@ -134,13 +135,13 @@ test-setup:
 	cd $(CURDIR)/python; mkdir -p test-results/screenshots/widgets
 
 
-test: test-setup  ## Run tests
+test: setup-test  ## Run tests
 	cd $(CURDIR)/python; pytest --driver Remote --host $(SELENIUM_HUB_HOST) --selenium-port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir $(CURDIR)/docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
-		-k $(PYTEST_K) -m $(TEST_MARKERS) --html=test-results/report.html --self-contained-html
+		-k $(PYTEST_K) -m "$(TEST_MARKERS)" --html=test-results/report.html --self-contained-html
 
 
-test-all: test-setup  ## Run all tests
+test-all: setup-test  ## Run all tests
 	cd $(CURDIR)/python; pytest --driver Remote --host $(SELENIUM_HUB_HOST) --selenium-port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir $(CURDIR)/docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
 		-k $(PYTEST_K) --html=test-results/report.html --self-contained-html
@@ -157,7 +158,7 @@ report:  ## Generate coverage reports
 	cd $(CURDIR)/python; coverage html
 
 
-nbconvert-example:  ## Run nbconver on one example
+nbconvert-example:  ## Run nbconver on one particular example
 	cd $(CURDIR)/examples && jupyter-nbconvert widgets/ipyleaflet.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
 
 
@@ -167,22 +168,22 @@ nbconvert-example:  ## Run nbconver on one example
 .PHONY: docs
 docs:  ## mkdocs build
 	rm -rf $(CURDIR)/site;
-	$(MAKE) exec-docs-nbs
-	$(MAKE) exec-examples-html
+	$(MAKE) docs-exec-nbs
+	$(MAKE) docs-exec-examples-html
 	mkdocs build
 	# This one after building
-	$(MAKE) docs-example-nbs
+	$(MAKE) docs-exec-example-nbs
 
 
 serve-docs:  ## Serve docs
 	mkdocs serve
 
 
-exec-docs-nbs:  ## Execute notebook that are used as docs
+docs-exec-nbs:  ## Execute notebooks that are used as docs
 	cd $(CURDIR)/docs; jupyter-nbconvert *.ipynb --inplace --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
 
 
-exec-examples-html:  ## Convert examples to HTML dashboards
+docs-exec-examples-html:  ## Convert examples to HTML dashboards
 	rm -rf $(CURDIR)/docs/examples;
 	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb 					--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb 		--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
@@ -194,7 +195,7 @@ exec-examples-html:  ## Convert examples to HTML dashboards
 	cd $(CURDIR)/examples && jupyter-nbconvert illusionist/*.ipynb 		--output-dir=$(CURDIR)/docs/examples/illusionist --to=flex-illusionist --execute --ExecutePreprocessor.store_widget_state=True
 
 
-docs-example-nbs:  ## Execute example notebooks into docs output
+docs-exec-example-nbs:  ## Execute examples notebooks output them into docs
 	rm -rf $(CURDIR)/site/examples/notebooks
 	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb 		        	--output-dir=$(CURDIR)/site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb		--output-dir=$(CURDIR)/site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
@@ -213,7 +214,7 @@ examples-clear-output:  ## Clear output of notebooks
 # ------------------------------------------------------------------------------
 # Other
 
-reset: cleanall  ## Same as cleanall
+
 cleanall: cleanpython cleanjs  ## Clean everything
 	rm -rf *.egg-info
 	cd $(CURDIR)/js/; rm -rf node_modules

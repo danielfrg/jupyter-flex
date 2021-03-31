@@ -11,7 +11,7 @@ here are some instructions to setup the dev environment.
 
 Dependencies are:
 
--   NodeJS and npm
+-   Node.js and npm
 -   Python
 
 ### 1. Download third-party CSS/JS assets (bootstrap and others):
@@ -22,7 +22,7 @@ make download-assets
 
 ### 2. Javascript
 
-Install dependecies:
+Install dependecies
 
 ```
 make npm-install
@@ -30,14 +30,14 @@ make npm-install
 
 ### 3. Python:
 
-Create conda env
+Create Python env
 
 ```
 make env
-conda activate jupyter-flex
+conda activate word2vec
 ```
 
-Install the package on dev mode
+Install package for developmentt
 
 ```
 make develop
@@ -54,23 +54,30 @@ To have a nice iteracion cycle between JS and Python:
 make npm-dev
 ```
 
-2. Terminal 2: Now you can just start voila and iterate quickly on the JS or Python code.
-   To start the voila in the examples directory:
+2. Terminal 2: Now you can just start Voila and iterate quickly on the JS or Python code. For example, to start the Voila in the examples directory:
 
 ```
 make voila-examples
 ```
 
-## Testing
+## Tests
 
-The CI system runs this but in case you want to do it locally to debug CI issues:
+A system based on docker is provided and it's
+the same the CI system runs.
 
-1. `make selenium`: Start Selenium in docker-compose
-2. `make voila-examples`: Start voila server locally
-3. `make test`: Run pytest locally against Selenium
-4. `make test-baselines PYTEST_K=ipysheet`: To run just one test
+1. Terminal 1: Start Selenium in docker-compose: `make selenium`
+2. Terminal 2: Start voila server locally: `make voila-examples`
+3. Terminal 3: Run pytest locally against Selenium
 
-To generate/update baselines:
+```
+# Run all tests
+make test
+
+# Run a specific test
+make test PYTEST_K=ipysheet
+```
+
+To generate/update the test baselines
 
 ```
 make test-baselines
@@ -79,6 +86,6 @@ make test-baselines
 ## Docs
 
 ```
-make docs-examples
+make docs
 make serve-docs
 ```

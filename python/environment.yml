@@ -14,8 +14,6 @@ dependencies:
   - isort
   - twine
   - wheel
-  - pytest
-  - pytest-cov
 
   - pip:
       # Package deps
@@ -26,6 +24,8 @@ dependencies:
       - illusionist>=0.2.0
 
       # Testing
+      - pytest
+      - pytest-cov
       - pytest-html
       - pytest-needle
       - pytest-base-url
@@ -33,7 +33,7 @@ dependencies:
       - pytest-tornasync
 
       # Docs
-      - mkdocs
+      - mkdocs>=1.1.0,<2
       - mkdocs-material==7.1.0
       - mkdocs-jupyter>=0.16.1
       - mkdocs-minify-plugin
