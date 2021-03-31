@@ -48,7 +48,7 @@ vega_datasets
 # Docs
 mkdocs
 mkdocs-material
-mkdocs-jupyter>=0.15.0
+mkdocs-jupyter>=0.16.1
 mkdocs-minify-plugin
 pygments
 pymdown-extensions

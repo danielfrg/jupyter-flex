@@ -1,6 +1,7 @@
 site_name: Jupyter-flex
 site_url: https://jupyter-flex.danielfrg.com
-copyright: Copyright 2019 - 2020 Daniel Rodriguez
+copyright: Copyright 2019 - 2021 Daniel Rodriguez
+dev_addr: 127.0.0.1:8081
 
 nav:
   - Home: index.md
@@ -30,7 +31,7 @@ extra_javascript:
 plugins:
   - search
   - mkdocs-jupyter:
-      execute: true
+      execute: false
 
 markdown_extensions:
   - meta

@@ -44,38 +44,8 @@ a:hover {
     text-decoration: underline;
 }
 
-a.md-nav__link:before {
-    content: "";
-}
-
-@media (min-width: 76.1875em) {
-    a.md-nav__link:before {
-        color: var(--md-primary-fg-color);
-        content: "\203A";
-        left: 20px;
-        opacity: 0.8;
-        position: absolute;
-        height: 100%;
-        width: 8px;
-        margin-top: -1px;
-    }
-}
-
-a.md-nav__link {
-    text-decoration: none;
-    padding: 6px 0 6px 15px;
-}
-
-a.md-nav__link--active {
-    /* font-weight: 600; */
-}
-
-table code {
-    word-break: normal !important;
-}
 
 /* Image grid */
-
 .image-grid {
     display: flex;
     flex: 1 1 100%;
@@ -129,8 +99,8 @@ table code {
         padding-bottom: 0;
     }
 }
-/* Terminal */
 
+/* Terminal */
 p.code-header {
     color: #3c3c3c;
     background-color: rgba(219, 219, 219, 0.8);
