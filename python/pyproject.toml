@@ -7,7 +7,7 @@ requires = ["setuptools>=42", "setuptools_scm[toml]>=3.4", "wheel"]
 
 [tool.pytest.ini_options]
 norecursedirs = ".git,dist,build,env,venv"
-addopts = "jupyter_flex/tests --cov=jupyter_flex --cov-report term-missing"
+addopts = "jupyter_flex/tests -s -vv --cov-config=pyproject.toml --cov=jupyter_flex --cov-report term-missing"
 markers = [
     "selenium: requires selenium (deselect with '-m \"not selenium\"')"
 ]
@@ -38,7 +38,7 @@ exclude = '''
 
 [tool.isort]
 # https://black.readthedocs.io/en/stable/the_black_code_style.html#how-black-wraps-lines
-multi_line_output=3
+multi_line_output = 3
 lines_after_imports = 2
 force_grid_wrap = 0
 include_trailing_comma = "true"

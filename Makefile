@@ -5,7 +5,6 @@ SHELL := bash
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
-PWD := $(shell pwd)
 PYTEST_K ?= ""
 TEST_MARKERS ?= "not selenium"
 
@@ -16,8 +15,9 @@ PYTEST_BASE_URL ?= http://host.docker.internal:8866
 
 first: help
 
+
 # ------------------------------------------------------------------------------
-# Package build
+# Build
 
 build: download-assets npm-build python-build  ## Build assets and Python package
 
@@ -64,7 +64,7 @@ check:  ## Check linting
 
 
 fmt:  ## Format source
-	cd $(CURDIR)/python; isort --project jupyter-flex .
+	cd $(CURDIR)/python; isort --project jupyter_flex .
 	cd $(CURDIR)/python; black .
 
 

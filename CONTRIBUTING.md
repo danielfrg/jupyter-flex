@@ -1,4 +1,4 @@
-# How to Contribute
+# Contributing
 
 If you find any issues please create [Github Issue](https://github.com/danielfrg/jupyter-flex/issues)
 with as much info as possible, the best way is a submit reproducible notebook and
@@ -10,8 +10,9 @@ If you are interested in submiting a PR with new features or fixing bugs
 here are some instructions to setup the dev environment.
 
 Dependencies are:
-- NodeJS and npm
-- Python
+
+-   NodeJS and npm
+-   Python
 
 ### 1. Download third-party CSS/JS assets (bootstrap and others):
 
@@ -47,14 +48,14 @@ make develop
 To have a nice iteracion cycle between JS and Python:
 
 1. Terminal 1: Start webpack in watch mode, this will also place the bundle files in the
-nbconvert and voila static directories.
+   nbconvert and voila static directories.
 
 ```
 make npm-dev
 ```
 
 2. Terminal 2: Now you can just start voila and iterate quickly on the JS or Python code.
-To start the voila in the examples directory:
+   To start the voila in the examples directory:
 
 ```
 make voila-examples
