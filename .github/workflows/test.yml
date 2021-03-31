@@ -104,7 +104,6 @@ jobs:
           curl http://localhost:8866/
 
       - name: Run tests
-        if: always()
         run: |
           make test-all
           make report
@@ -113,7 +112,6 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
           file: python/coverage.xml
-          fail_ci_if_error: true
 
       - name: Upload test restuls
         uses: actions/upload-artifact@v1
