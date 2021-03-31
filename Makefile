@@ -166,17 +166,23 @@ nbconvert-example:  ## Run nbconver on one example
 
 .PHONY: docs
 docs:  ## mkdocs build
-	$(MAKE) docs-examples-html
 	rm -rf $(CURDIR)/site;
+	$(MAKE) exec-docs-nbs
+	$(MAKE) exec-examples-html
 	mkdocs build
-	$(MAKE) docs-exec-notebooks
+	# This one after building
+	$(MAKE) docs-example-nbs
 
 
 serve-docs:  ## Serve docs
 	mkdocs serve
 
 
-docs-examples-html:  ## Convert examples to HTML dashboards
+exec-docs-nbs:  ## Execute notebook that are used as docs
+	cd $(CURDIR)/docs; jupyter-nbconvert *.ipynb --inplace --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
+
+
+exec-examples-html:  ## Convert examples to HTML dashboards
 	rm -rf $(CURDIR)/docs/examples;
 	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb 					--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb 		--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
@@ -188,7 +194,7 @@ docs-examples-html:  ## Convert examples to HTML dashboards
 	cd $(CURDIR)/examples && jupyter-nbconvert illusionist/*.ipynb 		--output-dir=$(CURDIR)/docs/examples/illusionist --to=flex-illusionist --execute --ExecutePreprocessor.store_widget_state=True
 
 
-docs-exec-notebooks:  ## Execute example notebooks into docs output
+docs-example-nbs:  ## Execute example notebooks into docs output
 	rm -rf $(CURDIR)/site/examples/notebooks
 	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb 		        	--output-dir=$(CURDIR)/site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb		--output-dir=$(CURDIR)/site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
