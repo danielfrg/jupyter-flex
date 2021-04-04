@@ -1,49 +1,6 @@
-:root {
-    /* Default color shades */
-    --md-default-fg-color: hsla(0, 0%, 0%, 0.87);
-    --md-default-fg-color--light: hsla(0, 0%, 0%, 0.54);
-    --md-default-fg-color--lighter: hsla(0, 0%, 0%, 0.26);
-    --md-default-fg-color--lightest: hsla(0, 0%, 0%, 0.07);
-    --md-default-bg-color: hsla(0, 0%, 100%, 1);
-    --md-default-bg-color--light: hsla(0, 0%, 100%, 0.7);
-    --md-default-bg-color--lighter: hsla(0, 0%, 100%, 0.3);
-    --md-default-bg-color--lightest: hsla(0, 0%, 100%, 0.12);
-
-    /* Primary color shades */
-    --md-primary-fg-color: rgb(3, 102, 214);
-    /* --md-primary-fg-color: hsla(231deg, 48%, 48%, 1); */
-    --md-primary-fg-color--light: hsla(230deg, 44%, 64%, 1);
-    --md-primary-fg-color--dark: hsla(232deg, 54%, 41%, 1);
-    --md-primary-bg-color: var(--md-default-bg-color);
-    --md-primary-bg-color--light: var(--md-default-bg-color--light);
-
-    /* Accent color shades */
-    --md-accent-fg-color: #1563ff;
-    /* --md-accent-fg-color: hsla(218deg, 100%, 63%, 1); */
-    --md-accent-fg-color--transparent: hsla(218deg, 100%, 63%, 0.1);
-    --md-accent-bg-color: var(--md-default-bg-color);
-    --md-accent-bg-color--light: var(--md-default-bg-color--light);
-
-    --md-primary-fg-color--dark: #24292e;
-}
-
-.md-header {
-    background-color: #24292e;
-}
-
-.md-header[data-md-state="shadow"] {
-    transition: none;
-    box-shadow: none;
-}
-
-.md-search__input {
-    background-color: var(--md-default-bg-color--lighter);
-}
-
 a:hover {
     text-decoration: underline;
 }
-
 
 /* Image grid */
 .image-grid {
@@ -122,6 +79,90 @@ pre .code-noselect {
     user-select: none;
 }
 
-.md-footer-meta {
-    background: none;
+/* Medium Zoom */
+.medium-zoom-overlay,
+.medium-zoom-image--opened {
+    z-index: 999;
+}
+
+/* Jupyter Stuff */
+.jp-RenderedHTMLCommon p {
+    font-size: 0.8rem;
+    line-height: 1.6;
+}
+
+.jp-RenderedHTMLCommon li {
+    font-size: 0.8rem;
+    line-height: 1.6;
+}
+
+.jp-RenderedHTMLCommon h1 {
+    margin: 0 0 1.25em;
+    color: var(--md-default-fg-color--light);
+    font-weight: 300;
+    font-size: 2em;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+}
+
+.jp-RenderedHTMLCommon h2 {
+    margin: 1.6em 0 0.64em;
+    font-weight: 300;
+    font-size: 1.965em;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+}
+
+.jp-RenderedHTMLCommon h3 {
+    margin: 1.6em 0 0.8em;
+    font-weight: 400;
+    font-size: 1.57em;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+}
+
+.jp-RenderedHTMLCommon hr {
+    border: none;
+}
+
+p.img-caption {
+    margin-top: -20px !important;
+    text-align: center;
+    color: #444;
+    font-size: 15px;
+}
+
+.jp-RenderedHTMLCommon img {
+    margin-top: 15px;
+}
+
+.jp-RenderedHTMLCommon code {
+    font-size: 0.8em;
+}
+
+.jp-RenderedHTMLCommon p.code-header {
+    color: #3c3c3c;
+    background-color: rgba(219, 219, 219, 0.8);
+    margin: 1em 0 0em;
+    padding: 0.1em 1em;
+    font-size: 1em;
+    font-family: "Roboto Mono", "Courier New", Courier, monospace;
+}
+
+.jp-RenderedHTMLCommon pre {
+    margin: 0 0 1em;
+}
+
+.jp-RenderedHTMLCommon pre > code {
+    background-color: var(--md-code-bg-color);
+    font-size: 1.05em;
+}
+
+.jp-RenderedHTMLCommon .admonition .admonition-title {
+    font-size: 13px;
+}
+
+.jp-RenderedHTMLCommon .admonition p,
+.jp-RenderedHTMLCommon .admonition li {
+    font-size: 13px;
 }

@@ -110,6 +110,7 @@ dmypy.json
 _generated_version.py
 
 ### Project specific ###
+tmp
 test-results
 docs/examples
 examples/**/*.html
