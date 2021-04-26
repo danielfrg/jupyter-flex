@@ -66,12 +66,20 @@ class JupyterFlexDashboard extends React.Component {
                     const kernel = await voila.connectKernel();
 
                     const context = {
-                        session: {
-                            kernel,
+                        sessionContext: {
+                            session: {
+                                kernel,
+                                kernelChanged: {
+                                    connect: () => {},
+                                },
+                            },
+                            statusChanged: {
+                                connect: () => {},
+                            },
                             kernelChanged: {
                                 connect: () => {},
                             },
-                            statusChanged: {
+                            connectionStatusChanged: {
                                 connect: () => {},
                             },
                         },
@@ -79,7 +87,6 @@ class JupyterFlexDashboard extends React.Component {
                             connect: () => {},
                         },
                     };
-
                     const settings = {
                         saveState: false,
                     };
