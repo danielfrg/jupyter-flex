@@ -1,12 +1,12 @@
 # Contributing
 
-If you find any issues please create [Github Issue](https://github.com/danielfrg/jupyter-flex/issues)
+If you find any issues please create a [Github Issue](https://github.com/danielfrg/jupyter-flex/issues)
 with as much info as possible, the best way is a submit reproducible notebook and
 some screenshots.
 
 ## Development environment
 
-If you are interested in submiting a PR with new features or fixing bugs
+If you are interested in submitting a PR with new features or fixing bugs
 here are some instructions to setup the dev environment.
 
 Dependencies are:
@@ -22,7 +22,7 @@ make download-assets
 
 ### 2. Javascript
 
-Install dependecies
+Install dependencies
 
 ```
 make npm-install
@@ -45,7 +45,7 @@ make develop
 
 ### Iteration cycle
 
-To have a nice iteracion cycle between JS and Python:
+To have a nice iteration cycle between JS and Python:
 
 1. Terminal 1: Start webpack in watch mode, this will also place the bundle files in the
    nbconvert and voila static directories.
