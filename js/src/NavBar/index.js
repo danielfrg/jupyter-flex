@@ -2,7 +2,6 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 import Button from "react-bootstrap/Button";
-import Nav from "react-bootstrap/Nav";
 import BootstrapNavbar from "react-bootstrap/NavBar";
 import Container from "react-bootstrap/Container";
 
