@@ -1,6 +1,5 @@
 import React from "react";
 
-import Card from "../Card";
 import Section from "../Section";
 
 class Sidebar extends React.Component {

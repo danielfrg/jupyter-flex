@@ -1,15 +1,12 @@
 import React from "react";
 
-import {
-    Cells,
-    Cell,
-    Input,
-    Prompt,
-    Source,
-} from "@nteract/presentational-components";
+import Button from "react-bootstrap/Button";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import BootstrapCard from "react-bootstrap/Card";
+import { Cells } from "@nteract/presentational-components";
 
 import DashboardCell from "../Cell";
-import { DashboardContext } from "../App/context";
+import { DashboardContext } from "../Dashboard/context";
 import { getTagValue } from "../utils";
 import Modal from "../Modal";
 
@@ -48,24 +45,19 @@ class Card extends React.Component {
 
         let cardClassName = sectionOrientation == "columns" ? "column" : "row";
 
-        let headerHtml;
         let sourceModal;
         let helpModal;
 
-        // Create hdear
+        // Create header
+        let header_buttons = null;
         if (title || showCardSource || (help && help.length > 0)) {
-            let buttons = [];
-
+            header_buttons = [];
             // Source button and modal
             if (showCardSource) {
-                buttons.push(
-                    <button
-                        key="source"
-                        className="modal-btn"
-                        onClick={this.toggleSourceModal}
-                    >
+                header_buttons.push(
+                    <Button key="source" onClick={this.toggleSourceModal}>
                         <i className="material-icons">code</i>
-                    </button>
+                    </Button>
                 );
 
                 const sourceCells = body.map((cell, i) => {
@@ -95,14 +87,10 @@ class Card extends React.Component {
 
             // Help button and modal
             if (help && help.length > 0) {
-                buttons.push(
-                    <button
-                        key="help"
-                        className="modal-btn"
-                        onClick={this.toggleHelpModal}
-                    >
+                header_buttons.push(
+                    <Button key="help" onClick={this.toggleHelpModal}>
                         <i className="material-icons">help_outline</i>
-                    </button>
+                    </Button>
                 );
 
                 let helpCells = [];
@@ -122,15 +110,8 @@ class Card extends React.Component {
                 );
             }
 
-            headerHtml = (
-                <div className="card-header d-flex justify-content-between align-items-baseline">
-                    <h6>{!insideTabs ? title : null}</h6>
-                    {buttons.length > 0 ? (
-                        <div className="buttons">{buttons}</div>
-                    ) : null}
-                </div>
-            );
-        } // End header if
+            header_buttons = <ButtonGroup>{header_buttons}</ButtonGroup>;
+        } // End header
 
         // Card body
         let bodyComponents = [];
@@ -153,27 +134,34 @@ class Card extends React.Component {
                     <DashboardCell key={i} showInputs={false} {...cell} />
                 );
             });
-
-            footerComponents = (
-                <div className="card-footer text-muted">{footerComponents}</div>
-            );
         }
 
         return (
-            <div
-                className={`card card-${cardClassName} ${this.state.classNames}`}
+            <BootstrapCard
+                className={`card-${cardClassName} ${this.state.classNames}`}
                 style={{ flex: `${this.state.size} ${this.state.size} 0px` }}
             >
-                {headerHtml}
+                <BootstrapCard.Header className="d-flex justify-content-between align-items-baseline">
+                    <BootstrapCard.Title>
+                        {!insideTabs ? title : null}
+                    </BootstrapCard.Title>
+                    {header_buttons}
+                    {/* {header_buttons ? (
+                    ) : null} */}
+                </BootstrapCard.Header>
 
-                <div className="card-body d-flex flex-column">
+                <BootstrapCard.Body className="d-flex flex-column">
                     {bodyComponents}
-                </div>
+                </BootstrapCard.Body>
 
-                {footerComponents}
+                {footerComponents.length > 0 ? (
+                    <BootstrapCard.Footer>
+                        {footerComponents}
+                    </BootstrapCard.Footer>
+                ) : null}
                 {this.state.showSourceModal ? sourceModal : null}
                 {this.state.showHelpModal ? helpModal : null}
-            </div>
+            </BootstrapCard>
         );
     }
 }

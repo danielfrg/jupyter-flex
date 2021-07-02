@@ -1,6 +1,8 @@
 import React from "react";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 
+import Container from "react-bootstrap/Container";
+
 import NavBar from "../NavBar";
 import Sidebar from "../Sidebar";
 import Page from "../Page";
@@ -70,10 +72,7 @@ class Dashboard extends React.Component {
                             kernelName={kernelName}
                             pages={pages}
                         />
-                        <main
-                            role="main"
-                            className="content-wrapper container-fluid"
-                        >
+                        <Container fluid className="content-wrapper">
                             {globalSidebar}
                             <div
                                 className={
@@ -84,7 +83,7 @@ class Dashboard extends React.Component {
                             >
                                 <Switch>{routeComponents}</Switch>
                             </div>
-                        </main>
+                        </Container>
                     </div>
                 </div>
             </Router>

@@ -1,6 +1,11 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
+import Button from "react-bootstrap/Button";
+import Nav from "react-bootstrap/Nav";
+import BootstrapNavbar from "react-bootstrap/NavBar";
+import Container from "react-bootstrap/Container";
+
 import { slugify } from "../utils";
 
 class NavBar extends React.Component {
@@ -21,9 +26,9 @@ class NavBar extends React.Component {
     }
 
     onNavlinkClick = (event) => {
-        // Collapse when changing pages
+        // TODO: Collapse menu when changing pages
         // eslint-disable-next-line no-undef
-        $("#navPages").collapse("hide");
+        // $("#navPages").collapse("hide");
 
         // See if the new page has a sidebar
         this.setState({ pageSidebar: false });
@@ -47,9 +52,9 @@ class NavBar extends React.Component {
         } = this.props;
         const { globalSidebar, pageSidebar } = this.state;
 
-        let homeEl = "";
+        let homeBtn = "";
         if (home) {
-            homeEl = (
+            homeBtn = (
                 <a href={home} className="home">
                     <i className="material-icons">home</i>
                 </a>
@@ -61,8 +66,8 @@ class NavBar extends React.Component {
             logoEl = <img alt="logo" className="logo" src={logo}></img>;
         }
 
-        let collapseButtonSidebar = (
-            <button
+        let collapseSidebarButton = (
+            <Button
                 className="navbar-toggler"
                 type="button"
                 data-toggle="collapse"
@@ -72,44 +77,30 @@ class NavBar extends React.Component {
                 aria-label="Toggle sidebar"
             >
                 <span className="navbar-toggler-icon"></span>
-            </button>
+            </Button>
         );
 
-        let collapseButton = (
-            <button
-                className="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navPages"
-                aria-controls="navPages"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            >
-                <span className="navbar-toggler-icon"></span>
-            </button>
-        );
-
-        let pagesEl = [];
+        let pageButtons = [];
         if (pages && pages.length > 1) {
             pages.forEach((page, i) => {
                 if (page.title && !page.tags.includes("sidebar")) {
                     const pageSlug = slugify(page.title);
-                    const pagePath = pagesEl.length == 0 ? "/" : `${pageSlug}`;
+                    const pagePath =
+                        pageButtons.length == 0 ? "/" : `${pageSlug}`;
                     const newPage = (
-                        <li key={page.title} className="nav-item">
-                            <NavLink
-                                to={pagePath}
-                                exact={true}
-                                className="nav-link"
-                                activeClassName="active"
-                                onClick={this.onNavlinkClick}
-                                data-page-id={i}
-                            >
-                                {page.title}
-                            </NavLink>
-                        </li>
+                        <NavLink
+                            key={page.title}
+                            to={pagePath}
+                            exact={true}
+                            className="nav-link"
+                            activeClassName="active"
+                            onClick={this.onNavlinkClick}
+                            data-page-id={i}
+                        >
+                            {page.title}
+                        </NavLink>
                     );
-                    pagesEl.push(newPage);
+                    pageButtons.push(newPage);
                 }
             });
         }
@@ -143,25 +134,24 @@ class NavBar extends React.Component {
 
         return (
             <header>
-                <nav className="navbar navbar-expand-md">
-                    <div className="container-fluid">
+                <BootstrapNavbar variant="dark" expand="md">
+                    <Container fluid>
                         <div className="nav-content">
                             {globalSidebar || pageSidebar
-                                ? collapseButtonSidebar
+                                ? collapseSidebarButton
                                 : null}
-                            {homeEl}
-                            <span className="navbar-brand">
+                            {homeBtn}
+                            <BootstrapNavbar.Brand>
                                 {logoEl}
                                 {title}
-                            </span>
-                            {pagesEl.length > 1 || sourceCodeLink || subtitle
-                                ? collapseButton
-                                : null}
+                            </BootstrapNavbar.Brand>
+
+                            <BootstrapNavbar.Toggle aria-controls="main-navbar-nav" />
                         </div>
-                        <div id="navPages" className="collapse navbar-collapse">
-                            <ul className="nav-pages navbar-nav mr-auto">
-                                {pagesEl.length > 1 ? pagesEl : null}
-                            </ul>
+                        <BootstrapNavbar.Collapse id="main-navbar-nav">
+                            <div className="page-links d-flex mr-auto">
+                                {pageButtons.length > 1 ? pageButtons : null}
+                            </div>
                             {subtitleEl}
                             {sourceEl}
                             <span
@@ -170,9 +160,9 @@ class NavBar extends React.Component {
                             >
                                 <div id="kernel-activity"></div>
                             </span>
-                        </div>
-                    </div>
-                </nav>
+                        </BootstrapNavbar.Collapse>
+                    </Container>
+                </BootstrapNavbar>
             </header>
         );
     }
