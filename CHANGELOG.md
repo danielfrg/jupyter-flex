@@ -3,6 +3,8 @@
 ## Unreleased
 
 -   Support Python 3.9
+-   Support different layouts for diff pages
+-   Bundle bootstrap from npm instead of manually
 
 ## 0.6.4
 
