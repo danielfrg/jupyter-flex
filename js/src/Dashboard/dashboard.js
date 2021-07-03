@@ -62,29 +62,27 @@ class Dashboard extends React.Component {
             <Router hashType="noslash">
                 <div className={`jupyter-flex`}>
                     <div className="meta-cells">{metaCells}</div>
-                    <div className={`dashboard-${verticalLayout}`}>
-                        <Navbar
-                            home={home}
-                            logo={logo}
-                            title={title}
-                            subtitle={subtitle}
-                            sourceCodeLink={sourceCodeLink}
-                            kernelName={kernelName}
-                            pages={pages}
-                        />
-                        <Container fluid className="content-wrapper">
-                            {globalSidebar}
-                            <div
-                                className={
-                                    globalSidebar !== undefined
-                                        ? "ml-sm-auto col-md-8 col-lg-10 p-0"
-                                        : ""
-                                }
-                            >
-                                <Switch>{routeComponents}</Switch>
-                            </div>
-                        </Container>
-                    </div>
+                    <Navbar
+                        home={home}
+                        logo={logo}
+                        title={title}
+                        subtitle={subtitle}
+                        sourceCodeLink={sourceCodeLink}
+                        kernelName={kernelName}
+                        pages={pages}
+                    />
+                    <Container fluid className="content-wrapper">
+                        {globalSidebar}
+                        <div
+                            className={
+                                globalSidebar !== undefined
+                                    ? "ml-sm-auto col-md-8 col-lg-10 p-0"
+                                    : ""
+                            }
+                        >
+                            <Switch>{routeComponents}</Switch>
+                        </div>
+                    </Container>
                 </div>
             </Router>
         );

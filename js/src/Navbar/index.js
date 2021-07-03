@@ -116,26 +116,26 @@ class Navbar extends React.Component {
         let sourceEl;
         if (sourceCodeLink) {
             sourceEl = (
-                <ul className="BootstrapNavbar-nav">
-                    <li key="source-code" className="nav-item">
-                        <a
-                            className="source-code nav-link"
-                            href={sourceCodeLink}
-                            target="_blank"
-                            rel="noreferrer"
-                            aria-label="Source Code"
-                        >
-                            Source Code
-                            <i className="material-icons">launch</i>
-                        </a>
-                    </li>
-                </ul>
+                <a
+                    className="nav-link source-code"
+                    href={sourceCodeLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Source Code"
+                >
+                    Source Code
+                    <i className="material-icons">launch</i>
+                </a>
+                // <ul className="BootstrapNavbar-nav">
+                //     <li key="source-code" className="nav-item">
+                //     </li>
+                // </ul>
             );
         }
 
         return (
             <header>
-                <BootstrapNavbar variant="dark" expand="md">
+                <BootstrapNavbar fixed="top" variant="dark" expand="md">
                     <Container fluid>
                         <div className="nav-content">
                             {globalSidebar || pageSidebar
@@ -159,7 +159,7 @@ class Navbar extends React.Component {
                                 className="d-inline-block"
                                 data-toggle="tooltip"
                             >
-                                <div id="kernel-activity"></div>
+                                <div id="kernel-activity">a</div>
                             </span>
                         </BootstrapNavbar.Collapse>
                     </Container>
