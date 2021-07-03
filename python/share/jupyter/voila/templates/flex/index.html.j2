@@ -11,7 +11,6 @@
 
 {% block html_head_css -%}
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-	{{ resources.include_css("static/dist/bootstrap.min.css") }}
 
 	{%- block flex_embed_css %}
 	{{ resources.include_css("static/dist/jupyter-flex-embed.css") }}
@@ -99,9 +98,6 @@
 {%- endblock body_before_flex %}
 
 {% block body_end_js -%}
-	{{ resources.include_js("static/dist/jquery.slim.min.js") }}
-	{{ resources.include_js("static/dist/bootstrap.min.js") }}
-
 	{%- block body_end_js_requirejs %}
 	{{ resources.include_js("static/dist/require.min.js") }}
 	<script>

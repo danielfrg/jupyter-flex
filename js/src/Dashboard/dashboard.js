@@ -1,7 +1,9 @@
 import React from "react";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 
-import NavBar from "../NavBar";
+import Container from "react-bootstrap/Container";
+
+import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
 import Page from "../Page";
 import DashboardCell from "../Cell";
@@ -61,7 +63,7 @@ class Dashboard extends React.Component {
                 <div className={`jupyter-flex`}>
                     <div className="meta-cells">{metaCells}</div>
                     <div className={`dashboard-${verticalLayout}`}>
-                        <NavBar
+                        <Navbar
                             home={home}
                             logo={logo}
                             title={title}
@@ -70,10 +72,7 @@ class Dashboard extends React.Component {
                             kernelName={kernelName}
                             pages={pages}
                         />
-                        <main
-                            role="main"
-                            className="content-wrapper container-fluid"
-                        >
+                        <Container fluid className="content-wrapper">
                             {globalSidebar}
                             <div
                                 className={
@@ -84,7 +83,7 @@ class Dashboard extends React.Component {
                             >
                                 <Switch>{routeComponents}</Switch>
                             </div>
-                        </main>
+                        </Container>
                     </div>
                 </div>
             </Router>

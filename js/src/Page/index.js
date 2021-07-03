@@ -1,5 +1,7 @@
 import React, { Fragment } from "react";
 
+import Container from "react-bootstrap/Container";
+
 import Section from "../Section";
 import Sidebar from "../Sidebar";
 import { getTagValue, slugify } from "../utils";
@@ -54,9 +56,7 @@ class Page extends React.Component {
 
         return (
             <Fragment>
-                <div
-                    className={`page container-fluid ${this.state.classNames}`}
-                >
+                <Container fluid className={`page ${this.state.classNames}`}>
                     {sidebar}
                     <div
                         className={
@@ -67,7 +67,7 @@ class Page extends React.Component {
                     >
                         {sectionComponents}
                     </div>
-                </div>
+                </Container>
             </Fragment>
         );
     }

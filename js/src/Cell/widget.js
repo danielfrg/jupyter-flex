@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { DashboardContext } from "../App/context";
+import { DashboardContext } from "../Dashboard/context";
 import { uuidv4, onNextFrame } from "../utils";
 
 class Widget extends React.Component {

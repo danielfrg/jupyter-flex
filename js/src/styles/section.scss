@@ -58,21 +58,22 @@
     }
 
     &.section-tabs {
-        .nav-bordered {
+        .nav-tabs {
             border: none;
             border-bottom: 2px solid #d5d5d5;
             background: #fff;
 
-            li.nav-item {
+            .nav-item {
+                border: none;
                 margin-bottom: -2px;
+
+                &.active {
+                    border-bottom: 2px solid #2b333e;
+                }
 
                 a {
                     border: none;
                     background-color: #fff;
-
-                    &.active {
-                        border-bottom: 2px solid #2b333e;
-                    }
                 }
             }
         }

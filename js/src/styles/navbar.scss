@@ -64,13 +64,18 @@
         padding-left: 1rem;
     }
 
-    .nav-pages {
-        margin: 0;
-        padding: 0;
+    #main-navbar-nav {
+        .page-links {
+            flex-direction: column;
+            @media (min-width: 768px) {
+                flex-direction: row;
+            }
+        }
     }
 
     .nav-link {
         color: #aeb7c2;
+        padding: 0.5rem 0.5rem;
 
         &:hover {
             color: #fff;
@@ -83,6 +88,7 @@
 
     .subtitle {
         color: #aeb7c2;
+        padding-left: 0.5rem;
     }
 
     a.source-code {

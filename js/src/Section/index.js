@@ -1,4 +1,8 @@
 import React from "react";
+import { useLayoutEffect } from "react";
+
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
 
 import Card from "../Card";
 import { resizeInterval, getTagValue, slugify } from "../utils";
@@ -27,13 +31,13 @@ class Section extends React.Component {
             elOrientation: elOrientation,
             classNames: getTagValue(tags, "class", " "),
             useTabs: tags && tags.includes("tabs") ? true : false,
-            tabsFill: tags && tags.includes("no-nav-fill") ? false : true,
-            tabsFade: tags && tags.includes("no-nav-fill") ? false : true,
+            tabsFill: tags && tags.includes("tabs-no-fill") ? false : true,
+            tabsAnimation:
+                tags && tags.includes("tabs-no-animation") ? false : null,
         };
     }
 
     onTabClick = (event) => {
-        // Commenting this for now I dont think we need  it anymore
         resizeInterval();
     };
 
@@ -45,104 +49,53 @@ class Section extends React.Component {
             classNames,
             useTabs,
             tabsFill,
-            tabsFade,
+            tabsAnimation,
         } = this.state;
 
         // Flip for flex
         let flexDirection = elOrientation == "columns" ? "row" : "column";
         let sectionClassName = pageOrientation == "columns" ? "column" : "row";
 
-        const sectionSlug = slugify(title);
         const sectionTabs = useTabs ? "section-tabs" : "";
+        flexDirection = useTabs ? "column" : flexDirection;
 
-        let tabsButtons;
-        if (useTabs) {
-            flexDirection = "column";
-            let tabsItems = [];
+        let cardEls;
+        if (cards && cards.length > 0) {
+            cardEls = [];
+
             cards.forEach((card, i) => {
-                const cardSlug = slugify(card.title);
-                const tabName = `${cardSlug}-tab`;
-                const active = i == 0 ? "active show" : "";
-                const ariaSelected = i == 0 ? "true" : "false";
-
-                tabsItems.push(
-                    <li key={i} className="nav-item">
-                        <a
-                            className={`nav-link ${active}`}
-                            id={tabName}
-                            href={`#${cardSlug}`}
-                            data-toggle="tab"
-                            role="tab"
-                            aria-controls={cardSlug}
-                            aria-selected={ariaSelected}
-                            // Commenting this for now, i dont think we need it anymore
-                            onClick={this.onTabClick}
-                        >
-                            {card.title}
-                        </a>
-                    </li>
+                let cardComponent = (
+                    // <h1 key={i}>{i}</h1>
+                    <Card
+                        key={i}
+                        sectionOrientation={elOrientation}
+                        insideTabs={useTabs}
+                        {...card}
+                    />
                 );
+
+                if (useTabs) {
+                    const cardSlug = slugify(card.title);
+                    cardComponent = (
+                        <Tab
+                            key={cardSlug}
+                            eventKey={cardSlug}
+                            title={card.title}
+                        >
+                            {cardComponent}
+                        </Tab>
+                    );
+                }
+
+                cardEls.push(cardComponent);
             });
 
-            tabsFill = tabsFill ? "nav-fill" : "";
-            tabsButtons = (
-                <ul
-                    className={`nav nav-tabs nav-bordered ${tabsFill}`}
-                    id={`${sectionSlug}-nav`}
-                    role="tablist"
-                >
-                    {tabsItems}
-                </ul>
-            );
-        }
-
-        let cardComponents;
-        if (cards && cards.length > 0) {
-            if (!useTabs) {
-                cardComponents = [];
-
-                cards.forEach((card, i) => {
-                    const cardComponent = (
-                        <Card
-                            key={i}
-                            sectionOrientation={elOrientation}
-                            {...card}
-                        />
-                    );
-                    cardComponents.push(cardComponent);
-                });
-            } else {
-                let tabDivs = [];
-
-                cards.forEach((card, i) => {
-                    const cardSlug = slugify(card.title);
-                    const tabName = `${cardSlug}-tab`;
-                    const active = i == 0 ? "active show" : "";
-                    tabsFade = tabsFade ? "fade" : "";
-
-                    const el = (
-                        <div
-                            key={cardSlug}
-                            id={cardSlug}
-                            className={`tab-pane ${tabsFade} ${active}`}
-                            role="tabpanel"
-                            aria-labelledby={tabName}
-                        >
-                            <Card
-                                key={i}
-                                sectionOrientation={elOrientation}
-                                insideTabs={true}
-                                {...card}
-                            />
-                        </div>
-                    );
-                    tabDivs.push(el);
-                });
-
-                cardComponents = (
-                    <div className="tab-content" id={`${sectionSlug}-tabs`}>
-                        {tabDivs}
-                    </div>
+            if (useTabs) {
+                // const transition = tabsAnimation.toString();
+                cardEls = (
+                    <Tabs fill={tabsFill} transition={tabsAnimation}>
+                        {cardEls}
+                    </Tabs>
                 );
             }
         }
@@ -152,8 +105,9 @@ class Section extends React.Component {
                 className={`section section-${sectionClassName} flex-${flexDirection} ${sectionTabs} ${classNames}`}
                 style={{ flex: `${size} ${size} auto` }}
             >
-                {tabsButtons}
-                {cardComponents}
+                {/* {tabsButtons}
+                {cardEls} */}
+                {cardEls}
             </div>
         );
     }

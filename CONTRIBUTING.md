@@ -11,7 +11,7 @@ here are some instructions to setup the dev environment.
 
 Dependencies are:
 
--   Node.js and npm
+-   Node.js
 -   Python
 
 ### 1. Download third-party CSS/JS assets (bootstrap and others):
@@ -34,10 +34,10 @@ Create Python env
 
 ```
 make env
-conda activate word2vec
+conda activate jupyter-flex
 ```
 
-Install package for developmentt
+Install package for development
 
 ```
 make develop
