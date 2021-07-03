@@ -2,12 +2,12 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 import Button from "react-bootstrap/Button";
-import BootstrapNavbar from "react-bootstrap/NavBar";
+import Navbar from "react-bootstrap/NavBar";
 import Container from "react-bootstrap/Container";
 
 import { slugify } from "../utils";
 
-class NavBar extends React.Component {
+class MainNavBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = { globalSidebar: false, pageSidebar: false };
@@ -133,21 +133,21 @@ class NavBar extends React.Component {
 
         return (
             <header>
-                <BootstrapNavbar variant="dark" expand="md">
+                <Navbar variant="dark" expand="md">
                     <Container fluid>
                         <div className="nav-content">
                             {globalSidebar || pageSidebar
                                 ? collapseSidebarButton
                                 : null}
                             {homeBtn}
-                            <BootstrapNavbar.Brand>
+                            <Navbar.Brand>
                                 {logoEl}
                                 {title}
-                            </BootstrapNavbar.Brand>
+                            </Navbar.Brand>
 
-                            <BootstrapNavbar.Toggle aria-controls="main-navbar-nav" />
+                            <Navbar.Toggle aria-controls="main-navbar-nav" />
                         </div>
-                        <BootstrapNavbar.Collapse id="main-navbar-nav">
+                        <Navbar.Collapse id="main-navbar-nav">
                             <div className="page-links d-flex mr-auto">
                                 {pageButtons.length > 1 ? pageButtons : null}
                             </div>
@@ -159,12 +159,12 @@ class NavBar extends React.Component {
                             >
                                 <div id="kernel-activity"></div>
                             </span>
-                        </BootstrapNavbar.Collapse>
+                        </Navbar.Collapse>
                     </Container>
-                </BootstrapNavbar>
+                </Navbar>
             </header>
         );
     }
 }
 
-export default NavBar;
+export default MainNavBar;
