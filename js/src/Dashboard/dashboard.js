@@ -3,7 +3,7 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 
-import MainNavBar from "../MainNavBar";
+import NavBar from "../NavBar";
 import Sidebar from "../Sidebar";
 import Page from "../Page";
 import DashboardCell from "../Cell";
@@ -63,7 +63,7 @@ class Dashboard extends React.Component {
                 <div className={`jupyter-flex`}>
                     <div className="meta-cells">{metaCells}</div>
                     <div className={`dashboard-${verticalLayout}`}>
-                        <MainNavBar
+                        <NavBar
                             home={home}
                             logo={logo}
                             title={title}

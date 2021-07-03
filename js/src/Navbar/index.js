@@ -2,12 +2,12 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 import Button from "react-bootstrap/Button";
-import Navbar from "react-bootstrap/NavBar";
+import BootstrapNavbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 
 import { slugify } from "../utils";
 
-class MainNavBar extends React.Component {
+class Navbar extends React.Component {
     constructor(props) {
         super(props);
         this.state = { globalSidebar: false, pageSidebar: false };
@@ -67,7 +67,7 @@ class MainNavBar extends React.Component {
 
         let collapseSidebarButton = (
             <Button
-                className="navbar-toggler"
+                className="BootstrapNavbar-toggler"
                 type="button"
                 data-toggle="collapse"
                 data-target="#sidebar"
@@ -75,7 +75,7 @@ class MainNavBar extends React.Component {
                 aria-expanded="true"
                 aria-label="Toggle sidebar"
             >
-                <span className="navbar-toggler-icon"></span>
+                <span className="BootstrapNavbar-toggler-icon"></span>
             </Button>
         );
 
@@ -107,14 +107,16 @@ class MainNavBar extends React.Component {
         let subtitleEl;
         if (subtitle) {
             subtitleEl = (
-                <span className="subtitle navbar-text">{subtitle}</span>
+                <span className="subtitle BootstrapNavbar-text">
+                    {subtitle}
+                </span>
             );
         }
 
         let sourceEl;
         if (sourceCodeLink) {
             sourceEl = (
-                <ul className="navbar-nav">
+                <ul className="BootstrapNavbar-nav">
                     <li key="source-code" className="nav-item">
                         <a
                             className="source-code nav-link"
@@ -133,21 +135,21 @@ class MainNavBar extends React.Component {
 
         return (
             <header>
-                <Navbar variant="dark" expand="md">
+                <BootstrapNavbar variant="dark" expand="md">
                     <Container fluid>
                         <div className="nav-content">
                             {globalSidebar || pageSidebar
                                 ? collapseSidebarButton
                                 : null}
                             {homeBtn}
-                            <Navbar.Brand>
+                            <BootstrapNavbar.Brand>
                                 {logoEl}
                                 {title}
-                            </Navbar.Brand>
+                            </BootstrapNavbar.Brand>
 
-                            <Navbar.Toggle aria-controls="main-navbar-nav" />
+                            <BootstrapNavbar.Toggle aria-controls="main-BootstrapNavbar-nav" />
                         </div>
-                        <Navbar.Collapse id="main-navbar-nav">
+                        <BootstrapNavbar.Collapse id="main-BootstrapNavbar-nav">
                             <div className="page-links d-flex mr-auto">
                                 {pageButtons.length > 1 ? pageButtons : null}
                             </div>
@@ -159,12 +161,12 @@ class MainNavBar extends React.Component {
                             >
                                 <div id="kernel-activity"></div>
                             </span>
-                        </Navbar.Collapse>
+                        </BootstrapNavbar.Collapse>
                     </Container>
-                </Navbar>
+                </BootstrapNavbar>
             </header>
         );
     }
 }
 
-export default MainNavBar;
+export default Navbar;
