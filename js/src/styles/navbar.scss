@@ -8,7 +8,6 @@
     color: #fff;
 
     .container-fluid {
-        padding: 0.35rem 0;
         background-color: inherit;
         white-space: nowrap !important;
         overflow-x: auto;
@@ -122,5 +121,9 @@
         background-color: #aeb7c2;
         border-radius: 50%;
         display: inline-block;
+    }
+
+    #kernel-activity {
+        display: none;
     }
 }

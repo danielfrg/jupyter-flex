@@ -10,20 +10,30 @@ class Page extends React.Component {
     constructor(props) {
         super(props);
 
-        const { tags, dashboardOrientation } = this.props;
+        const {
+            tags,
+            dashboardOrientation,
+            dashboardVerticalLayout,
+        } = this.props;
 
         // elOrientation means the element orientation of this page is ___
-        let elOrientation;
+        let elOrientation = dashboardOrientation;
         const orientationTag = getTagValue(tags, "orientation");
         if (orientationTag) {
             elOrientation = orientationTag;
-        } else {
-            elOrientation = dashboardOrientation;
+        }
+
+        //
+        let verticalLayout = dashboardVerticalLayout;
+        const layoutTag = getTagValue(tags, "layout");
+        if (layoutTag) {
+            verticalLayout = layoutTag;
         }
 
         this.state = {
             pageSlug: slugify(this.props.title),
             elOrientation: elOrientation,
+            verticalLayout: verticalLayout,
             classNames: getTagValue(tags, "class", " "),
             loading: false,
         };
@@ -56,7 +66,10 @@ class Page extends React.Component {
 
         return (
             <Fragment>
-                <Container fluid className={`page ${this.state.classNames}`}>
+                <Container
+                    fluid
+                    className={`page page-${this.state.verticalLayout} ${this.state.classNames}`}
+                >
                     {sidebar}
                     <div
                         className={
