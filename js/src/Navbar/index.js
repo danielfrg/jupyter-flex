@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import BootstrapNavbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
+import ToggleButton from "react-bootstrap/ToggleButton";
 
 import { slugify } from "../utils";
 
@@ -65,19 +66,22 @@ class Navbar extends React.Component {
             logoEl = <img alt="logo" className="logo" src={logo}></img>;
         }
 
-        let collapseSidebarButton = (
-            <Button
-                className="BootstrapNavbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#sidebar"
-                aria-controls="sidebar"
-                aria-expanded="true"
-                aria-label="Toggle sidebar"
-            >
-                <span className="BootstrapNavbar-toggler-icon"></span>
-            </Button>
-        );
+        let collapseSidebarButton = null;
+        // <BootstrapNavbar.Toggle
+        //     data-target="#sidebar"
+        //     aria-controls="flex-main-sidebar"
+        // />
+        // <Button
+        //     className="BootstrapNavbar-toggler"
+        //     type="button"
+        //     data-toggle="collapse"
+        //     data-target="#sidebar"
+        //     aria-controls="sidebar"
+        //     aria-expanded="true"
+        //     aria-label="Toggle sidebar"
+        // >
+        //     <span className="BootstrapNavbar-toggler-icon"></span>
+        // </Button>
 
         let pageButtons = [];
         if (pages && pages.length > 1) {
@@ -126,10 +130,6 @@ class Navbar extends React.Component {
                     Source Code
                     <i className="material-icons">launch</i>
                 </a>
-                // <ul className="BootstrapNavbar-nav">
-                //     <li key="source-code" className="nav-item">
-                //     </li>
-                // </ul>
             );
         }
 
@@ -147,21 +147,20 @@ class Navbar extends React.Component {
                                 {title}
                             </BootstrapNavbar.Brand>
 
-                            <BootstrapNavbar.Toggle aria-controls="main-BootstrapNavbar-nav" />
+                            <BootstrapNavbar.Toggle aria-controls="flex-main-navbar" />
                         </div>
-                        <BootstrapNavbar.Collapse id="main-BootstrapNavbar-nav">
+                        <BootstrapNavbar.Collapse id="flex-main-navbar">
                             <div className="page-links d-flex mr-auto">
                                 {pageButtons.length > 1 ? pageButtons : null}
                             </div>
-                            {subtitleEl}
-                            {sourceEl}
-                            <span
-                                className="d-inline-block"
-                                data-toggle="tooltip"
-                            >
-                                <div id="kernel-activity">a</div>
-                            </span>
+                            <div className="page-links d-flex">
+                                {subtitleEl}
+                                {sourceEl}
+                            </div>
                         </BootstrapNavbar.Collapse>
+                        {/* <span className="d-inline-block" data-toggle="tooltip">
+                            <div id="kernel-activity">a</div>
+                        </span> */}
                     </Container>
                 </BootstrapNavbar>
             </header>

@@ -1,19 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
+
+import BootstrapNavbar from "react-bootstrap/Navbar";
+import ToggleButton from "react-bootstrap/ToggleButton";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 import Section from "../Section";
 
-class Sidebar extends React.Component {
-    constructor(props) {
-        super(props);
+function Sidebar(props) {
+    const [collapsed, setCollapsed] = useState(true);
+    const { collapseCallback } = props;
+
+    function onCollapse(e) {
+        setCollapsed(e.currentTarget.checked);
+
+        if (collapseCallback) {
+            collapseCallback(e.currentTarget.checked);
+        }
     }
 
-    render() {
-        return (
-            <div id="sidebar" className="collapse sidebar col-md-4 col-lg-2">
-                <Section {...this.props}></Section>
-            </div>
-        );
-    }
+    let contentClass = collapsed ? "" : "collapse";
+    let widthClass = collapsed ? "col-md-4 col-lg-2" : "";
+    let tooltipText = collapsed ? "Collapse" : "Expand";
+    let btnIcon = collapsed ? "chevron_left" : "chevron_right";
+
+    return (
+        <>
+            <BootstrapNavbar id="sidebar" className={`sidebar ${widthClass}`}>
+                <div
+                    id={`flex-main-sidebar`}
+                    className={`content ${contentClass}`}
+                >
+                    <Section {...props}></Section>
+                </div>
+
+                <OverlayTrigger
+                    overlay={<Tooltip>{tooltipText}</Tooltip>}
+                    placement="right"
+                >
+                    <ToggleButton
+                        type="checkbox"
+                        value="true"
+                        className={`collapse-btn`}
+                        checked={collapsed}
+                        onChange={onCollapse}
+                    >
+                        <i className="material-icons">{btnIcon}</i>
+                    </ToggleButton>
+                </OverlayTrigger>
+            </BootstrapNavbar>
+        </>
+    );
 }
 
 export default Sidebar;

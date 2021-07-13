@@ -3,7 +3,37 @@
 .sidebar {
     background-color: $sidebar-bg;
     color: #fff;
-    padding: 1rem;
+    padding: 0rem;
+
+    .content {
+        height: 100%;
+        padding: 0.5rem 1rem;
+    }
+
+    .collapse-btn {
+        position: absolute;
+        padding: 0;
+        top: 53px;
+        right: unset;
+        color: black;
+        background-color: transparent;
+        border: none;
+
+        &:hover {
+            background-color: rgb(255, 255, 255, 0.1);
+        }
+
+        &.active {
+            background-color: transparent;
+            border: none;
+            right: 0px;
+            color: white;
+        }
+
+        input {
+            display: none;
+        }
+    }
 
     .section {
         width: 100%;
@@ -78,12 +108,12 @@
 
     @media (min-width: 768px) {
         display: block;
+        padding-top: 51px;
         position: fixed;
         top: 0;
         bottom: 0;
         left: 0;
         z-index: 100;
-        padding: 48px 1rem 1rem;
 
         .section {
             height: 100%;

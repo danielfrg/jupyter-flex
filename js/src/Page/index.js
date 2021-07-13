@@ -11,10 +11,19 @@ class Page extends React.Component {
         super(props);
 
         const {
+            sections,
             tags,
             dashboardOrientation,
             dashboardVerticalLayout,
         } = this.props;
+
+        // Initial sidebar visibility defined if we have a sidebar section
+        let initSidebarVisibility = false;
+        sections.forEach((page) => {
+            if (page.tags && page.tags.includes("sidebar")) {
+                initSidebarVisibility = true;
+            }
+        });
 
         // elOrientation means the element orientation of this page is ___
         let elOrientation = dashboardOrientation;
@@ -36,11 +45,17 @@ class Page extends React.Component {
             verticalLayout: verticalLayout,
             classNames: getTagValue(tags, "class", " "),
             loading: false,
+            sidebarVisible: initSidebarVisibility,
         };
     }
 
+    collapseCallback = (event) => {
+        this.setState({ sidebarVisible: event });
+    };
+
     render() {
         const { sections } = this.props;
+        const { sidebarVisible } = this.state;
 
         // Flip orientation for flex
         let flexDirection =
@@ -51,7 +66,12 @@ class Page extends React.Component {
         if (sections && sections.length > 0) {
             sections.forEach((section, i) => {
                 if (section.tags && section.tags.includes("sidebar")) {
-                    sidebar = <Sidebar {...section} />;
+                    sidebar = (
+                        <Sidebar
+                            collapseCallback={this.collapseCallback}
+                            {...section}
+                        />
+                    );
                 } else {
                     sectionComponents.push(
                         <Section
@@ -73,8 +93,8 @@ class Page extends React.Component {
                     {sidebar}
                     <div
                         className={
-                            sidebar
-                                ? `section-wrapper flex-${flexDirection} col-md-9 ml-sm-auto col-lg-10`
+                            sidebarVisible
+                                ? `section-wrapper flex-${flexDirection} ml-sm-auto col-md-8 col-lg-10`
                                 : `section-wrapper flex-${flexDirection}`
                         }
                     >

@@ -10,6 +10,26 @@ import DashboardCell from "../Cell";
 import { slugify } from "../utils";
 
 class Dashboard extends React.Component {
+    constructor(props) {
+        super(props);
+
+        const { pages } = this.props;
+
+        // Initial sidebar visibility defined if we have a sidebar section
+        let initSidebarVisibility = false;
+        pages.forEach((page) => {
+            if (page.tags && page.tags.includes("sidebar")) {
+                initSidebarVisibility = true;
+            }
+        });
+
+        this.state = { sidebarVisible: initSidebarVisibility };
+    }
+
+    collapseCallback = (event) => {
+        this.setState({ sidebarVisible: event });
+    };
+
     render() {
         const {
             home,
@@ -24,6 +44,8 @@ class Dashboard extends React.Component {
             pages,
         } = this.props;
 
+        const { sidebarVisible } = this.state;
+
         let metaCells = [];
         if (meta && meta.length > 0) {
             meta.forEach((cell, i) => {
@@ -31,12 +53,17 @@ class Dashboard extends React.Component {
             });
         }
 
+        let sidebar;
         let routes = [];
-        let globalSidebar;
         if (pages && pages.length > 0) {
             pages.forEach((page) => {
                 if (page.tags && page.tags.includes("sidebar")) {
-                    globalSidebar = <Sidebar {...page.sections[0]} />;
+                    sidebar = (
+                        <Sidebar
+                            collapseCallback={this.collapseCallback}
+                            {...page.sections[0]}
+                        />
+                    );
                 } else {
                     const pageSlug = slugify(page.title);
                     const pagePath = routes.length == 0 ? "/" : `/${pageSlug}`;
@@ -72,10 +99,10 @@ class Dashboard extends React.Component {
                         pages={pages}
                     />
                     <Container fluid className="content-wrapper">
-                        {globalSidebar}
+                        {sidebar}
                         <div
                             className={
-                                globalSidebar !== undefined
+                                sidebarVisible
                                     ? "ml-sm-auto col-md-8 col-lg-10 p-0"
                                     : ""
                             }

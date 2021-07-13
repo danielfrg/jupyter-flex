@@ -1,6 +1,6 @@
 @import "variables.scss";
 
-.navbar {
+header .navbar {
     height: 51px;
     padding: 0;
     z-index: 999;
@@ -8,13 +8,11 @@
     color: #fff;
 
     .container-fluid {
+        padding-left: 1rem;
+        padding-right: 1rem;
         background-color: inherit;
         white-space: nowrap !important;
         overflow-x: auto;
-
-        @media (min-width: 768px) {
-            padding-right: 1rem;
-        }
 
         .nav-content {
             display: flex;
@@ -32,7 +30,7 @@
 
     a.home {
         color: #fff;
-        margin-right: 0;
+        margin-right: 1rem;
         margin-left: 1rem;
 
         i.material-icons {
@@ -54,21 +52,24 @@
 
     .navbar-brand {
         margin-right: 0;
-        margin-left: 1rem;
+        margin-left: 0;
         font-weight: 300;
         font-size: 1.15rem;
     }
 
     .navbar-collapse {
-        padding-left: 1rem;
+        padding-left: 0;
+
+        @media (min-width: 768px) {
+            padding-left: 1rem;
+        }
     }
 
-    #main-navbar-nav {
-        .page-links {
-            flex-direction: column;
-            @media (min-width: 768px) {
-                flex-direction: row;
-            }
+    .page-links {
+        flex-direction: column;
+
+        @media (min-width: 768px) {
+            flex-direction: row;
         }
     }
 
@@ -87,7 +88,7 @@
 
     .subtitle {
         color: #aeb7c2;
-        padding-left: 0.5rem;
+        padding: 0.5rem 0.5rem;
     }
 
     a.source-code {
