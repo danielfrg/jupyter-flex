@@ -1,7 +1,5 @@
 import React, { Fragment } from "react";
 
-import Container from "react-bootstrap/Container";
-
 import Section from "../Section";
 import Sidebar from "../Sidebar";
 import { getTagValue, slugify } from "../utils";

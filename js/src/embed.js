@@ -1,8 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/index.scss";
-import JupyterFlexDashboard from "./Dashboard";
+import JupyterFlex from "./App";
 
-ReactDOM.render(<JupyterFlexDashboard />, document.getElementById("flex-root"));
+ReactDOM.render(<JupyterFlex />, document.getElementById("flex-root"));

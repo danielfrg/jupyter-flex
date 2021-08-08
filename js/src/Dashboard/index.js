@@ -1,202 +1,113 @@
 import React from "react";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 
-import IllusionistWidgetManager from "@danielfrg/illusionist";
+import Navbar from "../Navbar";
+// import Sidebar from "../Sidebar";
+// import Page from "../Page";
+import DashboardCell from "../Cell";
+import { slugify } from "../utils";
 
-import Dashboard from "./dashboard";
-import DashboardErrorBoundary from "./error";
-import { Provider } from "./context";
-import { requirePromise } from "../loader";
-
-class JupyterFlexDashboard extends React.Component {
+class Dashboard extends React.Component {
     constructor(props) {
         super(props);
-        this.appMode = "";
 
-        let { dashboard, pageConfig } = this.props;
+        // const { pages } = this.props;
 
-        // Load dashboard JSON from page (if not passed as a prop)
-        if (!dashboard) {
-            const dashboardScriptTag = document.body.querySelector(
-                `script[id="jupyter-flex-dashboard"]`
-            );
-            if (dashboardScriptTag) {
-                dashboard = JSON.parse(dashboardScriptTag.innerHTML);
-            } else {
-                throw new Error(
-                    "jupyter-flex: Dashboard JSON not passed as property or found in HTML"
-                );
-            }
-        }
+        // Initial sidebar visibility defined if we have a sidebar section
+        // let initSidebarVisibility = false;
+        // pages.forEach((page) => {
+        //     if (page.tags && page.tags.includes("sidebar")) {
+        //         initSidebarVisibility = true;
+        //     }
+        // });
 
-        // Load page config from page (if not passed as a prop)
-        if (!pageConfig) {
-            const pageConfigScriptTag = document.body.querySelector(
-                `script[id="jupyter-config-data"]`
-            );
-            if (pageConfigScriptTag) {
-                pageConfig = JSON.parse(pageConfigScriptTag.innerHTML);
-            }
-        }
-
-        // Get defaults
-        this.appMode =
-            pageConfig && pageConfig.kernelId ? "voila" : "nbconvert";
-
-        this.state = {
-            pageConfig: pageConfig,
-            dashboard: dashboard,
-            kernel: null,
-            widgetManager: null,
-        };
+        // this.state = { sidebarVisible: initSidebarVisibility };
     }
 
-    async componentDidMount() {
-        let { widgetManager } = this.props;
-
-        if (widgetManager) {
-            this.setState({ widgetManager: widgetManager });
-        } else {
-            // Create a WidgetManager if its missing
-
-            if (this.appMode == "voila") {
-                // Load Voila using RequireJS, adapted from:
-                // https://github.com/voila-dashboards/voila/blob/master/share/jupyter/voila/templates/base/static/main.js
-
-                requirePromise(["voila"]).then(async (voila) => {
-                    const kernel = await voila.connectKernel();
-
-                    const context = {
-                        sessionContext: {
-                            session: {
-                                kernel,
-                                kernelChanged: {
-                                    connect: () => {},
-                                },
-                            },
-                            statusChanged: {
-                                connect: () => {},
-                            },
-                            kernelChanged: {
-                                connect: () => {},
-                            },
-                            connectionStatusChanged: {
-                                connect: () => {},
-                            },
-                        },
-                        saveState: {
-                            connect: () => {},
-                        },
-                    };
-                    const settings = {
-                        saveState: false,
-                    };
-
-                    const rendermime = new voila.RenderMimeRegistry({
-                        initialFactories: voila.standardRendererFactories,
-                    });
-
-                    const widgetManager = new voila.WidgetManager(
-                        context,
-                        rendermime,
-                        settings
-                    );
-
-                    // eslint-disable-next-line no-unused-vars
-                    window.addEventListener("beforeunload", function (event) {
-                        kernel.shutdown();
-                        kernel.dispose();
-                    });
-
-                    widgetManager.models = await widgetManager._build_models();
-
-                    // We add this function to Voila's Widget Manager
-                    widgetManager.renderWidget = async function (modelId) {
-                        const viewEl = document.body.querySelector(
-                            `div[id="${modelId}"]`
-                        );
-                        const model = widgetManager.models[modelId];
-
-                        viewEl.innerHTML = "";
-                        // eslint-disable-next-line no-unused-vars
-                        const view = await widgetManager.display_model(
-                            undefined,
-                            model,
-                            { el: viewEl }
-                        );
-                        ``;
-                    };
-
-                    this.setState({
-                        kernel: kernel,
-                        widgetManager: widgetManager,
-                    });
-                });
-            } else if (this.appMode == "nbconvert") {
-                const widgetManager = new IllusionistWidgetManager();
-
-                await widgetManager.loadState();
-                this.setState({ widgetManager: widgetManager });
-            }
-        }
-    }
+    collapseCallback = (event) => {
+        this.setState({ sidebarVisible: event });
+    };
 
     render() {
-        const { kernel, widgetManager } = this.state;
-        let {
-            home,
-            logo,
+        const {
+            homepage,
             title,
             subtitle,
-            source_link,
-            kernel_name,
-            vertical_layout,
+            externalLink,
+            kernelName,
+            verticalLayout,
             orientation,
-            include_source,
-        } = this.state.dashboard.props || {};
-        const { meta, pages } = this.state.dashboard;
+            meta,
+            pages,
+        } = this.props;
 
-        let logoURL = "";
-        if (logo) {
-            if (this.appMode == "voila") {
-                logoURL = `${this.state.pageConfig.baseUrl}voila/files/${logo}`;
-            } else if (this.appMode == "nbconvert") {
-                logoURL = `${logo}`;
-            }
+        // const { sidebarVisible } = this.state;
+
+        let metaCells = [];
+        if (meta && meta.length > 0) {
+            meta.forEach((cell, i) => {
+                metaCells.push(<DashboardCell key={i} {...cell} />);
+            });
         }
 
-        // Default is if missing vertical_layout=fill
-        vertical_layout = vertical_layout ? vertical_layout : "fill";
+        // let sidebar;
+        // let routes = [];
+        // if (pages && pages.length > 0) {
+        //     pages.forEach((page) => {
+        //         if (page.tags && page.tags.includes("sidebar")) {
+        //             sidebar = (
+        //                 <Sidebar
+        //                     collapseCallback={this.collapseCallback}
+        //                     {...page.sections[0]}
+        //                 />
+        //             );
+        //         } else {
+        //             const pageSlug = slugify(page.title);
+        //             const pagePath = routes.length == 0 ? "/" : `/${pageSlug}`;
+        //             const el = (
+        //                 <Page
+        //                     dashboardOrientation={orientation}
+        //                     dashboardVerticalLayout={verticalLayout}
+        //                     {...page}
+        //                 />
+        //             );
+        //             routes.push({ path: pagePath, component: el });
+        //         }
+        //     });
+        // }
 
-        // Default orientation based on the layout
-        if (!orientation) {
-            orientation = vertical_layout == "scroll" ? "rows" : "columns";
-        }
+        // const routeComponents = routes.map(({ path, component }, key) => (
+        //     <Route exact path={path} key={key}>
+        //         {component}
+        //     </Route>
+        // ));
 
         return (
-            <DashboardErrorBoundary>
-                <Provider
-                    value={{
-                        kernel: kernel,
-                        widgetManager: widgetManager,
-                        showCardSource: include_source,
-                    }}
-                >
-                    <Dashboard
-                        home={home}
-                        logo={logoURL}
-                        title={title}
-                        subtitle={subtitle}
-                        sourceCodeLink={source_link}
-                        kernelName={kernel_name}
-                        verticalLayout={vertical_layout}
-                        orientation={orientation}
-                        meta={meta}
-                        pages={pages}
-                    />
-                </Provider>
-            </DashboardErrorBoundary>
+            <Router hashType="noslash">
+                <div className="meta-cells">{metaCells}</div>
+                <Navbar
+                    homepage={homepage}
+                    title={title}
+                    subtitle={subtitle}
+                    externalLink={externalLink}
+                    kernelName={kernelName}
+                    pages={pages}
+                />
+                {/* <Container fluid className="content-wrapper">
+                        {sidebar}
+                        <div
+                            className={
+                                sidebarVisible
+                                    ? "ml-sm-auto col-md-8 col-lg-10 p-0"
+                                    : ""
+                            }
+                        >
+                            <Switch>{routeComponents}</Switch>
+                        </div>
+                    </Container> */}
+            </Router>
         );
     }
 }
 
-export default JupyterFlexDashboard;
+export default Dashboard;

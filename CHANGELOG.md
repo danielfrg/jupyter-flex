@@ -5,6 +5,9 @@
 -   Support Python 3.9
 -   Support different layouts for diff pages
 -   Bundle bootstrap from npm instead of manually
+-   Move to Material UI from Bootstrap
+-   Renamed `flex_home` to `flex_homepage_link`
+-   Renamed `flex_source_link` to `flex_external_link`
 
 ## 0.6.4
 

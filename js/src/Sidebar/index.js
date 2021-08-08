@@ -1,10 +1,5 @@
 import React, { useState } from "react";
 
-import BootstrapNavbar from "react-bootstrap/Navbar";
-import ToggleButton from "react-bootstrap/ToggleButton";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
-
 import Section from "../Section";
 
 function Sidebar(props) {

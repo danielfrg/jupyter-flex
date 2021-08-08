@@ -1,9 +1,6 @@
 import React from "react";
 import { useLayoutEffect } from "react";
 
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
-
 import Card from "../Card";
 import { resizeInterval, getTagValue, slugify } from "../utils";
 

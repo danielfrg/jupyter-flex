@@ -1,17 +1,19 @@
 .jupyter-flex-page {
-    background-color: #f0f2f6;
+    background-color: #f4f5f7;
     color: #333;
+    margin: 0;
 
-    @import "voila.scss";
     @import "modal.scss";
+    @import "voila.scss";
 }
 
 .jupyter-flex {
-    @import "base.scss";
-    @import "variables.scss";
+    // @import "variables.scss";
     @import "card.scss";
     @import "cell.scss";
     @import "dashboard-fill.scss";
+    @import "error-boundary.scss";
+    @import "loading.scss";
     @import "navbar.scss";
     @import "page.scss";
     @import "section.scss";

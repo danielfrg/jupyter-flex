@@ -1,4 +1,4 @@
-.loading-full {
+.loading {
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -21,21 +21,5 @@
         p {
             margin: 1rem 0;
         }
-    }
-}
-
-.error-full {
-    max-width: 720px;
-
-    h1 {
-        font-size: 2rem;
-    }
-
-    .center {
-        width: 100%;
-        max-width: 720px;
-        padding: 15px;
-        margin: auto;
-        text-align: center;
     }
 }

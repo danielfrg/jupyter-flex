@@ -6,15 +6,15 @@ some screenshots.
 
 ## Development environment
 
-If you are interested in submitting a PR with new features or fixing bugs
+If you are interested in submitting a PR with new features or fixing a bug
 here are some instructions to setup the dev environment.
 
 Dependencies are:
 
--   Node.js
 -   Python
+-   Node.js
 
-### 1. Download third-party CSS/JS assets (bootstrap and others):
+### 1. Download non-npm third-party JS assets:
 
 ```
 make download-assets

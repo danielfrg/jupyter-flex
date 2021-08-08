@@ -1,12 +1,49 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
-import Button from "react-bootstrap/Button";
-import BootstrapNavbar from "react-bootstrap/Navbar";
-import Container from "react-bootstrap/Container";
-import ToggleButton from "react-bootstrap/ToggleButton";
+import { withStyles } from "@material-ui/core/styles";
+
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import Home from "@material-ui/icons/Home";
+import Launch from "@material-ui/icons/Launch";
+import MenuIcon from "@material-ui/icons/Menu";
+import MoreIcon from "@material-ui/icons/MoreVert";
 
 import { slugify } from "../utils";
+
+const styles = (theme) => ({
+    root: {
+        flexGrow: 1,
+        boxShadow: "none",
+        // color: "#FFF",
+    },
+    toolbar: {
+        // minHeight: 36,
+    },
+    grow: {
+        flexGrow: 1,
+    },
+    subtitle: {
+        color: "#9F9E9E",
+    },
+    sectionDesktop: {
+        display: "none",
+        [theme.breakpoints.up("md")]: {
+            display: "flex",
+        },
+    },
+    sectionMobile: {
+        display: "flex",
+        [theme.breakpoints.up("md")]: {
+            display: "none",
+        },
+    },
+});
 
 class Navbar extends React.Component {
     constructor(props) {
@@ -17,12 +54,14 @@ class Navbar extends React.Component {
     componentDidMount() {
         const { pages } = this.props;
 
-        pages.forEach((page) => {
-            if (page.tags && page.tags.includes("sidebar")) {
-                // Global sidebar
-                this.setState({ globalSidebar: true });
-            }
-        });
+        if (pages) {
+            pages.forEach((page) => {
+                if (page.tags && page.tags.includes("sidebar")) {
+                    // Global sidebar
+                    this.setState({ globalSidebar: true });
+                }
+            });
+        }
     }
 
     onNavlinkClick = (event) => {
@@ -43,45 +82,27 @@ class Navbar extends React.Component {
 
     render() {
         const {
-            home,
-            logo,
+            classes,
+            homepage,
             title,
             subtitle,
-            sourceCodeLink,
+            externalLink,
             pages,
         } = this.props;
         const { globalSidebar, pageSidebar } = this.state;
 
-        let homeBtn = "";
-        if (home) {
-            homeBtn = (
-                <a href={home} className="home">
-                    <i className="material-icons">home</i>
-                </a>
+        let homepageBtn = "";
+        if (homepage) {
+            homepageBtn = (
+                <IconButton
+                    color="inherit"
+                    aria-label="Go to homepage"
+                    aria-haspopup="true"
+                >
+                    <Home />
+                </IconButton>
             );
         }
-
-        let logoEl = "";
-        if (logo) {
-            logoEl = <img alt="logo" className="logo" src={logo}></img>;
-        }
-
-        let collapseSidebarButton = null;
-        // <BootstrapNavbar.Toggle
-        //     data-target="#sidebar"
-        //     aria-controls="flex-main-sidebar"
-        // />
-        // <Button
-        //     className="BootstrapNavbar-toggler"
-        //     type="button"
-        //     data-toggle="collapse"
-        //     data-target="#sidebar"
-        //     aria-controls="sidebar"
-        //     aria-expanded="true"
-        //     aria-label="Toggle sidebar"
-        // >
-        //     <span className="BootstrapNavbar-toggler-icon"></span>
-        // </Button>
 
         let pageButtons = [];
         if (pages && pages.length > 1) {
@@ -91,17 +112,14 @@ class Navbar extends React.Component {
                     const pagePath =
                         pageButtons.length == 0 ? "/" : `${pageSlug}`;
                     const newPage = (
-                        <NavLink
-                            key={page.title}
+                        <Button
+                            key={i}
+                            component={RouterLink}
                             to={pagePath}
-                            exact={true}
-                            className="nav-link"
-                            activeClassName="active"
-                            onClick={this.onNavlinkClick}
-                            data-page-id={i}
+                            color="inherit"
                         >
                             {page.title}
-                        </NavLink>
+                        </Button>
                     );
                     pageButtons.push(newPage);
                 }
@@ -111,61 +129,71 @@ class Navbar extends React.Component {
         let subtitleEl;
         if (subtitle) {
             subtitleEl = (
-                <span className="subtitle BootstrapNavbar-text">
-                    {subtitle}
-                </span>
+                <Typography className={classes.subtitle}>{subtitle}</Typography>
             );
         }
 
-        let sourceEl;
-        if (sourceCodeLink) {
-            sourceEl = (
-                <a
-                    className="nav-link source-code"
-                    href={sourceCodeLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Source Code"
+        let externalLinkEl;
+        if (externalLink) {
+            externalLinkEl = (
+                <Button
+                    component={RouterLink}
+                    to={externalLink}
+                    color="inherit"
                 >
-                    Source Code
-                    <i className="material-icons">launch</i>
-                </a>
+                    <Launch />
+                </Button>
             );
         }
 
         return (
-            <header>
-                <BootstrapNavbar fixed="top" variant="dark" expand="md">
-                    <Container fluid>
-                        <div className="nav-content">
-                            {globalSidebar || pageSidebar
-                                ? collapseSidebarButton
-                                : null}
-                            {homeBtn}
-                            <BootstrapNavbar.Brand>
-                                {logoEl}
-                                {title}
-                            </BootstrapNavbar.Brand>
-
-                            <BootstrapNavbar.Toggle aria-controls="flex-main-navbar" />
+            <div>
+                <AppBar position="static" className={classes.root}>
+                    <Toolbar className={classes.toolbar}>
+                        {homepageBtn}
+                        <Typography
+                            variant="h6"
+                            component="h1"
+                            className={classes.title}
+                        >
+                            {title}
+                        </Typography>
+                        <div className={classes.grow} />
+                        <div className={classes.sectionDesktop}>
+                            {pageButtons}
                         </div>
-                        <BootstrapNavbar.Collapse id="flex-main-navbar">
-                            <div className="page-links d-flex mr-auto">
-                                {pageButtons.length > 1 ? pageButtons : null}
-                            </div>
-                            <div className="page-links d-flex">
-                                {subtitleEl}
-                                {sourceEl}
-                            </div>
-                        </BootstrapNavbar.Collapse>
-                        {/* <span className="d-inline-block" data-toggle="tooltip">
-                            <div id="kernel-activity">a</div>
-                        </span> */}
-                    </Container>
-                </BootstrapNavbar>
-            </header>
+                        <div className={classes.sectionMobile}>
+                            <IconButton
+                                aria-label="show pages"
+                                // aria-controls={mobileMenuId}
+                                aria-haspopup="true"
+                                // onClick={handleMobileMenuOpen}
+                                color="inherit"
+                            >
+                                <MoreIcon />
+                            </IconButton>
+                        </div>
+                        <div className={classes.grow} />
+                        <div className={classes.sectionDesktop}>
+                            {subtitleEl}
+                            {externalLinkEl}
+                        </div>
+                        <div className={classes.sectionMobile}>
+                            <IconButton
+                                aria-label="show navigation"
+                                // aria-controls={mobileMenuId}
+                                aria-haspopup="true"
+                                // onClick={handleMobileMenuOpen}
+                                color="inherit"
+                            >
+                                <MoreIcon />
+                            </IconButton>
+                        </div>
+                    </Toolbar>
+                </AppBar>
+            </div>
         );
     }
 }
 
-export default Navbar;
+export default withStyles(styles, { withTheme: true })(Navbar);
