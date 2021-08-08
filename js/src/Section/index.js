@@ -1,15 +1,47 @@
 import React from "react";
-import { useLayoutEffect } from "react";
+
+import { withStyles } from "@material-ui/core/styles";
+import { Grid } from "@material-ui/core";
 
 import Card from "../Card";
 import { resizeInterval, getTagValue, slugify } from "../utils";
+
+const styles = (theme) => ({
+    section: {
+        width: "100%",
+        // height: "100%",
+        // flexGrow: 1,
+    },
+    // section_column: {
+    // height: "100%",
+    // flexGrow: 1,
+    // },
+    cards_column: {
+        width: "100%",
+        height: "100%",
+        margin: 0,
+        padding: 0,
+        // flexGrow: 1,
+    },
+    // section_row: {
+    // height: "100%",
+    // flexGrow: 1,
+    // },
+    cards_row: {
+        width: "100%",
+        height: "100%",
+        margin: 0,
+        padding: 0,
+        // flexGrow: 1,
+    },
+});
 
 class Section extends React.Component {
     constructor(props) {
         super(props);
         const { tags, pageOrientation } = props;
 
-        // elOrientation means the element orientation of this section is ___
+        // elOrientation means the element orientation of this section is this
         let elOrientation;
         const orientationTag = getTagValue(tags, "orientation");
         if (orientationTag) {
@@ -39,7 +71,7 @@ class Section extends React.Component {
     };
 
     render() {
-        const { pageOrientation, title, cards } = this.props;
+        const { classes, pageOrientation, title, cards } = this.props;
         let {
             size,
             elOrientation,
@@ -62,7 +94,6 @@ class Section extends React.Component {
 
             cards.forEach((card, i) => {
                 let cardComponent = (
-                    // <h1 key={i}>{i}</h1>
                     <Card
                         key={i}
                         sectionOrientation={elOrientation}
@@ -72,16 +103,16 @@ class Section extends React.Component {
                 );
 
                 if (useTabs) {
-                    const cardSlug = slugify(card.title);
-                    cardComponent = (
-                        <Tab
-                            key={cardSlug}
-                            eventKey={cardSlug}
-                            title={card.title}
-                        >
-                            {cardComponent}
-                        </Tab>
-                    );
+                    // const cardSlug = slugify(card.title);
+                    // cardComponent = (
+                    // <Tab
+                    //     key={cardSlug}
+                    //     eventKey={cardSlug}
+                    //     title={card.title}
+                    // >
+                    //     {cardComponent}
+                    // </Tab>
+                    // );
                 }
 
                 cardEls.push(cardComponent);
@@ -89,25 +120,47 @@ class Section extends React.Component {
 
             if (useTabs) {
                 // const transition = tabsAnimation.toString();
-                cardEls = (
-                    <Tabs fill={tabsFill} transition={tabsAnimation}>
-                        {cardEls}
-                    </Tabs>
-                );
+                // cardEls = (
+                // <Tabs fill={tabsFill} transition={tabsAnimation}>
+                //     {cardEls}
+                // </Tabs>
+                // );
             }
         }
 
+        const cardsClassName =
+            flexDirection == "column"
+                ? classes.cards_column
+                : classes.cards_row;
+
+        const styles = {
+            flexGrow: size,
+            flexShrink: size,
+            flexBasis: "0px",
+        };
+
         return (
-            <div
-                className={`section section-${sectionClassName} flex-${flexDirection} ${sectionTabs} ${classNames}`}
-                style={{ flex: `${size} ${size} auto` }}
+            <Grid
+                item
+                sm
+                className={classes.section}
+                style={{
+                    ...styles,
+                }}
             >
-                {/* {tabsButtons}
-                {cardEls} */}
-                {cardEls}
-            </div>
+                <Grid
+                    container
+                    className={cardsClassName}
+                    spacing={3}
+                    direction={flexDirection}
+                    justifyContent="center"
+                    alignItems="center"
+                >
+                    {cardEls}
+                </Grid>
+            </Grid>
         );
     }
 }
 
-export default Section;
+export default withStyles(styles, { withTheme: true })(Section);

@@ -7,7 +7,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import theme from "./theme";
 
 import Dashboard from "../Dashboard";
-import DashboardErrorBoundary from "./error";
+import DashboardErrorBoundary from "./error-boundary";
 import { Provider } from "./context";
 import { requirePromise } from "../loader";
 

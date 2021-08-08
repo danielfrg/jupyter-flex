@@ -1,9 +1,7 @@
 import React from "react";
-// import { NavLink } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 
 import { withStyles } from "@material-ui/core/styles";
-
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -17,10 +15,9 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import { slugify } from "../utils";
 
 const styles = (theme) => ({
-    root: {
+    navbar: {
         flexGrow: 1,
         boxShadow: "none",
-        // color: "#FFF",
     },
     toolbar: {
         // minHeight: 36,
@@ -148,7 +145,7 @@ class Navbar extends React.Component {
 
         return (
             <div>
-                <AppBar position="static" className={classes.root}>
+                <AppBar position="static" className={classes.navbar}>
                     <Toolbar className={classes.toolbar}>
                         {homepageBtn}
                         <Typography

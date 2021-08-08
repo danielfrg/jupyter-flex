@@ -2,9 +2,11 @@
 // These are for nbconvert and voila
 
 .filetree {
-    border-radius: 0.25rem;
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px 40px 40px;
     background: #fff;
-    padding: 10px;
+    border-radius: 0.25rem;
 
     h6 {
         color: #000;
@@ -29,6 +31,7 @@
             text-align: inherit;
             text-decoration: none;
             line-height: 0;
+            padding: 10px;
 
             &:hover {
                 text-decoration: none;

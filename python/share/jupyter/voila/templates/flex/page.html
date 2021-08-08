@@ -15,18 +15,20 @@
 
     <body class="jupyter-flex-page" data-base-url="{{ base_url }}voila/">
         <noscript>
-            <div class="text-center">
-                <h1>
-                    {% trans %}
-                    Voila requires JavaScript.<br />
-                    Please enable it to proceed.
-                    {% endtrans %}
-                </h1>
-                <style>
-                    .page {
-                        display: none;
-                    }
-                </style>
+            <div class="loading-notebook">
+                <div class="text-center">
+                    <h1>
+                        {% trans %}
+                        Voila requires JavaScript.<br />
+                        Please enable it to proceed.
+                        {% endtrans %}
+                    </h1>
+                    <style>
+                        .page {
+                            display: none;
+                        }
+                    </style>
+                </div>
             </div>
         </noscript>
 

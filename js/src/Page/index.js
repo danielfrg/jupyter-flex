@@ -1,8 +1,27 @@
-import React, { Fragment } from "react";
+import React from "react";
+
+import { withStyles } from "@material-ui/core/styles";
+import { Box, Container, Grid } from "@material-ui/core";
 
 import Section from "../Section";
 import Sidebar from "../Sidebar";
 import { getTagValue, slugify } from "../utils";
+
+const styles = (theme) => ({
+    page: {
+        width: "100%",
+        height: "100%",
+        margin: 0,
+        padding: 0,
+        flexGrow: 1,
+    },
+    sections: {
+        width: "100%",
+        height: "100%",
+        margin: 0,
+        padding: 0,
+    },
+});
 
 class Page extends React.Component {
     constructor(props) {
@@ -52,7 +71,7 @@ class Page extends React.Component {
     };
 
     render() {
-        const { sections } = this.props;
+        const { classes, sections } = this.props;
         const { sidebarVisible } = this.state;
 
         // Flip orientation for flex
@@ -83,25 +102,20 @@ class Page extends React.Component {
         }
 
         return (
-            <Fragment>
-                <Container
-                    fluid
-                    className={`page page-${this.state.verticalLayout} ${this.state.classNames}`}
+            <Box className={classes.page}>
+                <Grid
+                    container
+                    spacing={1}
+                    className={classes.sections}
+                    direction={flexDirection}
+                    justifyContent="center"
+                    alignItems="center"
                 >
-                    {sidebar}
-                    <div
-                        className={
-                            sidebarVisible
-                                ? `section-wrapper flex-${flexDirection} ml-sm-auto col-md-8 col-lg-10`
-                                : `section-wrapper flex-${flexDirection}`
-                        }
-                    >
-                        {sectionComponents}
-                    </div>
-                </Container>
-            </Fragment>
+                    {sectionComponents}
+                </Grid>
+            </Box>
         );
     }
 }
 
-export default Page;
+export default withStyles(styles, { withTheme: true })(Page);

@@ -10,8 +10,6 @@
 {%- endblock favicon %}
 
 {% block html_head_css -%}
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-
 	{%- block flex_embed_css %}
 	{{ resources.include_css("static/dist/jupyter-flex-embed.css") }}
 	{%- endblock flex_embed_css -%}
@@ -28,12 +26,9 @@
 {%- block body_header %}
 	<div id="voila_body_loop">
 		<div id="voila-executing">
-			<div class="container-fluid loading-full">
+			<div class="loading-notebook">
 				<div class="text-center">
-					<div class="spinner-grow" role="status">
-						<span class="sr-only">Loading...</span>
-					</div>
-					<p id="voila-cell-count">Executing notebook</p>
+					<p id="voila-cell-count">... executing notebook ...</p>
 				</div>
 			</div>
 		</div>
