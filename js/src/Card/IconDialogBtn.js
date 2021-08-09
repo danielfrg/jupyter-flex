@@ -46,7 +46,7 @@ SimpleDialog.propTypes = {
     selectedValue: PropTypes.string.isRequired,
 };
 
-export default function IconDialogButton(props) {
+export default function IconDialogBtn(props) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [selectedValue, setSelectedValue] = React.useState(0);
@@ -61,13 +61,13 @@ export default function IconDialogButton(props) {
     };
 
     return (
-        <div>
+        <>
             <IconButton
                 color="inherit"
                 aria-haspopup="true"
                 aria-label="Show dialog"
                 onClick={handleClickOpen}
-                className={classes.icon}
+                className={`${classes.icon} ${props.className}`}
             >
                 {props.icon}
             </IconButton>
@@ -80,6 +80,6 @@ export default function IconDialogButton(props) {
             >
                 {props.content}
             </SimpleDialog>
-        </div>
+        </>
     );
 }

@@ -11,9 +11,9 @@ import HelpOutline from "@material-ui/icons/HelpOutline";
 
 import { Cells } from "@nteract/presentational-components";
 
-import DashboardCell from "../Cell";
-import IconDialogButton from "./source";
 import { DashboardContext } from "../App/context";
+import DashboardCell from "../Cell";
+import IconDialogBtn from "./IconDialogBtn";
 import { getTagValue } from "../utils";
 
 const styles = (theme) => ({
@@ -66,6 +66,29 @@ const styles = (theme) => ({
     },
 });
 
+export function getSourceCells(body) {
+    return body.map((cell, i) => {
+        if (cell.cell_type == "code") {
+            return (
+                <Cells key={i} className="source-cells">
+                    <DashboardCell
+                        key={i}
+                        showInputs={true}
+                        showOutputs={false}
+                        {...cell}
+                    />
+                </Cells>
+            );
+        }
+    });
+}
+
+export function getInfoCells(info) {
+    return info.map((cell, i) => {
+        return <DashboardCell key={i} showInputs={false} {...cell} />;
+    });
+}
+
 class Card extends React.Component {
     constructor(props) {
         super(props);
@@ -94,29 +117,8 @@ class Card extends React.Component {
 
         // Source dialog content
 
-        const sourceCells = body.map((cell, i) => {
-            if (cell.cell_type == "code") {
-                return (
-                    <Cells key={i} className="source-cells">
-                        <DashboardCell
-                            key={i}
-                            showInputs={true}
-                            showOutputs={false}
-                            {...cell}
-                        />
-                    </Cells>
-                );
-            }
-        });
-
-        // Info dialog content
-
-        let infoCells = [];
-        info.forEach((cell, i) => {
-            infoCells.push(
-                <DashboardCell key={i} showInputs={false} {...cell} />
-            );
-        });
+        const sourceCells = getSourceCells(body);
+        const infoCells = getInfoCells(info);
 
         // Card contents
 
@@ -132,10 +134,10 @@ class Card extends React.Component {
             if (showCardSource && sourceCells.length > 0) {
                 const icon = <Code fontSize="small" />;
                 headerBtns.push(
-                    <IconDialogButton
-                        title={title ? `Source: ${title}` : "Info"}
+                    <IconDialogBtn
                         icon={icon}
                         content={sourceCells}
+                        title={title ? `Source: ${title}` : "Info"}
                     />
                 );
             }
@@ -143,10 +145,10 @@ class Card extends React.Component {
             if (info && info.length > 0) {
                 const icon = <HelpOutline fontSize="small" />;
                 headerBtns.push(
-                    <IconDialogButton
-                        title={title ? `Info: ${title}` : "Info"}
+                    <IconDialogBtn
                         icon={icon}
                         content={infoCells}
+                        title={title ? `Info: ${title}` : "Info"}
                     />
                 );
             }
