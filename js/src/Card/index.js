@@ -26,12 +26,8 @@ const styles = (theme) => ({
     grow: {
         flexGrow: 1,
     },
-    card_wrapper: {
-        // width: "100%",
-        // height: "100%",
-    },
+    card_wrapper: {},
     header: {
-        // width: "100%",
         padding: "8px 8px",
     },
     title: {
@@ -40,22 +36,18 @@ const styles = (theme) => ({
         fontWeight: 600,
     },
     box: {
-        // width: "100%",
-        // height: "100%",
-        border: "none",
+        flexGrow: 1,
+        // border: "none",
     },
     content: {
-        // width: "100%",
         height: "100%",
         // padding: 0,
         display: "flex",
         flex: "1 1 auto",
         flexDirection: "column",
     },
-    paper: {
-        padding: theme.spacing(2),
-        textAlign: "center",
-        color: theme.palette.text.secondary,
+    footer: {
+        padding: "0 8px 8px",
     },
 });
 
@@ -165,7 +157,6 @@ class Card extends React.Component {
                     {headerBtns ? headerBtns : null}
                 </Grid>
             );
-            header = null;
         }
 
         //         sourceModal = (
@@ -217,9 +208,7 @@ class Card extends React.Component {
                         (cell.cell_type == "code" && cell.outputs.length > 0))
                 ) {
                     bodyComponents.push(
-                        // <Grid item>
                         <DashboardCell showInputs={false} key={i} {...cell} />
-                        // </Grid>
                     );
                 }
             });
@@ -241,12 +230,7 @@ class Card extends React.Component {
             });
         }
 
-        {
-            /* {this.state.showSourceModal ? sourceModal : null} */
-        }
-        {
-            /* {this.state.showHelpModal ? helpModal : null} */
-        }
+        console.log(footerComponents);
 
         return (
             <Grid
@@ -261,28 +245,32 @@ class Card extends React.Component {
                 <Grid
                     item
                     component={MaterialCard}
-                    className={classes.grow}
+                    className={classes.box}
                     variant="outlined"
                 >
-                    {/* <MaterialCard
-                        className={classes.content}
-                        variant="outlined"
-                    > */}
                     <Grid
+                        item
                         container
                         component={CardContent}
                         className={classes.content}
+                        xs
                     >
                         {bodyComponents}
                     </Grid>
-                    {/* <CardContent className={`${classes.content}`}>
-                        {bodyComponents}
-                    </CardContent> */}
-                    {/* {footerComponents.length > 0 ? (
-                                <CardActions>{footerComponents}</CardActions>
-                            ) : null} */}
-                    {/* </MaterialCard> */}
                 </Grid>
+                {footerComponents.length > 0 ? (
+                    <Grid
+                        item
+                        container
+                        component={CardActions}
+                        className={classes.footer}
+                        xs
+                    >
+                        {footerComponents}
+                    </Grid>
+                ) : null}
+                {/* {this.state.showHelpModal ? helpModal : null} */}
+                {/* {this.state.showSourceModal ? sourceModal : null} */}
             </Grid>
 
             // <BootstrapCard
