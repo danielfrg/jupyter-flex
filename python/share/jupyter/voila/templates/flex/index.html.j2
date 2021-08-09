@@ -28,7 +28,7 @@
 		<div id="voila-executing">
 			<div class="loading-notebook">
 				<div class="text-center">
-					<p id="voila-cell-count">... executing notebook ...</p>
+					<p id="voila-cell-count">... starting kernel ...</p>
 				</div>
 			</div>
 		</div>
@@ -37,7 +37,7 @@
 			var voilaCellExecuteAfter = function(cellIndex, cellCount) {};
 			var voilaCellExecuteBefore = function(cellIndex, cellCount) {
 				var el = document.getElementById("voila-cell-count");
-				el.innerHTML = "Executing cell " + cellIndex + " of " + cellCount;
+				el.innerHTML = "... executing cell " + cellIndex + " of " + cellCount + " ...";
 			};
 			var voila_heartbeat = function() {
   				console.log('Ok, voila is still executing...');

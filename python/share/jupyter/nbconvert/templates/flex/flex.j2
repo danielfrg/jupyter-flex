@@ -63,8 +63,8 @@
 
 {#- Default parameters for the dashboard -#}
 {%- set default_title = nb.metadata.get("title", "") or resources["metadata"]["name"] -%}
-{%- set include_source = resources.global_content_filter.include_source == "True" -%}
-{%- set props = {"title": default_title, "include_source": include_source} -%}
+{%- set flex_show_source = resources.global_content_filter.flex_show_source == "True" -%}
+{%- set props = {"title": default_title, "flex_show_source": flex_show_source} -%}
 
 {%- set dashboard = {} -%}
 {%- set _ = dashboard.update({"props": props, "meta": [], "pages": [] }) -%}
@@ -212,7 +212,7 @@
             {{ update_props(cell) }}
         {%- elif is_body -%}
             {%- set _ = vars.current_card.body.append(cell) -%}
-        {%- elif is_source and props.include_source -%}
+        {%- elif is_source and props.flex_show_source -%}
             {#- We just want to include the source for this cell, remove the outputs -#}
             {%- set _ = cell.pop("outputs") -%}
             {%- set _ = vars.current_card.body.append(cell) -%}
@@ -227,7 +227,7 @@
 
         {#- Remove source -#}
         {#
-        {%- if not props.include_source and cell.source -%}
+        {%- if not props.flex_show_source and cell.source -%}
             {%- set _ = cell.pop("source") -%}
         {%- endif -%}
         #}

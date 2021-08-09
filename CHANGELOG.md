@@ -8,6 +8,8 @@
 -   Move to Material UI from Bootstrap
 -   Renamed `flex_home` to `flex_homepage_link`
 -   Renamed `flex_source_link` to `flex_external_link`
+-   Renamed `flex_include_source` to `flex_show_source`
+-   Removed `flex_logo`
 
 ## 0.6.4
 

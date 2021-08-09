@@ -8,17 +8,18 @@ import { resizeInterval, getTagValue, slugify } from "../utils";
 
 const styles = (theme) => ({
     section: {
-        width: "100%",
+        // width: "100%",
         // height: "100%",
-        // flexGrow: 1,
+        maxWidth: "100%",
+        maxHeight: "100%",
     },
     // section_column: {
     // height: "100%",
     // flexGrow: 1,
     // },
     cards_column: {
-        width: "100%",
-        height: "100%",
+        // width: "100%",
+        // height: "100%",
         margin: 0,
         padding: 0,
         // flexGrow: 1,
@@ -28,8 +29,8 @@ const styles = (theme) => ({
     // flexGrow: 1,
     // },
     cards_row: {
-        width: "100%",
-        height: "100%",
+        // width: "100%",
+        // height: "100%",
         margin: 0,
         padding: 0,
         // flexGrow: 1,
@@ -56,7 +57,7 @@ class Section extends React.Component {
         const sizeTag = getTagValue(tags, "size");
 
         this.state = {
-            size: sizeTag ? sizeTag : 500,
+            size: sizeTag ? parseInt(sizeTag) : true,
             elOrientation: elOrientation,
             classNames: getTagValue(tags, "class", " "),
             useTabs: tags && tags.includes("tabs") ? true : false,
@@ -75,18 +76,18 @@ class Section extends React.Component {
         let {
             size,
             elOrientation,
-            classNames,
-            useTabs,
-            tabsFill,
-            tabsAnimation,
+            // classNames,
+            // useTabs,
+            // tabsFill,
+            // tabsAnimation,
         } = this.state;
 
         // Flip for flex
         let flexDirection = elOrientation == "columns" ? "row" : "column";
-        let sectionClassName = pageOrientation == "columns" ? "column" : "row";
+        // flexDirection = useTabs ? "column" : flexDirection;
 
-        const sectionTabs = useTabs ? "section-tabs" : "";
-        flexDirection = useTabs ? "column" : flexDirection;
+        // let sectionClassName = pageOrientation == "columns" ? "column" : "row";
+        // const sectionTabs = useTabs ? "section-tabs" : "";
 
         let cardEls;
         if (cards && cards.length > 0) {
@@ -97,35 +98,35 @@ class Section extends React.Component {
                     <Card
                         key={i}
                         sectionOrientation={elOrientation}
-                        insideTabs={useTabs}
+                        // insideTabs={useTabs}
                         {...card}
                     />
                 );
 
-                if (useTabs) {
-                    // const cardSlug = slugify(card.title);
-                    // cardComponent = (
-                    // <Tab
-                    //     key={cardSlug}
-                    //     eventKey={cardSlug}
-                    //     title={card.title}
-                    // >
-                    //     {cardComponent}
-                    // </Tab>
-                    // );
-                }
+                // if (useTabs) {
+                // const cardSlug = slugify(card.title);
+                // cardComponent = (
+                // <Tab
+                //     key={cardSlug}
+                //     eventKey={cardSlug}
+                //     title={card.title}
+                // >
+                //     {cardComponent}
+                // </Tab>
+                // );
+                // }
 
                 cardEls.push(cardComponent);
             });
 
-            if (useTabs) {
-                // const transition = tabsAnimation.toString();
-                // cardEls = (
-                // <Tabs fill={tabsFill} transition={tabsAnimation}>
-                //     {cardEls}
-                // </Tabs>
-                // );
-            }
+            // if (useTabs) {
+            // const transition = tabsAnimation.toString();
+            // cardEls = (
+            // <Tabs fill={tabsFill} transition={tabsAnimation}>
+            //     {cardEls}
+            // </Tabs>
+            // );
+            // }
         }
 
         const cardsClassName =
@@ -133,32 +134,37 @@ class Section extends React.Component {
                 ? classes.cards_column
                 : classes.cards_row;
 
-        const styles = {
-            flexGrow: size,
-            flexShrink: size,
-            flexBasis: "0px",
-        };
+        // const styles = {
+        //     flexGrow: size,
+        //     flexShrink: size,
+        //     flexBasis: "0px",
+        // };
 
         return (
+            // <Grid
+            //     item
+            //     sm
+            //     className={classes.section}
+            //     style={{
+            //         ...styles,
+            //     }}
+            // >
             <Grid
                 item
-                sm
-                className={classes.section}
-                style={{
-                    ...styles,
-                }}
+                container
+                spacing={3}
+                xs={size}
+                className={`${classes.section} ${cardsClassName}`}
+                direction={flexDirection}
+                alignItems="stretch"
+                // justifyContent="center"
+                // style={{
+                //     ...styles,
+                // }}
             >
-                <Grid
-                    container
-                    className={cardsClassName}
-                    spacing={3}
-                    direction={flexDirection}
-                    justifyContent="center"
-                    alignItems="center"
-                >
-                    {cardEls}
-                </Grid>
+                {cardEls}
             </Grid>
+            // </Grid>
         );
     }
 }

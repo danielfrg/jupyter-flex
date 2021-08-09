@@ -105,11 +105,9 @@ class Page extends React.Component {
             <Box className={classes.page}>
                 <Grid
                     container
-                    spacing={1}
+                    // spacing={1}
                     className={classes.sections}
                     direction={flexDirection}
-                    justifyContent="center"
-                    alignItems="center"
                 >
                     {sectionComponents}
                 </Grid>

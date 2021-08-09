@@ -23,6 +23,7 @@
 }
 
 .code-cell {
+    flex-grow: 1;
     background: transparent !important;
 
     .nteract-outputs {
@@ -112,7 +113,7 @@
         }
     }
 
-    // Plots
+    // Plotting libraries
 
     // Matplotlib: SVG
     .jp-RenderedImage {
@@ -133,17 +134,18 @@
     // Plotly
     .js-plotly-plot {
         width: 100% !important;
-        // height: 100% !important;
+        height: 100% !important;
 
-        // svg.svg-container {
-        //     width: 100% !important;
-        //     height: 100% !important;
-        // }
+        .svg-container {
+            width: 100% !important;
+            height: 100% !important;
+            max-height: 100% !important;
+        }
 
-        // .main-svg {
-        //     width: 100% !important;
-        //     height: 100% !important;
-        // }
+        .main-svg {
+            width: 100% !important;
+            height: 100% !important;
+        }
 
         // Fix plotly toolbar icons
         // Looks like this is no longer needed but leaving here just in case
@@ -157,9 +159,10 @@
 
     // Altair
     .vega-embed {
-        width: 100%;
+        width: 95%;
         height: 95%;
-        min-width: 100% !important;
+        min-height: 95% !important;
+        min-width: 95% !important;
 
         &.has-actions {
             width: calc(100% - 38px);

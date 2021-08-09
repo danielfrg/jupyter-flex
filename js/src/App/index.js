@@ -154,7 +154,7 @@ class JupyterFlex extends React.Component {
             kernel_name,
             vertical_layout,
             orientation,
-            include_source,
+            flex_show_source,
         } = this.state.dashboard.props || {};
         const { meta, pages } = this.state.dashboard;
 
@@ -174,7 +174,7 @@ class JupyterFlex extends React.Component {
                             value={{
                                 kernel: kernel,
                                 widgetManager: widgetManager,
-                                showCardSource: include_source,
+                                showCardSource: flex_show_source,
                             }}
                         >
                             <Dashboard
