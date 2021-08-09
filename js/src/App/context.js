@@ -4,9 +4,10 @@ export const DashboardContext = React.createContext({
     kernel: null,
     widgetManager: null,
     showSource: null,
-    setNavbarMenuIcon: null,
+    updateValue: null,
     showNavbarMenuIcon: false,
     onNavbarMenuIconClick: null,
+    sidebarOpen: true,
 });
 
 export const Provider = DashboardContext.Provider;

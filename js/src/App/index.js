@@ -53,6 +53,7 @@ class JupyterFlex extends React.Component {
             widgetManager: null,
             showNavbarMenuIcon: false,
             onNavbarMenuIconClick: null,
+            sidebarOpen: true,
         };
     }
 
@@ -160,6 +161,7 @@ class JupyterFlex extends React.Component {
             widgetManager,
             showNavbarMenuIcon,
             onNavbarMenuIconClick,
+            sidebarOpen,
         } = this.state;
         let {
             homepage,
@@ -193,6 +195,7 @@ class JupyterFlex extends React.Component {
                                 updateValue: this.updateValue,
                                 showNavbarMenuIcon: showNavbarMenuIcon,
                                 onNavbarMenuIconClick: onNavbarMenuIconClick,
+                                sidebarOpen: sidebarOpen,
                             }}
                         >
                             <Dashboard

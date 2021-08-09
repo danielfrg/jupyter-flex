@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 
 import { withStyles } from "@material-ui/core/styles";
 import { Box, Container, Grid } from "@material-ui/core";
@@ -21,38 +22,72 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
+
+import { DashboardContext } from "../App/context";
 import Navbar from "../Navbar";
 
 const drawerWidth = 240;
 
 const styles = (theme) => ({
+    pageWrapper: {
+        display: "flex",
+        height: "100%",
+    },
     page: {
         width: "100%",
-        height: "100%",
+        height: "calc(100% - 20px)",
         margin: 0,
-        padding: 0,
-        // display: "flex",
-        // flexGrow: 1,
-    },
-    sections: {
-        width: "100%",
-        height: "100%",
-        margin: 0,
-        padding: 0,
+        padding: 10,
+        display: "flex",
         flexGrow: 1,
     },
-    root: {
+    // sections: {
+    //     width: "100%",
+    //     height: "100%",
+    //     margin: 0,
+    //     padding: 0,
+    //     flexGrow: 1,
+    // },
+    // root: {
+    //     display: "flex",
+    // },
+
+    // menuButton: {
+    //     marginRight: theme.spacing(2),
+    // },
+    // hide: {
+    //     display: "none",
+    // },
+    // drawer: {
+    //     width: drawerWidth,
+    //     flexShrink: 0,
+    // },
+    // drawerPaper: {
+    //     width: drawerWidth,
+    // },
+    drawerHeader: {
         display: "flex",
+        alignItems: "center",
+        // padding: theme.spacing(0, 1),
+        // necessary for content to be below app bar
+        ...theme.mixins.toolbar,
+        justifyContent: "flex-end",
     },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
+    content: {
+        flexGrow: 1,
+        // padding: theme.spacing(3),
+        transition: theme.transitions.create("margin", {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginLeft: -drawerWidth,
     },
-    drawerPaper: {
-        width: drawerWidth,
-    },
-    drawerContainer: {
-        overflow: "auto",
+    contentShift: {
+        transition: theme.transitions.create("margin", {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+        marginLeft: 0,
     },
 });
 
@@ -99,13 +134,18 @@ class Page extends React.Component {
         };
     }
 
-    // collapseCallback = (event) => {
-    //     this.setState({ sidebarVisible: event });
-    // };
+    handleDrawerClose = () => {
+        this.setState({ open: false });
+    };
+
+    handleDrawerClose = () => {
+        this.setState({ open: true });
+    };
 
     render() {
         const { classes, sidebar, sections } = this.props;
         // const { sidebarVisible } = this.state;
+        const { sidebarOpen } = this.context;
 
         // Flip orientation for flex
         let flexDirection =
@@ -134,67 +174,38 @@ class Page extends React.Component {
             });
         }
 
-        {
-            /* <Box className={classes.page}> */
-        }
         return (
-            <div className={classes.root}>
+            <div className={classes.pageWrapper}>
                 {sidebar}
-                {/* <Drawer
-                    className={classes.drawer}
-                    variant="permanent"
-                    classes={{
-                        paper: classes.drawerPaper,
-                    }}
+                <main
+                    className={`${classes.page} ${clsx(classes.content, {
+                        [classes.contentShift]: sidebarOpen,
+                    })}`}
                 >
-                    <Toolbar />
-                    <div className={classes.drawerContainer}>
-                        <List>
-                            {["Inbox", "Starred", "Send email", "Drafts"].map(
-                                (text, index) => (
-                                    <ListItem button key={text}>
-                                        <ListItemIcon>
-                                            {index % 2 === 0 ? (
-                                                <InboxIcon />
-                                            ) : (
-                                                <MailIcon />
-                                            )}
-                                        </ListItemIcon>
-                                        <ListItemText primary={text} />
-                                    </ListItem>
-                                )
-                            )}
-                        </List>
-                        <Divider />
-                        <List>
-                            {["All mail", "Trash", "Spam"].map(
-                                (text, index) => (
-                                    <ListItem button key={text}>
-                                        <ListItemIcon>
-                                            {index % 2 === 0 ? (
-                                                <InboxIcon />
-                                            ) : (
-                                                <MailIcon />
-                                            )}
-                                        </ListItemIcon>
-                                        <ListItemText primary={text} />
-                                    </ListItem>
-                                )
-                            )}
-                        </List>
-                    </div>
-                </Drawer> */}
-                <Grid
+                    {/* <div className={classes.drawerHeader} /> */}
+                    <Grid
+                        container
+                        // spacing={3}
+                        // className={`${classes.sections}`}
+                        direction={flexDirection}
+                    >
+                        {sectionComponents}
+                    </Grid>
+                </main>
+                {/* <Grid
                     container
                     spacing={3}
-                    className={classes.sections}
+                    className={`${classes.section} ${clsx(classes.content, {
+                        [classes.contentShift]: sidebarOpen,
+                    })}`}
                     direction={flexDirection}
                 >
                     {sectionComponents}
-                </Grid>
+                </Grid> */}
             </div>
         );
     }
 }
+Page.contextType = DashboardContext;
 
 export default withStyles(styles, { withTheme: true })(Page);

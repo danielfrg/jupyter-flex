@@ -20,6 +20,7 @@ const styles = (theme) => ({
     navbar: {
         zIndex: theme.zIndex.drawer + 1,
         boxShadow: "none",
+        borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
     },
     toolbar: {
         // minHeight: 36,

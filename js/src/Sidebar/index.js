@@ -30,112 +30,84 @@ const styles = (theme) => ({
     drawerContainer: {
         overflow: "auto",
     },
+    // root: {
+    //     display: "flex",
+    // },
+    menuButton: {
+        marginRight: theme.spacing(2),
+    },
+    hide: {
+        display: "none",
+    },
+    drawerHeader: {
+        display: "flex",
+        alignItems: "center",
+        padding: theme.spacing(0, 1),
+        // necessary for content to be below app bar
+        ...theme.mixins.toolbar,
+        justifyContent: "flex-end",
+    },
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing(3),
+        transition: theme.transitions.create("margin", {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginLeft: -drawerWidth,
+    },
+    contentShift: {
+        transition: theme.transitions.create("margin", {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+        marginLeft: 0,
+    },
 });
 
 class Sidebar extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = { open: false };
+        this.state = { open: true };
     }
 
     componentDidMount() {
-        // const context = React.useContext(DashboardContext);
-        // const [state, setState] = React.useState({
-        //     top: false,
-        //     left: false,
-        //     bottom: false,
-        //     right: false,
-        // });
         this.context.updateValue("onNavbarMenuIconClick", this.toggleDrawer);
     }
 
-    toggleDrawer = (value) => {
-        // if (
-        //     event.type === "keydown" &&
-        //     (event.key === "Tab" || event.key === "Shift")
-        // ) {
-        //     return;
-        // }
-        console.log("!!!!!!!!");
+    toggleDrawer = () => {
         this.setState({ open: !this.state.open });
+        this.context.updateValue("sidebarOpen", !this.state.open);
     };
 
-    closeDrawer = (value) => {
+    handleDrawerClose = () => {
         this.setState({ open: false });
+        this.context.updateValue("sidebarOpen", false);
     };
 
     render() {
         const { classes } = this.props;
         const { open } = this.state;
 
-        // const list = (anchor) => (
-        //     <div
-        //         className={clsx(classes.list, {
-        //             [classes.fullList]: anchor === "top" || anchor === "bottom",
-        //         })}
-        //         role="presentation"
-        //         // onClick={this.toggleDrawer(anchor, false)}
-        //         // onKeyDown={this.toggleDrawer(anchor, false)}
-        //     >
-        //         <List>
-        //             {["Inbox", "Starred", "Send email", "Drafts"].map(
-        //                 (text, index) => (
-        //                     <ListItem button key={text}>
-        //                         <ListItemIcon>
-        //                             {index % 2 === 0 ? (
-        //                                 <InboxIcon />
-        //                             ) : (
-        //                                 <MailIcon />
-        //                             )}
-        //                         </ListItemIcon>
-        //                         <ListItemText primary={text} />
-        //                     </ListItem>
-        //                 )
-        //             )}
-        //         </List>
-        //         <Divider />
-        //         <List>
-        //             {["All mail", "Trash", "Spam"].map((text, index) => (
-        //                 <ListItem button key={text}>
-        //                     <ListItemIcon>
-        //                         {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-        //                     </ListItemIcon>
-        //                     <ListItemText primary={text} />
-        //                 </ListItem>
-        //             ))}
-        //         </List>
-        //     </div>
-        // );
         return (
             <Drawer
                 className={classes.drawer}
-                variant="permanent"
+                variant="persistent"
+                anchor="left"
+                open={open}
                 classes={{
                     paper: classes.drawerPaper,
                 }}
             >
-                <Toolbar />
-                <div className={classes.drawerContainer}>
-                    <List>
-                        {["Inbox", "Starred", "Send email", "Drafts"].map(
-                            (text, index) => (
-                                <ListItem button key={text}>
-                                    <ListItemIcon>
-                                        {index % 2 === 0 ? (
-                                            <InboxIcon />
-                                        ) : (
-                                            <MailIcon />
-                                        )}
-                                    </ListItemIcon>
-                                    <ListItemText primary={text} />
-                                </ListItem>
-                            )
-                        )}
-                    </List>
-                    <Divider />
-                    <List>
-                        {["All mail", "Trash", "Spam"].map((text, index) => (
+                <div className={classes.drawerHeader}>
+                    <IconButton onClick={this.handleDrawerClose}>
+                        <ChevronLeftIcon />
+                    </IconButton>
+                </div>
+                <Divider />
+                <List>
+                    {["Inbox", "Starred", "Send email", "Drafts"].map(
+                        (text, index) => (
                             <ListItem button key={text}>
                                 <ListItemIcon>
                                     {index % 2 === 0 ? (
@@ -146,9 +118,20 @@ class Sidebar extends React.Component {
                                 </ListItemIcon>
                                 <ListItemText primary={text} />
                             </ListItem>
-                        ))}
-                    </List>
-                </div>
+                        )
+                    )}
+                </List>
+                <Divider />
+                <List>
+                    {["All mail", "Trash", "Spam"].map((text, index) => (
+                        <ListItem button key={text}>
+                            <ListItemIcon>
+                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                            </ListItemIcon>
+                            <ListItemText primary={text} />
+                        </ListItem>
+                    ))}
+                </List>
             </Drawer>
         );
     }
