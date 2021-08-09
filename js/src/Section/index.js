@@ -7,7 +7,7 @@ import Tab from "@material-ui/core/Tab";
 
 import Card from "../Card";
 import TabPanel from "./tabpanel";
-import { resizeInterval, getTagValue, slugify } from "../utils";
+import { resizeInterval, getTagValue } from "../utils";
 
 const styles = (theme) => ({
     section: {
@@ -56,9 +56,6 @@ class Section extends React.Component {
             classNames: getTagValue(tags, "class", " "),
             useTabs: tags && tags.includes("tabs") ? true : false,
             selectedTab: 0,
-            tabsFill: tags && tags.includes("tabs-no-fill") ? false : true,
-            tabsAnimation:
-                tags && tags.includes("tabs-no-animation") ? false : null,
         };
     }
 
@@ -75,16 +72,9 @@ class Section extends React.Component {
             // classNames,
             useTabs,
             selectedTab,
-            // tabsFill,
-            // tabsAnimation,
         } = this.state;
 
-        // Flip for flex
-        let flexDirection = elOrientation == "columns" ? "row" : "column";
-        // flexDirection = useTabs ? "column" : flexDirection;
-
-        // let sectionClassName = pageOrientation == "columns" ? "column" : "row";
-        // const sectionTabs = useTabs ? "section-tabs" : "";
+        // Cards
 
         let cardEls = [];
         let tabs = [];
@@ -114,7 +104,6 @@ class Section extends React.Component {
             });
 
             if (useTabs) {
-                // const transition = tabsAnimation.toString();
                 cardEls = (
                     <Grid
                         container
@@ -139,11 +128,14 @@ class Section extends React.Component {
             }
         }
 
+        // Variables
+
         const sectionDirClsName =
             pageOrientation == "columns"
                 ? classes.sectionInColumn
                 : classes.sectionInRow;
 
+        const flexDirection = elOrientation == "columns" ? "row" : "column";
         const spacing = flexDirection == "row" ? 2 : 1;
 
         return (

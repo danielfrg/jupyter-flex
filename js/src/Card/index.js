@@ -6,17 +6,13 @@ import MaterialCard from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
 import Code from "@material-ui/icons/Code";
 import HelpOutline from "@material-ui/icons/HelpOutline";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
+
 import { Cells } from "@nteract/presentational-components";
 
 import DashboardCell from "../Cell";
+import IconDialogButton from "./source";
 import { DashboardContext } from "../App/context";
 import { getTagValue } from "../utils";
 
@@ -80,21 +76,8 @@ class Card extends React.Component {
         this.state = {
             size: sizeTag ? parseInt(sizeTag) : true,
             classNames: getTagValue(tags, "class", " "),
-            showSourceDialog: false,
-            showInfoDialog: false,
         };
     }
-
-    openSourceModal = () => {
-        this.setState({ showSourceDialog: true });
-    };
-
-    closeSourceModal = () => {
-        this.setState({ showSourceDialog: false });
-    };
-
-    openInfoModal = () => this.setState({ showInfoDialog: true });
-    closeInfoModal = () => this.setState({ showInfoDialog: false });
 
     render() {
         const {
@@ -106,43 +89,65 @@ class Card extends React.Component {
             insideTabs,
             sectionOrientation,
         } = this.props;
-        const { size, showSourceDialog, showInfoDialog } = this.state;
+        const { size } = this.state;
         const { showCardSource } = this.context;
+
+        // Source dialog content
+
+        const sourceCells = body.map((cell, i) => {
+            if (cell.cell_type == "code") {
+                return (
+                    <Cells key={i} className="source-cells">
+                        <DashboardCell
+                            key={i}
+                            showInputs={true}
+                            showOutputs={false}
+                            {...cell}
+                        />
+                    </Cells>
+                );
+            }
+        });
+
+        // Info dialog content
+
+        let infoCells = [];
+        info.forEach((cell, i) => {
+            infoCells.push(
+                <DashboardCell key={i} showInputs={false} {...cell} />
+            );
+        });
 
         // Card contents
 
         let header;
-        if (title || showCardSource || (info && info.length > 0)) {
-            // let headerBtns = null;
+        if (
+            !insideTabs &&
+            (title ||
+                (showCardSource && sourceCells.length > 0) ||
+                (info && info.length > 0))
+        ) {
             let headerBtns = [];
-            // // Source button and modal
-            if (showCardSource) {
+
+            if (showCardSource && sourceCells.length > 0) {
+                const icon = <Code fontSize="small" />;
                 headerBtns.push(
-                    <IconButton
-                        key="source"
-                        color="inherit"
-                        aria-label="Show source code"
-                        aria-haspopup="true"
-                        onClick={this.openSourceModal}
-                        style={{ padding: "5px 8px" }}
-                    >
-                        <Code fontSize="small" />
-                    </IconButton>
+                    <IconDialogButton
+                        title={title ? `Source: ${title}` : "Info"}
+                        icon={icon}
+                        content={sourceCells}
+                    />
                 );
             }
 
             if (info && info.length > 0) {
+                const icon = <HelpOutline fontSize="small" />;
                 headerBtns.push(
-                    <IconButton
-                        key="info"
-                        color="inherit"
-                        aria-label="Show source code"
-                        aria-haspopup="true"
-                        onClick={this.openInfoModal}
-                        style={{ padding: "5px 8px" }}
-                    >
-                        <HelpOutline fontSize="small" />
-                    </IconButton>
+                    <IconDialogButton
+                        title={title ? `Info: ${title}` : "Info"}
+                        icon={icon}
+                        content={infoCells}
+                    />
                 );
             }
 
@@ -195,70 +200,6 @@ class Card extends React.Component {
             });
         }
 
-        // Source Modal
-
-        const sourceCells = body.map((cell, i) => {
-            if (cell.cell_type == "code") {
-                return (
-                    <Cells key={i} className="source-cells">
-                        <DashboardCell
-                            key={i}
-                            showInputs={true}
-                            showOutputs={false}
-                            {...cell}
-                        />
-                    </Cells>
-                );
-            }
-        });
-
-        const sourceModal = (
-            <Dialog
-                open={showSourceDialog}
-                onClose={this.closeSourceModal}
-                scroll="paper"
-                maxWidth="md"
-                fullWidth={true}
-                aria-labelledby="scroll-dialog-title"
-                aria-describedby="scroll-dialog-description"
-            >
-                <DialogTitle>
-                    {title ? `Source: ${title}` : "Source"}
-                </DialogTitle>
-                <DialogContent dividers={true}>{sourceCells}</DialogContent>
-                <DialogActions>
-                    <Button onClick={this.closeSourceModal}>Close</Button>
-                </DialogActions>
-            </Dialog>
-        );
-
-        // Info Modal
-
-        let infoCells = [];
-        info.forEach((cell, i) => {
-            infoCells.push(
-                <DashboardCell key={i} showInputs={false} {...cell} />
-            );
-        });
-
-        const infoModal = (
-            <Dialog
-                open={showInfoDialog}
-                onClose={this.closeInfoModal}
-                scroll="paper"
-                maxWidth="md"
-                fullWidth={true}
-                aria-labelledby="scroll-dialog-title"
-                aria-describedby="scroll-dialog-description"
-            >
-                <DialogTitle>{title ? `Info: ${title}` : "Info"}</DialogTitle>
-                <DialogContent dividers={true}>{infoCells}</DialogContent>
-                <DialogActions>
-                    <Button onClick={this.closeInfoModal}>Close</Button>
-                </DialogActions>
-            </Dialog>
-        );
-
         let cardsClsName =
             sectionOrientation == "column"
                 ? classes.cardInColumn
@@ -301,8 +242,6 @@ class Card extends React.Component {
                         {footerComponents}
                     </Grid>
                 ) : null}
-                {this.state.showInfoDialog ? infoModal : null}
-                {this.state.showSourceDialog ? sourceModal : null}
             </Grid>
         );
     }
