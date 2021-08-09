@@ -50,6 +50,11 @@ const styles = (theme) => ({
     footer: {
         padding: "0 8px 8px",
     },
+    empty: {
+        padding: theme.spacing(2),
+        textAlign: "center",
+        color: theme.palette.text.secondary,
+    },
 });
 
 class Card extends React.Component {
@@ -167,7 +172,7 @@ class Card extends React.Component {
 
         if (bodyComponents.length == 0) {
             bodyComponents = (
-                <Typography className={classes.paper}>empty card</Typography>
+                <Typography className={classes.empty}>empty card</Typography>
             );
         }
 
@@ -277,7 +282,6 @@ class Card extends React.Component {
                         container
                         component={CardActions}
                         className={classes.footer}
-                        xs
                     >
                         {footerComponents}
                     </Grid>

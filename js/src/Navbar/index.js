@@ -7,6 +7,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
+import Link from "@material-ui/core/Link";
 import Home from "@material-ui/icons/Home";
 import Launch from "@material-ui/icons/Launch";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -25,8 +26,12 @@ const styles = (theme) => ({
     grow: {
         flexGrow: 1,
     },
+    title: {
+        fontWeight: 400,
+    },
     subtitle: {
-        color: "#9F9E9E",
+        marginTop: 6,
+        color: "#666",
     },
     sectionDesktop: {
         display: "none",
@@ -134,8 +139,10 @@ class Navbar extends React.Component {
         if (externalLink) {
             externalLinkEl = (
                 <Button
-                    component={RouterLink}
-                    to={externalLink}
+                    component={Link}
+                    href={externalLink}
+                    target="_blank"
+                    rel="noopener"
                     color="inherit"
                 >
                     <Launch />
