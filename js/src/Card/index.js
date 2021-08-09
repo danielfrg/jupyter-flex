@@ -25,6 +25,9 @@ const styles = (theme) => ({
         // width: "100%",
         // height: "100%",
     },
+    cardInTabs: {
+        height: "100%",
+    },
     grow: {
         flexGrow: 1,
     },
@@ -68,7 +71,7 @@ class Card extends React.Component {
             size: sizeTag ? parseInt(sizeTag) : true,
             classNames: getTagValue(tags, "class", " "),
             showSourceDialog: false,
-            showHelpDialog: false,
+            showInfoDialog: false,
         };
     }
 
@@ -80,30 +83,26 @@ class Card extends React.Component {
         this.setState({ showSourceDialog: false });
     };
 
-    openHelpModal = () => this.setState({ showHelpDialog: true });
-    closeHelpModal = () => this.setState({ showHelpDialog: false });
+    openInfoModal = () => this.setState({ showInfoDialog: true });
+    closeInfoModal = () => this.setState({ showInfoDialog: false });
 
     render() {
         const {
             classes,
             title,
             body,
-            help,
+            info,
             footer,
-            // insideTabs,
+            insideTabs,
             // sectionOrientation,
         } = this.props;
-        const { size, showSourceDialog, showHelpDialog } = this.state;
+        const { size, showSourceDialog, showInfoDialog } = this.state;
         const { showCardSource } = this.context;
-
-        let header;
-        // let sourceModal;
-        // let helpModal;
 
         // Card contents
 
-        // Header
-        if (title || showCardSource || (help && help.length > 0)) {
+        let header;
+        if (title || showCardSource || (info && info.length > 0)) {
             // let headerBtns = null;
             let headerBtns = [];
             // // Source button and modal
@@ -122,14 +121,14 @@ class Card extends React.Component {
                 );
             }
 
-            if (help && help.length > 0) {
+            if (info && info.length > 0) {
                 headerBtns.push(
                     <IconButton
-                        key="help"
+                        key="info"
                         color="inherit"
                         aria-label="Show source code"
                         aria-haspopup="true"
-                        onClick={this.openHelpModal}
+                        onClick={this.openInfoModal}
                         style={{ padding: "5px 8px" }}
                     >
                         <HelpOutline fontSize="small" />
@@ -223,19 +222,19 @@ class Card extends React.Component {
             </Dialog>
         );
 
-        // Help Modal
+        // Info Modal
 
-        let helpCells = [];
-        help.forEach((cell, i) => {
-            helpCells.push(
+        let infoCells = [];
+        info.forEach((cell, i) => {
+            infoCells.push(
                 <DashboardCell key={i} showInputs={false} {...cell} />
             );
         });
 
-        const helpModal = (
+        const infoModal = (
             <Dialog
-                open={showHelpDialog}
-                onClose={this.closeHelpModal}
+                open={showInfoDialog}
+                onClose={this.closeInfoModal}
                 scroll="paper"
                 maxWidth="md"
                 fullWidth={true}
@@ -243,18 +242,20 @@ class Card extends React.Component {
                 aria-describedby="scroll-dialog-description"
             >
                 <DialogTitle>{title ? `Info: ${title}` : "Info"}</DialogTitle>
-                <DialogContent dividers={true}>{helpCells}</DialogContent>
+                <DialogContent dividers={true}>{infoCells}</DialogContent>
                 <DialogActions>
-                    <Button onClick={this.closeHelpModal}>Close</Button>
+                    <Button onClick={this.closeInfoModal}>Close</Button>
                 </DialogActions>
             </Dialog>
         );
+
+        const cardsClsName = insideTabs ? classes.cardInTabs : classes.card;
 
         return (
             <Grid
                 item
                 container
-                className={`card ${classes.card} ${classes.card_wrapper}`}
+                className={`card ${cardsClsName} ${classes.card_wrapper}`}
                 direction="column"
                 alignItems="stretch"
                 xs={size}
@@ -286,7 +287,7 @@ class Card extends React.Component {
                         {footerComponents}
                     </Grid>
                 ) : null}
-                {this.state.showHelpDialog ? helpModal : null}
+                {this.state.showInfoDialog ? infoModal : null}
                 {this.state.showSourceDialog ? sourceModal : null}
             </Grid>
         );

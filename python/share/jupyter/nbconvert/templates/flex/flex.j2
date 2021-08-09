@@ -83,10 +83,10 @@
 
         {#- Tagged cells have priority over layout headers -#}
         {%- set is_body = find_item_startswith(cell_tags, "body") -%}
-        {%- set is_help = find_item_startswith(cell_tags, "help") -%}
+        {%- set is_info = find_item_startswith(cell_tags, "info") or find_item_startswith(cell_tags, "help") -%}
         {%- set is_footer = find_item_startswith(cell_tags, "footer") -%}
 
-        {%- if is_body or is_help or is_footer -%}
+        {%- if is_body or is_info or is_footer -%}
             {#- Check if current_* objects are created -#}
             {#- Used when the notebook starts with tagged cell -#}
             {%- if not vars.current_page -%}
@@ -96,7 +96,7 @@
                 {%- set _ = vars.update({"current_section": {"title": "", "cards": [], "tags": []}}) -%}
             {%- endif -%}
             {%- if not vars.current_card -%}
-                {%- set _ = vars.update({"current_card": {"title": "", "body": [], "footer": [], "help": [], "tags": []}}) -%}
+                {%- set _ = vars.update({"current_card": {"title": "", "body": [], "footer": [], "info": [], "tags": []}}) -%}
             {%- endif -%}
         {%- endif -%}
 
@@ -110,8 +110,8 @@
             {%- continue -%}
         {%- endif -%}
 
-        {%- if is_help -%}
-            {%- set _ = vars.current_card.help.append(cell) -%}
+        {%- if is_info -%}
+            {%- set _ = vars.current_card.info.append(cell) -%}
             {%- continue -%}
         {%- endif -%}
 
@@ -182,18 +182,18 @@
             {%- endif -%}
 
             {#- Create new card with values from this cell -#}
-            {%- set _ = vars.update({"current_card": {"title": h3_title, "body": [], "footer": [], "help": [], "tags": cell_tags}}) -%}
+            {%- set _ = vars.update({"current_card": {"title": h3_title, "body": [], "footer": [], "info": [], "tags": cell_tags}}) -%}
         {%- endif -%}
 
     {%- elif cell_type == "code" -%}
         {%- set is_params = find_item_startswith(cell_tags, "parameters") or find_item_startswith(cell_tags, "params") -%}
         {%- set is_body = find_item_startswith(cell_tags, "body") -%}
-        {%- set is_help = find_item_startswith(cell_tags, "help") -%}
+        {%- set is_info = find_item_startswith(cell_tags, "info") or find_item_startswith(cell_tags, "help") -%}
         {%- set is_footer = find_item_startswith(cell_tags, "footer") -%}
         {%- set is_meta = find_item_startswith(cell_tags, "meta") -%}
         {%- set is_source = find_item_startswith(cell_tags, "source") -%}
 
-        {%- if is_body or is_help or is_footer or is_source -%}
+        {%- if is_body or is_info or is_footer or is_source -%}
             {#- Check if current_* objects are created -#}
             {#- Used when the notebook starts with tagged cell -#}
             {%- if not vars.current_page -%}
@@ -203,7 +203,7 @@
                 {%- set _ = vars.update({"current_section": {"title": "", "cards": [], "tags": []}}) -%}
             {%- endif -%}
             {%- if not vars.current_card -%}
-                {%- set _ = vars.update({"current_card": {"title": "", "body": [], "footer": [], "help": [], "tags": []}}) -%}
+                {%- set _ = vars.update({"current_card": {"title": "", "body": [], "footer": [], "info": [], "tags": []}}) -%}
             {%- endif -%}
         {%- endif -%}
 
@@ -213,11 +213,10 @@
             {%- set _ = vars.current_card.body.append(cell) -%}
         {%- elif is_source and props.show_source -%}
             {#- We just want to include the source for this cell, remove the outputs -#}
-            !!!!
             {%- set _ = cell.pop("outputs") -%}
             {%- set _ = vars.current_card.body.append(cell) -%}
-        {%- elif is_help -%}
-            {%- set _ = vars.current_card.help.append(cell) -%}
+        {%- elif is_info -%}
+            {%- set _ = vars.current_card.info.append(cell) -%}
         {%- elif is_footer -%}
             {%- set _ = vars.current_card.footer.append(cell) -%}
         {%- elif is_meta -%}
