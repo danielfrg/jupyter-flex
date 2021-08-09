@@ -18,7 +18,7 @@ import { slugify } from "../utils";
 
 const styles = (theme) => ({
     navbar: {
-        flexGrow: 1,
+        zIndex: theme.zIndex.drawer + 1,
         boxShadow: "none",
     },
     toolbar: {
@@ -136,62 +136,58 @@ class Navbar extends React.Component {
         }
 
         return (
-            <div>
-                <AppBar position="static" className={classes.navbar}>
-                    <Toolbar className={classes.toolbar}>
-                        {showNavbarMenuIcon ? (
-                            <IconButton
-                                aria-label="show drawer"
-                                // aria-controls={mobileMenuId}
-                                aria-haspopup="true"
-                                onClick={onNavbarMenuIconClick}
-                                color="inherit"
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                        ) : null}
-                        {homepageBtn}
-                        <Typography
-                            variant="h6"
-                            component="h1"
-                            className={classes.title}
+            <AppBar position="static" className={classes.navbar}>
+                <Toolbar className={classes.toolbar}>
+                    {showNavbarMenuIcon ? (
+                        <IconButton
+                            aria-label="show drawer"
+                            // aria-controls={mobileMenuId}
+                            aria-haspopup="true"
+                            onClick={onNavbarMenuIconClick}
+                            color="inherit"
                         >
-                            {title}
-                        </Typography>
-                        <div className={classes.grow} />
-                        <div className={classes.sectionDesktop}>
-                            {pageButtons}
-                        </div>
-                        <div className={classes.sectionMobile}>
-                            <IconButton
-                                aria-label="show pages"
-                                // aria-controls={mobileMenuId}
-                                aria-haspopup="true"
-                                // onClick={handleMobileMenuOpen}
-                                color="inherit"
-                            >
-                                <MoreIcon />
-                            </IconButton>
-                        </div>
-                        <div className={classes.grow} />
-                        <div className={classes.sectionDesktop}>
-                            {subtitleEl}
-                            {externalLinkEl}
-                        </div>
-                        <div className={classes.sectionMobile}>
-                            <IconButton
-                                aria-label="show navigation"
-                                // aria-controls={mobileMenuId}
-                                aria-haspopup="true"
-                                // onClick={handleMobileMenuOpen}
-                                color="inherit"
-                            >
-                                <MoreIcon />
-                            </IconButton>
-                        </div>
-                    </Toolbar>
-                </AppBar>
-            </div>
+                            <MenuIcon />
+                        </IconButton>
+                    ) : null}
+                    {homepageBtn}
+                    <Typography
+                        variant="h6"
+                        component="h1"
+                        className={classes.title}
+                    >
+                        {title}
+                    </Typography>
+                    <div className={classes.grow} />
+                    <div className={classes.sectionDesktop}>{pageButtons}</div>
+                    <div className={classes.sectionMobile}>
+                        <IconButton
+                            aria-label="show pages"
+                            // aria-controls={mobileMenuId}
+                            aria-haspopup="true"
+                            // onClick={handleMobileMenuOpen}
+                            color="inherit"
+                        >
+                            <MoreIcon />
+                        </IconButton>
+                    </div>
+                    <div className={classes.grow} />
+                    <div className={classes.sectionDesktop}>
+                        {subtitleEl}
+                        {externalLinkEl}
+                    </div>
+                    <div className={classes.sectionMobile}>
+                        <IconButton
+                            aria-label="show navigation"
+                            // aria-controls={mobileMenuId}
+                            aria-haspopup="true"
+                            // onClick={handleMobileMenuOpen}
+                            color="inherit"
+                        >
+                            <MoreIcon />
+                        </IconButton>
+                    </div>
+                </Toolbar>
+            </AppBar>
         );
     }
 }

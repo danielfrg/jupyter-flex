@@ -4,8 +4,26 @@ import { withStyles } from "@material-ui/core/styles";
 import { Box, Container, Grid } from "@material-ui/core";
 
 import Section from "../Section";
-import Sidebar from "../Sidebar/index-bu";
 import { getTagValue, slugify } from "../utils";
+
+import Typography from "@material-ui/core/Typography";
+import Toolbar from "@material-ui/core/Toolbar";
+
+import Drawer from "@material-ui/core/Drawer";
+import IconButton from "@material-ui/core/IconButton";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+
+import AppBar from "@material-ui/core/AppBar";
+import List from "@material-ui/core/List";
+import Divider from "@material-ui/core/Divider";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import MailIcon from "@material-ui/icons/Mail";
+import Navbar from "../Navbar";
+
+const drawerWidth = 240;
 
 const styles = (theme) => ({
     page: {
@@ -13,13 +31,28 @@ const styles = (theme) => ({
         height: "100%",
         margin: 0,
         padding: 0,
-        flexGrow: 1,
+        // display: "flex",
+        // flexGrow: 1,
     },
     sections: {
         width: "100%",
         height: "100%",
         margin: 0,
         padding: 0,
+        flexGrow: 1,
+    },
+    root: {
+        display: "flex",
+    },
+    drawer: {
+        width: drawerWidth,
+        flexShrink: 0,
+    },
+    drawerPaper: {
+        width: drawerWidth,
+    },
+    drawerContainer: {
+        overflow: "auto",
     },
 });
 
@@ -71,24 +104,24 @@ class Page extends React.Component {
     // };
 
     render() {
-        const { classes, sections } = this.props;
+        const { classes, sidebar, sections } = this.props;
         // const { sidebarVisible } = this.state;
 
         // Flip orientation for flex
         let flexDirection =
             this.state.orientation == "columns" ? "row" : "column";
 
-        let sidebar;
+        // let sidebar;
         let sectionComponents = [];
         if (sections && sections.length > 0) {
             sections.forEach((section, i) => {
                 if (section.tags && section.tags.includes("sidebar")) {
-                    sidebar = (
-                        <Sidebar
-                            // collapseCallback={this.collapseCallback}
-                            {...section}
-                        />
-                    );
+                    // sidebar = (
+                    //     <Sidebar
+                    //         // collapseCallback={this.collapseCallback}
+                    //         {...section}
+                    //     />
+                    // );
                 } else {
                     sectionComponents.push(
                         <Section
@@ -101,8 +134,56 @@ class Page extends React.Component {
             });
         }
 
+        {
+            /* <Box className={classes.page}> */
+        }
         return (
-            <Box className={classes.page}>
+            <div className={classes.root}>
+                {sidebar}
+                {/* <Drawer
+                    className={classes.drawer}
+                    variant="permanent"
+                    classes={{
+                        paper: classes.drawerPaper,
+                    }}
+                >
+                    <Toolbar />
+                    <div className={classes.drawerContainer}>
+                        <List>
+                            {["Inbox", "Starred", "Send email", "Drafts"].map(
+                                (text, index) => (
+                                    <ListItem button key={text}>
+                                        <ListItemIcon>
+                                            {index % 2 === 0 ? (
+                                                <InboxIcon />
+                                            ) : (
+                                                <MailIcon />
+                                            )}
+                                        </ListItemIcon>
+                                        <ListItemText primary={text} />
+                                    </ListItem>
+                                )
+                            )}
+                        </List>
+                        <Divider />
+                        <List>
+                            {["All mail", "Trash", "Spam"].map(
+                                (text, index) => (
+                                    <ListItem button key={text}>
+                                        <ListItemIcon>
+                                            {index % 2 === 0 ? (
+                                                <InboxIcon />
+                                            ) : (
+                                                <MailIcon />
+                                            )}
+                                        </ListItemIcon>
+                                        <ListItemText primary={text} />
+                                    </ListItem>
+                                )
+                            )}
+                        </List>
+                    </div>
+                </Drawer> */}
                 <Grid
                     container
                     spacing={3}
@@ -111,7 +192,7 @@ class Page extends React.Component {
                 >
                     {sectionComponents}
                 </Grid>
-            </Box>
+            </div>
         );
     }
 }

@@ -16,7 +16,7 @@ const styles = (theme) => ({
         maxWidth: "100%",
         height: "100%",
         margin: 0,
-        padding: 10,
+        padding: 0,
     },
 });
 
@@ -74,6 +74,7 @@ class Dashboard extends React.Component {
                         <Page
                             dashboardVerticalLayout={verticalLayout}
                             dashboardOrientation={orientation}
+                            sidebar={sidebar}
                             {...page}
                         />
                     );
@@ -103,7 +104,6 @@ class Dashboard extends React.Component {
                     <Container className={classes.dashboard}>
                         <Switch>{routeEls}</Switch>
                     </Container>
-                    {sidebar}
                 </Box>
             </Router>
         );
