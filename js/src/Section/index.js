@@ -11,32 +11,20 @@ import { resizeInterval, getTagValue, slugify } from "../utils";
 
 const styles = (theme) => ({
     section: {
-        // width: "100%",
-        // height: "100%",
         maxWidth: "100%",
         maxHeight: "100%",
-    },
-    // section_column: {
-    // height: "100%",
-    // flexGrow: 1,
-    // },
-    cards_column: {
-        // width: "100%",
-        // height: "100%",
         margin: 0,
         padding: 0,
-        // flexGrow: 1,
     },
-    // section_row: {
-    // height: "100%",
-    // flexGrow: 1,
-    // },
-    cards_row: {
-        // width: "100%",
-        // height: "100%",
-        margin: 0,
-        padding: 0,
-        // flexGrow: 1,
+    sectionInColumn: {
+        "&:not(:first-child)": {
+            paddingLeft: 0,
+        },
+    },
+    sectionInRow: {
+        "&:not(:first-child)": {
+            paddingTop: 0,
+        },
     },
     tabs: {
         height: "100%",
@@ -151,20 +139,22 @@ class Section extends React.Component {
             }
         }
 
-        const cardsClassName =
-            flexDirection == "column"
-                ? classes.cards_column
-                : classes.cards_row;
+        const sectionDirClsName =
+            pageOrientation == "columns"
+                ? classes.sectionInColumn
+                : classes.sectionInRow;
+
+        const spacing = flexDirection == "row" ? 2 : 1;
 
         return (
             <Grid
                 item
                 container
                 xs={size}
-                spacing={3}
+                spacing={spacing}
                 alignItems="stretch"
                 direction={flexDirection}
-                className={`section ${classes.section} ${cardsClassName}`}
+                className={`section ${classes.section} ${sectionDirClsName}`}
             >
                 {cardEls}
             </Grid>

@@ -105,7 +105,7 @@ class Page extends React.Component {
             <Box className={classes.page}>
                 <Grid
                     container
-                    // spacing={1}
+                    spacing={3}
                     className={classes.sections}
                     direction={flexDirection}
                 >

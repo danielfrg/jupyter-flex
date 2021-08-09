@@ -25,17 +25,27 @@ const styles = (theme) => ({
         // width: "100%",
         // height: "100%",
     },
+    cardInColumn: {
+        "&:not(:first-child)": {
+            paddingTop: 0,
+        },
+    },
+    cardInRow: {
+        "&:not(:first-child)": {
+            paddingLeft: 0,
+        },
+    },
     cardInTabs: {
         height: "100%",
     },
     grow: {
         flexGrow: 1,
     },
-    card_wrapper: {},
-    header: {
+    cardWrapper: {},
+    cardHeader: {
         padding: "8px 8px",
     },
-    title: {
+    cardTitle: {
         padding: "5px 0",
         fontSize: "1.05em",
         fontWeight: 600,
@@ -44,13 +54,13 @@ const styles = (theme) => ({
         flexGrow: 1,
         // border: "none",
     },
-    content: {
+    cardContent: {
         height: "100%",
         display: "flex",
         flex: "1 1 auto",
         flexDirection: "column",
     },
-    footer: {
+    cardFooter: {
         padding: "0 8px 8px",
     },
     empty: {
@@ -94,7 +104,7 @@ class Card extends React.Component {
             info,
             footer,
             insideTabs,
-            // sectionOrientation,
+            sectionOrientation,
         } = this.props;
         const { size, showSourceDialog, showInfoDialog } = this.state;
         const { showCardSource } = this.context;
@@ -137,12 +147,12 @@ class Card extends React.Component {
             }
 
             header = (
-                <Grid container className={classes.header}>
+                <Grid container className={classes.cardHeader}>
                     <Grid item>
                         <Typography
                             component="h2"
                             variant="h6"
-                            className={classes.title}
+                            className={classes.cardTitle}
                         >
                             {title}
                         </Typography>
@@ -249,13 +259,17 @@ class Card extends React.Component {
             </Dialog>
         );
 
-        const cardsClsName = insideTabs ? classes.cardInTabs : classes.card;
+        let cardsClsName =
+            sectionOrientation == "column"
+                ? classes.cardInColumn
+                : classes.cardInRow;
+        cardsClsName = insideTabs ? classes.cardInTabs : classes.card;
 
         return (
             <Grid
                 item
                 container
-                className={`card ${cardsClsName} ${classes.card_wrapper}`}
+                className={`card ${cardsClsName} ${classes.cardWrapper}`}
                 direction="column"
                 alignItems="stretch"
                 xs={size}
@@ -271,7 +285,7 @@ class Card extends React.Component {
                         item
                         container
                         component={CardContent}
-                        className={classes.content}
+                        className={classes.cardContent}
                         xs
                     >
                         {bodyComponents}
@@ -282,7 +296,7 @@ class Card extends React.Component {
                         item
                         container
                         component={CardActions}
-                        className={classes.footer}
+                        className={classes.cardFooter}
                     >
                         {footerComponents}
                     </Grid>
