@@ -63,8 +63,7 @@
 
 {#- Default parameters for the dashboard -#}
 {%- set default_title = nb.metadata.get("title", "") or resources["metadata"]["name"] -%}
-{%- set flex_show_source = resources.global_content_filter.flex_show_source == "True" -%}
-{%- set props = {"title": default_title, "flex_show_source": flex_show_source} -%}
+{%- set props = {"title": default_title, "show_source": false} -%}
 
 {%- set dashboard = {} -%}
 {%- set _ = dashboard.update({"props": props, "meta": [], "pages": [] }) -%}
@@ -187,7 +186,7 @@
         {%- endif -%}
 
     {%- elif cell_type == "code" -%}
-        {%- set is_params = find_item_startswith(cell_tags, "parameters") -%}
+        {%- set is_params = find_item_startswith(cell_tags, "parameters") or find_item_startswith(cell_tags, "params") -%}
         {%- set is_body = find_item_startswith(cell_tags, "body") -%}
         {%- set is_help = find_item_startswith(cell_tags, "help") -%}
         {%- set is_footer = find_item_startswith(cell_tags, "footer") -%}
@@ -212,8 +211,9 @@
             {{ update_props(cell) }}
         {%- elif is_body -%}
             {%- set _ = vars.current_card.body.append(cell) -%}
-        {%- elif is_source and props.flex_show_source -%}
+        {%- elif is_source and props.show_source -%}
             {#- We just want to include the source for this cell, remove the outputs -#}
+            !!!!
             {%- set _ = cell.pop("outputs") -%}
             {%- set _ = vars.current_card.body.append(cell) -%}
         {%- elif is_help -%}

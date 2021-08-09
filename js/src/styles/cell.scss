@@ -1,7 +1,3 @@
-.md-cell {
-    background: transparent;
-}
-
 .markdown-body {
     a {
         color: $text-color;
@@ -20,11 +16,20 @@
         margin-bottom: 16px !important;
         margin: 8px 0;
     }
+
+    img {
+        max-width: 100%;
+    }
+}
+
+.md-cell {
+    background: transparent !important;
 }
 
 .code-cell {
-    flex-grow: 1;
+    margin: 0 !important;
     background: transparent !important;
+    flex-grow: 1;
 
     .nteract-outputs {
         padding: 0;

@@ -9,14 +9,16 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Code from "@material-ui/icons/Code";
 import HelpOutline from "@material-ui/icons/HelpOutline";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import { Cells } from "@nteract/presentational-components";
-import Paper from "@material-ui/core/Paper";
 
 import DashboardCell from "../Cell";
 import { DashboardContext } from "../App/context";
 import { getTagValue } from "../utils";
-import { resizeInterval } from "../utils";
-import Modal from "../Modal";
 
 const styles = (theme) => ({
     card: {
@@ -41,7 +43,6 @@ const styles = (theme) => ({
     },
     content: {
         height: "100%",
-        // padding: 0,
         display: "flex",
         flex: "1 1 auto",
         flexDirection: "column",
@@ -61,17 +62,21 @@ class Card extends React.Component {
         this.state = {
             size: sizeTag ? parseInt(sizeTag) : true,
             classNames: getTagValue(tags, "class", " "),
-            showSourceModal: false,
-            showHelpModal: false,
+            showSourceDialog: false,
+            showHelpDialog: false,
         };
     }
 
-    toggleSourceModal = () => {
-        this.setState({ showSourceModal: !this.state.showSourceModal });
+    openSourceModal = () => {
+        this.setState({ showSourceDialog: true });
     };
 
-    toggleHelpModal = () =>
-        this.setState({ showHelpModal: !this.state.showHelpModal });
+    closeSourceModal = () => {
+        this.setState({ showSourceDialog: false });
+    };
+
+    openHelpModal = () => this.setState({ showHelpDialog: true });
+    closeHelpModal = () => this.setState({ showHelpDialog: false });
 
     render() {
         const {
@@ -83,14 +88,14 @@ class Card extends React.Component {
             // insideTabs,
             // sectionOrientation,
         } = this.props;
-        const { size } = this.state;
+        const { size, showSourceDialog, showHelpDialog } = this.state;
         const { showCardSource } = this.context;
-
-        // let cardClassName = sectionOrientation == "columns" ? "column" : "row";
 
         let header;
         // let sourceModal;
         // let helpModal;
+
+        // Card contents
 
         // Header
         if (title || showCardSource || (help && help.length > 0)) {
@@ -104,7 +109,7 @@ class Card extends React.Component {
                         color="inherit"
                         aria-label="Show source code"
                         aria-haspopup="true"
-                        // onClick={this.toggleSourceModal}
+                        onClick={this.openSourceModal}
                         style={{ padding: "5px 8px" }}
                     >
                         <Code fontSize="small" />
@@ -119,28 +124,13 @@ class Card extends React.Component {
                         color="inherit"
                         aria-label="Show source code"
                         aria-haspopup="true"
-                        //  onClick={this.toggleHelpModal}
+                        onClick={this.openHelpModal}
                         style={{ padding: "5px 8px" }}
                     >
                         <HelpOutline fontSize="small" />
                     </IconButton>
                 );
             }
-
-            //     const sourceCells = body.map((cell, i) => {
-            //         if (cell.cell_type == "code") {
-            //             return (
-            //                 <Cells key={i} className="source-cells">
-            //                     <DashboardCell
-            //                         key={i}
-            //                         showInputs={true}
-            //                         showOutputs={false}
-            //                         {...cell}
-            //                     />
-            //                 </Cells>
-            //             );
-            //         }
-            //     });
 
             header = (
                 <Grid container className={classes.header}>
@@ -157,47 +147,8 @@ class Card extends React.Component {
                     {headerBtns ? headerBtns : null}
                 </Grid>
             );
-        }
+        } // End - Header
 
-        //         sourceModal = (
-        //             <Modal
-        //                 title={title ? `${title} - Source` : "Source"}
-        //                 onCloseClick={this.toggleSourceModal}
-        //             >
-        //                 {sourceCells}
-        //             </Modal>
-        //         );
-        //     }
-
-        //     // Help button and modal
-        //     if (help && help.length > 0) {
-        //         headerBtns.push(
-        //             <Button key="help" onClick={this.toggleHelpModal}>
-        //                 <i className="material-icons">help_outline</i>
-        //             </Button>
-        //         );
-
-        //         let helpCells = [];
-        //         help.forEach((cell, i) => {
-        //             helpCells.push(
-        //                 <DashboardCell key={i} showInputs={false} {...cell} />
-        //             );
-        //         });
-
-        //         helpModal = (
-        //             <Modal
-        //                 title={title ? `${title} - Help` : "Help"}
-        //                 onCloseClick={this.toggleHelpModal}
-        //             >
-        //                 {helpCells}
-        //             </Modal>
-        //         );
-        //     }
-
-        //     headerBtns = <ButtonGroup>{headerBtns}</ButtonGroup>;
-        // } // End header
-
-        // Card body
         let bodyComponents = [];
         if (body.length > 0) {
             body.forEach((cell, i) => {
@@ -230,7 +181,69 @@ class Card extends React.Component {
             });
         }
 
-        console.log(footerComponents);
+        // Source Modal
+
+        const sourceCells = body.map((cell, i) => {
+            if (cell.cell_type == "code") {
+                return (
+                    <Cells key={i} className="source-cells">
+                        <DashboardCell
+                            key={i}
+                            showInputs={true}
+                            showOutputs={false}
+                            {...cell}
+                        />
+                    </Cells>
+                );
+            }
+        });
+
+        const sourceModal = (
+            <Dialog
+                open={showSourceDialog}
+                onClose={this.closeSourceModal}
+                scroll="paper"
+                maxWidth="md"
+                fullWidth={true}
+                aria-labelledby="scroll-dialog-title"
+                aria-describedby="scroll-dialog-description"
+            >
+                <DialogTitle>
+                    {title ? `Source: ${title}` : "Source"}
+                </DialogTitle>
+                <DialogContent dividers={true}>{sourceCells}</DialogContent>
+                <DialogActions>
+                    <Button onClick={this.closeSourceModal}>Close</Button>
+                </DialogActions>
+            </Dialog>
+        );
+
+        // Help Modal
+
+        let helpCells = [];
+        help.forEach((cell, i) => {
+            helpCells.push(
+                <DashboardCell key={i} showInputs={false} {...cell} />
+            );
+        });
+
+        const helpModal = (
+            <Dialog
+                open={showHelpDialog}
+                onClose={this.closeHelpModal}
+                scroll="paper"
+                maxWidth="md"
+                fullWidth={true}
+                aria-labelledby="scroll-dialog-title"
+                aria-describedby="scroll-dialog-description"
+            >
+                <DialogTitle>{title ? `Info: ${title}` : "Info"}</DialogTitle>
+                <DialogContent dividers={true}>{helpCells}</DialogContent>
+                <DialogActions>
+                    <Button onClick={this.closeHelpModal}>Close</Button>
+                </DialogActions>
+            </Dialog>
+        );
 
         return (
             <Grid
@@ -269,35 +282,9 @@ class Card extends React.Component {
                         {footerComponents}
                     </Grid>
                 ) : null}
-                {/* {this.state.showHelpModal ? helpModal : null} */}
-                {/* {this.state.showSourceModal ? sourceModal : null} */}
+                {this.state.showHelpDialog ? helpModal : null}
+                {this.state.showSourceDialog ? sourceModal : null}
             </Grid>
-
-            // <BootstrapCard
-            //     className={`card-${cardClassName} ${this.state.classNames}`}
-            //     style={{ flex: `${this.state.size} ${this.state.size} 0px` }}
-            // >
-            //     <BootstrapCard.Header className="d-flex justify-content-between align-items-baseline">
-            //         <BootstrapCard.Title>
-            //             {!insideTabs ? title : null}
-            //         </BootstrapCard.Title>
-            //         {headerBtns}
-            //         {/* {headerBtns ? (
-            //         ) : null} */}
-            //     </BootstrapCard.Header>
-
-            //     <BootstrapCard.Body className="d-flex flex-column">
-            //         {bodyComponents}
-            //     </BootstrapCard.Body>
-
-            //     {footerComponents.length > 0 ? (
-            //         <BootstrapCard.Footer>
-            //             {footerComponents}
-            //         </BootstrapCard.Footer>
-            //     ) : null}
-            //     {this.state.showSourceModal ? sourceModal : null}
-            //     {this.state.showHelpModal ? helpModal : null}
-            // </BootstrapCard>
         );
     }
 }
