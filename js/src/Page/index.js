@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Box, Container, Grid } from "@material-ui/core";
 
 import Section from "../Section";
-import Sidebar from "../Sidebar";
+import Sidebar from "../Sidebar/index-bu";
 import { getTagValue, slugify } from "../utils";
 
 const styles = (theme) => ({
@@ -35,21 +35,21 @@ class Page extends React.Component {
         } = this.props;
 
         // Initial sidebar visibility defined if we have a sidebar section
-        let initSidebarVisibility = false;
-        sections.forEach((page) => {
-            if (page.tags && page.tags.includes("sidebar")) {
-                initSidebarVisibility = true;
-            }
-        });
+        // let initSidebarVisibility = false;
+        // sections.forEach((page) => {
+        //     if (page.tags && page.tags.includes("sidebar")) {
+        //         initSidebarVisibility = true;
+        //     }
+        // });
 
-        // elOrientation means the element orientation of this page is ___
-        let elOrientation = dashboardOrientation;
+        // Orientation defaults to the dashboard one overwriten by tab
+        let orientation = dashboardOrientation;
         const orientationTag = getTagValue(tags, "orientation");
         if (orientationTag) {
-            elOrientation = orientationTag;
+            orientation = orientationTag;
         }
 
-        //
+        // Vertical layout defaults to the dashboard one overwriten by tab
         let verticalLayout = dashboardVerticalLayout;
         const layoutTag = getTagValue(tags, "layout");
         if (layoutTag) {
@@ -58,25 +58,25 @@ class Page extends React.Component {
 
         this.state = {
             pageSlug: slugify(this.props.title),
-            elOrientation: elOrientation,
+            orientation: orientation,
             verticalLayout: verticalLayout,
             classNames: getTagValue(tags, "class", " "),
             loading: false,
-            sidebarVisible: initSidebarVisibility,
+            // sidebarVisible: initSidebarVisibility,
         };
     }
 
-    collapseCallback = (event) => {
-        this.setState({ sidebarVisible: event });
-    };
+    // collapseCallback = (event) => {
+    //     this.setState({ sidebarVisible: event });
+    // };
 
     render() {
         const { classes, sections } = this.props;
-        const { sidebarVisible } = this.state;
+        // const { sidebarVisible } = this.state;
 
         // Flip orientation for flex
         let flexDirection =
-            this.state.elOrientation == "columns" ? "row" : "column";
+            this.state.orientation == "columns" ? "row" : "column";
 
         let sidebar;
         let sectionComponents = [];
@@ -85,7 +85,7 @@ class Page extends React.Component {
                 if (section.tags && section.tags.includes("sidebar")) {
                     sidebar = (
                         <Sidebar
-                            collapseCallback={this.collapseCallback}
+                            // collapseCallback={this.collapseCallback}
                             {...section}
                         />
                     );
@@ -93,7 +93,7 @@ class Page extends React.Component {
                     sectionComponents.push(
                         <Section
                             key={i}
-                            pageOrientation={this.state.elOrientation}
+                            pageOrientation={this.state.orientation}
                             {...section}
                         />
                     );

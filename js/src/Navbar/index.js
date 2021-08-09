@@ -13,6 +13,7 @@ import Launch from "@material-ui/icons/Launch";
 import MenuIcon from "@material-ui/icons/Menu";
 import MoreIcon from "@material-ui/icons/MoreVert";
 
+import { DashboardContext } from "../App/context";
 import { slugify } from "../utils";
 
 const styles = (theme) => ({
@@ -66,22 +67,6 @@ class Navbar extends React.Component {
         }
     }
 
-    onNavlinkClick = (event) => {
-        // TODO: Collapse menu when changing pages
-        // eslint-disable-next-line no-undef
-        // $("#navPages").collapse("hide");
-
-        // See if the new page has a sidebar
-        this.setState({ pageSidebar: false });
-        const pageID = event.target.getAttribute("data-page-id");
-        this.props.pages[pageID].sections.forEach((section) => {
-            if (section.tags && section.tags.includes("sidebar")) {
-                // Global sidebar
-                this.setState({ pageSidebar: true });
-            }
-        });
-    };
-
     render() {
         const {
             classes,
@@ -91,7 +76,7 @@ class Navbar extends React.Component {
             externalLink,
             pages,
         } = this.props;
-        const { globalSidebar, pageSidebar } = this.state;
+        const { showNavbarMenuIcon, onNavbarMenuIconClick } = this.context;
 
         let homepageBtn = "";
         if (homepage) {
@@ -154,6 +139,17 @@ class Navbar extends React.Component {
             <div>
                 <AppBar position="static" className={classes.navbar}>
                     <Toolbar className={classes.toolbar}>
+                        {showNavbarMenuIcon ? (
+                            <IconButton
+                                aria-label="show drawer"
+                                // aria-controls={mobileMenuId}
+                                aria-haspopup="true"
+                                onClick={onNavbarMenuIconClick}
+                                color="inherit"
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                        ) : null}
                         {homepageBtn}
                         <Typography
                             variant="h6"
@@ -199,5 +195,6 @@ class Navbar extends React.Component {
         );
     }
 }
+Navbar.contextType = DashboardContext;
 
 export default withStyles(styles, { withTheme: true })(Navbar);

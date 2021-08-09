@@ -3,7 +3,10 @@ import React from "react";
 export const DashboardContext = React.createContext({
     kernel: null,
     widgetManager: null,
-    showCardSource: null,
+    showSource: null,
+    setNavbarMenuIcon: null,
+    showNavbarMenuIcon: false,
+    onNavbarMenuIconClick: null,
 });
 
 export const Provider = DashboardContext.Provider;

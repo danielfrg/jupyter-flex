@@ -1,51 +1,112 @@
-import React, { useState } from "react";
+import React from "react";
+import clsx from "clsx";
 
-import Section from "../Section";
+import { withStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import Button from "@material-ui/core/Button";
+import List from "@material-ui/core/List";
+import Divider from "@material-ui/core/Divider";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import MailIcon from "@material-ui/icons/Mail";
 
-function Sidebar(props) {
-    const [collapsed, setCollapsed] = useState(true);
-    const { collapseCallback } = props;
+import { DashboardContext } from "../App/context";
 
-    function onCollapse(e) {
-        setCollapsed(e.currentTarget.checked);
+const styles = (theme) => ({
+    list: {
+        width: 250,
+    },
+    fullList: {
+        width: "auto",
+    },
+});
 
-        if (collapseCallback) {
-            collapseCallback(e.currentTarget.checked);
-        }
+class Sidebar extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = { open: false };
     }
 
-    let contentClass = collapsed ? "" : "collapse";
-    let widthClass = collapsed ? "col-md-4 col-lg-2" : "";
-    let tooltipText = collapsed ? "Collapse" : "Expand";
-    let btnIcon = collapsed ? "chevron_left" : "chevron_right";
+    componentDidMount() {
+        // const context = React.useContext(DashboardContext);
+        // const [state, setState] = React.useState({
+        //     top: false,
+        //     left: false,
+        //     bottom: false,
+        //     right: false,
+        // });
+        this.context.updateValue("onNavbarMenuIconClick", this.toggleDrawer);
+    }
 
-    return (
-        <>
-            <BootstrapNavbar id="sidebar" className={`sidebar ${widthClass}`}>
-                <div
-                    id={`flex-main-sidebar`}
-                    className={`content ${contentClass}`}
-                >
-                    <Section {...props}></Section>
-                </div>
+    toggleDrawer = (value) => {
+        // if (
+        //     event.type === "keydown" &&
+        //     (event.key === "Tab" || event.key === "Shift")
+        // ) {
+        //     return;
+        // }
+        console.log("!!!!!!!!");
+        this.setState({ open: !this.state.open });
+    };
 
-                <OverlayTrigger
-                    overlay={<Tooltip>{tooltipText}</Tooltip>}
-                    placement="right"
-                >
-                    <ToggleButton
-                        type="checkbox"
-                        value="true"
-                        className={`collapse-btn`}
-                        checked={collapsed}
-                        onChange={onCollapse}
-                    >
-                        <i className="material-icons">{btnIcon}</i>
-                    </ToggleButton>
-                </OverlayTrigger>
-            </BootstrapNavbar>
-        </>
-    );
+    closeDrawer = (value) => {
+        this.setState({ open: false });
+    };
+
+    render() {
+        const { classes } = this.props;
+        const { open } = this.state;
+
+        // const list = (anchor) => (
+        //     <div
+        //         className={clsx(classes.list, {
+        //             [classes.fullList]: anchor === "top" || anchor === "bottom",
+        //         })}
+        //         role="presentation"
+        //         // onClick={this.toggleDrawer(anchor, false)}
+        //         // onKeyDown={this.toggleDrawer(anchor, false)}
+        //     >
+        //         <List>
+        //             {["Inbox", "Starred", "Send email", "Drafts"].map(
+        //                 (text, index) => (
+        //                     <ListItem button key={text}>
+        //                         <ListItemIcon>
+        //                             {index % 2 === 0 ? (
+        //                                 <InboxIcon />
+        //                             ) : (
+        //                                 <MailIcon />
+        //                             )}
+        //                         </ListItemIcon>
+        //                         <ListItemText primary={text} />
+        //                     </ListItem>
+        //                 )
+        //             )}
+        //         </List>
+        //         <Divider />
+        //         <List>
+        //             {["All mail", "Trash", "Spam"].map((text, index) => (
+        //                 <ListItem button key={text}>
+        //                     <ListItemIcon>
+        //                         {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+        //                     </ListItemIcon>
+        //                     <ListItemText primary={text} />
+        //                 </ListItem>
+        //             ))}
+        //         </List>
+        //     </div>
+        // );
+        return (
+            <>
+                <Drawer open={open} onClose={this.closeDrawer}>
+                    asdasdasd
+                </Drawer>
+            </>
+        );
+    }
 }
+Sidebar.contextType = DashboardContext;
 
-export default Sidebar;
+export default withStyles(styles, { withTheme: true })(Sidebar);

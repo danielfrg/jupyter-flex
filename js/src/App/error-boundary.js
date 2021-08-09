@@ -5,6 +5,9 @@ import { Container } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 
 const styles = (theme) => ({
+    errorBoundary: {
+        margin: "50px auto",
+    },
     title: {
         marginBottom: 20,
         fontSize: 32,
@@ -39,7 +42,7 @@ class ErrorBoundary extends React.Component {
 
         if (this.state.error) {
             return (
-                <Container maxWidth="md" className="error-boundary">
+                <Container maxWidth="md" className={classes.errorBoundary}>
                     <Typography
                         component="h1"
                         className={classes.title}

@@ -4,8 +4,9 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import { Box, Container } from "@material-ui/core";
 
+import { DashboardContext } from "../App/context";
 import Navbar from "../Navbar";
-// import Sidebar from "../Sidebar";
+import Sidebar from "../Sidebar";
 import Page from "../Page";
 import DashboardCell from "../Cell";
 import { slugify } from "../utils";
@@ -22,23 +23,22 @@ const styles = (theme) => ({
 class Dashboard extends React.Component {
     constructor(props) {
         super(props);
-
-        // const { pages } = this.props;
-
-        // Initial sidebar visibility defined if we have a sidebar section
-        // let initSidebarVisibility = false;
-        // pages.forEach((page) => {
-        //     if (page.tags && page.tags.includes("sidebar")) {
-        //         initSidebarVisibility = true;
-        //     }
-        // });
-
-        // this.state = { sidebarVisible: initSidebarVisibility };
     }
 
-    collapseCallback = (event) => {
-        this.setState({ sidebarVisible: event });
-    };
+    componentDidMount() {
+        const { pages } = this.props;
+        const { updateValue } = this.context;
+
+        pages.forEach((page) => {
+            if (page.tags && page.tags.includes("sidebar")) {
+                updateValue("showNavbarMenuIcon", true);
+            }
+        });
+    }
+
+    // collapseCallback = (event) => {
+    //     this.setState({ sidebarVisible: event });
+    // };
 
     render() {
         const {
@@ -54,8 +54,6 @@ class Dashboard extends React.Component {
             pages,
         } = this.props;
 
-        // const { sidebarVisible } = this.state;
-
         let metaCells = [];
         if (meta && meta.length > 0) {
             meta.forEach((cell, i) => {
@@ -63,29 +61,24 @@ class Dashboard extends React.Component {
             });
         }
 
-        // let sidebar;
+        let sidebar;
         let routes = [];
         if (pages && pages.length > 0) {
             pages.forEach((page) => {
-                //         if (page.tags && page.tags.includes("sidebar")) {
-                //             sidebar = (
-                //                 <Sidebar
-                //                     collapseCallback={this.collapseCallback}
-                //                     {...page.sections[0]}
-                //                 />
-                //             );
-                //         } else {
-                const pageSlug = slugify(page.title);
-                const pagePath = routes.length == 0 ? "/" : `/${pageSlug}`;
-                const el = (
-                    <Page
-                        dashboardVerticalLayout={verticalLayout}
-                        dashboardOrientation={orientation}
-                        {...page}
-                    />
-                );
-                routes.push({ path: pagePath, component: el });
-                // }
+                if (page.tags && page.tags.includes("sidebar")) {
+                    sidebar = <Sidebar {...page.sections[0]} />;
+                } else {
+                    const pageSlug = slugify(page.title);
+                    const pagePath = routes.length == 0 ? "/" : `/${pageSlug}`;
+                    const el = (
+                        <Page
+                            dashboardVerticalLayout={verticalLayout}
+                            dashboardOrientation={orientation}
+                            {...page}
+                        />
+                    );
+                    routes.push({ path: pagePath, component: el });
+                }
             });
         }
 
@@ -108,21 +101,14 @@ class Dashboard extends React.Component {
                         pages={pages}
                     />
                     <Container className={classes.dashboard}>
-                        {/* {sidebar} */}
-                        {/* <div
-                        className={
-                            sidebarVisible
-                            ? "ml-sm-auto col-md-8 col-lg-10 p-0"
-                            : ""
-                        }
-                    > */}
                         <Switch>{routeEls}</Switch>
-                        {/* </div> */}
                     </Container>
+                    {sidebar}
                 </Box>
             </Router>
         );
     }
 }
+Dashboard.contextType = DashboardContext;
 
 export default withStyles(styles, { withTheme: true })(Dashboard);

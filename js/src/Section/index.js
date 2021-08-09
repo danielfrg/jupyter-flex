@@ -83,7 +83,7 @@ class Section extends React.Component {
             useTabs,
             selectedTab,
         } = this.state;
-        const { showCardSource } = this.context;
+        const { showSource } = this.context;
 
         // Cards
 
@@ -123,7 +123,7 @@ class Section extends React.Component {
                 const infoCells = getInfoCells(info);
 
                 let headerBtns = [];
-                if (showCardSource && sourceCells.length > 0) {
+                if (showSource && sourceCells.length > 0) {
                     const icon = <Code fontSize="small" />;
                     headerBtns.push(
                         <IconDialogBtn

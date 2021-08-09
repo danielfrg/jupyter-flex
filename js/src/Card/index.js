@@ -113,7 +113,7 @@ class Card extends React.Component {
             sectionOrientation,
         } = this.props;
         const { size } = this.state;
-        const { showCardSource } = this.context;
+        const { showSource } = this.context;
 
         // Source dialog content
 
@@ -126,12 +126,12 @@ class Card extends React.Component {
         if (
             !insideTabs &&
             (title ||
-                (showCardSource && sourceCells.length > 0) ||
+                (showSource && sourceCells.length > 0) ||
                 (info && info.length > 0))
         ) {
             let headerBtns = [];
 
-            if (showCardSource && sourceCells.length > 0) {
+            if (showSource && sourceCells.length > 0) {
                 const icon = <Code fontSize="small" />;
                 headerBtns.push(
                     <IconDialogBtn
