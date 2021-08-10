@@ -38,7 +38,7 @@ const styles = (theme) => ({
         padding: 8,
     },
     cardHeader: {
-        padding: "8px 8px",
+        padding: "6px 8px",
     },
     cardTitle: {
         padding: "5px 0",
@@ -212,9 +212,7 @@ class Card extends React.Component {
 
         if (bodyComponents.length == 0) {
             bodyComponents = (
-                // <Box style={{ height: "100%" }}>
                 <Typography className={classes.empty}>empty card</Typography>
-                // </Box>
             );
         }
 

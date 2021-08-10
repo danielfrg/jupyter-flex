@@ -10,15 +10,12 @@ import { DashboardContext } from "../App/context";
 
 const styles = (theme) => ({
     layoutFill: {
-        height: "calc(100vh - 64px - 48px - 5px)", // header + paddin + extra room
-        maxHeight: "calc(100vh - 64px - 48px - 5px)",
+        height: "calc(100vh - 64px - 16px - 5px)", // header + dashboard padding + extra room
+        maxHeight: "calc(100vh - 64px - 16px - 5px)",
         display: "flex",
         flexDirection: "column",
     },
-    layoutScroll: {
-        // display: "flex",
-        // flexDirection: "column",
-    },
+    layoutScroll: {},
     page: {
         maxWidth: "100%",
         height: "100%",
@@ -108,6 +105,7 @@ class Page extends React.Component {
             <div className={`page layout-${verticalLayout} ${layoutClsName}`}>
                 <Grid
                     container
+                    spacing={2}
                     direction={flexDirection}
                     className={`${classes.page}`}
                 >

@@ -18,25 +18,31 @@ const styles = (theme) => ({
         maxWidth: "100%",
         maxHeight: "100%",
         margin: 0,
-        padding: 0,
+        // padding: 0,
     },
-    // sectionInColumn: {
-    //     "&:not(:first-child)": {
-    //         paddingLeft: 0,
-    //         marginLeft: 20,
-    //     },
-    // },
-    // sectionInRow: {
-    //     "&:not(:first-child)": {
-    //         paddingTop: 0,
-    //         marginTop: 0, // This one is dont needed because of the card title
-    //     },
-    // },
-    grow: {
+    sectionInColumn: {
+        paddingTop: "0px !important",
+        // "&:not(:first-child)": {
+        //     paddingLeft: 0,
+        //     marginLeft: 20,
+        // },
+    },
+    sectionInRow: {
+        paddingTop: "0px !important",
+        // "&:not(:first-child)": {
+        //     paddingTop: 0,
+        //     marginTop: 0, // This one is dont needed because of the card title
+        // },
+    },
+    space: {
         flexGrow: 1,
     },
-    tabs: {
+    sectionTabs: {
         height: "100%",
+        padding: theme.spacing(1),
+    },
+    tabsHeader: {
+        marginLeft: 5,
     },
     tabHeaderIcon: {
         marginTop: 10,
@@ -130,6 +136,7 @@ class Section extends React.Component {
                     const icon = <Code fontSize="small" />;
                     headerBtns.push(
                         <IconDialogBtn
+                            key="source"
                             icon={icon}
                             content={sourceCells}
                             title={title ? `Source: ${title}` : "Info"}
@@ -142,6 +149,7 @@ class Section extends React.Component {
                     const icon = <HelpOutline fontSize="small" />;
                     headerBtns.push(
                         <IconDialogBtn
+                            key="info"
                             icon={icon}
                             content={infoCells}
                             title={title ? `Info: ${title}` : "Info"}
@@ -155,18 +163,19 @@ class Section extends React.Component {
                         container
                         direction="column"
                         alignItems="stretch"
-                        className={classes.tabs}
+                        className={classes.sectionTabs}
                     >
                         <Grid
                             item
                             component={Tabs}
                             value={selectedTab}
                             onChange={this.handleTabChange}
+                            className={classes.tabsHeader}
                             aria-label="Section tabs"
                         >
                             {tabs}
                             {headerBtns ? (
-                                <div className={classes.grow}></div>
+                                <div className={classes.space}></div>
                             ) : null}
                             {headerBtns ? headerBtns : null}
                         </Grid>
@@ -180,13 +189,14 @@ class Section extends React.Component {
 
         // Variables
 
-        const sectionClsName =
+        let sectionClsName =
             pageOrientation == "columns"
                 ? classes.sectionInColumn
                 : classes.sectionInRow;
+        // sectionClsName = useTabs ? classes.sectionTabs : sectionClsName;
 
         const flexDirection = orientation == "columns" ? "row" : "column";
-        let spacing = flexDirection == "row" ? 2 : 1;
+        let spacing = flexDirection == "row" ? 2 : 2;
         spacing = useTabs ? 5 : spacing;
 
         return (

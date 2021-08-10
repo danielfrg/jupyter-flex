@@ -1,8 +1,8 @@
-@import "variables.scss";
 @import "cell.scss";
 @import "loading.scss";
 @import "voila.scss";
 
+// @import "variables.scss";
 // @import "card.scss";
 
 // @import "dashboard.scss";
@@ -16,7 +16,7 @@
 .jupyter-flex-page {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
         sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    background-color: $body-bg;
+    background-color: #f4f5f7;
     color: #333;
     margin: 0;
 

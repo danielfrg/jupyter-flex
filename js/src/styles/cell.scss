@@ -1,13 +1,4 @@
 .markdown-body {
-    a {
-        color: $text-color;
-        text-decoration: underline;
-
-        &:visited {
-            color: $text-color;
-        }
-    }
-
     blockquote p {
         display: block;
     }
@@ -81,18 +72,18 @@
             margin-top: 1em;
         }
     }
+}
 
-    // Widgets
-    .loading-full {
-        .text-center {
-            .spinner-grow {
-                width: 0.5rem;
-                height: 0.5rem;
-            }
+// Widgets
+.jupyter-widget {
+    .loading {
+        margin: auto;
+        padding: 16px;
+        text-align: center;
+        color: rgba(0, 0, 0, 0.54);
 
-            p {
-                margin: 5px 0;
-            }
+        p {
+            font-size: 0.85rem;
         }
     }
 

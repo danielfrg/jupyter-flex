@@ -3,7 +3,7 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import clsx from "clsx";
 
 import { withStyles } from "@material-ui/core/styles";
-import { Box, Container } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 
 import { DashboardContext } from "../App/context";
 import DashboardCell from "../Cell";
@@ -20,7 +20,7 @@ const styles = (theme) => ({
     },
     content: {
         flexGrow: 1,
-        padding: theme.spacing(3),
+        padding: theme.spacing(1),
         transition: theme.transitions.create("margin", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,

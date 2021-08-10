@@ -1,12 +1,25 @@
-import * as React from "react";
+import React from "react";
+
+import { withStyles } from "@material-ui/core/styles";
+import { CircularProgress } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 
 import { DashboardContext } from "../App/context";
 import { uuidv4, onNextFrame } from "../utils";
 
+const styles = (theme) => ({
+    loading: {
+        margin: "auto",
+        padding: theme.spacing(2),
+        textAlign: "center",
+        color: theme.palette.text.secondary,
+    },
+});
+
 class Widget extends React.Component {
     render() {
+        const { classes, data } = this.props;
         const { widgetManager } = this.context;
-        const { data } = this.props;
         const uuid = uuidv4();
         let model_id = data["model_id"];
 
@@ -17,15 +30,14 @@ class Widget extends React.Component {
         });
 
         return (
-            <div id={uuid} className="output_subarea output_widget_state">
+            <div
+                id={uuid}
+                className="jupyter-widget output_subarea output_widget_state"
+            >
                 <div id={model_id}>
-                    <div className="container-fluid loading-full">
-                        <div className="text-center">
-                            <div className="spinner-grow" role="status">
-                                <span className="sr-only">Loading...</span>
-                            </div>
-                            <p>loading widget</p>
-                        </div>
+                    <div className="loading">
+                        <CircularProgress size={14} color="secondary" />
+                        <Typography>loading widget {"     "}</Typography>
                     </div>
                 </div>
                 <script type="application/vnd.jupyter.widget-view+json">
@@ -42,4 +54,6 @@ Widget.defaultProps = {
 
 Widget.contextType = DashboardContext;
 
+// This is messing up the widget rendering so we do this styles on cell.scss
+// export default withStyles(styles, { withTheme: true })(Widget);
 export default Widget;
