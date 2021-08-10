@@ -40,13 +40,13 @@ Merge branch when CI passes
 ```
 export VERSION=1.0.0
 
-git commit -am "Release ${VERSION}" --allow-empty
-git tag ${VERSION}
-
 # Optional reset
 make cleanall
 make download-assets
 make npm-install
+
+git commit -am "Release ${VERSION}" --allow-empty
+git tag ${VERSION}
 
 # Build
 make build
