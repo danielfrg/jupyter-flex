@@ -14,13 +14,7 @@ Dependencies are:
 -   Python
 -   Node.js
 
-### 1. Download non-npm third-party JS assets:
-
-```
-make download-assets
-```
-
-### 2. Javascript
+### 1. Javascript
 
 Install dependencies
 
@@ -28,7 +22,7 @@ Install dependencies
 make npm-install
 ```
 
-### 3. Python:
+### 2. Python:
 
 Create Python env
 
@@ -41,6 +35,13 @@ Install package for development
 
 ```
 make develop
+```
+
+### 3. Download external assets and test data
+
+```
+make download-assets
+make download-data
 ```
 
 ### Iteration cycle

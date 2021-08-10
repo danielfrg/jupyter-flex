@@ -115,10 +115,10 @@
 
     // Altair
     .vega-embed {
-        width: 95%;
+        width: 96%;
         height: 95%;
+        min-width: 96% !important;
         min-height: 95% !important;
-        min-width: 95% !important;
 
         &.has-actions {
             width: calc(100% - 38px);
