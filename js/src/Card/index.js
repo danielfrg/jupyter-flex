@@ -17,20 +17,17 @@ import IconDialogBtn from "./IconDialogBtn";
 import { getTagValue } from "../utils";
 
 const styles = (theme) => ({
-    grow: {
-        flexGrow: 1,
-    },
     card: { maxWidth: "100%" },
-    cardInColumn: {
-        "&:not(:first-child)": {
-            paddingTop: 0,
-        },
-    },
-    cardInRow: {
-        "&:not(:first-child)": {
-            paddingLeft: 0,
-        },
-    },
+    // cardInColumn: {
+    //     "&:not(:first-child)": {
+    //         paddingTop: 0,
+    //     },
+    // },
+    // cardInRow: {
+    //     "&:not(:first-child)": {
+    //         paddingLeft: 0,
+    //     },
+    // },
     cardInTabs: {
         maxWidth: "100%",
         height: "100%",
@@ -38,6 +35,7 @@ const styles = (theme) => ({
     cardInSidebar: {
         maxWidth: "100%",
         height: "100%",
+        padding: 8,
     },
     cardHeader: {
         padding: "8px 8px",
@@ -47,8 +45,12 @@ const styles = (theme) => ({
         fontSize: "1.05em",
         fontWeight: 600,
     },
-    box: {
+    space: {
         flexGrow: 1,
+    },
+    box: {},
+    boxVLScroll: {
+        flexBasis: "auto",
     },
     boxInSidebar: {
         flexGrow: 1,
@@ -129,6 +131,7 @@ class Card extends React.Component {
             footer,
             inTabs,
             inSidebar,
+            verticalLayout,
             sectionOrientation,
         } = this.props;
         const { size } = this.state;
@@ -185,7 +188,7 @@ class Card extends React.Component {
                             {title}
                         </Typography>
                     </Grid>
-                    {headerBtns ? <div className={classes.grow}></div> : null}
+                    {headerBtns ? <div className={classes.space}></div> : null}
                     {headerBtns ? headerBtns : null}
                 </Grid>
             );
@@ -249,7 +252,9 @@ class Card extends React.Component {
                 <Grid
                     item
                     component={MaterialCard}
-                    className={boxClsName}
+                    className={`${boxClsName} ${
+                        verticalLayout == "scroll" ? classes.boxVLScroll : null
+                    }`}
                     variant="outlined"
                     xs
                 >

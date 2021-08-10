@@ -16,7 +16,7 @@ import { DashboardContext } from "../App/context";
 import Card from "../Card";
 import { insertItemInArray } from "../utils";
 
-export const drawerWidth = 360;
+export const drawerWidth = 345;
 
 const styles = (theme) => ({
     drawer: {

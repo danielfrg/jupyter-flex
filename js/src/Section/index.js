@@ -20,18 +20,18 @@ const styles = (theme) => ({
         margin: 0,
         padding: 0,
     },
-    sectionInColumn: {
-        "&:not(:first-child)": {
-            paddingLeft: 0,
-            marginLeft: 20,
-        },
-    },
-    sectionInRow: {
-        "&:not(:first-child)": {
-            paddingTop: 0,
-            marginTop: 0, // This one is dont needed because of the card title
-        },
-    },
+    // sectionInColumn: {
+    //     "&:not(:first-child)": {
+    //         paddingLeft: 0,
+    //         marginLeft: 20,
+    //     },
+    // },
+    // sectionInRow: {
+    //     "&:not(:first-child)": {
+    //         paddingTop: 0,
+    //         marginTop: 0, // This one is dont needed because of the card title
+    //     },
+    // },
     grow: {
         flexGrow: 1,
     },
@@ -77,7 +77,7 @@ class Section extends React.Component {
     };
 
     render() {
-        const { classes, pageOrientation, cards } = this.props;
+        const { classes, cards, pageOrientation, verticalLayout } = this.props;
         let {
             size,
             orientation,
@@ -97,8 +97,9 @@ class Section extends React.Component {
                 let cardEl = (
                     <Card
                         key={i}
-                        sectionOrientation={orientation}
                         inTabs={useTabs}
+                        verticalLayout={verticalLayout}
+                        sectionOrientation={orientation}
                         {...card}
                     />
                 );

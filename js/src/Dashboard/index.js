@@ -37,10 +37,6 @@ const styles = (theme) => ({
 });
 
 class Dashboard extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {
         const { pages } = this.props;
 

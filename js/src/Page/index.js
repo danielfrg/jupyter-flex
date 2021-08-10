@@ -16,8 +16,8 @@ const styles = (theme) => ({
         flexDirection: "column",
     },
     layoutScroll: {
-        display: "flex",
-        flexDirection: "column",
+        // display: "flex",
+        // flexDirection: "column",
     },
     page: {
         maxWidth: "100%",
@@ -26,18 +26,6 @@ const styles = (theme) => ({
         margin: 0,
         padding: 0,
     },
-    // pageWrapper: {
-    //     display: "flex",
-    //     height: "100%",
-    // },
-    // page: {
-    //     width: "100%",
-    //     height: "calc(100% - 40px)",
-    //     margin: 0,
-    //     padding: 20,
-    //     display: "flex",
-    //     flexGrow: 1,
-    // },
 });
 
 class Page extends React.Component {
@@ -45,24 +33,23 @@ class Page extends React.Component {
         super(props);
 
         const {
-            sections,
             tags,
             dashboardOrientation,
             dashboardVerticalLayout,
         } = this.props;
-
-        // Orientation defaults to the dashboard and its overwriten by tag
-        let orientation = dashboardOrientation;
-        const orientationTag = getTagValue(tags, "orientation");
-        if (orientationTag) {
-            orientation = orientationTag;
-        }
 
         // Vertical layout defaults to the dashboard one and its overwriten by tag
         let verticalLayout = dashboardVerticalLayout;
         const layoutTag = getTagValue(tags, "layout");
         if (layoutTag) {
             verticalLayout = layoutTag;
+        }
+
+        // Orientation defaults to the dashboard and its overwriten by tag
+        let orientation = dashboardOrientation;
+        const orientationTag = getTagValue(tags, "orientation");
+        if (orientationTag) {
+            orientation = orientationTag;
         }
 
         this.state = {
@@ -103,6 +90,7 @@ class Page extends React.Component {
                     sectionComponents.push(
                         <Section
                             key={i}
+                            verticalLayout={verticalLayout}
                             pageOrientation={this.state.orientation}
                             {...section}
                         />
