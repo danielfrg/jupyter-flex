@@ -17,17 +17,9 @@ import IconDialogBtn from "./IconDialogBtn";
 import { getTagValue } from "../utils";
 
 const styles = (theme) => ({
-    // card: { maxWidth: "100%" },
-    cardInColumn: {
-        //     "&:not(:first-child)": {
-        //         paddingTop: 0,
-        //     },
-    },
-    cardInRow: {
-        //     "&:not(:first-child)": {
-        //         paddingLeft: 0,
-        //     },
-    },
+    card: {},
+    cardInColumn: {},
+    cardInRow: {},
     cardInTabs: {
         maxWidth: "100%",
         height: "100%",

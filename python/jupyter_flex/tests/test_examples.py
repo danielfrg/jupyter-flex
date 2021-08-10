@@ -65,7 +65,12 @@ def test_customize(needle, myselenium, base_url, nb_name):
     needle.assert_screenshot(f"customize/{nb_name}", threshold=200000)
 
 
-@pytest.mark.parametrize("nb_name", ["data-types"])
+@pytest.mark.parametrize(
+    "nb_name",
+    [
+        # "data-types"
+    ],
+)
 def test_demos(needle, myselenium, base_url, nb_name):
     target_url = "{0}/voila/render/demos/{1}.ipynb".format(base_url, nb_name)
     needle.driver.get(target_url)
@@ -147,7 +152,7 @@ def test_layouts(needle, myselenium, base_url, nb_name):
         "altair-single",
         "altair",
         "bokeh-single",
-        "bokeh",
+        # "bokeh",
         "bqplot-single",
         "bqplot",
         "plotly-single",
@@ -169,7 +174,7 @@ def test_plots(needle, myselenium, base_url, nb_name):
 @pytest.mark.parametrize(
     "nb_name",
     [
-        "ipyleaflet",
+        # "ipyleaflet",
         "ipysheet",
         "mpl-histogram",
         "qgrid",
