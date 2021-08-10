@@ -100,7 +100,12 @@ class Navbar extends React.Component {
         if (pages && pages.length > 1) {
             pages.forEach((page, i) => {
                 if (page.title && !page.tags.includes("sidebar")) {
-                    const pageSlug = slugify(page.title);
+                    console.log(page.title);
+                    const pageSlug = slugify(
+                        page.title && page.title != ""
+                            ? page.title
+                            : `Page ${i}`
+                    );
                     const pagePath =
                         pageButtons.length == 0 ? "/" : `${pageSlug}`;
                     const newPage = (

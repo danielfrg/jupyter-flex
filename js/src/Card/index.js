@@ -17,17 +17,17 @@ import IconDialogBtn from "./IconDialogBtn";
 import { getTagValue } from "../utils";
 
 const styles = (theme) => ({
-    card: { maxWidth: "100%" },
-    // cardInColumn: {
-    //     "&:not(:first-child)": {
-    //         paddingTop: 0,
-    //     },
-    // },
-    // cardInRow: {
-    //     "&:not(:first-child)": {
-    //         paddingLeft: 0,
-    //     },
-    // },
+    // card: { maxWidth: "100%" },
+    cardInColumn: {
+        //     "&:not(:first-child)": {
+        //         paddingTop: 0,
+        //     },
+    },
+    cardInRow: {
+        //     "&:not(:first-child)": {
+        //         paddingLeft: 0,
+        //     },
+    },
     cardInTabs: {
         maxWidth: "100%",
         height: "100%",
@@ -57,6 +57,7 @@ const styles = (theme) => ({
         border: "none",
     },
     cardContent: {
+        width: "100%",
         height: "100%",
         display: "flex",
         flexDirection: "column",
@@ -230,7 +231,7 @@ class Card extends React.Component {
             sectionOrientation == "column"
                 ? classes.cardInColumn
                 : classes.cardInRow;
-        cardsClsName = inTabs ? classes.cardInTabs : classes.card;
+        cardsClsName = inTabs ? classes.cardInTabs : cardsClsName;
         cardsClsName = inSidebar ? classes.cardInSidebar : cardsClsName;
         let boxClsName = inSidebar ? classes.boxInSidebar : classes.box;
         let cardContentClsName = inSidebar
@@ -251,7 +252,7 @@ class Card extends React.Component {
                     item
                     component={MaterialCard}
                     className={`${boxClsName} ${
-                        verticalLayout == "scroll" ? classes.boxVLScroll : null
+                        verticalLayout == "scroll" ? classes.boxVLScroll : ""
                     }`}
                     variant="outlined"
                     xs

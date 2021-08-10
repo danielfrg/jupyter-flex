@@ -50,11 +50,9 @@ class Page extends React.Component {
         }
 
         this.state = {
-            pageSlug: slugify(this.props.title),
             orientation: orientation,
             verticalLayout: verticalLayout,
-            classNames: getTagValue(tags, "class", " "),
-            loading: false,
+            // classNames: getTagValue(tags, "class", " "),
         };
     }
 
@@ -74,7 +72,7 @@ class Page extends React.Component {
 
     render() {
         const { classes, sections } = this.props;
-        const { verticalLayout } = this.state;
+        const { orientation, verticalLayout } = this.state;
 
         // Flip orientation for flex
         let flexDirection =
@@ -88,7 +86,7 @@ class Page extends React.Component {
                         <Section
                             key={i}
                             verticalLayout={verticalLayout}
-                            pageOrientation={this.state.orientation}
+                            pageOrientation={orientation}
                             {...section}
                         />
                     );
