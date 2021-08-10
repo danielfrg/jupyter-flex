@@ -33,7 +33,7 @@
 
     .nteract-outputs {
         padding: 0;
-        overflow: auto;
+        // overflow: auto;
     }
 
     // If we are in a code cell leave the margin-bottom
@@ -117,8 +117,34 @@
             margin-top: 7px;
         }
     }
+}
 
+.layout-fill {
     // Plotting libraries
+
+    // Altair
+    .vega-embed {
+        width: 95%;
+        height: 95%;
+        min-height: 95% !important;
+        min-width: 95% !important;
+
+        &.has-actions {
+            width: calc(100% - 38px);
+            padding-right: 0;
+
+            summary {
+                margin-right: -38px;
+            }
+        }
+
+        // Fix altair toolbar (icons are svgs)
+        // Looks like it snot needed anymore but leaving here for now just in case
+        // summary svg {
+        //     width: 14px;
+        //     height: 14px;
+        // }
+    }
 
     // Matplotlib: SVG
     .jp-RenderedImage {
@@ -159,30 +185,6 @@
         //         width: 1em;
         //         height: 1em;
         //     }
-        // }
-    }
-
-    // Altair
-    .vega-embed {
-        width: 95%;
-        height: 95%;
-        min-height: 95% !important;
-        min-width: 95% !important;
-
-        &.has-actions {
-            width: calc(100% - 38px);
-            padding-right: 0;
-
-            summary {
-                margin-right: -38px;
-            }
-        }
-
-        // Fix altair toolbar (icons are svgs)
-        // Looks like it snot needed anymore but leaving here for now just in case
-        // summary svg {
-        //     width: 14px;
-        //     height: 14px;
         // }
     }
 

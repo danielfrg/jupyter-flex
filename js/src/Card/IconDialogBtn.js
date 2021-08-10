@@ -49,7 +49,7 @@ SimpleDialog.propTypes = {
 export default function IconDialogBtn(props) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const [selectedValue, setSelectedValue] = React.useState(0);
+    const [selectedValue, setSelectedValue] = React.useState("");
 
     const handleClickOpen = () => {
         setOpen(true);

@@ -16,10 +16,18 @@ import { slugify } from "../utils";
 const styles = (theme) => ({
     layoutFill: {
         height: "100vh",
+        maxHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+    },
+    layoutScroll: {
+        display: "flex",
+        flexDirection: "column",
     },
     dashboard: {
         maxWidth: "100%",
         height: "100%",
+        maxHeight: "100%",
         margin: 0,
         padding: 0,
     },
@@ -112,11 +120,16 @@ class Dashboard extends React.Component {
             </Route>
         ));
 
+        const layoutClsName =
+            verticalLayout == "scroll"
+                ? classes.layoutScroll
+                : classes.layoutFill;
+
         return (
             <Router hashType="noslash">
                 <div className="meta-cells">{metaCells}</div>
                 <Sidebar globalContent={globalSidebar} />
-                <Box height="100vh" display="flex" flexDirection="column">
+                <Box className={`layout-${verticalLayout} ${layoutClsName}`}>
                     <Navbar
                         homepage={homepage}
                         title={title}
@@ -126,15 +139,16 @@ class Dashboard extends React.Component {
                         pages={pages}
                     />
                     <main
-                        className={clsx(classes.content, {
-                            [classes.contentShift]:
-                                sidebarOpen &&
-                                (sidebarLocalExists || sidebarGlobalExists),
-                        })}
+                        className={`${classes.dashboard} ${clsx(
+                            classes.content,
+                            {
+                                [classes.contentShift]:
+                                    sidebarOpen &&
+                                    (sidebarLocalExists || sidebarGlobalExists),
+                            }
+                        )}`}
                     >
-                        <Container className={classes.dashboard}>
-                            <Switch>{routeEls}</Switch>
-                        </Container>
+                        <Switch>{routeEls}</Switch>
                     </main>
                 </Box>
             </Router>

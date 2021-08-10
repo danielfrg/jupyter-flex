@@ -1,10 +1,10 @@
 import React from "react";
 
 import { withStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
+import { Box, Grid } from "@material-ui/core";
 import MaterialCard from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
 import Code from "@material-ui/icons/Code";
 import HelpOutline from "@material-ui/icons/HelpOutline";
@@ -39,7 +39,6 @@ const styles = (theme) => ({
         maxWidth: "100%",
         height: "100%",
     },
-    cardWrapper: {},
     cardHeader: {
         padding: "8px 8px",
     },
@@ -58,8 +57,8 @@ const styles = (theme) => ({
     cardContent: {
         height: "100%",
         display: "flex",
-        flex: "1 1 auto",
         flexDirection: "column",
+        overflow: "auto",
     },
     cardContentInSidebar: {
         height: "100%",
@@ -155,6 +154,7 @@ class Card extends React.Component {
                 const icon = <Code fontSize="small" />;
                 headerBtns.push(
                     <IconDialogBtn
+                        key="source"
                         icon={icon}
                         content={sourceCells}
                         title={title ? `Source: ${title}` : "Info"}
@@ -166,6 +166,7 @@ class Card extends React.Component {
                 const icon = <HelpOutline fontSize="small" />;
                 headerBtns.push(
                     <IconDialogBtn
+                        key="info"
                         icon={icon}
                         content={infoCells}
                         title={title ? `Info: ${title}` : "Info"}
@@ -208,7 +209,9 @@ class Card extends React.Component {
 
         if (bodyComponents.length == 0) {
             bodyComponents = (
+                // <Box style={{ height: "100%" }}>
                 <Typography className={classes.empty}>empty card</Typography>
+                // </Box>
             );
         }
 
@@ -237,7 +240,7 @@ class Card extends React.Component {
             <Grid
                 item
                 container
-                className={`card ${cardsClsName} ${classes.cardWrapper}`}
+                className={`card ${cardsClsName}`}
                 direction="column"
                 alignItems="stretch"
                 xs={size}
@@ -248,6 +251,7 @@ class Card extends React.Component {
                     component={MaterialCard}
                     className={boxClsName}
                     variant="outlined"
+                    xs
                 >
                     <Grid
                         item
