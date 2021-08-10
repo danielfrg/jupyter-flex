@@ -1,65 +1,72 @@
-.filetree {
+.voila-wrapper {
     max-width: 900px;
     margin: 50px auto;
-    padding: 20px 40px 40px;
-    background: #fff;
-    border-radius: 0.25rem;
 
-    h6 {
-        color: #000;
-        margin-bottom: 1rem;
-        text-transform: uppercase;
-        letter-spacing: 0.02em;
-        font-size: 0.9rem;
-        margin-top: 0;
+    .text-center {
+        text-align: center;
     }
 
-    .list-group {
-        display: flex;
-        flex-direction: column;
-        border: 1px solid #eef2f7;
+    .filetree {
+        background: #fff;
         border-radius: 0.25rem;
+        padding: 20px 40px 40px;
 
-        .list-group-item {
-            border: none;
-            border-bottom: 1px solid #eef2f7;
-            width: 100%;
-            color: #495057;
-            text-align: inherit;
-            text-decoration: none;
-            line-height: 0;
-            padding: 12px 15px;
+        h6 {
+            color: #000;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            font-size: 0.9rem;
+            margin-top: 0;
+        }
 
-            &:hover {
+        .list-group {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #eef2f7;
+            border-radius: 0.25rem;
+
+            .list-group-item {
+                border: none;
+                border-bottom: 1px solid #eef2f7;
+                width: 100%;
+                color: #495057;
+                text-align: inherit;
                 text-decoration: none;
-                background-color: #f8f9fa;
+                line-height: 0;
+                padding: 12px 15px;
+
+                &:hover {
+                    text-decoration: none;
+                    background-color: #f8f9fa;
+                }
+
+                &:last-child {
+                    border-bottom: none;
+                }
             }
 
-            &:last-child {
-                border-bottom: none;
+            i.material-icons {
+                font-size: 18px;
+                vertical-align: middle;
+                margin-right: 10px;
+                margin-bottom: 2px;
             }
         }
 
-        i.material-icons {
-            font-size: 18px;
-            vertical-align: middle;
-            margin-right: 10px;
-            margin-bottom: 2px;
-        }
-    }
+        ul.voila-notebooks {
+            margin: 10px 0;
+            padding: 0;
+            color: #333;
+            list-style: none;
 
-    ul.voila-notebooks {
-        margin: 10px 0;
-        padding: 0;
-        color: #333;
-        list-style: none;
+            li {
+                padding: 7px 15px;
+                border-bottom: 1px solid #eef2f7;
 
-        li {
-            padding: 7px 15px;
-            border-bottom: 1px solid #eef2f7;
-
-            &:last-child {
-                border-bottom: none;
+                &:last-child {
+                    border-bottom: none;
+                }
             }
         }
     }

@@ -24,8 +24,8 @@ def test_example_site(needle, myselenium, base_url):
     "name,path",
     [
         ("tree", ""),
-        ("404", "fake-page-404"),
-        ("404-voila", "voila/render/fake-page-404"),
+        ("404", "non-existent-page-404"),
+        ("404-voila", "voila/render/non-existent-page-404"),
     ],
 )
 def test_voila(needle, myselenium, base_url, name, path):
@@ -78,7 +78,7 @@ def test_demos(needle, myselenium, base_url, nb_name):
 
 
 @pytest.mark.parametrize(
-    "nb_name", ["one-plot", "two-columns", "two-plots", "two-rows"]
+    "nb_name", ["1-one-plot", "2-two-plots", "3-two-columns", "4-two-rows"]
 )
 def test_getting_started(needle, myselenium, base_url, nb_name):
     target_url = "{0}/voila/render/getting-started/{1}.ipynb".format(base_url, nb_name)
@@ -108,22 +108,25 @@ def test_illusionist(needle, myselenium, base_url, nb_name):
 @pytest.mark.parametrize(
     "nb_name",
     [
-        # "card-complete",
-        # "focal-chart-top-card-size",
-        # "focal-chart-top",
-        # "grid-2x2",
-        # "grid-2x3",
-        # "header-columns-footer",
-        # "pages",
+        "card-complete",
+        "focal-chart-top-card-size",
+        "focal-chart-top",
+        "grid-2x2",
+        "grid-2x3",
+        "header-columns-footer",
+        "layout-fill",
+        "layout-scroll",
         "pages-diff-layouts",
-        # "section-columns-columns",
-        # "section-columns",
-        # "section-rows-rows",
-        # "section-rows",
-        # "section-tabs-columns",
-        # "section-tabs-rows",
-        # "sidebar-global",
-        # "sidebar-pages",
+        "pages",
+        "section-columns-columns",
+        "section-columns-rows",
+        "section-rows-columns",
+        "section-rows-rows",
+        "section-tabs-columns",
+        "section-tabs-rows",
+        "sidebar-global-and-pages",
+        "sidebar-global",
+        "sidebar-pages",
     ],
 )
 def test_layouts(needle, myselenium, base_url, nb_name):
@@ -149,6 +152,7 @@ def test_layouts(needle, myselenium, base_url, nb_name):
         "bqplot",
         "plotly-single",
         "plotly",
+        "plots-mixed-content",
     ],
 )
 def test_plots(needle, myselenium, base_url, nb_name):
