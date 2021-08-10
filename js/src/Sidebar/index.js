@@ -14,6 +14,7 @@ import MailIcon from "@material-ui/icons/Mail";
 
 import { DashboardContext } from "../App/context";
 import Card from "../Card";
+import { insertItemInArray } from "../utils";
 
 export const drawerWidth = 360;
 
@@ -64,32 +65,34 @@ const styles = (theme) => ({
 });
 
 class Sidebar extends React.Component {
-    constructor(props) {
-        super(props);
-        // this.state = { open: true };
-    }
-
     componentDidMount() {
         this.context.updateValue("onNavbarMenuIconClick", this.toggleDrawer);
     }
 
     toggleDrawer = () => {
-        // this.setState({ open: !this.state.open });
         this.context.updateValue("sidebarOpen", !this.context.sidebarOpen);
     };
 
     handleDrawerClose = () => {
-        // this.setState({ open: false });
         this.context.updateValue("sidebarOpen", false);
     };
 
     render() {
-        const { classes, cards } = this.props;
-        const { sidebarOpen } = this.context;
+        const { classes, globalContent } = this.props;
+        const { sidebarOpen, sidebarLocal } = this.context;
 
-        const content = cards.map((card, i) => {
+        let content = sidebarLocal ? sidebarLocal : globalContent;
+        if (!content) {
+            return null;
+        }
+
+        content = content.cards.map((card, i) => {
             return <Card key={i} inSidebar={true} {...card} />;
         });
+        function newDivider(i) {
+            <Divider key={i} />;
+        }
+        content = insertItemInArray(content, newDivider);
 
         return (
             <Drawer
@@ -102,9 +105,8 @@ class Sidebar extends React.Component {
                 }}
             >
                 <div className={classes.drawerHeader}></div>
-                <Divider />
+
                 {content}
-                <Divider />
             </Drawer>
         );
     }

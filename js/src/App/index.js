@@ -51,9 +51,11 @@ class JupyterFlex extends React.Component {
             dashboard: dashboard,
             kernel: null,
             widgetManager: null,
-            sidebarExists: false,
-            onNavbarMenuIconClick: null,
             sidebarOpen: true,
+            sidebarLocalExists: false,
+            sidebarGlobalExists: false,
+            sidebarLocal: null,
+            onNavbarMenuIconClick: null,
         };
     }
 
@@ -147,22 +149,11 @@ class JupyterFlex extends React.Component {
         }
     }
 
-    setsidebarExists = (value) => {
-        this.setState({ sidebarExists: value });
-    };
-
     updateValue = (key, val) => {
         this.setState({ [key]: val });
     };
 
     render() {
-        const {
-            kernel,
-            widgetManager,
-            sidebarOpen,
-            sidebarExists,
-            onNavbarMenuIconClick,
-        } = this.state;
         let {
             homepage,
             title,
@@ -189,13 +180,18 @@ class JupyterFlex extends React.Component {
                     <DashboardErrorBoundary>
                         <Provider
                             value={{
-                                kernel: kernel,
-                                widgetManager: widgetManager,
+                                kernel: this.state.kernel,
+                                widgetManager: this.state.widgetManager,
                                 showSource: show_source,
                                 updateValue: this.updateValue,
-                                sidebarOpen: sidebarOpen,
-                                sidebarExists: sidebarExists,
-                                onNavbarMenuIconClick: onNavbarMenuIconClick,
+                                sidebarOpen: this.state.sidebarOpen,
+                                sidebarLocal: this.state.sidebarLocal,
+                                sidebarLocalExists: this.state
+                                    .sidebarLocalExists,
+                                sidebarGlobalExists: this.state
+                                    .sidebarGlobalExists,
+                                onNavbarMenuIconClick: this.state
+                                    .onNavbarMenuIconClick,
                             }}
                         >
                             <Dashboard

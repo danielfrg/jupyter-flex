@@ -6,7 +6,9 @@ export const DashboardContext = React.createContext({
     showSource: null,
     updateValue: null,
     sidebarOpen: true,
-    sidebarExists: false,
+    sidebarLocal: null,
+    sidebarLocalExists: false,
+    sidebarGlobalExists: false,
     onNavbarMenuIconClick: null,
 });
 

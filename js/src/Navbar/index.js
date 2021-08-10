@@ -78,7 +78,8 @@ class Navbar extends React.Component {
         } = this.props;
         const {
             sidebarOpen,
-            sidebarExists,
+            sidebarLocalExists,
+            sidebarGlobalExists,
             onNavbarMenuIconClick,
         } = this.context;
 
@@ -142,7 +143,7 @@ class Navbar extends React.Component {
         return (
             <AppBar position="static" className={classes.navbar}>
                 <Toolbar className={classes.toolbar}>
-                    {sidebarExists ? (
+                    {sidebarLocalExists || sidebarGlobalExists ? (
                         <IconButton
                             aria-label="show drawer"
                             // aria-controls={mobileMenuId}

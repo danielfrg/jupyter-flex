@@ -20,7 +20,7 @@ const styles = (theme) => ({
     grow: {
         flexGrow: 1,
     },
-    card: {},
+    card: { maxWidth: "100%" },
     cardInColumn: {
         "&:not(:first-child)": {
             paddingTop: 0,
@@ -32,9 +32,13 @@ const styles = (theme) => ({
         },
     },
     cardInTabs: {
+        maxWidth: "100%",
         height: "100%",
     },
-    cardInSidebar: {},
+    cardInSidebar: {
+        maxWidth: "100%",
+        height: "100%",
+    },
     cardWrapper: {},
     cardHeader: {
         padding: "8px 8px",
@@ -48,6 +52,7 @@ const styles = (theme) => ({
         flexGrow: 1,
     },
     boxInSidebar: {
+        flexGrow: 1,
         border: "none",
     },
     cardContent: {
@@ -57,6 +62,10 @@ const styles = (theme) => ({
         flexDirection: "column",
     },
     cardContentInSidebar: {
+        height: "100%",
+        display: "flex",
+        flex: "1 1 auto",
+        flexDirection: "column",
         padding: "0 8px",
     },
     cardFooter: {
@@ -71,6 +80,9 @@ const styles = (theme) => ({
 });
 
 export function getSourceCells(body) {
+    if (!body) {
+        return [];
+    }
     return body.map((cell, i) => {
         if (cell.cell_type == "code") {
             return (
@@ -88,6 +100,9 @@ export function getSourceCells(body) {
 }
 
 export function getInfoCells(info) {
+    if (!info) {
+        return [];
+    }
     return info.map((cell, i) => {
         return <DashboardCell key={i} showInputs={false} {...cell} />;
     });
@@ -176,7 +191,7 @@ class Card extends React.Component {
         } // End - Header
 
         let bodyComponents = [];
-        if (body.length > 0) {
+        if (body && body.length > 0) {
             body.forEach((cell, i) => {
                 // Only show if they are tagged with body, ignore source tag
                 if (

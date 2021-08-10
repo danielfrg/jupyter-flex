@@ -5,23 +5,6 @@ import clsx from "clsx";
 import { withStyles } from "@material-ui/core/styles";
 import { Box, Container } from "@material-ui/core";
 
-import Drawer from "@material-ui/core/Drawer";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
-
 import { DashboardContext } from "../App/context";
 import DashboardCell from "../Cell";
 import Navbar from "../Navbar";
@@ -43,41 +26,6 @@ const styles = (theme) => ({
     root: {
         display: "flex",
     },
-    // appBar: {
-    //     transition: theme.transitions.create(["margin", "width"], {
-    //         easing: theme.transitions.easing.sharp,
-    //         duration: theme.transitions.duration.leavingScreen,
-    //     }),
-    // },
-    // appBarShift: {
-    //     width: `calc(100% - ${drawerWidth}px)`,
-    //     marginLeft: drawerWidth,
-    //     transition: theme.transitions.create(["margin", "width"], {
-    //         easing: theme.transitions.easing.easeOut,
-    //         duration: theme.transitions.duration.enteringScreen,
-    //     }),
-    // },
-    // menuButton: {
-    //     marginRight: theme.spacing(2),
-    // },
-    // hide: {
-    //     display: "none",
-    // },
-    // drawer: {
-    //     width: drawerWidth,
-    //     flexShrink: 0,
-    // },
-    // drawerPaper: {
-    //     width: drawerWidth,
-    // },
-    // drawerHeader: {
-    //     display: "flex",
-    //     alignItems: "center",
-    //     padding: theme.spacing(0, 1),
-    //     // necessary for content to be below app bar
-    //     ...theme.mixins.toolbar,
-    //     justifyContent: "flex-end",
-    // },
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),
@@ -103,11 +51,10 @@ class Dashboard extends React.Component {
 
     componentDidMount() {
         const { pages } = this.props;
-        const { updateValue } = this.context;
 
         pages.forEach((page) => {
             if (page.tags && page.tags.includes("sidebar")) {
-                updateValue("sidebarExists", true);
+                this.context.updateValue("sidebarGlobalExists", true);
             }
         });
     }
@@ -125,7 +72,11 @@ class Dashboard extends React.Component {
             meta,
             pages,
         } = this.props;
-        const { sidebarOpen, sidebarExists } = this.context;
+        const {
+            sidebarOpen,
+            sidebarLocalExists,
+            sidebarGlobalExists,
+        } = this.context;
 
         let metaCells = [];
         if (meta && meta.length > 0) {
@@ -134,12 +85,12 @@ class Dashboard extends React.Component {
             });
         }
 
-        let sidebar;
+        let globalSidebar;
         let routes = [];
         if (pages && pages.length > 0) {
             pages.forEach((page) => {
                 if (page.tags && page.tags.includes("sidebar")) {
-                    sidebar = <Sidebar {...page.sections[0]} />;
+                    globalSidebar = { ...page.sections[0] };
                 } else {
                     const pageSlug = slugify(page.title);
                     const pagePath = routes.length == 0 ? "/" : `/${pageSlug}`;
@@ -147,7 +98,6 @@ class Dashboard extends React.Component {
                         <Page
                             dashboardVerticalLayout={verticalLayout}
                             dashboardOrientation={orientation}
-                            // sidebar={sidebar}
                             {...page}
                         />
                     );
@@ -164,10 +114,8 @@ class Dashboard extends React.Component {
 
         return (
             <Router hashType="noslash">
-                {/* <div className={classes.layoutFill}> */}
                 <div className="meta-cells">{metaCells}</div>
-                {sidebar}
-                {/* <div className={classes.root}> */}
+                <Sidebar globalContent={globalSidebar} />
                 <Box height="100vh" display="flex" flexDirection="column">
                     <Navbar
                         homepage={homepage}
@@ -180,15 +128,14 @@ class Dashboard extends React.Component {
                     <main
                         className={clsx(classes.content, {
                             [classes.contentShift]:
-                                sidebarOpen && sidebarExists,
+                                sidebarOpen &&
+                                (sidebarLocalExists || sidebarGlobalExists),
                         })}
                     >
                         <Container className={classes.dashboard}>
                             <Switch>{routeEls}</Switch>
                         </Container>
                     </main>
-                    {/* </div> */}
-                    {/*  </div> */}
                 </Box>
             </Router>
         );

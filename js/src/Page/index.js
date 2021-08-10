@@ -21,13 +21,7 @@ const styles = (theme) => ({
         display: "flex",
         flexGrow: 1,
     },
-    // sections: {
-    //     width: "100%",
-    //     height: "100%",
-    //     margin: 0,
-    //     padding: 0,
-    //     flexGrow: 1,
-    // },
+    sections: {},
 });
 
 class Page extends React.Component {
@@ -35,19 +29,20 @@ class Page extends React.Component {
         super(props);
 
         const {
+            sections,
             tags,
             dashboardOrientation,
             dashboardVerticalLayout,
         } = this.props;
 
-        // Orientation defaults to the dashboard one overwriten by tab
+        // Orientation defaults to the dashboard and its overwriten by tag
         let orientation = dashboardOrientation;
         const orientationTag = getTagValue(tags, "orientation");
         if (orientationTag) {
             orientation = orientationTag;
         }
 
-        // Vertical layout defaults to the dashboard one overwriten by tab
+        // Vertical layout defaults to the dashboard one and its overwriten by tag
         let verticalLayout = dashboardVerticalLayout;
         const layoutTag = getTagValue(tags, "layout");
         if (layoutTag) {
@@ -60,8 +55,21 @@ class Page extends React.Component {
             verticalLayout: verticalLayout,
             classNames: getTagValue(tags, "class", " "),
             loading: false,
-            // sidebarVisible: initSidebarVisibility,
         };
+    }
+
+    componentDidMount() {
+        // Iterate sections and see if one is tagged as sidebar
+        const { sections } = this.props;
+        let localSidebar = null;
+        sections.forEach((section) => {
+            if (section.tags && section.tags.includes("sidebar")) {
+                localSidebar = section;
+            }
+        });
+        // Add this sidebar to the context
+        this.context.updateValue("sidebarLocal", localSidebar);
+        this.context.updateValue("sidebarLocalExists", localSidebar !== null);
     }
 
     render() {
@@ -74,14 +82,7 @@ class Page extends React.Component {
         let sectionComponents = [];
         if (sections && sections.length > 0) {
             sections.forEach((section, i) => {
-                if (section.tags && section.tags.includes("sidebar")) {
-                    // sidebar = (
-                    //     <Sidebar
-                    //         // collapseCallback={this.collapseCallback}
-                    //         {...section}
-                    //     />
-                    // );
-                } else {
+                if (!(section.tags && section.tags.includes("sidebar"))) {
                     sectionComponents.push(
                         <Section
                             key={i}
@@ -97,9 +98,8 @@ class Page extends React.Component {
             <div className={classes.pageWrapper}>
                 <Grid
                     container
-                    // spacing={3}
-                    // className={`${classes.sections}`}
                     direction={flexDirection}
+                    className={`sections ${classes.sections}`}
                 >
                     {sectionComponents}
                 </Grid>
