@@ -31,14 +31,10 @@ class Dashboard extends React.Component {
 
         pages.forEach((page) => {
             if (page.tags && page.tags.includes("sidebar")) {
-                updateValue("showNavbarMenuIcon", true);
+                updateValue("navbarShowMenuIcon", true);
             }
         });
     }
-
-    // collapseCallback = (event) => {
-    //     this.setState({ sidebarVisible: event });
-    // };
 
     render() {
         const {

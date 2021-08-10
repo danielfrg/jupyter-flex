@@ -51,7 +51,7 @@ class JupyterFlex extends React.Component {
             dashboard: dashboard,
             kernel: null,
             widgetManager: null,
-            showNavbarMenuIcon: false,
+            navbarShowMenuIcon: false,
             onNavbarMenuIconClick: null,
             sidebarOpen: true,
         };
@@ -147,8 +147,8 @@ class JupyterFlex extends React.Component {
         }
     }
 
-    setShowNavbarMenuIcon = (value) => {
-        this.setState({ showNavbarMenuIcon: value });
+    setnavbarShowMenuIcon = (value) => {
+        this.setState({ navbarShowMenuIcon: value });
     };
 
     updateValue = (key, val) => {
@@ -159,9 +159,9 @@ class JupyterFlex extends React.Component {
         const {
             kernel,
             widgetManager,
-            showNavbarMenuIcon,
-            onNavbarMenuIconClick,
             sidebarOpen,
+            navbarShowMenuIcon,
+            onNavbarMenuIconClick,
         } = this.state;
         let {
             homepage,
@@ -193,9 +193,9 @@ class JupyterFlex extends React.Component {
                                 widgetManager: widgetManager,
                                 showSource: show_source,
                                 updateValue: this.updateValue,
-                                showNavbarMenuIcon: showNavbarMenuIcon,
-                                onNavbarMenuIconClick: onNavbarMenuIconClick,
                                 sidebarOpen: sidebarOpen,
+                                navbarShowMenuIcon: navbarShowMenuIcon,
+                                onNavbarMenuIconClick: onNavbarMenuIconClick,
                             }}
                         >
                             <Dashboard

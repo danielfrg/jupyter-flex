@@ -11,6 +11,7 @@ import Link from "@material-ui/core/Link";
 import Home from "@material-ui/icons/Home";
 import Launch from "@material-ui/icons/Launch";
 import MenuIcon from "@material-ui/icons/Menu";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import MoreIcon from "@material-ui/icons/MoreVert";
 
 import { DashboardContext } from "../App/context";
@@ -77,7 +78,11 @@ class Navbar extends React.Component {
             externalLink,
             pages,
         } = this.props;
-        const { showNavbarMenuIcon, onNavbarMenuIconClick } = this.context;
+        const {
+            sidebarOpen,
+            navbarShowMenuIcon,
+            onNavbarMenuIconClick,
+        } = this.context;
 
         let homepageBtn = "";
         if (homepage) {
@@ -139,7 +144,7 @@ class Navbar extends React.Component {
         return (
             <AppBar position="static" className={classes.navbar}>
                 <Toolbar className={classes.toolbar}>
-                    {showNavbarMenuIcon ? (
+                    {navbarShowMenuIcon ? (
                         <IconButton
                             aria-label="show drawer"
                             // aria-controls={mobileMenuId}
@@ -147,7 +152,7 @@ class Navbar extends React.Component {
                             onClick={onNavbarMenuIconClick}
                             color="inherit"
                         >
-                            <MenuIcon />
+                            {sidebarOpen ? <ChevronLeftIcon /> : <MenuIcon />}
                         </IconButton>
                     ) : null}
                     {homepageBtn}

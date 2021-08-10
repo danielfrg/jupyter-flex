@@ -7,26 +7,8 @@ import { Box, Container, Grid } from "@material-ui/core";
 import Section from "../Section";
 import { getTagValue, slugify } from "../utils";
 
-import Typography from "@material-ui/core/Typography";
-import Toolbar from "@material-ui/core/Toolbar";
-
-import Drawer from "@material-ui/core/Drawer";
-import IconButton from "@material-ui/core/IconButton";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-
-import AppBar from "@material-ui/core/AppBar";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
-
 import { DashboardContext } from "../App/context";
-import Navbar from "../Navbar";
-
-const drawerWidth = 240;
+import { drawerWidth } from "../Sidebar";
 
 const styles = (theme) => ({
     pageWrapper: {
@@ -35,9 +17,9 @@ const styles = (theme) => ({
     },
     page: {
         width: "100%",
-        height: "calc(100% - 20px)",
+        height: "calc(100% - 40px)",
         margin: 0,
-        padding: 10,
+        padding: 20,
         display: "flex",
         flexGrow: 1,
     },
@@ -96,19 +78,10 @@ class Page extends React.Component {
         super(props);
 
         const {
-            sections,
             tags,
             dashboardOrientation,
             dashboardVerticalLayout,
         } = this.props;
-
-        // Initial sidebar visibility defined if we have a sidebar section
-        // let initSidebarVisibility = false;
-        // sections.forEach((page) => {
-        //     if (page.tags && page.tags.includes("sidebar")) {
-        //         initSidebarVisibility = true;
-        //     }
-        // });
 
         // Orientation defaults to the dashboard one overwriten by tab
         let orientation = dashboardOrientation;
@@ -134,17 +107,16 @@ class Page extends React.Component {
         };
     }
 
-    handleDrawerClose = () => {
-        this.setState({ open: false });
-    };
+    // handleDrawerClose = () => {
+    //     this.setState({ open: false });
+    // };
 
-    handleDrawerClose = () => {
-        this.setState({ open: true });
-    };
+    // handleDrawerClose = () => {
+    //     this.setState({ open: true });
+    // };
 
     render() {
         const { classes, sidebar, sections } = this.props;
-        // const { sidebarVisible } = this.state;
         const { sidebarOpen } = this.context;
 
         // Flip orientation for flex

@@ -17,10 +17,10 @@ import IconDialogBtn from "./IconDialogBtn";
 import { getTagValue } from "../utils";
 
 const styles = (theme) => ({
-    card: {
-        // width: "100%",
-        // height: "100%",
+    grow: {
+        flexGrow: 1,
     },
+    card: {},
     cardInColumn: {
         "&:not(:first-child)": {
             paddingTop: 0,
@@ -34,9 +34,7 @@ const styles = (theme) => ({
     cardInTabs: {
         height: "100%",
     },
-    grow: {
-        flexGrow: 1,
-    },
+    cardInSidebar: {},
     cardWrapper: {},
     cardHeader: {
         padding: "8px 8px",
@@ -48,7 +46,9 @@ const styles = (theme) => ({
     },
     box: {
         flexGrow: 1,
-        // border: "none",
+    },
+    boxInSidebar: {
+        border: "none",
     },
     cardContent: {
         height: "100%",
@@ -56,10 +56,14 @@ const styles = (theme) => ({
         flex: "1 1 auto",
         flexDirection: "column",
     },
+    cardContentInSidebar: {
+        padding: "0 8px",
+    },
     cardFooter: {
         padding: "0 8px 8px",
     },
     empty: {
+        margin: "auto",
         padding: theme.spacing(2),
         textAlign: "center",
         color: theme.palette.text.secondary,
@@ -109,7 +113,8 @@ class Card extends React.Component {
             body,
             info,
             footer,
-            insideTabs,
+            inTabs,
+            inSidebar,
             sectionOrientation,
         } = this.props;
         const { size } = this.state;
@@ -124,7 +129,7 @@ class Card extends React.Component {
 
         let header;
         if (
-            !insideTabs &&
+            !inTabs &&
             (title ||
                 (showSource && sourceCells.length > 0) ||
                 (info && info.length > 0))
@@ -206,7 +211,12 @@ class Card extends React.Component {
             sectionOrientation == "column"
                 ? classes.cardInColumn
                 : classes.cardInRow;
-        cardsClsName = insideTabs ? classes.cardInTabs : classes.card;
+        cardsClsName = inTabs ? classes.cardInTabs : classes.card;
+        cardsClsName = inSidebar ? classes.cardInSidebar : cardsClsName;
+        let boxClsName = inSidebar ? classes.boxInSidebar : classes.box;
+        let cardContentClsName = inSidebar
+            ? classes.cardContentInSidebar
+            : classes.cardContent;
 
         return (
             <Grid
@@ -221,14 +231,14 @@ class Card extends React.Component {
                 <Grid
                     item
                     component={MaterialCard}
-                    className={classes.box}
+                    className={boxClsName}
                     variant="outlined"
                 >
                     <Grid
                         item
                         container
                         component={CardContent}
-                        className={classes.cardContent}
+                        className={cardContentClsName}
                         xs
                     >
                         {bodyComponents}

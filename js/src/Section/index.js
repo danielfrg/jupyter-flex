@@ -23,11 +23,13 @@ const styles = (theme) => ({
     sectionInColumn: {
         "&:not(:first-child)": {
             paddingLeft: 0,
+            marginLeft: 20,
         },
     },
     sectionInRow: {
         "&:not(:first-child)": {
             paddingTop: 0,
+            marginTop: 0, // This one is dont needed because of the card title
         },
     },
     grow: {
@@ -46,23 +48,23 @@ class Section extends React.Component {
         super(props);
         const { tags, pageOrientation } = props;
 
-        // elOrientation means the element orientation of this section is this
-        let elOrientation;
+        // orientation means the element orientation of this section is this
+        let orientation;
         const orientationTag = getTagValue(tags, "orientation");
         if (orientationTag) {
-            elOrientation = orientationTag;
+            orientation = orientationTag;
         } else if (pageOrientation == "rows") {
-            elOrientation = "columns";
+            orientation = "columns";
         } else {
             // default: if (pageOrientation == "columns")
-            elOrientation = "rows";
+            orientation = "rows";
         }
 
         const sizeTag = getTagValue(tags, "size");
 
         this.state = {
             size: sizeTag ? parseInt(sizeTag) : true,
-            elOrientation: elOrientation,
+            orientation: orientation,
             classNames: getTagValue(tags, "class", " "),
             useTabs: tags && tags.includes("tabs") ? true : false,
             selectedTab: 0,
@@ -78,7 +80,7 @@ class Section extends React.Component {
         const { classes, pageOrientation, cards } = this.props;
         let {
             size,
-            elOrientation,
+            orientation,
             // classNames,
             useTabs,
             selectedTab,
@@ -95,8 +97,8 @@ class Section extends React.Component {
                 let cardEl = (
                     <Card
                         key={i}
-                        sectionOrientation={elOrientation}
-                        insideTabs={useTabs}
+                        sectionOrientation={orientation}
+                        inTabs={useTabs}
                         {...card}
                     />
                 );
@@ -182,8 +184,9 @@ class Section extends React.Component {
                 ? classes.sectionInColumn
                 : classes.sectionInRow;
 
-        const flexDirection = elOrientation == "columns" ? "row" : "column";
-        const spacing = flexDirection == "row" ? 2 : 1;
+        const flexDirection = orientation == "columns" ? "row" : "column";
+        let spacing = flexDirection == "row" ? 2 : 1;
+        spacing = useTabs ? 5 : spacing;
 
         return (
             <Grid

@@ -3,10 +3,7 @@ import clsx from "clsx";
 
 import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
-import IconButton from "@material-ui/core/IconButton";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 
-import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
@@ -16,8 +13,9 @@ import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 
 import { DashboardContext } from "../App/context";
+import Card from "../Card";
 
-const drawerWidth = 240;
+export const drawerWidth = 360;
 
 const styles = (theme) => ({
     drawer: {
@@ -68,7 +66,7 @@ const styles = (theme) => ({
 class Sidebar extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { open: true };
+        // this.state = { open: true };
     }
 
     componentDidMount() {
@@ -76,62 +74,37 @@ class Sidebar extends React.Component {
     }
 
     toggleDrawer = () => {
-        this.setState({ open: !this.state.open });
-        this.context.updateValue("sidebarOpen", !this.state.open);
+        // this.setState({ open: !this.state.open });
+        this.context.updateValue("sidebarOpen", !this.context.sidebarOpen);
     };
 
     handleDrawerClose = () => {
-        this.setState({ open: false });
+        // this.setState({ open: false });
         this.context.updateValue("sidebarOpen", false);
     };
 
     render() {
-        const { classes } = this.props;
-        const { open } = this.state;
+        const { classes, cards } = this.props;
+        const { sidebarOpen } = this.context;
+
+        const content = cards.map((card, i) => {
+            return <Card key={i} inSidebar={true} {...card} />;
+        });
 
         return (
             <Drawer
                 className={classes.drawer}
                 variant="persistent"
                 anchor="left"
-                open={open}
+                open={sidebarOpen}
                 classes={{
                     paper: classes.drawerPaper,
                 }}
             >
-                <div className={classes.drawerHeader}>
-                    <IconButton onClick={this.handleDrawerClose}>
-                        <ChevronLeftIcon />
-                    </IconButton>
-                </div>
+                <div className={classes.drawerHeader}></div>
                 <Divider />
-                <List>
-                    {["Inbox", "Starred", "Send email", "Drafts"].map(
-                        (text, index) => (
-                            <ListItem button key={text}>
-                                <ListItemIcon>
-                                    {index % 2 === 0 ? (
-                                        <InboxIcon />
-                                    ) : (
-                                        <MailIcon />
-                                    )}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItem>
-                        )
-                    )}
-                </List>
+                {content}
                 <Divider />
-                <List>
-                    {["All mail", "Trash", "Spam"].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List>
             </Drawer>
         );
     }
