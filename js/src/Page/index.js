@@ -9,19 +9,35 @@ import { getTagValue, slugify } from "../utils";
 import { DashboardContext } from "../App/context";
 
 const styles = (theme) => ({
-    pageWrapper: {
+    layoutFill: {
+        height: "calc(100vh - 64px - 48px - 5px)", // header + paddin + extra room
+        maxHeight: "calc(100vh - 64px - 48px - 5px)",
         display: "flex",
-        height: "100%",
+        flexDirection: "column",
+    },
+    layoutScroll: {
+        display: "flex",
+        flexDirection: "column",
     },
     page: {
-        width: "100%",
-        height: "calc(100% - 40px)",
+        maxWidth: "100%",
+        height: "100%",
+        maxHeight: "100%",
         margin: 0,
-        padding: 20,
-        display: "flex",
-        flexGrow: 1,
+        padding: 0,
     },
-    sections: {},
+    // pageWrapper: {
+    //     display: "flex",
+    //     height: "100%",
+    // },
+    // page: {
+    //     width: "100%",
+    //     height: "calc(100% - 40px)",
+    //     margin: 0,
+    //     padding: 20,
+    //     display: "flex",
+    //     flexGrow: 1,
+    // },
 });
 
 class Page extends React.Component {
@@ -74,6 +90,7 @@ class Page extends React.Component {
 
     render() {
         const { classes, sections } = this.props;
+        const { verticalLayout } = this.state;
 
         // Flip orientation for flex
         let flexDirection =
@@ -94,12 +111,17 @@ class Page extends React.Component {
             });
         }
 
+        const layoutClsName =
+            verticalLayout == "scroll"
+                ? classes.layoutScroll
+                : classes.layoutFill;
+
         return (
-            <div className={classes.pageWrapper}>
+            <div className={`page layout-${verticalLayout} ${layoutClsName}`}>
                 <Grid
                     container
                     direction={flexDirection}
-                    className={`sections ${classes.sections}`}
+                    className={`${classes.page}`}
                 >
                     {sectionComponents}
                 </Grid>
