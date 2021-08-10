@@ -23,10 +23,8 @@ const styles = (theme) => ({
         boxShadow: "none",
         borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
     },
-    toolbar: {
-        // minHeight: 36,
-    },
-    grow: {
+    toolbar: {},
+    space: {
         flexGrow: 1,
     },
     title: {
@@ -80,7 +78,7 @@ class Navbar extends React.Component {
         } = this.props;
         const {
             sidebarOpen,
-            navbarShowMenuIcon,
+            sidebarExists,
             onNavbarMenuIconClick,
         } = this.context;
 
@@ -144,7 +142,7 @@ class Navbar extends React.Component {
         return (
             <AppBar position="static" className={classes.navbar}>
                 <Toolbar className={classes.toolbar}>
-                    {navbarShowMenuIcon ? (
+                    {sidebarExists ? (
                         <IconButton
                             aria-label="show drawer"
                             // aria-controls={mobileMenuId}
@@ -163,7 +161,7 @@ class Navbar extends React.Component {
                     >
                         {title}
                     </Typography>
-                    <div className={classes.grow} />
+                    <div className={classes.space} />
                     <div className={classes.sectionDesktop}>{pageButtons}</div>
                     <div className={classes.sectionMobile}>
                         <IconButton
@@ -176,7 +174,7 @@ class Navbar extends React.Component {
                             <MoreIcon />
                         </IconButton>
                     </div>
-                    <div className={classes.grow} />
+                    <div className={classes.space} />
                     <div className={classes.sectionDesktop}>
                         {subtitleEl}
                         {externalLinkEl}

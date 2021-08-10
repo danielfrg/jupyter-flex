@@ -1,14 +1,12 @@
 import React from "react";
-import clsx from "clsx";
 
 import { withStyles } from "@material-ui/core/styles";
-import { Box, Container, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 import Section from "../Section";
 import { getTagValue, slugify } from "../utils";
 
 import { DashboardContext } from "../App/context";
-import { drawerWidth } from "../Sidebar";
 
 const styles = (theme) => ({
     pageWrapper: {
@@ -30,47 +28,6 @@ const styles = (theme) => ({
     //     padding: 0,
     //     flexGrow: 1,
     // },
-    // root: {
-    //     display: "flex",
-    // },
-
-    // menuButton: {
-    //     marginRight: theme.spacing(2),
-    // },
-    // hide: {
-    //     display: "none",
-    // },
-    // drawer: {
-    //     width: drawerWidth,
-    //     flexShrink: 0,
-    // },
-    // drawerPaper: {
-    //     width: drawerWidth,
-    // },
-    drawerHeader: {
-        display: "flex",
-        alignItems: "center",
-        // padding: theme.spacing(0, 1),
-        // necessary for content to be below app bar
-        ...theme.mixins.toolbar,
-        justifyContent: "flex-end",
-    },
-    content: {
-        flexGrow: 1,
-        // padding: theme.spacing(3),
-        transition: theme.transitions.create("margin", {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        marginLeft: -drawerWidth,
-    },
-    contentShift: {
-        transition: theme.transitions.create("margin", {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-    },
 });
 
 class Page extends React.Component {
@@ -107,23 +64,13 @@ class Page extends React.Component {
         };
     }
 
-    // handleDrawerClose = () => {
-    //     this.setState({ open: false });
-    // };
-
-    // handleDrawerClose = () => {
-    //     this.setState({ open: true });
-    // };
-
     render() {
-        const { classes, sidebar, sections } = this.props;
-        const { sidebarOpen } = this.context;
+        const { classes, sections } = this.props;
 
         // Flip orientation for flex
         let flexDirection =
             this.state.orientation == "columns" ? "row" : "column";
 
-        // let sidebar;
         let sectionComponents = [];
         if (sections && sections.length > 0) {
             sections.forEach((section, i) => {
@@ -148,32 +95,14 @@ class Page extends React.Component {
 
         return (
             <div className={classes.pageWrapper}>
-                {sidebar}
-                <main
-                    className={`${classes.page} ${clsx(classes.content, {
-                        [classes.contentShift]: sidebarOpen,
-                    })}`}
-                >
-                    {/* <div className={classes.drawerHeader} /> */}
-                    <Grid
-                        container
-                        // spacing={3}
-                        // className={`${classes.sections}`}
-                        direction={flexDirection}
-                    >
-                        {sectionComponents}
-                    </Grid>
-                </main>
-                {/* <Grid
+                <Grid
                     container
-                    spacing={3}
-                    className={`${classes.section} ${clsx(classes.content, {
-                        [classes.contentShift]: sidebarOpen,
-                    })}`}
+                    // spacing={3}
+                    // className={`${classes.sections}`}
                     direction={flexDirection}
                 >
                     {sectionComponents}
-                </Grid> */}
+                </Grid>
             </div>
         );
     }
