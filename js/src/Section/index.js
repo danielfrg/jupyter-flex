@@ -15,24 +15,18 @@ import { resizeInterval, getTagValue } from "../utils";
 
 const styles = (theme) => ({
     section: {
-        maxWidth: "100%",
+        // maxWidth: "100%",
         maxHeight: "100%",
         margin: 0,
         // padding: 0,
     },
     sectionInColumn: {
         paddingTop: "0px !important",
-        // "&:not(:first-child)": {
-        //     paddingLeft: 0,
-        //     marginLeft: 20,
-        // },
     },
     sectionInRow: {
         paddingTop: "0px !important",
-        // "&:not(:first-child)": {
-        //     paddingTop: 0,
-        //     marginTop: 0, // This one is dont needed because of the card title
-        // },
+        width: "100%",
+        maxWidth: "100%",
     },
     space: {
         flexGrow: 1,
@@ -193,7 +187,6 @@ class Section extends React.Component {
             pageOrientation == "columns"
                 ? classes.sectionInColumn
                 : classes.sectionInRow;
-        // sectionClsName = useTabs ? classes.sectionTabs : sectionClsName;
 
         const flexDirection = orientation == "columns" ? "row" : "column";
         let spacing = flexDirection == "row" ? 2 : 2;

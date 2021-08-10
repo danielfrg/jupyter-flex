@@ -1,7 +1,7 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { makeStyles, createStyles } from "@material-ui/core/styles";
 
+import { makeStyles, createStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -12,13 +12,9 @@ import Home from "@material-ui/icons/Home";
 import MenuIcon from "@material-ui/icons/Menu";
 import Launch from "@material-ui/icons/Launch";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import MailIcon from "@material-ui/icons/Mail";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 
 import { DashboardContext } from "../App/context";
 import { slugify } from "../utils";
@@ -155,7 +151,6 @@ export default function Navbar(props) {
     }
 
     // Mobile menu
-    const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
     const handleMobileMenuOpen = (event) => {
@@ -177,31 +172,6 @@ export default function Navbar(props) {
             onClose={handleMobileMenuClose}
         >
             {mobileMenuItems}
-            {/* <MenuItem>
-                <IconButton
-                    aria-label="show 4 new mails"
-                    color="inherit"
-                ></IconButton>
-                <p>Messages</p>
-            </MenuItem>
-            <MenuItem>
-                <IconButton
-                    aria-label="show 11 new notifications"
-                    color="inherit"
-                ></IconButton>
-                <p>Notifications</p>
-            </MenuItem>
-            <MenuItem>
-                <IconButton
-                    aria-label="account of current user"
-                    aria-controls="primary-search-account-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <AccountCircle />
-                </IconButton>
-                <p>Profile</p>
-            </MenuItem> */}
         </Menu>
     );
 

@@ -10,7 +10,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 
 const useStyles = makeStyles({
-    icon: { padding: "8px 8px" },
+    space: {},
 });
 
 function SimpleDialog(props) {
