@@ -75,7 +75,7 @@ npm-publish:  ## Publish NPM
 
 cleanjs:  ## Clean JS build files
 	cd $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/; find . ! -name '.gitignore' -type f -exec rm -f {} +
-	cd $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/'; rm -rf qgrid.js
+	cd $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/; rm -rf qgrid.js
 	cd $(CURDIR)/js/; rm -rf .cache dist lib
 
 
