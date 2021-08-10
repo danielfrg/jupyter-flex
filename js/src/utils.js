@@ -64,3 +64,17 @@ export function onNextFrame(callback) {
         window.requestAnimationFrame(callback);
     });
 }
+
+export function insertItemInArray(array, func) {
+    return array.flatMap((value, index, array) =>
+        array.length - 1 !== index // check for the last item
+            ? [value, func(index)]
+            : value
+    );
+
+    // return array.flatMap((value, index, array) =>
+    //     array.length - 1 !== index // check for the last item
+    //         ? [value, item]
+    //         : value
+    // );
+}

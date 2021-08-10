@@ -1,44 +1,54 @@
 import React from "react";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import clsx from "clsx";
 
 import { withStyles } from "@material-ui/core/styles";
-import { Box, Container } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 
-import Navbar from "../Navbar";
-// import Sidebar from "../Sidebar";
-import Page from "../Page";
+import { DashboardContext } from "../App/context";
 import DashboardCell from "../Cell";
+import Navbar from "../Navbar";
+import Sidebar from "../Sidebar";
+import { drawerWidth } from "../Sidebar";
+import Page from "../Page";
 import { slugify } from "../utils";
 
 const styles = (theme) => ({
-    dashboard: {
-        maxWidth: "100%",
-        height: "100%",
-        margin: 0,
-        padding: 10,
+    root: {
+        display: "flex",
+        flexDirection: "column",
+    },
+    metaCells: {
+        display: "none",
+    },
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing(1),
+        transition: theme.transitions.create("margin", {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginLeft: 0,
+    },
+    contentShift: {
+        transition: theme.transitions.create("margin", {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+        marginLeft: drawerWidth,
     },
 });
 
 class Dashboard extends React.Component {
-    constructor(props) {
-        super(props);
+    componentDidMount() {
+        const { pages } = this.props;
 
-        // const { pages } = this.props;
-
-        // Initial sidebar visibility defined if we have a sidebar section
-        // let initSidebarVisibility = false;
-        // pages.forEach((page) => {
-        //     if (page.tags && page.tags.includes("sidebar")) {
-        //         initSidebarVisibility = true;
-        //     }
-        // });
-
-        // this.state = { sidebarVisible: initSidebarVisibility };
+        pages.forEach((page) => {
+            if (page.tags && page.tags.includes("sidebar")) {
+                this.context.updateValue("sidebarGlobalExists", true);
+            }
+        });
     }
-
-    collapseCallback = (event) => {
-        this.setState({ sidebarVisible: event });
-    };
 
     render() {
         const {
@@ -53,8 +63,11 @@ class Dashboard extends React.Component {
             meta,
             pages,
         } = this.props;
-
-        // const { sidebarVisible } = this.state;
+        const {
+            sidebarOpen,
+            sidebarLocalExists,
+            sidebarGlobalExists,
+        } = this.context;
 
         let metaCells = [];
         if (meta && meta.length > 0) {
@@ -63,29 +76,24 @@ class Dashboard extends React.Component {
             });
         }
 
-        // let sidebar;
+        let globalSidebar;
         let routes = [];
         if (pages && pages.length > 0) {
             pages.forEach((page) => {
-                //         if (page.tags && page.tags.includes("sidebar")) {
-                //             sidebar = (
-                //                 <Sidebar
-                //                     collapseCallback={this.collapseCallback}
-                //                     {...page.sections[0]}
-                //                 />
-                //             );
-                //         } else {
-                const pageSlug = slugify(page.title);
-                const pagePath = routes.length == 0 ? "/" : `/${pageSlug}`;
-                const el = (
-                    <Page
-                        dashboardVerticalLayout={verticalLayout}
-                        dashboardOrientation={orientation}
-                        {...page}
-                    />
-                );
-                routes.push({ path: pagePath, component: el });
-                // }
+                if (page.tags && page.tags.includes("sidebar")) {
+                    globalSidebar = { ...page.sections[0] };
+                } else {
+                    const pageSlug = slugify(page.title);
+                    const pagePath = routes.length == 0 ? "/" : `/${pageSlug}`;
+                    const el = (
+                        <Page
+                            dashboardVerticalLayout={verticalLayout}
+                            dashboardOrientation={orientation}
+                            {...page}
+                        />
+                    );
+                    routes.push({ path: pagePath, component: el });
+                }
             });
         }
 
@@ -97,8 +105,9 @@ class Dashboard extends React.Component {
 
         return (
             <Router hashType="noslash">
-                <Box height="100vh" display="flex" flexDirection="column">
-                    <div className="meta-cells">{metaCells}</div>
+                <div className={classes.metaCells}>{metaCells}</div>
+                <Sidebar globalContent={globalSidebar} />
+                <Box className={classes.root}>
                     <Navbar
                         homepage={homepage}
                         title={title}
@@ -107,22 +116,20 @@ class Dashboard extends React.Component {
                         kernelName={kernelName}
                         pages={pages}
                     />
-                    <Container className={classes.dashboard}>
-                        {/* {sidebar} */}
-                        {/* <div
-                        className={
-                            sidebarVisible
-                            ? "ml-sm-auto col-md-8 col-lg-10 p-0"
-                            : ""
-                        }
-                    > */}
+                    <main
+                        className={`dashboard ${clsx(classes.content, {
+                            [classes.contentShift]:
+                                sidebarOpen &&
+                                (sidebarLocalExists || sidebarGlobalExists),
+                        })}`}
+                    >
                         <Switch>{routeEls}</Switch>
-                        {/* </div> */}
-                    </Container>
+                    </main>
                 </Box>
             </Router>
         );
     }
 }
+Dashboard.contextType = DashboardContext;
 
 export default withStyles(styles, { withTheme: true })(Dashboard);

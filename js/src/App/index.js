@@ -51,6 +51,11 @@ class JupyterFlex extends React.Component {
             dashboard: dashboard,
             kernel: null,
             widgetManager: null,
+            sidebarOpen: true,
+            sidebarLocalExists: false,
+            sidebarGlobalExists: false,
+            sidebarLocal: null,
+            onNavbarMenuIconClick: null,
         };
     }
 
@@ -144,8 +149,11 @@ class JupyterFlex extends React.Component {
         }
     }
 
+    updateValue = (key, val) => {
+        this.setState({ [key]: val });
+    };
+
     render() {
-        const { kernel, widgetManager } = this.state;
         let {
             homepage,
             title,
@@ -154,7 +162,7 @@ class JupyterFlex extends React.Component {
             kernel_name,
             vertical_layout,
             orientation,
-            flex_show_source,
+            show_source,
         } = this.state.dashboard.props || {};
         const { meta, pages } = this.state.dashboard;
 
@@ -172,9 +180,18 @@ class JupyterFlex extends React.Component {
                     <DashboardErrorBoundary>
                         <Provider
                             value={{
-                                kernel: kernel,
-                                widgetManager: widgetManager,
-                                showCardSource: flex_show_source,
+                                kernel: this.state.kernel,
+                                widgetManager: this.state.widgetManager,
+                                showSource: show_source,
+                                updateValue: this.updateValue,
+                                sidebarOpen: this.state.sidebarOpen,
+                                sidebarLocal: this.state.sidebarLocal,
+                                sidebarLocalExists: this.state
+                                    .sidebarLocalExists,
+                                sidebarGlobalExists: this.state
+                                    .sidebarGlobalExists,
+                                onNavbarMenuIconClick: this.state
+                                    .onNavbarMenuIconClick,
                             }}
                         >
                             <Dashboard

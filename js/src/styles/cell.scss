@@ -1,17 +1,4 @@
-.md-cell {
-    background: transparent;
-}
-
 .markdown-body {
-    a {
-        color: $text-color;
-        text-decoration: underline;
-
-        &:visited {
-            color: $text-color;
-        }
-    }
-
     blockquote p {
         display: block;
     }
@@ -20,15 +7,24 @@
         margin-bottom: 16px !important;
         margin: 8px 0;
     }
+
+    img {
+        max-width: 100%;
+    }
+}
+
+.md-cell {
+    background: transparent !important;
 }
 
 .code-cell {
-    flex-grow: 1;
+    margin: 0 !important;
     background: transparent !important;
+    flex-grow: 1;
 
     .nteract-outputs {
         padding: 0;
-        overflow: auto;
+        // overflow: auto;
     }
 
     // If we are in a code cell leave the margin-bottom
@@ -76,18 +72,18 @@
             margin-top: 1em;
         }
     }
+}
 
-    // Widgets
-    .loading-full {
-        .text-center {
-            .spinner-grow {
-                width: 0.5rem;
-                height: 0.5rem;
-            }
+// Widgets
+.jupyter-widget {
+    .loading {
+        margin: auto;
+        padding: 16px;
+        text-align: center;
+        color: rgba(0, 0, 0, 0.54);
 
-            p {
-                margin: 5px 0;
-            }
+        p {
+            font-size: 0.85rem;
         }
     }
 
@@ -112,8 +108,34 @@
             margin-top: 7px;
         }
     }
+}
 
+.layout-fill {
     // Plotting libraries
+
+    // Altair
+    .vega-embed {
+        width: 96%;
+        height: 95%;
+        min-width: 96% !important;
+        min-height: 95% !important;
+
+        &.has-actions {
+            width: calc(100% - 38px);
+            padding-right: 0;
+
+            summary {
+                margin-right: -38px;
+            }
+        }
+
+        // Fix altair toolbar (icons are svgs)
+        // Looks like it snot needed anymore but leaving here for now just in case
+        // summary svg {
+        //     width: 14px;
+        //     height: 14px;
+        // }
+    }
 
     // Matplotlib: SVG
     .jp-RenderedImage {
@@ -157,30 +179,6 @@
         // }
     }
 
-    // Altair
-    .vega-embed {
-        width: 95%;
-        height: 95%;
-        min-height: 95% !important;
-        min-width: 95% !important;
-
-        &.has-actions {
-            width: calc(100% - 38px);
-            padding-right: 0;
-
-            summary {
-                margin-right: -38px;
-            }
-        }
-
-        // Fix altair toolbar (icons are svgs)
-        // Looks like it snot needed anymore but leaving here for now just in case
-        // summary svg {
-        //     width: 14px;
-        //     height: 14px;
-        // }
-    }
-
     // Bokeh
     .bk-root {
         width: 100% !important;
@@ -194,12 +192,7 @@
     }
 }
 
-.sidebar {
-    .loading-full {
-        height: unset;
-
-        .text-center {
-            color: #fff;
-        }
-    }
+// Altair tooltips
+#vg-tooltip-element {
+    z-index: 9999;
 }

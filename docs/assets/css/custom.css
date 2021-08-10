@@ -2,6 +2,13 @@ a:hover {
     text-decoration: underline;
 }
 
+.img-caption {
+    text-align: center;
+    margin-top: -20px;
+    color: #666;
+    font-size: 16px;
+}
+
 /* Image grid */
 .image-grid {
     display: flex;
@@ -77,10 +84,4 @@ pre .code-noselect {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
-
-/* Medium Zoom */
-.medium-zoom-overlay,
-.medium-zoom-image--opened {
-    z-index: 999;
 }

@@ -1,23 +1,25 @@
 import React from "react";
 
 import { withStyles } from "@material-ui/core/styles";
-import { Box, Container, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 import Section from "../Section";
-import Sidebar from "../Sidebar";
 import { getTagValue, slugify } from "../utils";
 
+import { DashboardContext } from "../App/context";
+
 const styles = (theme) => ({
-    page: {
-        width: "100%",
-        height: "100%",
-        margin: 0,
-        padding: 0,
-        flexGrow: 1,
+    layoutFill: {
+        height: "calc(100vh - 64px - 16px - 5px)", // header + dashboard padding + extra room
+        maxHeight: "calc(100vh - 64px - 16px - 5px)",
+        display: "flex",
+        flexDirection: "column",
     },
-    sections: {
-        width: "100%",
+    layoutScroll: {},
+    page: {
+        maxWidth: "100%",
         height: "100%",
+        maxHeight: "100%",
         margin: 0,
         padding: 0,
     },
@@ -28,72 +30,58 @@ class Page extends React.Component {
         super(props);
 
         const {
-            sections,
             tags,
             dashboardOrientation,
             dashboardVerticalLayout,
         } = this.props;
 
-        // Initial sidebar visibility defined if we have a sidebar section
-        let initSidebarVisibility = false;
-        sections.forEach((page) => {
-            if (page.tags && page.tags.includes("sidebar")) {
-                initSidebarVisibility = true;
-            }
-        });
-
-        // elOrientation means the element orientation of this page is ___
-        let elOrientation = dashboardOrientation;
-        const orientationTag = getTagValue(tags, "orientation");
-        if (orientationTag) {
-            elOrientation = orientationTag;
-        }
-
-        //
+        // Vertical layout defaults to the dashboard one and its overwriten by tag
         let verticalLayout = dashboardVerticalLayout;
         const layoutTag = getTagValue(tags, "layout");
         if (layoutTag) {
             verticalLayout = layoutTag;
         }
 
+        // Orientation defaults to the dashboard and its overwriten by tag
+        let orientation = dashboardOrientation;
+        const orientationTag = getTagValue(tags, "orientation");
+        if (orientationTag) {
+            orientation = orientationTag;
+        }
+
         this.state = {
-            pageSlug: slugify(this.props.title),
-            elOrientation: elOrientation,
+            orientation: orientation,
             verticalLayout: verticalLayout,
-            classNames: getTagValue(tags, "class", " "),
-            loading: false,
-            sidebarVisible: initSidebarVisibility,
         };
     }
 
-    collapseCallback = (event) => {
-        this.setState({ sidebarVisible: event });
-    };
+    componentDidMount() {
+        // Iterate sections and see if one is tagged as sidebar
+        const { sections } = this.props;
+        let localSidebar = null;
+        sections.forEach((section) => {
+            if (section.tags && section.tags.includes("sidebar")) {
+                localSidebar = section;
+            }
+        });
+        // Add this sidebar to the context
+        this.context.updateValue("sidebarLocal", localSidebar);
+        this.context.updateValue("sidebarLocalExists", localSidebar !== null);
+    }
 
     render() {
-        const { classes, sections } = this.props;
-        const { sidebarVisible } = this.state;
+        const { classes, sections, tags } = this.props;
+        const { orientation, verticalLayout } = this.state;
 
-        // Flip orientation for flex
-        let flexDirection =
-            this.state.elOrientation == "columns" ? "row" : "column";
-
-        let sidebar;
         let sectionComponents = [];
         if (sections && sections.length > 0) {
             sections.forEach((section, i) => {
-                if (section.tags && section.tags.includes("sidebar")) {
-                    sidebar = (
-                        <Sidebar
-                            collapseCallback={this.collapseCallback}
-                            {...section}
-                        />
-                    );
-                } else {
+                if (!(section.tags && section.tags.includes("sidebar"))) {
                     sectionComponents.push(
                         <Section
                             key={i}
-                            pageOrientation={this.state.elOrientation}
+                            verticalLayout={verticalLayout}
+                            pageOrientation={orientation}
                             {...section}
                         />
                     );
@@ -101,19 +89,34 @@ class Page extends React.Component {
             });
         }
 
+        // Variables
+        const customClsNames = getTagValue(tags, "class", " ");
+
+        // Flip orientation for flex
+        let flexDirection =
+            this.state.orientation == "columns" ? "row" : "column";
+
+        const layoutClsName =
+            verticalLayout == "scroll"
+                ? classes.layoutScroll
+                : classes.layoutFill;
+
         return (
-            <Box className={classes.page}>
+            <div
+                className={`page layout-${verticalLayout} ${layoutClsName} ${customClsNames}`}
+            >
                 <Grid
                     container
-                    // spacing={1}
-                    className={classes.sections}
+                    spacing={2}
                     direction={flexDirection}
+                    className={`${classes.page}`}
                 >
                     {sectionComponents}
                 </Grid>
-            </Box>
+            </div>
         );
     }
 }
+Page.contextType = DashboardContext;
 
 export default withStyles(styles, { withTheme: true })(Page);

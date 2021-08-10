@@ -74,7 +74,7 @@ realtime computation and how to use [Jupyter widgets](https://ipywidgets.readthe
   <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.6.4?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwidgets%2Fwidgets-gallery.ipynb">
     <figure>
       <img src="/assets/img/screenshots/widgets/widgets-gallery.png">
-      <figcaption>jupyter-widgets-gallery (runs in binder.org)</figcaption>
+      <figcaption>jupyter-widgets-gallery (runs in mybinder.org)</figcaption>
     </figure>
   </a>
 

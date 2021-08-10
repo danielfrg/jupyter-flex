@@ -1,51 +1,105 @@
-import React, { useState } from "react";
+import React from "react";
 
-import Section from "../Section";
+import { withStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import Divider from "@material-ui/core/Divider";
 
-function Sidebar(props) {
-    const [collapsed, setCollapsed] = useState(true);
-    const { collapseCallback } = props;
+import { DashboardContext } from "../App/context";
+import Card from "../Card";
+import { insertItemInArray } from "../utils";
 
-    function onCollapse(e) {
-        setCollapsed(e.currentTarget.checked);
+export const drawerWidth = 345;
 
-        if (collapseCallback) {
-            collapseCallback(e.currentTarget.checked);
-        }
+const styles = (theme) => ({
+    drawer: {
+        width: drawerWidth,
+        flexShrink: 0,
+    },
+    drawerPaper: {
+        width: drawerWidth,
+    },
+    drawerContainer: {
+        overflow: "auto",
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
+    },
+    hide: {
+        display: "none",
+    },
+    drawerHeader: {
+        display: "flex",
+        alignItems: "center",
+        padding: theme.spacing(0, 1),
+        // necessary for content to be below app bar
+        ...theme.mixins.toolbar,
+        justifyContent: "flex-end",
+    },
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing(3),
+        transition: theme.transitions.create("margin", {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginLeft: -drawerWidth,
+    },
+    contentShift: {
+        transition: theme.transitions.create("margin", {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+        marginLeft: 0,
+    },
+});
+
+class Sidebar extends React.Component {
+    componentDidMount() {
+        this.context.updateValue("onNavbarMenuIconClick", this.toggleDrawer);
     }
 
-    let contentClass = collapsed ? "" : "collapse";
-    let widthClass = collapsed ? "col-md-4 col-lg-2" : "";
-    let tooltipText = collapsed ? "Collapse" : "Expand";
-    let btnIcon = collapsed ? "chevron_left" : "chevron_right";
+    toggleDrawer = () => {
+        this.context.updateValue("sidebarOpen", !this.context.sidebarOpen);
+    };
 
-    return (
-        <>
-            <BootstrapNavbar id="sidebar" className={`sidebar ${widthClass}`}>
-                <div
-                    id={`flex-main-sidebar`}
-                    className={`content ${contentClass}`}
-                >
-                    <Section {...props}></Section>
-                </div>
+    handleDrawerClose = () => {
+        this.context.updateValue("sidebarOpen", false);
+    };
 
-                <OverlayTrigger
-                    overlay={<Tooltip>{tooltipText}</Tooltip>}
-                    placement="right"
-                >
-                    <ToggleButton
-                        type="checkbox"
-                        value="true"
-                        className={`collapse-btn`}
-                        checked={collapsed}
-                        onChange={onCollapse}
-                    >
-                        <i className="material-icons">{btnIcon}</i>
-                    </ToggleButton>
-                </OverlayTrigger>
-            </BootstrapNavbar>
-        </>
-    );
+    render() {
+        const { classes, globalContent } = this.props;
+        const { sidebarOpen, sidebarLocal } = this.context;
+
+        let content = sidebarLocal ? sidebarLocal : globalContent;
+        if (!content) {
+            return null;
+        }
+
+        content = content.cards.map((card, i) => {
+            return <Card key={i} inSidebar={true} {...card} />;
+        });
+        function newDivider(i) {
+            <Divider key={i} />;
+        }
+        content = insertItemInArray(content, newDivider);
+
+        return (
+            <Drawer
+                className={classes.drawer}
+                variant="persistent"
+                anchor="left"
+                open={sidebarOpen}
+                classes={{
+                    paper: classes.drawerPaper,
+                }}
+            >
+                <div className={classes.drawerHeader}></div>
+
+                {content}
+            </Drawer>
+        );
+    }
 }
+Sidebar.contextType = DashboardContext;
 
-export default Sidebar;
+export default withStyles(styles, { withTheme: true })(Sidebar);

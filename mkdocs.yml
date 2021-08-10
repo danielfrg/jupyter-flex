@@ -23,7 +23,7 @@ theme:
 
   palette:
     primary: deep orange
-    accent: blue
+    accent: deep orange
 
 extra_css:
   - assets/css/custom.css
@@ -49,6 +49,7 @@ markdown_extensions:
   - toc:
       permalink: true
 
-google_analytics:
-  - "UA-35523657-5"
-  - "auto"
+extra:
+  analytics:
+    provider: google
+    property: UA-35523657-5

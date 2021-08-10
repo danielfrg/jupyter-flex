@@ -4,7 +4,7 @@ Reference for all parameters, layouts and tags.
 
 ## Parameters
 
-To change the dashboard parameters tag one code cell with the `parameters`.
+To change the dashboard parameters tag one code cell with the `parameters` or `params`.
 
 | Param | Description | Default |
 |---|---|---|
@@ -45,8 +45,8 @@ To change the dashboard parameters tag one code cell with the `parameters`.
 |---|---|
 | `body` | Show the output of this cell in the body of the card |
 | `footer` | Show the output of this cell in the foote of the card |
-| `help` | Show the output of this cell in the help modal of the card |
+| `info` or `help` | Show the output of this cell in the info modal of the card |
 | `source` | Add this cell as part of the source code for the card |
 | `meta` | Render the values of this cell on the HTML but hidden, useful for adding CSS and JS |
 | `orientation={value}` | Overwrite the default orientation for the page (level-1 header) and section (level-2 header) |
-| `size={value}` | Proportion size of the current section or chart with respect to its sibilings, default: `500` |
+| `size={value}` | Proportion size of the current section or chart with respect to its sibilings |

@@ -2,38 +2,44 @@ import React from "react";
 
 import { withStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Code from "@material-ui/icons/Code";
+import HelpOutline from "@material-ui/icons/HelpOutline";
 
-import Card from "../Card";
-import { resizeInterval, getTagValue, slugify } from "../utils";
+import { DashboardContext } from "../App/context";
+import Card, { getSourceCells, getInfoCells } from "../Card";
+import IconDialogBtn from "../Card/IconDialogBtn";
+import TabPanel from "./tabpanel";
+import { resizeInterval, getTagValue } from "../utils";
 
 const styles = (theme) => ({
     section: {
-        // width: "100%",
-        // height: "100%",
-        maxWidth: "100%",
+        // maxWidth: "100%",
         maxHeight: "100%",
-    },
-    // section_column: {
-    // height: "100%",
-    // flexGrow: 1,
-    // },
-    cards_column: {
-        // width: "100%",
-        // height: "100%",
         margin: 0,
-        padding: 0,
-        // flexGrow: 1,
+        // padding: 0,
     },
-    // section_row: {
-    // height: "100%",
-    // flexGrow: 1,
-    // },
-    cards_row: {
-        // width: "100%",
-        // height: "100%",
-        margin: 0,
-        padding: 0,
-        // flexGrow: 1,
+    sectionInColumn: {
+        paddingTop: "0px !important",
+    },
+    sectionInRow: {
+        paddingTop: "0px !important",
+        width: "100%",
+        maxWidth: "100%",
+    },
+    space: {
+        flexGrow: 1,
+    },
+    sectionTabs: {
+        height: "100%",
+        padding: theme.spacing(1),
+    },
+    tabsHeader: {
+        marginLeft: 5,
+    },
+    tabHeaderIcon: {
+        marginTop: 10,
     },
 });
 
@@ -42,131 +48,167 @@ class Section extends React.Component {
         super(props);
         const { tags, pageOrientation } = props;
 
-        // elOrientation means the element orientation of this section is this
-        let elOrientation;
+        // orientation means the element orientation of this section is this
+        let orientation;
         const orientationTag = getTagValue(tags, "orientation");
         if (orientationTag) {
-            elOrientation = orientationTag;
+            orientation = orientationTag;
         } else if (pageOrientation == "rows") {
-            elOrientation = "columns";
+            orientation = "columns";
         } else {
             // default: if (pageOrientation == "columns")
-            elOrientation = "rows";
+            orientation = "rows";
         }
 
-        const sizeTag = getTagValue(tags, "size");
-
         this.state = {
-            size: sizeTag ? parseInt(sizeTag) : true,
-            elOrientation: elOrientation,
-            classNames: getTagValue(tags, "class", " "),
-            useTabs: tags && tags.includes("tabs") ? true : false,
-            tabsFill: tags && tags.includes("tabs-no-fill") ? false : true,
-            tabsAnimation:
-                tags && tags.includes("tabs-no-animation") ? false : null,
+            orientation: orientation,
+            selectedTab: 0,
         };
     }
 
-    onTabClick = (event) => {
-        resizeInterval();
+    handleTabChange = (event, newValue) => {
+        // resizeInterval();
+        this.setState({ selectedTab: newValue });
     };
 
     render() {
-        const { classes, pageOrientation, title, cards } = this.props;
-        let {
-            size,
-            elOrientation,
-            // classNames,
-            // useTabs,
-            // tabsFill,
-            // tabsAnimation,
-        } = this.state;
+        const {
+            classes,
+            cards,
+            tags,
+            pageOrientation,
+            verticalLayout,
+        } = this.props;
+        let { orientation, selectedTab } = this.state;
+        const { showSource } = this.context;
 
-        // Flip for flex
-        let flexDirection = elOrientation == "columns" ? "row" : "column";
-        // flexDirection = useTabs ? "column" : flexDirection;
+        const useTabs = tags && tags.includes("tabs") ? true : false;
 
-        // let sectionClassName = pageOrientation == "columns" ? "column" : "row";
-        // const sectionTabs = useTabs ? "section-tabs" : "";
+        // Cards
 
-        let cardEls;
+        let contentEls = [];
         if (cards && cards.length > 0) {
-            cardEls = [];
+            let tabs = [];
 
             cards.forEach((card, i) => {
-                let cardComponent = (
+                let cardEl = (
                     <Card
                         key={i}
-                        sectionOrientation={elOrientation}
-                        // insideTabs={useTabs}
+                        inTabs={useTabs}
+                        verticalLayout={verticalLayout}
+                        sectionOrientation={orientation}
                         {...card}
                     />
                 );
 
-                // if (useTabs) {
-                // const cardSlug = slugify(card.title);
-                // cardComponent = (
-                // <Tab
-                //     key={cardSlug}
-                //     eventKey={cardSlug}
-                //     title={card.title}
-                // >
-                //     {cardComponent}
-                // </Tab>
-                // );
-                // }
+                if (useTabs) {
+                    cardEl = (
+                        <TabPanel key={i} index={i} value={selectedTab}>
+                            {cardEl}
+                        </TabPanel>
+                    );
+                    tabs.push(
+                        <Tab key={i} index={i} label={card.title} value={i} />
+                    );
+                }
 
-                cardEls.push(cardComponent);
+                contentEls.push(cardEl);
             });
 
-            // if (useTabs) {
-            // const transition = tabsAnimation.toString();
-            // cardEls = (
-            // <Tabs fill={tabsFill} transition={tabsAnimation}>
-            //     {cardEls}
-            // </Tabs>
-            // );
-            // }
+            if (useTabs) {
+                const title = cards[selectedTab].title;
+                const body = cards[selectedTab].body;
+                const info = cards[selectedTab].info;
+                const sourceCells = getSourceCells(body);
+                const infoCells = getInfoCells(info);
+
+                let headerBtns = [];
+                if (showSource && sourceCells.length > 0) {
+                    const icon = <Code fontSize="small" />;
+                    headerBtns.push(
+                        <IconDialogBtn
+                            key="source"
+                            icon={icon}
+                            content={sourceCells}
+                            title={title ? `Source: ${title}` : "Info"}
+                            className={classes.tabHeaderIcon}
+                        />
+                    );
+                }
+
+                if (info && info.length > 0) {
+                    const icon = <HelpOutline fontSize="small" />;
+                    headerBtns.push(
+                        <IconDialogBtn
+                            key="info"
+                            icon={icon}
+                            content={infoCells}
+                            title={title ? `Info: ${title}` : "Info"}
+                            className={classes.tabHeaderIcon}
+                        />
+                    );
+                }
+
+                contentEls = (
+                    <Grid
+                        container
+                        direction="column"
+                        alignItems="stretch"
+                        className={classes.sectionTabs}
+                    >
+                        <Grid
+                            item
+                            component={Tabs}
+                            value={selectedTab}
+                            onChange={this.handleTabChange}
+                            className={classes.tabsHeader}
+                            aria-label="Section tabs"
+                        >
+                            {tabs}
+                            {headerBtns ? (
+                                <div className={classes.space}></div>
+                            ) : null}
+                            {headerBtns ? headerBtns : null}
+                        </Grid>
+                        <Grid item xs>
+                            {contentEls}
+                        </Grid>
+                    </Grid>
+                );
+            }
         }
 
-        const cardsClassName =
-            flexDirection == "column"
-                ? classes.cards_column
-                : classes.cards_row;
+        // Variables
 
-        // const styles = {
-        //     flexGrow: size,
-        //     flexShrink: size,
-        //     flexBasis: "0px",
-        // };
+        let size = getTagValue(tags, "size");
+        size = size ? parseInt(size) : true;
+
+        let sectionClsName =
+            pageOrientation == "columns"
+                ? classes.sectionInColumn
+                : classes.sectionInRow;
+
+        const flexDirection = orientation == "columns" ? "row" : "column";
+        let spacing = flexDirection == "row" ? 2 : 2;
+        spacing = useTabs ? 5 : spacing;
+
+        const customClsNames = getTagValue(tags, "class", " ");
 
         return (
-            // <Grid
-            //     item
-            //     sm
-            //     className={classes.section}
-            //     style={{
-            //         ...styles,
-            //     }}
-            // >
             <Grid
                 item
                 container
-                spacing={3}
                 xs={size}
-                className={`${classes.section} ${cardsClassName}`}
-                direction={flexDirection}
+                spacing={spacing}
                 alignItems="stretch"
-                // justifyContent="center"
-                // style={{
-                //     ...styles,
-                // }}
+                direction={flexDirection}
+                className={`section ${classes.section} ${sectionClsName} ${customClsNames}`}
             >
-                {cardEls}
+                {contentEls}
             </Grid>
-            // </Grid>
         );
     }
 }
+Section.contextType = DashboardContext;
 
 export default withStyles(styles, { withTheme: true })(Section);

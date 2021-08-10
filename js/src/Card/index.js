@@ -3,203 +3,188 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import MaterialCard from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
 import Code from "@material-ui/icons/Code";
 import HelpOutline from "@material-ui/icons/HelpOutline";
-import { Cells } from "@nteract/presentational-components";
-import Paper from "@material-ui/core/Paper";
 
-import DashboardCell from "../Cell";
+import { Cells } from "@nteract/presentational-components";
+
 import { DashboardContext } from "../App/context";
+import DashboardCell from "../Cell";
+import IconDialogBtn from "./IconDialogBtn";
 import { getTagValue } from "../utils";
-import { resizeInterval } from "../utils";
-import Modal from "../Modal";
 
 const styles = (theme) => ({
-    card: {
-        // width: "100%",
-        // height: "100%",
+    // card: { maxWidth: "100%" },
+    cardInColumn: {
+        //     "&:not(:first-child)": {
+        //         paddingTop: 0,
+        //     },
     },
-    grow: {
-        flexGrow: 1,
+    cardInRow: {
+        //     "&:not(:first-child)": {
+        //         paddingLeft: 0,
+        //     },
     },
-    card_wrapper: {},
-    header: {
-        padding: "8px 8px",
+    cardInTabs: {
+        maxWidth: "100%",
+        height: "100%",
     },
-    title: {
+    cardInSidebar: {
+        maxWidth: "100%",
+        height: "100%",
+        padding: 8,
+    },
+    cardHeader: {
+        padding: "6px 8px",
+    },
+    cardTitle: {
         padding: "5px 0",
         fontSize: "1.05em",
         fontWeight: 600,
     },
-    box: {
+    space: {
         flexGrow: 1,
-        // border: "none",
     },
-    content: {
+    box: {},
+    boxVLScroll: {
+        flexBasis: "auto",
+    },
+    boxInSidebar: {
+        flexGrow: 1,
+        border: "none",
+    },
+    cardContent: {
+        width: "100%",
         height: "100%",
-        // padding: 0,
+        display: "flex",
+        flexDirection: "column",
+        overflow: "auto",
+    },
+    cardContentInSidebar: {
+        height: "100%",
         display: "flex",
         flex: "1 1 auto",
         flexDirection: "column",
+        padding: "0 8px",
     },
-    footer: {
+    cardFooter: {
         padding: "0 8px 8px",
+    },
+    empty: {
+        margin: "auto",
+        padding: theme.spacing(2),
+        textAlign: "center",
+        color: theme.palette.text.secondary,
     },
 });
 
-class Card extends React.Component {
-    constructor(props) {
-        super(props);
-        const { tags } = this.props;
-
-        const sizeTag = getTagValue(tags, "size");
-
-        this.state = {
-            size: sizeTag ? parseInt(sizeTag) : true,
-            classNames: getTagValue(tags, "class", " "),
-            showSourceModal: false,
-            showHelpModal: false,
-        };
+export function getSourceCells(body) {
+    if (!body) {
+        return [];
     }
+    return body.map((cell, i) => {
+        if (cell.cell_type == "code") {
+            return (
+                <Cells key={i} className="source-cells">
+                    <DashboardCell
+                        key={i}
+                        showInputs={true}
+                        showOutputs={false}
+                        {...cell}
+                    />
+                </Cells>
+            );
+        }
+    });
+}
 
-    toggleSourceModal = () => {
-        this.setState({ showSourceModal: !this.state.showSourceModal });
-    };
+export function getInfoCells(info) {
+    if (!info) {
+        return [];
+    }
+    return info.map((cell, i) => {
+        return <DashboardCell key={i} showInputs={false} {...cell} />;
+    });
+}
 
-    toggleHelpModal = () =>
-        this.setState({ showHelpModal: !this.state.showHelpModal });
-
+class Card extends React.Component {
     render() {
         const {
             classes,
             title,
             body,
-            help,
+            info,
             footer,
-            // insideTabs,
-            // sectionOrientation,
+            tags,
+            inTabs,
+            inSidebar,
+            verticalLayout,
+            sectionOrientation,
         } = this.props;
-        const { size } = this.state;
-        const { showCardSource } = this.context;
+        const { showSource } = this.context;
 
-        // let cardClassName = sectionOrientation == "columns" ? "column" : "row";
+        // Source dialog content
+
+        const sourceCells = getSourceCells(body);
+        const infoCells = getInfoCells(info);
+
+        // Card contents
 
         let header;
-        // let sourceModal;
-        // let helpModal;
-
-        // Header
-        if (title || showCardSource || (help && help.length > 0)) {
-            // let headerBtns = null;
+        if (
+            !inTabs &&
+            (title ||
+                (showSource && sourceCells.length > 0) ||
+                (info && info.length > 0))
+        ) {
             let headerBtns = [];
-            // // Source button and modal
-            if (showCardSource) {
+
+            if (showSource && sourceCells.length > 0) {
+                const icon = <Code fontSize="small" />;
                 headerBtns.push(
-                    <IconButton
+                    <IconDialogBtn
                         key="source"
-                        color="inherit"
-                        aria-label="Show source code"
-                        aria-haspopup="true"
-                        // onClick={this.toggleSourceModal}
-                        style={{ padding: "5px 8px" }}
-                    >
-                        <Code fontSize="small" />
-                    </IconButton>
+                        icon={icon}
+                        content={sourceCells}
+                        title={title ? `Source: ${title}` : "Info"}
+                    />
                 );
             }
 
-            if (help && help.length > 0) {
+            if (info && info.length > 0) {
+                const icon = <HelpOutline fontSize="small" />;
                 headerBtns.push(
-                    <IconButton
-                        key="help"
-                        color="inherit"
-                        aria-label="Show source code"
-                        aria-haspopup="true"
-                        //  onClick={this.toggleHelpModal}
-                        style={{ padding: "5px 8px" }}
-                    >
-                        <HelpOutline fontSize="small" />
-                    </IconButton>
+                    <IconDialogBtn
+                        key="info"
+                        icon={icon}
+                        content={infoCells}
+                        title={title ? `Info: ${title}` : "Info"}
+                    />
                 );
             }
-
-            //     const sourceCells = body.map((cell, i) => {
-            //         if (cell.cell_type == "code") {
-            //             return (
-            //                 <Cells key={i} className="source-cells">
-            //                     <DashboardCell
-            //                         key={i}
-            //                         showInputs={true}
-            //                         showOutputs={false}
-            //                         {...cell}
-            //                     />
-            //                 </Cells>
-            //             );
-            //         }
-            //     });
 
             header = (
-                <Grid container className={classes.header}>
+                <Grid container className={classes.cardHeader}>
                     <Grid item>
                         <Typography
                             component="h2"
                             variant="h6"
-                            className={classes.title}
+                            className={classes.cardTitle}
                         >
                             {title}
                         </Typography>
                     </Grid>
-                    {headerBtns ? <div className={classes.grow}></div> : null}
+                    {headerBtns ? <div className={classes.space}></div> : null}
                     {headerBtns ? headerBtns : null}
                 </Grid>
             );
-        }
+        } // End - Header
 
-        //         sourceModal = (
-        //             <Modal
-        //                 title={title ? `${title} - Source` : "Source"}
-        //                 onCloseClick={this.toggleSourceModal}
-        //             >
-        //                 {sourceCells}
-        //             </Modal>
-        //         );
-        //     }
-
-        //     // Help button and modal
-        //     if (help && help.length > 0) {
-        //         headerBtns.push(
-        //             <Button key="help" onClick={this.toggleHelpModal}>
-        //                 <i className="material-icons">help_outline</i>
-        //             </Button>
-        //         );
-
-        //         let helpCells = [];
-        //         help.forEach((cell, i) => {
-        //             helpCells.push(
-        //                 <DashboardCell key={i} showInputs={false} {...cell} />
-        //             );
-        //         });
-
-        //         helpModal = (
-        //             <Modal
-        //                 title={title ? `${title} - Help` : "Help"}
-        //                 onCloseClick={this.toggleHelpModal}
-        //             >
-        //                 {helpCells}
-        //             </Modal>
-        //         );
-        //     }
-
-        //     headerBtns = <ButtonGroup>{headerBtns}</ButtonGroup>;
-        // } // End header
-
-        // Card body
         let bodyComponents = [];
-        if (body.length > 0) {
+        if (body && body.length > 0) {
             body.forEach((cell, i) => {
                 // Only show if they are tagged with body, ignore source tag
                 if (
@@ -216,7 +201,7 @@ class Card extends React.Component {
 
         if (bodyComponents.length == 0) {
             bodyComponents = (
-                <Typography className={classes.paper}>empty card</Typography>
+                <Typography className={classes.empty}>empty card</Typography>
             );
         }
 
@@ -230,13 +215,30 @@ class Card extends React.Component {
             });
         }
 
-        console.log(footerComponents);
+        // Variables
+
+        let size = getTagValue(tags, "size");
+        size = size ? parseInt(size) : true;
+
+        let cardsClsName =
+            sectionOrientation == "column"
+                ? classes.cardInColumn
+                : classes.cardInRow;
+        cardsClsName = inTabs ? classes.cardInTabs : cardsClsName;
+        cardsClsName = inSidebar ? classes.cardInSidebar : cardsClsName;
+
+        let boxClsName = inSidebar ? classes.boxInSidebar : classes.box;
+        let cardContentClsName = inSidebar
+            ? classes.cardContentInSidebar
+            : classes.cardContent;
+
+        const customClsNames = getTagValue(tags, "class", " ");
 
         return (
             <Grid
                 item
                 container
-                className={`card ${classes.card} ${classes.card_wrapper}`}
+                className={`card ${cardsClsName} ${customClsNames}`}
                 direction="column"
                 alignItems="stretch"
                 xs={size}
@@ -245,14 +247,17 @@ class Card extends React.Component {
                 <Grid
                     item
                     component={MaterialCard}
-                    className={classes.box}
+                    className={`${boxClsName} ${
+                        verticalLayout == "scroll" ? classes.boxVLScroll : ""
+                    }`}
                     variant="outlined"
+                    xs
                 >
                     <Grid
                         item
                         container
                         component={CardContent}
-                        className={classes.content}
+                        className={cardContentClsName}
                         xs
                     >
                         {bodyComponents}
@@ -263,41 +268,12 @@ class Card extends React.Component {
                         item
                         container
                         component={CardActions}
-                        className={classes.footer}
-                        xs
+                        className={classes.cardFooter}
                     >
                         {footerComponents}
                     </Grid>
                 ) : null}
-                {/* {this.state.showHelpModal ? helpModal : null} */}
-                {/* {this.state.showSourceModal ? sourceModal : null} */}
             </Grid>
-
-            // <BootstrapCard
-            //     className={`card-${cardClassName} ${this.state.classNames}`}
-            //     style={{ flex: `${this.state.size} ${this.state.size} 0px` }}
-            // >
-            //     <BootstrapCard.Header className="d-flex justify-content-between align-items-baseline">
-            //         <BootstrapCard.Title>
-            //             {!insideTabs ? title : null}
-            //         </BootstrapCard.Title>
-            //         {headerBtns}
-            //         {/* {headerBtns ? (
-            //         ) : null} */}
-            //     </BootstrapCard.Header>
-
-            //     <BootstrapCard.Body className="d-flex flex-column">
-            //         {bodyComponents}
-            //     </BootstrapCard.Body>
-
-            //     {footerComponents.length > 0 ? (
-            //         <BootstrapCard.Footer>
-            //             {footerComponents}
-            //         </BootstrapCard.Footer>
-            //     ) : null}
-            //     {this.state.showSourceModal ? sourceModal : null}
-            //     {this.state.showHelpModal ? helpModal : null}
-            // </BootstrapCard>
         );
     }
 }
