@@ -60,13 +60,8 @@ class Section extends React.Component {
             orientation = "rows";
         }
 
-        const sizeTag = getTagValue(tags, "size");
-
         this.state = {
-            size: sizeTag ? parseInt(sizeTag) : true,
             orientation: orientation,
-            classNames: getTagValue(tags, "class", " "),
-            useTabs: tags && tags.includes("tabs") ? true : false,
             selectedTab: 0,
         };
     }
@@ -77,15 +72,17 @@ class Section extends React.Component {
     };
 
     render() {
-        const { classes, cards, pageOrientation, verticalLayout } = this.props;
-        let {
-            size,
-            orientation,
-            // classNames,
-            useTabs,
-            selectedTab,
-        } = this.state;
+        const {
+            classes,
+            cards,
+            tags,
+            pageOrientation,
+            verticalLayout,
+        } = this.props;
+        let { orientation, selectedTab } = this.state;
         const { showSource } = this.context;
+
+        const useTabs = tags && tags.includes("tabs") ? true : false;
 
         // Cards
 
@@ -183,6 +180,9 @@ class Section extends React.Component {
 
         // Variables
 
+        let size = getTagValue(tags, "size");
+        size = size ? parseInt(size) : true;
+
         let sectionClsName =
             pageOrientation == "columns"
                 ? classes.sectionInColumn
@@ -192,6 +192,8 @@ class Section extends React.Component {
         let spacing = flexDirection == "row" ? 2 : 2;
         spacing = useTabs ? 5 : spacing;
 
+        const customClsNames = getTagValue(tags, "class", " ");
+
         return (
             <Grid
                 item
@@ -200,7 +202,7 @@ class Section extends React.Component {
                 spacing={spacing}
                 alignItems="stretch"
                 direction={flexDirection}
-                className={`section ${classes.section} ${sectionClsName}`}
+                className={`section ${classes.section} ${sectionClsName} ${customClsNames}`}
             >
                 {contentEls}
             </Grid>

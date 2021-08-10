@@ -111,18 +111,6 @@ export function getInfoCells(info) {
 }
 
 class Card extends React.Component {
-    constructor(props) {
-        super(props);
-        const { tags } = this.props;
-
-        const sizeTag = getTagValue(tags, "size");
-
-        this.state = {
-            size: sizeTag ? parseInt(sizeTag) : true,
-            classNames: getTagValue(tags, "class", " "),
-        };
-    }
-
     render() {
         const {
             classes,
@@ -130,12 +118,12 @@ class Card extends React.Component {
             body,
             info,
             footer,
+            tags,
             inTabs,
             inSidebar,
             verticalLayout,
             sectionOrientation,
         } = this.props;
-        const { size } = this.state;
         const { showSource } = this.context;
 
         // Source dialog content
@@ -227,22 +215,30 @@ class Card extends React.Component {
             });
         }
 
+        // Variables
+
+        let size = getTagValue(tags, "size");
+        size = size ? parseInt(size) : true;
+
         let cardsClsName =
             sectionOrientation == "column"
                 ? classes.cardInColumn
                 : classes.cardInRow;
         cardsClsName = inTabs ? classes.cardInTabs : cardsClsName;
         cardsClsName = inSidebar ? classes.cardInSidebar : cardsClsName;
+
         let boxClsName = inSidebar ? classes.boxInSidebar : classes.box;
         let cardContentClsName = inSidebar
             ? classes.cardContentInSidebar
             : classes.cardContent;
 
+        const customClsNames = getTagValue(tags, "class", " ");
+
         return (
             <Grid
                 item
                 container
-                className={`card ${cardsClsName}`}
+                className={`card ${cardsClsName} ${customClsNames}`}
                 direction="column"
                 alignItems="stretch"
                 xs={size}

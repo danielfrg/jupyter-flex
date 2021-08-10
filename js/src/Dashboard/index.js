@@ -18,6 +18,9 @@ const styles = (theme) => ({
         display: "flex",
         flexDirection: "column",
     },
+    metaCells: {
+        display: "none",
+    },
     content: {
         flexGrow: 1,
         padding: theme.spacing(1),
@@ -102,7 +105,7 @@ class Dashboard extends React.Component {
 
         return (
             <Router hashType="noslash">
-                <div className="meta-cells">{metaCells}</div>
+                <div className={classes.metaCells}>{metaCells}</div>
                 <Sidebar globalContent={globalSidebar} />
                 <Box className={classes.root}>
                     <Navbar

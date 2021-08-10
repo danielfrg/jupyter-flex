@@ -1,6 +1,8 @@
 @import "cell.scss";
 @import "loading.scss";
 @import "voila.scss";
+@import "vars-colors.scss";
+@import "vars-cls-names.scss";
 
 .jupyter-flex-page {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
@@ -8,10 +10,4 @@
     background-color: #f4f5f7;
     color: #333;
     margin: 0;
-
-    .jupyter-flex {
-        .meta-cells {
-            display: none;
-        }
-    }
 }

@@ -1,9 +1,17 @@
-.jupyter-flex .navbar {
-    background-color: blue;
+.navbar {
+    background-color: yellow !important;
+}
+
+.sidebar {
+    background-color: #DDD;
+}
+
+.dashboard {
+    background-color: red;
 }
 
 .page {
-    background-color: red;
+    background-color: yellow;
 }
 
 .section {
@@ -11,5 +19,5 @@
 }
 
 .card {
-    background-color: #bbbb70;
+    background-color: yellow;
 }

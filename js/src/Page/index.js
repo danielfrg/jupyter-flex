@@ -52,7 +52,6 @@ class Page extends React.Component {
         this.state = {
             orientation: orientation,
             verticalLayout: verticalLayout,
-            // classNames: getTagValue(tags, "class", " "),
         };
     }
 
@@ -71,12 +70,8 @@ class Page extends React.Component {
     }
 
     render() {
-        const { classes, sections } = this.props;
+        const { classes, sections, tags } = this.props;
         const { orientation, verticalLayout } = this.state;
-
-        // Flip orientation for flex
-        let flexDirection =
-            this.state.orientation == "columns" ? "row" : "column";
 
         let sectionComponents = [];
         if (sections && sections.length > 0) {
@@ -94,13 +89,22 @@ class Page extends React.Component {
             });
         }
 
+        // Variables
+        const customClsNames = getTagValue(tags, "class", " ");
+
+        // Flip orientation for flex
+        let flexDirection =
+            this.state.orientation == "columns" ? "row" : "column";
+
         const layoutClsName =
             verticalLayout == "scroll"
                 ? classes.layoutScroll
                 : classes.layoutFill;
 
         return (
-            <div className={`page layout-${verticalLayout} ${layoutClsName}`}>
+            <div
+                className={`page layout-${verticalLayout} ${layoutClsName} ${customClsNames}`}
+            >
                 <Grid
                     container
                     spacing={2}

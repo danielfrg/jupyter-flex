@@ -176,7 +176,7 @@ export default function Navbar(props) {
     );
 
     return (
-        <AppBar position="static" className={classes.navbar}>
+        <AppBar position="static" className={`navbar ${classes.navbar}`}>
             <Toolbar className={classes.toolbar}>
                 {sidebarLocalExists || sidebarGlobalExists ? (
                     <IconButton
