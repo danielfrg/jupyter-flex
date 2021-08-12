@@ -1,4 +1,5 @@
 import React from "react";
+var _ = require("lodash");
 
 import { withStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
@@ -11,9 +12,9 @@ import HelpOutline from "@material-ui/icons/HelpOutline";
 
 import { Cells } from "@nteract/presentational-components";
 
-import { DashboardContext } from "../App/context";
 import DashboardCell from "../Cell";
 import IconDialogBtn from "./IconDialogBtn";
+import { DashboardContext } from "../App/context";
 import { getTagValue } from "../utils";
 
 const styles = (theme) => ({
@@ -49,10 +50,9 @@ const styles = (theme) => ({
         border: "none",
     },
     cardContent: {
-        width: "100%",
+        maxWidth: "100%",
+        minHeight: "100%",
         height: "100%",
-        display: "flex",
-        flexDirection: "column",
         overflow: "auto",
     },
     cardContentInSidebar: {
@@ -125,9 +125,12 @@ class Card extends React.Component {
 
         // Card contents
 
+        const noHeaderTag = _.includes(tags, "no-header");
+
         let header;
         if (
             !inTabs &&
+            !noHeaderTag &&
             (title ||
                 (showSource && sourceCells.length > 0) ||
                 (info && info.length > 0))
@@ -236,7 +239,7 @@ class Card extends React.Component {
                 alignItems="stretch"
                 xs={size}
             >
-                <Grid item>{header}</Grid>
+                {header ? <Grid item>{header}</Grid> : null}
                 <Grid
                     item
                     component={MaterialCard}

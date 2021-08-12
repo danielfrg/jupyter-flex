@@ -79,11 +79,15 @@ class Dashboard extends React.Component {
         let globalSidebar;
         let routes = [];
         if (pages && pages.length > 0) {
-            pages.forEach((page) => {
+            pages.forEach((page, i) => {
                 if (page.tags && page.tags.includes("sidebar")) {
                     globalSidebar = { ...page.sections[0] };
                 } else {
-                    const pageSlug = slugify(page.title);
+                    let title =
+                        page.title && page.title !== ""
+                            ? page.title
+                            : `Page ${i + 1}`;
+                    const pageSlug = slugify(title);
                     const pagePath = routes.length == 0 ? "/" : `/${pageSlug}`;
                     const el = (
                         <Page

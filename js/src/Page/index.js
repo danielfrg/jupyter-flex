@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 
 import Section from "../Section";
-import { getTagValue, slugify } from "../utils";
+import { getTagValue } from "../utils";
 
 import { DashboardContext } from "../App/context";
 

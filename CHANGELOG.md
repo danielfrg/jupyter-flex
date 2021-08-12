@@ -1,5 +1,9 @@
 # jupyter-flex Change Log
 
+## 0.7.3
+
+-   Add `no-header` tag to Cards
+
 ## 0.7.0
 
 -   Support Python 3.9

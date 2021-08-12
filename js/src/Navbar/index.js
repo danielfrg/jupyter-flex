@@ -55,7 +55,6 @@ const useStyles = makeStyles((theme) =>
 export default function Navbar(props) {
     const classes = useStyles();
     const { homepage, title, subtitle, externalLink, pages } = props;
-    const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const {
         sidebarOpen,
@@ -84,10 +83,12 @@ export default function Navbar(props) {
     let pageButtons = [];
     if (pages && pages.length > 1) {
         pages.forEach((page, i) => {
-            if (page.title && !page.tags.includes("sidebar")) {
-                const pageSlug = slugify(
-                    page.title && page.title != "" ? page.title : `Page ${i}`
-                );
+            if (!page.tags.includes("sidebar")) {
+                let title =
+                    page.title && page.title !== ""
+                        ? page.title
+                        : `Page ${i + 1}`;
+                const pageSlug = slugify(title);
                 const pagePath = pageButtons.length == 0 ? "/" : `${pageSlug}`;
                 const newPage = (
                     <Button
@@ -96,7 +97,7 @@ export default function Navbar(props) {
                         color="inherit"
                         component={RouterLink}
                     >
-                        {page.title}
+                        {title}
                     </Button>
                 );
                 pageButtons.push(newPage);
