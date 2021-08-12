@@ -18,22 +18,22 @@ const theme = createTheme({
     },
     palette: {
         background: {
-            default: "#fff",
+            default: "#F8FAFB",
         },
         text: {
-            primary: "#000",
+            primary: "#333",
         },
         primary: {
-            light: "#757ce8",
-            main: "#FFF",
-            dark: "#002884",
-            contrastText: "#000",
+            light: "#8bd0ff",
+            main: "#549fe0", // Metabase color
+            dark: "#0071ae",
+            contrastText: "#ffffff",
         },
         secondary: {
-            light: "#ff7961",
-            main: "#f44336",
-            dark: "#ba000d",
-            contrastText: "#000",
+            light: "#ffa856",
+            main: "#f27726", // Jupyter color
+            dark: "#b94800",
+            contrastText: "#ffffff",
         },
     },
 });

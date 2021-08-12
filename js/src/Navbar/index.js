@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) =>
         navbar: {
             zIndex: theme.zIndex.drawer + 1,
             boxShadow: "none",
-            borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
+            borderBottom: "none",
         },
         toolbar: {},
         space: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) =>
         },
         subtitle: {
             marginTop: 6,
-            color: "#666",
+            color: "#FFF",
         },
         sectionDesktop: {
             display: "none",
