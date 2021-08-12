@@ -178,14 +178,15 @@ class Card extends React.Component {
         let bodyComponents = [];
         if (body && body.length > 0) {
             body.forEach((cell, i) => {
-                // Only show if they are tagged with body, ignore source tag
+                if (cell.metadata.tags.includes("source")) {
+                    return;
+                }
                 if (
-                    cell.metadata.tags.includes("body") &&
-                    (cell.cell_type == "markdown" ||
-                        (cell.cell_type == "code" && cell.outputs.length > 0))
+                    cell.cell_type == "markdown" ||
+                    (cell.cell_type == "code" && cell.outputs.length > 0)
                 ) {
                     bodyComponents.push(
-                        <DashboardCell showInputs={false} key={i} {...cell} />
+                        <DashboardCell key={i} showInputs={false} {...cell} />
                     );
                 }
             });
@@ -248,6 +249,7 @@ class Card extends React.Component {
                     <Grid
                         item
                         container
+                        direction="column"
                         component={CardContent}
                         className={cardContentClsName}
                         xs

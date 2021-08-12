@@ -59,7 +59,7 @@ realtime computation and how to use [Jupyter widgets](https://ipywidgets.readthe
 
   <a class="image-card" href="/examples/data-types.html">
     <figure>
-      <img src="/assets/img/screenshots/demos/data-types.png" alt="All data types">
+      <img src="/assets/img/screenshots/data-types.png" alt="All data types">
       <figcaption>All data types</figcaption>
     </figure>
   </a>
