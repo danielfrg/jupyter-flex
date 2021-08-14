@@ -68,8 +68,8 @@ jobs:
           make docs
 
       - name: Push docs (master)
-        uses: jsmrcaga/action-netlify-deploy@master
-        if: (github.event_name == 'push') && endsWith(github.ref, '/main')
+        uses: jsmrcaga/action-netlify-deploy@1.6.0
+        if: (github.event_name != 'pull_request') && endsWith(github.ref, '/main')
         with:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
@@ -77,7 +77,7 @@ jobs:
           build_directory: site
 
       - name: Push docs (branch)
-        uses: jsmrcaga/action-netlify-deploy@master
+        uses: jsmrcaga/action-netlify-deploy@1.6.0
         if: github.event_name == 'pull_request_target'
         with:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
