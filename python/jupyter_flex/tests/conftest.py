@@ -3,16 +3,45 @@ import pytest
 
 @pytest.fixture(scope="session")
 def splinter_webdriver():
-    """Override splinter webdriver name."""
+    """Splinter webdriver name."""
     return "chrome"
+
+
+@pytest.fixture(scope="session")
+def splinter_headless():
+    return False
+
+
+# Make all splinter files go into test-results
+@pytest.fixture(scope="session")
+def splinter_screenshot_dir():
+    import os
+    from pathlib import Path
+
+    this_dir = Path(__file__).resolve().parent
+    return os.path.join(this_dir, "..", "..", "test-results")
+
+
+@pytest.fixture(scope="session")
+def splinter_window_size():
+    return (1366, 768)
 
 
 # ==============================================================================
 # Overwritting pytest-image-diff
 # Original: https://github.com/Apkawa/pytest-image-diff/blob/master/pytest_image_diff/plugin.py
 
+# Changes the scheenshots taked to the test-results dir
+@pytest.fixture(scope="session")
+def image_diff_root():
+    import os
+    from pathlib import Path
 
-# This changes the reference directory to be under docs so we can serve the screenshots
+    this_dir = Path(__file__).resolve().parent
+    return os.path.join(this_dir, "..", "..", "test-results")
+
+
+# Changes the reference directory to be under docs so we can serve the screenshots
 @pytest.fixture(scope="session")
 def image_diff_reference_dir():
     import os
@@ -43,6 +72,7 @@ def _image_diff_info(request, image_diff_reference_dir, image_diff_dir):
 
         reference_dir = os.path.join(image_diff_reference_dir, class_name)
         screenshot_dir = os.path.join(image_diff_dir, class_name)
+
         reference_name = os.path.join(reference_dir, suffix + "-reference.png")
         image_name = os.path.join(screenshot_dir, suffix + "-screenshot.png")
         diff_name = os.path.join(screenshot_dir, suffix + "-diff.png")

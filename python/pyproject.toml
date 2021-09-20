@@ -9,7 +9,7 @@ requires = ["setuptools>=42", "setuptools_scm[toml]>=3.4", "wheel"]
 norecursedirs = ".git,dist,build,env,venv,.venv"
 addopts = "jupyter_flex/tests -s -vv --cov-config=pyproject.toml --cov=jupyter_flex --cov-report term-missing --strict-markers"
 markers = [
-    "quick: marks tests as quick (deselect with '-m \"not quick\"')",
+    "base: marks tests as base (deselect with '-m \"not base\"')",
     "layouts: mark all layout tests",
     "plots: mark all plotting library tests",
     "widgets: marks all widget tests",

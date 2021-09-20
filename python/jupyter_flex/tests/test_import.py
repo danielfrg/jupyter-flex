@@ -1,7 +1,7 @@
 import pytest
 
 
-pytestmark = [pytest.mark.quick]
+pytestmark = [pytest.mark.base]
 
 
 def test_import():
