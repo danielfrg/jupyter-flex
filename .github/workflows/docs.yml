@@ -63,13 +63,14 @@ jobs:
         uses: actions/cache@v2
         with:
           path: python/.venv
-          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/pyproject.toml') }}
+          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/pyproject.toml', '**/requirements*.txt') }}
 
       - name: Install Python dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: |
           cd python
           poetry install --no-interaction --no-root
+          pip install -r python/requirements-examples.txt
 
       - name: Print Python info
         run: |
@@ -91,14 +92,13 @@ jobs:
           pip install dist/*.tar.gz
           pip freeze
 
+      # ------------------------------------------------------------------------
+      # Docs
+
       - name: Install docs dependecies
         run: |
           source python/.venv/bin/activate
           pip install -r python/requirements-docs.txt
-          pip install -r python/requirements-examples.txt
-
-      # ------------------------------------------------------------------------
-      # Docs
 
       - name: Build docs
         run: |
