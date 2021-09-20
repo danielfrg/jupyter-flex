@@ -54,27 +54,27 @@ jobs:
       # ------------------------------------------------------------------------
       #  JS
 
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
+      # - name: Setup Node.js ${{ matrix.node-version }}
+      #   uses: actions/setup-node@v2
+      #   with:
+      #     node-version: ${{ matrix.node-version }}
 
-      - name: Load cached node_modules
-        id: cached-node_modules-dependencies
-        uses: actions/cache@v2
-        with:
-          path: js/node_modules
-          key: node_modules-${{ runner.os }}-${{ hashFiles('js/package*.json') }}
+      # - name: Load cached node_modules
+      #   id: cached-node_modules-dependencies
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: js/node_modules
+      #     key: node_modules-${{ runner.os }}-${{ hashFiles('js/package*.json') }}
 
-      - name: Install JS deps
-        if: steps.cached-node_modules-dependencies.outputs.cache-hit != 'true'
-        run: |
-          make npm-install
+      # - name: Install JS deps
+      #   if: steps.cached-node_modules-dependencies.outputs.cache-hit != 'true'
+      #   run: |
+      #     make npm-install
 
-      - name: Build JS
-        run: |
-          make download-assets
-          make npm-build
+      # - name: Build JS
+      #   run: |
+      #     make download-assets
+      #     make npm-build
 
       # ------------------------------------------------------------------------
       #  Python
@@ -110,7 +110,7 @@ jobs:
           key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install Python dependencies
-        # if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: |
           cd python
           poetry install --no-interaction --no-root
@@ -138,15 +138,19 @@ jobs:
       # ------------------------------------------------------------------------
       #  Tests
 
-      # - name: Serve Voila
-      #   run: |
-      #     . python/.venv/bin/activate
-      #     make voila-examples &
+      - name: Verify Selenium Hub
+        run: |
+          curl http://localhost:4444/
 
-      # - name: Verify Voila
-      #   run: |
-      #     # ls /__t/Python/3.7.7/x64/share/jupyter/voila/templates
-      #     curl http://localhost:8866/
+      - name: Serve Voila
+        run: |
+          . python/.venv/bin/activate
+          make voila-examples &
+
+      - name: Verify Voila
+        run: |
+          # ls /__t/Python/3.7.7/x64/share/jupyter/voila/templates
+          curl http://localhost:8866/
 
       # - name: Run layout tests
       #   run: |
