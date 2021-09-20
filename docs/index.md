@@ -38,70 +38,70 @@ realtime computation and how to use [Jupyter widgets](https://ipywidgets.readthe
 <div class="image-grid">
   <a class="image-card" href="/examples/altair.html">
     <figure>
-      <img src="/assets/img/screenshots/plots/altair.png" alt="Jupyter-flex: altair">
+      <img src="/assets/img/screenshots/jupyter_flex.tests.test_examples/plots_altair-reference.png" alt="Jupyter-flex: altair">
       <figcaption>Altair plots</figcaption>
     </figure>
   </a>
 
   <a class="image-card" href="/examples/plotly.html">
     <figure>
-      <img src="/assets/img/screenshots/plots/plotly.png" alt="Jupyter-flex: Plotly Plots">
+      <img src="/assets/img/screenshots/jupyter_flex.tests.test_examples/plots_plotly-reference.png" alt="Jupyter-flex: Plotly Plots">
       <figcaption>Plotly plots</figcaption>
     </figure>
   </a>
 
   <a class="image-card" href="/examples/bokeh.html">
     <figure>
-      <img src="/assets/img/screenshots/plots/bokeh.png" alt="Jupyter-flex: Bokeh Plots">
+      <img src="/assets/img/screenshots/jupyter_flex.tests.test_examples/plots_bokeh-reference.png" alt="Jupyter-flex: Bokeh Plots">
       <figcaption>Bokeh plots</figcaption>
     </figure>
   </a>
 
   <a class="image-card" href="/examples/data-types.html">
     <figure>
-      <img src="/assets/img/screenshots/data-types.png" alt="All data types">
+      <img src="/assets/img/screenshots/jupyter_flex.tests.test_examples/apps_data-types-reference.png" alt="All data types">
       <figcaption>All data types</figcaption>
     </figure>
   </a>
 
   <a class="image-card" href="/examples/nba-scoring.html">
     <figure>
-      <img src="/assets/img/screenshots/nba-scoring.png" alt="Jupyter-flex: NBA Scoring">
+      <img src="/assets/img/screenshots/jupyter_flex.tests.test_examples/apps_nba-scoring-reference.png" alt="Jupyter-flex: NBA Scoring">
       <figcaption>NBA Scoring</figcaption>
     </figure>
   </a>
 
   <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.7.1?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwidgets%2Fwidgets-gallery.ipynb">
     <figure>
-      <img src="/assets/img/screenshots/widgets/widgets-gallery.png">
+      <img src="/assets/img/screenshots/jupyter_flex.tests.test_examples/widgets_widgets-gallery-reference.png">
       <figcaption>jupyter-widgets-gallery (runs in mybinder.org)</figcaption>
     </figure>
   </a>
 
   <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.7.1?urlpath=%2Fvoila%2Frender%2Fexamples%2Fplots%2Fbqplot.ipynb">
     <figure>
-      <img src="/assets/img/screenshots/plots/bqplot.png" alt="Jupyter-flex: bqplot">
+      <img src="/assets/img/screenshots/jupyter_flex.tests.test_examples/plots_bqplot-reference.png" alt="Jupyter-flex: bqplot">
       <figcaption>bqplot plots (runs in mybinder.org)</figcaption>
     </figure>
   </a>
 
   <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.7.1?urlpath=%2Fvoila%2Frender%2Fexamples%2Fmovie-explorer.ipynb">
     <figure>
-      <img src="/assets/img/screenshots/movie-explorer.png" alt="Jupyter-flex: Movie Explorer">
+      <img src="/assets/img/screenshots/jupyter_flex.tests.test_examples/apps_movie-explorer-reference.png" alt="Jupyter-flex: Movie Explorer">
       <figcaption>Movie Explorer (runs in mybinder.org)</figcaption>
     </figure>
   </a>
 
   <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.7.1?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
     <figure>
-      <img src="/assets/img/screenshots/wealth-of-nations.png" alt="Jupyter-flex: Wealth of Nations">
+      <img src="/assets/img/screenshots/jupyter_flex.tests.test_examples/apps_wealth-of-nations-reference.png" alt="Jupyter-flex: Wealth of Nations">
       <figcaption>Wealth of Nations (runs in mybinder.org)</figcaption>
     </figure>
   </a>
 
   <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.7.1?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
     <figure>
-      <img src="/assets/img/screenshots/iris-clustering.png" alt="Jupyter-flex: Iris Clustering">
+      <img src="/assets/img/screenshots/jupyter_flex.tests.test_examples/apps_iris-clustering-reference.png" alt="Jupyter-flex: Iris Clustering">
       <figcaption>Iris clustering (runs in mybinder.org)</figcaption>
     </figure>
   </a>

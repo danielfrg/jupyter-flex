@@ -19,9 +19,9 @@ base_url = os.environ.get("PYTEST_BASE_URL", "http://localhost:8866")
         "bokeh",
         "bqplot-single",
         "bqplot",
+        "card-complete",
         "plotly-single",
         "plotly",
-        "plots-mixed-content",
     ],
 )
 def test_plots(browser, screenshot_regression, nb_name):
