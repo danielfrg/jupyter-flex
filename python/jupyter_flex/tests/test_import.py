@@ -1,7 +1,7 @@
 import pytest
 
 
-pytestmark = [pytest.mark.nondestructive]
+pytestmark = [pytest.mark.nondestructive, pytest.mark.base]
 
 
 def test_import():

@@ -7,7 +7,7 @@ from traitlets import default
 from .utils import DEV_MODE
 
 
-@jinja2.contextfunction
+@jinja2.pass_context
 def include_external_file(ctx, name):
     """Include a file relative to the notebook"""
     with open(os.path.abspath(name), "r") as f:

@@ -87,7 +87,7 @@ setup(
     entry_points={
         "nbconvert.exporters": [
             "flex = jupyter_flex:FlexExporter",
-            "flex-illusionist = jupyter_flex:FlexIllusionistExporter",
+            # "flex-illusionist = jupyter_flex:FlexIllusionistExporter",
         ]
     },
     options={"bdist_wheel": {"universal": "1"}},
@@ -96,7 +96,6 @@ setup(
     install_requires=read_file("requirements.txt").splitlines(),
     extras_require={
         "test": ["pytest", "pytest-cov", "toml"],
-        "dev": read_file("requirements-dev.txt").splitlines(),
     },
     description="Build dashboards using Jupyter Notebooks",
     long_description=read_file("README.md"),

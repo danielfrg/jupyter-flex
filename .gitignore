@@ -111,6 +111,7 @@ _generated_version.py
 
 ### Project specific ###
 tmp
+.tests
 test-results
 docs/examples
 examples/**/*.html
