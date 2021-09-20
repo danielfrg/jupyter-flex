@@ -9,7 +9,7 @@ def splinter_webdriver():
 
 @pytest.fixture(scope="session")
 def splinter_headless():
-    return False
+    return True
 
 
 # Make all splinter files go into test-results
@@ -23,8 +23,13 @@ def splinter_screenshot_dir():
 
 
 @pytest.fixture(scope="session")
-def splinter_window_size():
-    return (1366, 768)
+def splinter_driver_kwargs():
+    from selenium import webdriver
+
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--force-device-scale-factor=2")
+    chrome_options.add_argument("--window-size=1440,900")
+    return {"options": chrome_options}
 
 
 # ==============================================================================
