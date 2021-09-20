@@ -141,7 +141,7 @@ jobs:
       - name: Install other dependencies
         run: |
           source python/.venv/bin/activate
-          make download-data
+          make download-testdata
 
       - name: Run tests
         run: |

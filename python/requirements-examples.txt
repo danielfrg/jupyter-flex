@@ -10,9 +10,9 @@ plotly
 bokeh
 bqplot
 vega_datasets
-# ipywidgets
-# ipysheet
-# ipyleaflet
-# qgrid
-# pandas-datareader
-# colorlover
+ipywidgets
+ipysheet
+ipyleaflet
+qgrid
+pandas-datareader
+colorlover

@@ -40,7 +40,7 @@ This generates symlinks to the `<env>/share/jupyter/` directory.
 
 ```shell
 make download-assets
-make download-data
+make download-testdata
 ```
 
 ### Iteration cycle

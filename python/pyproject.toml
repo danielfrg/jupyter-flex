@@ -48,7 +48,7 @@ pytest-image-diff = "^0.0.6"
 
 [tool.pytest.ini_options]
 norecursedirs = ".git,dist,build,env,venv,.venv"
-addopts = "jupyter_flex/tests -s -vv --cov-config=pyproject.toml --cov=jupyter_flex --cov-report term-missing --strict-markers"
+addopts = "jupyter_flex/tests -s -vv --cov-config=pyproject.toml --cov=jupyter_flex --cov-report term-missing"
 markers = [
     "base: marks tests as base (deselect with '-m \"not base\"')",
     "layouts: mark all layout tests",

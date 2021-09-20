@@ -92,7 +92,7 @@ download-assets:  ## Download .css/.js assets
 	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/qgrid.js https://unpkg.com/qgrid2@1.1.3/dist/index.js
 
 
-download-data:  ## Download test data
+download-testdata:  ## Download test data
 	bokeh sampledata
 
 

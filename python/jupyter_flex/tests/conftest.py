@@ -42,7 +42,7 @@ def image_diff_threshold() -> float:
     """
     Set default threshold differences of images. By default - 0.001
     """
-    return 0.09
+    return 0.1
 
 
 # Changes the scheenshots taked to the test-results dir
