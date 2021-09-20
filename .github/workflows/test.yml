@@ -20,7 +20,7 @@ jobs:
         node-version: ["16"]
 
     container:
-      image: python:3.8.12
+      image: python:3.9.7
       options: --network-alias testhost
 
     services:
@@ -84,10 +84,10 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install OS deps
-        run: |
-          apt-get install -y libffi-dev
-          ln /usr/lib/aarch64-linux-gnu/libffi.so.7 /usr/lib/aarch64-linux-gnu/libffi.so.6
+      # - name: Install OS deps
+      #   run: |
+      #     apt-get install -y libffi-dev
+      #     ln /usr/lib/aarch64-linux-gnu/libffi.so.7 /usr/lib/aarch64-linux-gnu/libffi.so.6
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
