@@ -70,7 +70,7 @@ jobs:
         run: |
           cd python
           poetry install --no-interaction --no-root
-          source python/.venv/bin/activate
+          source .venv/bin/activate
           pip install -r requirements-examples.txt
 
       - name: Print Python info
