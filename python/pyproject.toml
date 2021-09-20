@@ -1,9 +1,41 @@
+[tool.poetry]
+name = "jupyter-flex"
+version = "0.8.0-dev"
+description = ""
+authors = ["Daniel Rodriguez <daniel@danielfrg.com>"]
+
 [build-system]
-requires = ["setuptools>=42", "setuptools_scm[toml]>=3.4", "wheel"]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0", "setuptools>=42", "setuptools_scm[toml]>=3.4", "wheel"]
 
 # [tool.setuptools_scm]
 # root = "../"
 # write_to = "python/jupyter_flex/_generated_version.py"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.11"
+voila = ">=0.2.0,<0.3"
+nbconvert = ">=6.0.7,<7"
+nbclient = ">=0.4.0"
+jupyter-server = ">=1.1.0"
+
+[tool.poetry.dev-dependencies]
+pylint = "^2.10.2"
+black = "^21.8b0"
+isort = "^5.9.3"
+flake8 = "^3.9.2"
+# Testing
+pytest = "^6.2.5"
+pytest-cov = "^2.12.1"
+pytest-html = "^3.1.1"
+pytest-base-url = "^1.4.2"
+pytest-tornasync = "^0.6.0"
+pytest-selenium = "^2.0.1"
+# Examples
+notebook = "^6.4.4"
+jupyterlab = "^3.1.12"
+ipywidgets = "^7.6.5"
+numpy = "^1.21.2"
 
 [tool.pytest.ini_options]
 norecursedirs = ".git,dist,build,env,venv"

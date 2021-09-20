@@ -18,40 +18,11 @@ jupyter_server>=1.1.0
 illusionist>=0.2.0
 
 # Testing
-pytest
-pytest-cov
-pytest-html
-pytest-needle
-pytest-base-url
-pytest-selenium
-pytest-tornasync
+pytest pytest-cov pytest-html pytest-base-url  pytest-tornasync
+pytest-needle "pytest-selenium<2"
 
 # Docs
-mkdocs>=1.1.0,<2
-mkdocs-material==7.1.0
-mkdocs-jupyter>=0.17.0
-mkdocs-minify-plugin
-pygments
-pymdown-extensions
+"mkdocs>=1.1.0,<2" "mkdocs-material==7.1.0" "mkdocs-jupyter>=0.17.0" "mkdocs-minify-plugin" "pygments" "pymdown-extensions"
 
 # Examples
-notebook
-jupyterlab
-ipywidgets
-numpy
-pandas
-scipy
-matplotlib
-scikit-learn
-statsmodels
-altair
-plotly
-bqplot
-bokeh
-jupyter_bokeh
-qgrid
-ipyleaflet
-ipysheet
-pandas-datareader
-colorlover
-vega_datasets
+notebook jupyterlab ipywidgets numpy pandas scipy matplotlib scikit-learn statsmodels altair plotly bqplot bokeh jupyter_bokeh qgrid ipyleaflet ipysheet pandas-datareader colorlover vega_datasets
