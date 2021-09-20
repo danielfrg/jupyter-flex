@@ -45,7 +45,7 @@ jobs:
     env:
       SELENIUM_HUB_HOST: selenium-hub
       SELENIUM_HUB_PORT: 4444
-      PYTEST_BASE_URL: http://testhost:8866
+      PYTEST_BASE_URL: http://host.docker.internal:8866
 
     steps:
       - uses: actions/checkout@v2
@@ -54,27 +54,27 @@ jobs:
       # ------------------------------------------------------------------------
       #  JS
 
-      # - name: Setup Node.js ${{ matrix.node-version }}
-      #   uses: actions/setup-node@v2
-      #   with:
-      #     node-version: ${{ matrix.node-version }}
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
 
-      # - name: Load cached node_modules
-      #   id: cached-node_modules-dependencies
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: js/node_modules
-      #     key: node_modules-${{ runner.os }}-${{ hashFiles('js/package*.json') }}
+      - name: Load cached node_modules
+        id: cached-node_modules-dependencies
+        uses: actions/cache@v2
+        with:
+          path: js/node_modules
+          key: node_modules-${{ runner.os }}-${{ hashFiles('js/package*.json') }}
 
-      # - name: Install JS deps
-      #   if: steps.cached-node_modules-dependencies.outputs.cache-hit != 'true'
-      #   run: |
-      #     make npm-install
+      - name: Install JS deps
+        if: steps.cached-node_modules-dependencies.outputs.cache-hit != 'true'
+        run: |
+          make npm-install
 
-      # - name: Build JS
-      #   run: |
-      #     make download-assets
-      #     make npm-build
+      - name: Build JS
+        run: |
+          make download-assets
+          make npm-build
 
       # ------------------------------------------------------------------------
       #  Python
@@ -90,13 +90,6 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-
-      - name: Print Python info
-        run: |
-          which python
-          which pip
-          python --version
-          pip --version
 
       # - name: Install OS deps
       #   run: |
