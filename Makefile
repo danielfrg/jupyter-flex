@@ -110,26 +110,19 @@ fmt:  ## Format source
 	cd $(CURDIR)/python; black .
 
 
-selenium:  ## Run selenium in docker-compose
+selenium:  ## Run selenium
+	selenium-server -port 4444
+
+
+selenium-docker:  ## Run selenium in docker
 	docker-compose up
 
 
 voila-examples:  ## Serve examples using voila
-	voila --template flex --no-browser --Voila.ip='0.0.0.0' --port 8866 --VoilaConfiguration.file_whitelist="['.*']" $(CURDIR)/examples
-	# voila --debug --template flex --no-browser --Voila.ip='0.0.0.0' --port 8866 --VoilaConfiguration.file_whitelist="['.*']" $(CURDIR)/examples
+	voila --template flex --no-browser --port 8866 --VoilaConfiguration.file_whitelist '.*' $(CURDIR)/examples
 
 
-setup-test:
-	@echo ""
-# @cd $(CURDIR)/python; mkdir -p test-results/screenshots/customize
-# @cd $(CURDIR)/python; mkdir -p test-results/screenshots/getting-started
-# @cd $(CURDIR)/python; mkdir -p test-results/screenshots/illusionist
-# @cd $(CURDIR)/python; mkdir -p test-results/screenshots/layouts
-# @cd $(CURDIR)/python; mkdir -p test-results/screenshots/widgets
-# @cd $(CURDIR)/python; mkdir -p test-results/screenshots/plots
-
-
-pytest-%: setup-test  ## Run tests
+pytest-%:  ## Run tests
 	cd $(CURDIR)/python; PYTEST_BASE_URL=$(PYTEST_BASE_URL) \
 	pytest -k $(PYTEST_K) -m $(subst pytest-,,$@) \
 		--splinter-webdriver remote \
@@ -137,9 +130,9 @@ pytest-%: setup-test  ## Run tests
 		--html=test-results/report.html --self-contained-html
 
 
-pytest-all: setup-test  ## Run all tests
+pytest-all:  ## Run all tests
 	cd $(CURDIR)/python; PYTEST_BASE_URL=$(PYTEST_BASE_URL) \
-	pytest -k $(PYTEST_K) \
+	pytest \
 		--splinter-webdriver remote \
 		--splinter-remote-url $(SELENIUM_HUB_HOST) \
 		--html=test-results/report.html --self-contained-html

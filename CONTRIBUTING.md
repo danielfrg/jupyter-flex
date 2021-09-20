@@ -64,7 +64,7 @@ make voila-examples
 
 A system based on docker is provided and it's the same the CI system runs.
 
-1. Start Selenium in docker-compose: `make selenium` or locally `make selenium-local`
+1. Start Selenium locally `make selenium` or in Docker `make selenium-docker`
 
 Install Selenium and the Chrome driver on mac:
 

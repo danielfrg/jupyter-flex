@@ -15,6 +15,8 @@ requires = ["setuptools>=42", "setuptools_scm[toml]>=3.4", "wheel"]
 python = "^3.8"
 voila = ">=0.2.0,<0.3"
 nbconvert = ">=6.0.0,<7"
+ipykernel = ">=6.4.1<7"
+jinja2 = ">=3.0.1<4"
 
 [tool.poetry.dev-dependencies]
 # pylint = "^2.10.2"
@@ -31,6 +33,7 @@ pytest-cov = "^2.12.1"
 pytest-html = "^3.1.1"
 pytest-selenium = "^2.0.1"
 pytest-splinter = "^3.3.1"
+pytest-image-diff = "^0.0.6"
 
 # [tool.poetry.group.docs]
 # optional = true

@@ -6,34 +6,34 @@ dependencies:
   - pip
 
   # Dev tools
-  - setuptools
-  - setuptools_scm
-  - pylint
-  - black
-  - isort
-  - flake8
-  - twine
-  - wheel
+  # - setuptools
+  # - setuptools_scm
+  # - pylint
+  # - black
+  # - isort
+  # - flake8
+  # - twine
+  # - wheel
 
   # Examples
-  - numpy
-  - pandas
-  - scipy
-  - scikit-learn
-  - matplotlib
-  - altair
-  - plotly
-  - bqplot
-  - bokeh
-  - notebook
-  - jupyterlab
+  # - numpy
+  # - pandas
+  # - scipy
+  # - scikit-learn
+  # - matplotlib
+  # - altair
+  # - plotly
+  # - bqplot
+  # - bokeh
+  # - notebook
+  # - jupyterlab
 
   - pip:
       # Package deps
       - voila>=0.2.0,<0.3
       - nbconvert>=6.0.0,<7
-      - nbclient>=0.4.0
-      - jupyter_server>=1.1.0
+      - ipykernel>=6.4.1<7
+      - jinja2>=3.0.1<4
       # - illusionist>=0.2.0
 
       # Testing
@@ -42,20 +42,21 @@ dependencies:
       - pytest-html
       - pytest-selenium
       - pytest-splinter
+      - pytest-image-diff
 
       # Docs
-      - mkdocs>=1.1.0,<2
-      - mkdocs-material==7.1.0
-      - mkdocs-jupyter>=0.17.0
-      - mkdocs-minify-plugin
-      - pygments
-      - pymdown-extensions
+      # - mkdocs>=1.1.0,<2
+      # - mkdocs-material==7.1.0
+      # - mkdocs-jupyter>=0.17.0
+      # - mkdocs-minify-plugin
+      # - pygments
+      # - pymdown-extensions
 
       # Examples
-      - ipywidgets
-      - ipyleaflet
-      - ipysheet
-      - qgrid
-      - pandas-datareader
-      - colorlover
-      - vega_datasets
+      # - ipywidgets
+      # - ipyleaflet
+      # - ipysheet
+      # - qgrid
+      # - pandas-datareader
+      # - colorlover
+      # - vega_datasets
