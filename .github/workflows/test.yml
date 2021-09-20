@@ -15,8 +15,9 @@ jobs:
 
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9]
-        node-version: ["15"]
+        python-version: [3.8]
+        # python-version: [3.7, 3.8, 3.9]
+        node-version: ["16"]
 
     container:
       image: python:3.8.12
@@ -82,6 +83,10 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
+
+      - name: Install OS deps
+        run: |
+          sudo apt-get install -y libffi-dev
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
