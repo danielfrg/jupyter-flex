@@ -48,7 +48,7 @@ jobs:
       - run: git fetch --prune --unshallow
 
       # ------------------------------------------------------------------------
-      #  JS
+      # JS
 
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
@@ -73,7 +73,7 @@ jobs:
           make npm-build
 
       # ------------------------------------------------------------------------
-      #  Python
+      # Python
 
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
@@ -101,7 +101,7 @@ jobs:
 
       - name: Print Python info
         run: |
-          . python/.venv/bin/activate
+          source python/.venv/bin/activate
           which python
           which pip
           python --version
@@ -109,18 +109,18 @@ jobs:
 
       - name: Build Python
         run: |
-          . python/.venv/bin/activate
+          source python/.venv/bin/activate
           make build-python
 
       - name: Install package
         run: |
-          . python/.venv/bin/activate
+          source python/.venv/bin/activate
           cd python
           pip install dist/*.tar.gz
           pip freeze
 
       # ------------------------------------------------------------------------
-      #  Tests
+      # Tests
 
       - name: Verify Selenium Hub
         run: |
@@ -128,7 +128,7 @@ jobs:
 
       - name: Serve Voila
         run: |
-          . python/.venv/bin/activate
+          source python/.venv/bin/activate
           make voila-examples &
 
       - name: Verify Voila
@@ -138,7 +138,7 @@ jobs:
 
       - name: Run layout tests
         run: |
-          . python/.venv/bin/activate
+          source python/.venv/bin/activate
           make pytest-all
           make report
 
