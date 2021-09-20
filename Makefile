@@ -10,13 +10,15 @@ TEST_MARKERS ?= "not selenium"
 
 SELENIUM_HUB_HOST ?= 127.0.0.1
 SELENIUM_HUB_PORT ?= 4444
-PYTEST_BASE_URL ?= http://host.docker.internal:8866
+PYTEST_BASE_URL ?= http://localhost:8866
+# For running selenium inside docker
+# PYTEST_BASE_URL ?= http://host.docker.internal:8866
 
 
 first: help
 
 
-build: download-assets npm-build build-python  ## Build all
+all: download-assets npm-build build-python  ## Build everything
 
 
 # ------------------------------------------------------------------------------
@@ -80,12 +82,12 @@ cleanjs:  ## Clean JS build files
 
 
 # ------------------------------------------------------------------------------
-# Build
+# Other
 
 download-assets:  ## Download .css/.js assets
 	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/require.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
 	# We need to include qgrid because of: http://github.com/quantopian/qgrid/pull/325
-	# We need to put it directly on static so requireJS can find it
+	# We need to put it directly on `static` so requireJS can find it
 	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/qgrid.js https://unpkg.com/qgrid2@1.1.3/dist/index.js
 
 
@@ -97,13 +99,13 @@ download-data:  ## Download test data
 # Testing
 
 check:  ## Check linting
-	cd $(CURDIR)/python; flake8
-	cd $(CURDIR)/python; isort . --project jupyter_flex --check-only --diff
+	cd $(CURDIR)/python; isort . --check-only --diff
 	cd $(CURDIR)/python; black . --check
+	cd $(CURDIR)/python; flake8
 
 
 fmt:  ## Format source
-	cd $(CURDIR)/python; isort --project jupyter_flex .
+	cd $(CURDIR)/python; isort .
 	cd $(CURDIR)/python; black .
 
 
@@ -117,16 +119,32 @@ voila-examples:  ## Serve examples using voila
 
 
 setup-test:
-	cd $(CURDIR)/python; mkdir -p test-results/screenshots/customize
-	cd $(CURDIR)/python; mkdir -p test-results/screenshots/getting-started
-	cd $(CURDIR)/python; mkdir -p test-results/screenshots/illusionist
-	cd $(CURDIR)/python; mkdir -p test-results/screenshots/layouts
-	cd $(CURDIR)/python; mkdir -p test-results/screenshots/plots
-	cd $(CURDIR)/python; mkdir -p test-results/screenshots/widgets
+	@cd $(CURDIR)/python; mkdir -p test-results/screenshots/customize
+	@cd $(CURDIR)/python; mkdir -p test-results/screenshots/getting-started
+	@cd $(CURDIR)/python; mkdir -p test-results/screenshots/illusionist
+	@cd $(CURDIR)/python; mkdir -p test-results/screenshots/layouts
+	@cd $(CURDIR)/python; mkdir -p test-results/screenshots/plots
+	@cd $(CURDIR)/python; mkdir -p test-results/screenshots/widgets
+
+TEST_MARKERS = quick layouts plots widgets examples
+test-$(TEST_MARKERS): setup-test  ## Run tests
+	cd $(CURDIR)/python; \
+	pytest -k $(PYTEST_K) -m $(subst test-,,$@) \
+		--splinter-webdriver remote \
+		-–splinter-screenshot-dir screenshots \
+		--splinter-remote-url $(SELENIUM_HUB_HOST)
+		--html=test-results/report.html --self-contained-html
+		# --driver Remote --selenium-host $(SELENIUM_HUB_HOST) \
+		# --selenium-port $(SELENIUM_HUB_PORT) \
+		# --capability browserName chrome \
+		# --base-url $(PYTEST_BASE_URL) \
+		# --needle-baseline-dir $(CURDIR)/docs/assets/img/screenshots \
+		# --needle-output-dir test-results/screenshots \
 
 
 test: setup-test  ## Run tests
-	cd $(CURDIR)/python; pytest --driver Remote --selenium-host $(SELENIUM_HUB_HOST) --selenium-port $(SELENIUM_HUB_PORT) --capability browserName chrome \
+	@cd $(CURDIR)/python
+	pytest --driver Remote --selenium-host $(SELENIUM_HUB_HOST) --selenium-port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir $(CURDIR)/docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
 		-k $(PYTEST_K) -m $(TEST_MARKERS) --html=test-results/report.html --self-contained-html
 
@@ -137,25 +155,24 @@ test-all: setup-test  ## Run all tests
 		-k $(PYTEST_K) --html=test-results/report.html --self-contained-html
 
 
-test-baselines:  ## Create test baselines
+test-gen-baselines:  ## Generate/update test baselines
 	cd $(CURDIR)/python; pytest --driver Remote --selenium-host $(SELENIUM_HUB_HOST) --selenium-port $(SELENIUM_HUB_PORT) --capability browserName chrome \
 		--base-url $(PYTEST_BASE_URL) --needle-save-baseline --needle-baseline-dir $(CURDIR)/docs/assets/img/screenshots \
 		-s -k $(PYTEST_K)
 
 
-report:  ## Generate coverage reports
+report:  ## Test: Generate coverage reports
 	cd $(CURDIR)/python; coverage xml
 	cd $(CURDIR)/python; coverage html
 
 
-nbconvert-example:  ## Run nbconver on one particular example
+nbconvert-example:
 	cd $(CURDIR)/examples && jupyter-nbconvert widgets/ipyleaflet.ipynb --to=flex --output-dir=$(CURDIR)/docs/examples --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
 
 
 # ------------------------------------------------------------------------------
 # Docs
 
-.PHONY: docs
 docs:  ## Make docs
 	rm -rf $(CURDIR)/site;
 	$(MAKE) docs-exec-nbs
@@ -163,17 +180,18 @@ docs:  ## Make docs
 	mkdocs build
 	# This one after building
 	$(MAKE) docs-example-exec-nbs
+.PHONY: docs
 
 
-docs-serve:  ## Serve docs
+docs-serve:  ## Serve built docs
 	mkdocs serve
 
 
-docs-exec-nbs:  ## Execute notebooks that are used as doc pages
+docs-exec-nbs:  ## Docs: Execute notebooks used as docs pages
 	cd $(CURDIR)/docs; jupyter-nbconvert *.ipynb --inplace --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
 
 
-docs-examples-to-html:  ## Convert examples to HTML dashboards
+docs-examples-to-html:  ## Docs: Convert examples to HTML dashboards
 	rm -rf $(CURDIR)/docs/examples;
 	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb 					--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
 	cd $(CURDIR)/examples && jupyter-nbconvert customize/*.ipynb 		--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
@@ -181,7 +199,7 @@ docs-examples-to-html:  ## Convert examples to HTML dashboards
 	cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb 			--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb 			--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb 			--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert illusionist/*.ipynb 		--output-dir=$(CURDIR)/docs/examples/illusionist --to=flex-illusionist --execute --ExecutePreprocessor.store_widget_state=True
+	# cd $(CURDIR)/examples && jupyter-nbconvert illusionist/*.ipynb 		--output-dir=$(CURDIR)/docs/examples/illusionist --to=flex-illusionist --execute --ExecutePreprocessor.store_widget_state=True
 
 
 docs-example-exec-nbs:  ## Execute examples notebooks output them into docs
@@ -192,7 +210,7 @@ docs-example-exec-nbs:  ## Execute examples notebooks output them into docs
 	cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb 			--output-dir=$(CURDIR)/site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb 			--output-dir=$(CURDIR)/site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb 			--output-dir=$(CURDIR)/site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
-	cd $(CURDIR)/examples && jupyter-nbconvert illusionist/*.ipynb 		--output-dir=$(CURDIR)/site/examples/notebooks/illusionist --to=illusionist-nb --execute --ExecutePreprocessor.store_widget_state=True
+	# cd $(CURDIR)/examples && jupyter-nbconvert illusionist/*.ipynb 		--output-dir=$(CURDIR)/site/examples/notebooks/illusionist --to=illusionist-nb --execute --ExecutePreprocessor.store_widget_state=True
 
 
 examples-clear-output:  ## Clear output of notebooks

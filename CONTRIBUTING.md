@@ -63,12 +63,18 @@ make voila-examples
 
 ## Tests
 
-A system based on docker is provided and it's
-the same the CI system runs.
+A system based on docker is provided and it's the same the CI system runs.
 
-1. Terminal 1: Start Selenium in docker-compose: `make selenium`
-2. Terminal 2: Start voila server locally: `make voila-examples`
-3. Terminal 3: Run pytest locally against Selenium
+1. Start Selenium in docker-compose: `make selenium` or locally `make selenium-local`
+
+```
+brew install --cask google-chrome
+brew install chromedriver
+brew install selenium-server-standalone
+```
+
+2. Start voila server locally: `make voila-examples`
+3. Run pytest locally against Selenium
 
 ```
 # Run all tests

@@ -15,22 +15,33 @@ dependencies:
   - twine
   - wheel
 
+  # Examples
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - matplotlib
+  - altair
+  - plotly
+  - bqplot
+  - bokeh
+  - notebook
+  - jupyterlab
+
   - pip:
       # Package deps
       - voila>=0.2.0,<0.3
       - nbconvert>=6.0.0,<7
       - nbclient>=0.4.0
       - jupyter_server>=1.1.0
-      - illusionist>=0.2.0
+      # - illusionist>=0.2.0
 
       # Testing
       - pytest
       - pytest-cov
       - pytest-html
-      - pytest-needle
-      - pytest-base-url
       - pytest-selenium
-      - pytest-tornasync
+      - pytest-splinter
 
       # Docs
       - mkdocs>=1.1.0,<2
@@ -41,23 +52,10 @@ dependencies:
       - pymdown-extensions
 
       # Examples
-      - notebook
-      - jupyterlab
       - ipywidgets
-      - numpy
-      - pandas
-      - scipy
-      - matplotlib
-      - scikit-learn
-      - statsmodels
-      - altair
-      - plotly
-      - bqplot
-      - bokeh
-      - jupyter_bokeh
-      - qgrid
       - ipyleaflet
       - ipysheet
+      - qgrid
       - pandas-datareader
       - colorlover
       - vega_datasets

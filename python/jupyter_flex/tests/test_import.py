@@ -1,7 +1,7 @@
 import pytest
 
 
-pytestmark = [pytest.mark.nondestructive]
+pytestmark = [pytest.mark.quick]
 
 
 def test_import():

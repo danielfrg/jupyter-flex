@@ -15,14 +15,13 @@ voila>=0.2.0,<0.3
 nbconvert>=6.0.0,<7
 nbclient>=0.4.0
 jupyter_server>=1.1.0
-illusionist>=0.2.0
+# illusionist>=0.2.0
 
 # Testing
 pytest
 pytest-cov
 pytest-html
 pytest-needle
-pytest-base-url
 pytest-selenium
 pytest-tornasync
 
