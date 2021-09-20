@@ -117,7 +117,7 @@ jobs:
 
       - name: Push docs (branch)
         uses: jsmrcaga/action-netlify-deploy@master
-        if: github.event_name == 'pull_request_target'
+        if: github.event_name == 'pull_request'
         with:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
