@@ -91,13 +91,14 @@ jobs:
         uses: actions/cache@v2
         with:
           path: python/.venv
-          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/pyproject.toml') }}
+          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/pyproject.toml', '**/requirements*.txt') }}
 
       - name: Install Python dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: |
           cd python
           poetry install --no-interaction --no-root
+          pip install -r python/requirements-examples.txt
 
       - name: Print Python info
         run: |
@@ -136,20 +137,14 @@ jobs:
           # ls /__t/Python/3.7.7/x64/share/jupyter/voila/templates
           curl http://localhost:8866/
 
-      - name: Run layout tests
+      - name: Install other dependencies
         run: |
           source python/.venv/bin/activate
-          make pytest-layouts
-          make report
-
-      - name: Install example dependecies
-        run: |
-          source python/.venv/bin/activate
-          pip install -r python/requirements-examples.txt
           make download-data
 
-      - name: Run all tests
+      - name: Run tests
         run: |
+          source python/.venv/bin/activate
           make pytest-all
           make report
 
