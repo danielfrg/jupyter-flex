@@ -19,10 +19,6 @@ jobs:
         # python-version: [3.7, 3.8, 3.9]
         node-version: ["16"]
 
-    # container:
-    #   image: python:3.9.7
-    #   options: --network-alias testhost
-
     services:
       selenium-hub:
         image: selenium/hub:3.141.59
@@ -54,47 +50,35 @@ jobs:
       # ------------------------------------------------------------------------
       #  JS
 
-      # - name: Setup Node.js ${{ matrix.node-version }}
-      #   uses: actions/setup-node@v2
-      #   with:
-      #     node-version: ${{ matrix.node-version }}
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
 
-      # - name: Load cached node_modules
-      #   id: cached-node_modules-dependencies
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: js/node_modules
-      #     key: node_modules-${{ runner.os }}-${{ hashFiles('js/package*.json') }}
+      - name: Load cached node_modules
+        id: cached-node_modules-dependencies
+        uses: actions/cache@v2
+        with:
+          path: js/node_modules
+          key: node_modules-${{ runner.os }}-${{ hashFiles('js/package*.json') }}
 
-      # - name: Install JS deps
-      #   if: steps.cached-node_modules-dependencies.outputs.cache-hit != 'true'
-      #   run: |
-      #     make npm-install
+      - name: Install JS deps
+        if: steps.cached-node_modules-dependencies.outputs.cache-hit != 'true'
+        run: |
+          make npm-install
 
-      # - name: Build JS
-      #   run: |
-      #     make download-assets
-      #     make npm-build
+      - name: Build JS
+        run: |
+          make download-assets
+          make npm-build
 
       # ------------------------------------------------------------------------
       #  Python
-
-      - name: Print Python info
-        run: |
-          which python
-          which pip
-          python --version
-          pip --version
 
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-
-      # - name: Install OS deps
-      #   run: |
-      #     apt-get install -y libffi-dev
-      #     ln /usr/lib/aarch64-linux-gnu/libffi.so.7 /usr/lib/aarch64-linux-gnu/libffi.so.6
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
