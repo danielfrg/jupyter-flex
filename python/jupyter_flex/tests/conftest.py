@@ -36,6 +36,15 @@ def splinter_driver_kwargs():
 # Overwritting pytest-image-diff
 # Original: https://github.com/Apkawa/pytest-image-diff/blob/master/pytest_image_diff/plugin.py
 
+
+@pytest.fixture(scope="session")
+def image_diff_threshold() -> float:
+    """
+    Set default threshold differences of images. By default - 0.001
+    """
+    return 0.05
+
+
 # Changes the scheenshots taked to the test-results dir
 @pytest.fixture(scope="session")
 def image_diff_root():
