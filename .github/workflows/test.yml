@@ -19,9 +19,9 @@ jobs:
         # python-version: [3.7, 3.8, 3.9]
         node-version: ["16"]
 
-    container:
-      image: python:3.9.7
-      options: --network-alias testhost
+    # container:
+    #   image: python:3.9.7
+    #   options: --network-alias testhost
 
     # services:
     #   selenium-hub:
