@@ -19,7 +19,7 @@ jobs:
         node-version: ["15"]
 
     container:
-      image: python:3.8.12
+      image: ubuntu:20.04
       options: --network-alias testhost
 
     services:
