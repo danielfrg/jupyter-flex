@@ -45,7 +45,7 @@ jobs:
     env:
       SELENIUM_HUB_HOST: selenium-hub
       SELENIUM_HUB_PORT: 4444
-      PYTEST_BASE_URL: http://host.docker.internal:8866
+      PYTEST_BASE_URL: http://localhost:8866
 
     steps:
       - uses: actions/checkout@v2
