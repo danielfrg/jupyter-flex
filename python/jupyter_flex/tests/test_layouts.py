@@ -5,8 +5,6 @@ import pytest
 
 
 pytestmark = [pytest.mark.nondestructive, pytest.mark.layouts, pytest.mark.examples]
-
-
 base_url = os.environ.get("PYTEST_BASE_URL", "http://localhost:8866")
 
 
