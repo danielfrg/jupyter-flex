@@ -10,8 +10,9 @@ TEST_MARKERS ?= "not selenium"
 
 SELENIUM_HUB_HOST ?= 127.0.0.1
 SELENIUM_HUB_PORT ?= 4444
+# Running locally
 PYTEST_BASE_URL ?= http://localhost:8866
-# For running selenium inside docker
+# Running selenium inside docker
 # PYTEST_BASE_URL ?= http://host.docker.internal:8866
 
 
@@ -126,27 +127,13 @@ setup-test:
 	@cd $(CURDIR)/python; mkdir -p test-results/screenshots/plots
 	@cd $(CURDIR)/python; mkdir -p test-results/screenshots/widgets
 
-TEST_MARKERS = quick layouts plots widgets examples
-test-$(TEST_MARKERS): setup-test  ## Run tests
-	cd $(CURDIR)/python; \
-	pytest -k $(PYTEST_K) -m $(subst test-,,$@) \
+TEST_MARKERS = layouts plots widgets examples
+pytest-$(TEST_MARKERS): setup-test  ## Run tests
+	cd $(CURDIR)/python; PYTEST_BASE_URL=$(PYTEST_BASE_URL) \
+	pytest -k $(PYTEST_K) -m $(subst pytest-,,$@) \
 		--splinter-webdriver remote \
-		-–splinter-screenshot-dir screenshots \
 		--splinter-remote-url $(SELENIUM_HUB_HOST)
 		--html=test-results/report.html --self-contained-html
-		# --driver Remote --selenium-host $(SELENIUM_HUB_HOST) \
-		# --selenium-port $(SELENIUM_HUB_PORT) \
-		# --capability browserName chrome \
-		# --base-url $(PYTEST_BASE_URL) \
-		# --needle-baseline-dir $(CURDIR)/docs/assets/img/screenshots \
-		# --needle-output-dir test-results/screenshots \
-
-
-test: setup-test  ## Run tests
-	@cd $(CURDIR)/python
-	pytest --driver Remote --selenium-host $(SELENIUM_HUB_HOST) --selenium-port $(SELENIUM_HUB_PORT) --capability browserName chrome \
-		--base-url $(PYTEST_BASE_URL) --needle-baseline-dir $(CURDIR)/docs/assets/img/screenshots --needle-output-dir test-results/screenshots \
-		-k $(PYTEST_K) -m $(TEST_MARKERS) --html=test-results/report.html --self-contained-html
 
 
 test-all: setup-test  ## Run all tests

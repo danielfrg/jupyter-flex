@@ -19,7 +19,7 @@ jobs:
         node-version: ["15"]
 
     container:
-      image: python:3.9.2
+      image: python:3.8.12
       options: --network-alias testhost
 
     services:

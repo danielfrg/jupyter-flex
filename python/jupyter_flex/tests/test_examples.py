@@ -1,35 +1,28 @@
-# import time
+import os
+import time
 
-# import pytest
-
-
-# pytestmark = [pytest.mark.examples]
+import pytest
 
 
-# @pytest.fixture
-# def myselenium(selenium):
-#     selenium.set_window_size(1440, 900)
-#     return selenium
+pytestmark = [pytest.mark.examples]
 
 
-# @pytest.mark.layouts
-# @pytest.mark.parametrize(
-#     "name,path",
-#     [
-#         ("tree", ""),
-#         ("404", "non-existent-page-404"),
-#         ("404-voila", "voila/render/non-existent-page-404"),
-#     ],
-# )
-# def test_voila(needle, myselenium, base_url, name, path):
-#     target_url = "{0}/{1}".format(base_url, path)
-#     needle.driver.get(target_url)
+base_url = os.environ.get("PYTEST_BASE_URL", "http://localhost:8866")
 
-#     # Wait for dashboard to render
-#     time.sleep(2)
 
-#     # Take an element screen diff
-#     needle.assert_screenshot(f"voila-{name}", threshold=250000)
+@pytest.mark.layouts
+@pytest.mark.parametrize(
+    "name,path",
+    [
+        ("tree", ""),
+        ("404", "non-existent-page-404"),
+        ("404-voila", "voila/render/non-existent-page-404"),
+    ],
+)
+def test_voila(browser, screenshot_regression, name, path):
+    browser.visit(f"{base_url}/{path}")
+    time.sleep(2)  # Wait for dashboard to render
+    screenshot_regression(suffix=f"voila_{name}")
 
 
 # @pytest.mark.parametrize(
