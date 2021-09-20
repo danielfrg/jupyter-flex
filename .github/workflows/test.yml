@@ -19,7 +19,7 @@ jobs:
         node-version: ["15"]
 
     container:
-      image: ubuntu:20.04
+      image: python:3.8.12
       options: --network-alias testhost
 
     services:
@@ -104,7 +104,7 @@ jobs:
 
       - name: Print Python info
         run: |
-          source python/.venv/bin/activate
+          . python/.venv/bin/activate
           which python
           which pip
           python --version
@@ -112,12 +112,12 @@ jobs:
 
       - name: Build Python
         run: |
-          source python/.venv/bin/activate
+          . python/.venv/bin/activate
           make build-python
 
       - name: Install package
         run: |
-          source python/.venv/bin/activate
+          . python/.venv/bin/activate
           cd python
           pip install dist/*.tar.gz
           pip freeze
@@ -127,7 +127,7 @@ jobs:
 
       - name: Serve Voila
         run: |
-          source python/.venv/bin/activate
+          . python/.venv/bin/activate
           make voila-examples &
 
       - name: Verify Voila
@@ -137,7 +137,7 @@ jobs:
 
       - name: Run layout tests
         run: |
-          source python/.venv/bin/activate
+          . python/.venv/bin/activate
           make pytest-all
           make report
 
