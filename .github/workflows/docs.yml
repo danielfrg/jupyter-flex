@@ -102,6 +102,7 @@ jobs:
 
       - name: Build docs
         run: |
+          source python/.venv/bin/activate
           make docs
 
       - name: Push docs (master)
