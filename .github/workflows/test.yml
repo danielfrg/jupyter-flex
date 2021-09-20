@@ -54,27 +54,27 @@ jobs:
       # ------------------------------------------------------------------------
       #  JS
 
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
+      # - name: Setup Node.js ${{ matrix.node-version }}
+      #   uses: actions/setup-node@v2
+      #   with:
+      #     node-version: ${{ matrix.node-version }}
 
-      - name: Load cached node_modules
-        id: cached-node_modules-dependencies
-        uses: actions/cache@v2
-        with:
-          path: js/node_modules
-          key: node_modules-${{ runner.os }}-${{ hashFiles('js/package*.json') }}
+      # - name: Load cached node_modules
+      #   id: cached-node_modules-dependencies
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: js/node_modules
+      #     key: node_modules-${{ runner.os }}-${{ hashFiles('js/package*.json') }}
 
-      - name: Install JS deps
-        if: steps.cached-node_modules-dependencies.outputs.cache-hit != 'true'
-        run: |
-          make npm-install
+      # - name: Install JS deps
+      #   if: steps.cached-node_modules-dependencies.outputs.cache-hit != 'true'
+      #   run: |
+      #     make npm-install
 
-      - name: Build JS
-        run: |
-          make download-assets
-          make npm-build
+      # - name: Build JS
+      #   run: |
+      #     make download-assets
+      #     make npm-build
 
       # ------------------------------------------------------------------------
       #  Python
@@ -86,7 +86,7 @@ jobs:
 
       - name: Install OS deps
         run: |
-          sudo apt-get install -y libffi-dev
+          apt-get install -y libffi-dev
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
