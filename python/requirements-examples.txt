@@ -1,18 +1,18 @@
-notebook
 jupyterlab
-ipywidgets
 numpy
 pandas
 scipy
 scikit-learn
+statsmodels
 matplotlib
 altair
 plotly
-bqplot
 bokeh
-ipysheet
-ipyleaflet
-qgrid
-pandas-datareader
-colorlover
+bqplot
 vega_datasets
+# ipywidgets
+# ipysheet
+# ipyleaflet
+# qgrid
+# pandas-datareader
+# colorlover

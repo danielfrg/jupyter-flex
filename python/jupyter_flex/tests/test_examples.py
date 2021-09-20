@@ -10,6 +10,29 @@ pytestmark = [pytest.mark.nondestructive, pytest.mark.examples]
 base_url = os.environ.get("PYTEST_BASE_URL", "http://localhost:8866")
 
 
+@pytest.mark.plots
+@pytest.mark.parametrize(
+    "nb_name",
+    [
+        "altair-scroll",
+        "altair-single",
+        "altair",
+        "bokeh-single",
+        "bokeh",
+        "bqplot-single",
+        "bqplot",
+        "plotly-single",
+        "plotly",
+        "plots-mixed-content",
+    ],
+)
+def test_plots(browser, screenshot_regression, nb_name):
+    target_url = f"{base_url}/voila/render/plots/{nb_name}.ipynb"
+    browser.visit(target_url)
+    time.sleep(2)  # Wait for dashboard to render
+    screenshot_regression(suffix=f"plots_{nb_name}")
+
+
 # @pytest.mark.parametrize(
 #     "nb_name",
 #     [
@@ -45,80 +68,18 @@ base_url = os.environ.get("PYTEST_BASE_URL", "http://localhost:8866")
 #     needle.assert_screenshot(f"getting-started/{nb_name}", threshold=250000)
 
 
-# # @pytest.mark.parametrize(
-# #     "nb_name", ["linked", "matplotlib", "multiplier", "widget-gallery"]
-# # )
-# # def test_illusionist(needle, myselenium, base_url, nb_name):
-# #     target_url = "{0}/voila/render/illusionist/{1}.ipynb".format(base_url, nb_name)
-# #     needle.driver.get(target_url)
-
-# #     # Wait for dashboard to render
-# #     time.sleep(5)
-
-# #     # Take an element screen diff
-# #     needle.assert_screenshot(f"illusionist/{nb_name}", threshold=250000)
-
-
-# @pytest.mark.layouts
 # @pytest.mark.parametrize(
-#     "nb_name",
-#     [
-#         "card-complete",
-#         "focal-chart-top-card-size",
-#         "focal-chart-top",
-#         "grid-2x2",
-#         "grid-2x3",
-#         "header-columns-footer",
-#         "layout-fill",
-#         "layout-scroll",
-#         "pages-diff-layouts",
-#         "pages",
-#         "section-columns-columns",
-#         "section-columns-rows",
-#         "section-rows-columns",
-#         "section-rows-rows",
-#         "section-tabs-columns",
-#         "section-tabs-rows",
-#         "sidebar-global-and-pages",
-#         "sidebar-global",
-#         "sidebar-pages",
-#     ],
+#     "nb_name", ["linked", "matplotlib", "multiplier", "widget-gallery"]
 # )
-# def test_layouts(needle, myselenium, base_url, nb_name):
-#     target_url = "{0}/voila/render/layouts/{1}.ipynb".format(base_url, nb_name)
+# def test_illusionist(needle, myselenium, base_url, nb_name):
+#     target_url = "{0}/voila/render/illusionist/{1}.ipynb".format(base_url, nb_name)
 #     needle.driver.get(target_url)
 
 #     # Wait for dashboard to render
 #     time.sleep(5)
 
 #     # Take an element screen diff
-#     needle.assert_screenshot(f"layouts/{nb_name}", threshold=250000)
-
-
-# @pytest.mark.parametrize(
-#     "nb_name",
-#     [
-#         "altair-scroll",
-#         "altair-single",
-#         "altair",
-#         "bokeh-single",
-#         "bokeh",
-#         "bqplot-single",
-#         "bqplot",
-#         "plotly-single",
-#         "plotly",
-#         "plots-mixed-content",
-#     ],
-# )
-# def test_plots(needle, myselenium, base_url, nb_name):
-#     target_url = "{0}/voila/render/plots/{1}.ipynb".format(base_url, nb_name)
-#     needle.driver.get(target_url)
-
-#     # Wait for dashboard to render
-#     time.sleep(5)
-
-#     # Take an element screen diff
-#     needle.assert_screenshot(f"plots/{nb_name}", threshold=250000)
+#     needle.assert_screenshot(f"illusionist/{nb_name}", threshold=250000)
 
 
 # @pytest.mark.parametrize(

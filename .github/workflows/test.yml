@@ -139,22 +139,24 @@ jobs:
       - name: Run layout tests
         run: |
           source python/.venv/bin/activate
+          make pytest-layouts
+          make report
+
+      - name: Install example dependecies
+        run: |
+          source python/.venv/bin/activate
+          pip install -r python/requirements-examples.txt
+          make download-data
+
+      - name: Run all tests
+        run: |
           make pytest-all
           make report
 
-      # - name: Install other dependencies
-      #   run: |
-      #     make download-data
-
-      # - name: Run all tests
-      #   run: |
-      #     make pytest-all
-      #     make report
-
-      # - name: Codecov
-      #   uses: codecov/codecov-action@v1
-      #   with:
-      #     file: python/coverage.xml
+      - name: Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          file: python/coverage.xml
 
       - name: Upload test restuls
         uses: actions/upload-artifact@v1

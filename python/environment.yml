@@ -16,17 +16,17 @@ dependencies:
   # - wheel
 
   # Examples
+  # - jupyterlab
   # - numpy
   # - pandas
   # - scipy
   # - scikit-learn
+  # - statsmodels
   # - matplotlib
   # - altair
   # - plotly
-  # - bqplot
   # - bokeh
-  # - notebook
-  # - jupyterlab
+  # - bqplot
 
   - pip:
       # Package deps
@@ -53,10 +53,10 @@ dependencies:
       # - pymdown-extensions
 
       # Examples
+      # - vega_datasets
       # - ipywidgets
-      # - ipyleaflet
       # - ipysheet
+      # - ipyleaflet
       # - qgrid
       # - pandas-datareader
       # - colorlover
-      # - vega_datasets

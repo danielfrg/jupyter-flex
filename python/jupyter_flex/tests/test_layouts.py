@@ -10,7 +10,6 @@ pytestmark = [pytest.mark.nondestructive, pytest.mark.layouts, pytest.mark.examp
 base_url = os.environ.get("PYTEST_BASE_URL", "http://localhost:8866")
 
 
-@pytest.mark.layouts
 @pytest.mark.parametrize(
     "name,path",
     [
@@ -26,7 +25,6 @@ def test_voila(browser, screenshot_regression, name, path):
     screenshot_regression(suffix=f"voila_{name}")
 
 
-@pytest.mark.layouts
 @pytest.mark.parametrize(
     "nb_name",
     [
@@ -57,7 +55,6 @@ def test_layouts(browser, screenshot_regression, nb_name):
     screenshot_regression(suffix=f"layouts_{nb_name}")
 
 
-@pytest.mark.layouts
 @pytest.mark.parametrize("nb_name", ["classes-colors", "custom-css"])
 def test_layouts_customize(browser, screenshot_regression, nb_name):
     target_url = f"{base_url}/voila/render/layouts/customize/{nb_name}.ipynb"
