@@ -54,9 +54,9 @@ cleanpython:  ## Clean Python build files
 	rm -rf site docs/examples
 	rm -f examples/*.html examples/**/*.html
 
-
 # ------------------------------------------------------------------------------
 # Javascript
+
 
 npm-i: npm-install
 npm-install:  ## Install JS dependencies

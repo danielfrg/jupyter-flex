@@ -9,9 +9,9 @@ dependencies:
   - setuptools
   - setuptools_scm
   - pylint
-  - flake8
   - black
   - isort
+  - flake8
   - twine
   - wheel
 

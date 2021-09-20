@@ -78,18 +78,17 @@ brew install --cask google-chrome
 3. Run pytest locally against Selenium
 
 ```shell
+# Run a group of tests
+make pytest-{marker}
+
 # Run all tests
-make test
+make pytest-all
 
 # Run a specific test
-make test PYTEST_K=ipysheet
+make pytest PYTEST_K=ipysheet
 ```
 
-To generate/update the test baselines
-
-```shell
-make test-baselines
-```
+To generate/update the test baselines just run the tests
 
 ## Docs
 
