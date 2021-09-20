@@ -10,21 +10,6 @@ pytestmark = [pytest.mark.nondestructive, pytest.mark.examples]
 base_url = os.environ.get("PYTEST_BASE_URL", "http://localhost:8866")
 
 
-@pytest.mark.layouts
-@pytest.mark.parametrize(
-    "name,path",
-    [
-        ("tree", ""),
-        ("404", "non-existent-page-404"),
-        ("404-voila", "voila/render/non-existent-page-404"),
-    ],
-)
-def test_voila(browser, screenshot_regression, name, path):
-    browser.visit(f"{base_url}/{path}")
-    time.sleep(2)  # Wait for dashboard to render
-    screenshot_regression(suffix=f"voila_{name}")
-
-
 # @pytest.mark.parametrize(
 #     "nb_name",
 #     [
@@ -108,21 +93,6 @@ def test_voila(browser, screenshot_regression, name, path):
 
 #     # Take an element screen diff
 #     needle.assert_screenshot(f"layouts/{nb_name}", threshold=250000)
-
-
-# @pytest.mark.layouts
-# @pytest.mark.parametrize("nb_name", ["classes-colors", "custom-css"])
-# def test_customize(needle, myselenium, base_url, nb_name):
-#     target_url = "{0}/voila/render/layouts/customize/{1}.ipynb".format(
-#         base_url, nb_name
-#     )
-#     needle.driver.get(target_url)
-
-#     # Wait for dashboard to render
-#     time.sleep(5)
-
-#     # Take an element screen diff
-#     needle.assert_screenshot(f"customize/{nb_name}", threshold=250000)
 
 
 # @pytest.mark.parametrize(

@@ -4,12 +4,12 @@ services:
   selenium-hub:
     image: selenium/hub:3.141.59
     ports:
-     - 4444:4444
+      - 4444:4444
     volumes:
       - type: tmpfs
         target: /dev/shm
         tmpfs:
-           size: 4096000000 # (this means 4GB)
+          size: 4096000000 # (4GB)
 
   chrome:
     image: selenium/node-chrome:3.141.59
@@ -22,4 +22,4 @@ services:
       - type: tmpfs
         target: /dev/shm
         tmpfs:
-           size: 4096000000 # (this means 4GB)
+          size: 4096000000 # (4GB)
