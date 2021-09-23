@@ -1,6 +1,10 @@
 # jupyter-flex Change Log
 
-## 0.7.3
+## 0.7.2 - unreleased
+
+- Better handling of empty pages and sections (#96)
+
+## 0.7.1
 
 - Add `no-header` tag to Cards
 
