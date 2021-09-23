@@ -2,7 +2,7 @@
 
 ## Upload to test PyPI
 
-```
+```shell
 export VERSION=1.0.0
 git checkout -b release-${VERSION}
 
@@ -14,7 +14,7 @@ make cleanall
 make npm-install
 
 # Build
-make build
+make all
 
 # Upload to test pypi
 make upload-test
@@ -37,19 +37,18 @@ Merge branch when CI passes
 - Update `README.md` and docs:
     - Links to Binder should use the new version
 
-```
+```shell
 export VERSION=1.0.0
 
 # Optional reset
 make cleanall
-make download-assets
 make npm-install
 
 git commit -am "Release ${VERSION}" --allow-empty
 git tag ${VERSION}
 
 # Build
-make build
+make all
 make upload-pypi
 git push origin ${VERSION}
 git push
@@ -57,7 +56,7 @@ git push
 
 ### NPM release
 
-```
+```shell
 export VERSION=1.0.0
 
 cd js

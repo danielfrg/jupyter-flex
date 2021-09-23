@@ -3,8 +3,11 @@ import time
 
 import pytest
 
-
-pytestmark = [pytest.mark.nondestructive, pytest.mark.illusionist, pytest.mark.skip]
+pytestmark = [
+    pytest.mark.nondestructive,
+    pytest.mark.illusionist,
+    pytest.mark.skip,
+]
 base_url = os.environ.get("PYTEST_BASE_URL", "http://localhost:8866")
 
 

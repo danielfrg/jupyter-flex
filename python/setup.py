@@ -4,7 +4,6 @@ import sys
 from setuptools import find_packages, setup
 from setuptools.command.develop import develop
 
-
 setup_dir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -22,7 +21,9 @@ scm_version_write_to_prefix = os.environ.get(
 def parse_git(root, **kwargs):
     from setuptools_scm.git import parse
 
-    kwargs["describe_command"] = 'git describe --dirty --tags --long --match "[0-9].*"'
+    kwargs[
+        "describe_command"
+    ] = 'git describe --dirty --tags --long --match "[0-9].*"'
     return parse(root, **kwargs)
 
 
@@ -32,7 +33,13 @@ def get_data_files():
     for (dirpath, dirnames, filenames) in os.walk("share/jupyter/"):
         if filenames:
             data_files.append(
-                (dirpath, [os.path.join(dirpath, filename) for filename in filenames])
+                (
+                    dirpath,
+                    [
+                        os.path.join(dirpath, filename)
+                        for filename in filenames
+                    ],
+                )
             )
     return data_files
 
@@ -78,7 +85,6 @@ setup(
         ),
     },
     packages=find_packages(),
-    # package_dir={"": "src"},
     zip_safe=False,
     include_package_data=True,
     package_data={"jupyter_flex": ["static/*"]},
@@ -113,9 +119,11 @@ setup(
         "dashboards",
     ],
     classifiers=[
-        "License :: OSI Approved :: Apache Software License",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
+        "Development Status :: 5 - Production/Stable",
+        "Operating System :: OS Independent",
+        "Intended Audience :: Science/Research",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "Topic :: Scientific/Engineering",
     ],
 )

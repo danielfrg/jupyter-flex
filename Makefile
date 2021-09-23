@@ -10,9 +10,8 @@ TEST_MARKERS ?= "not selenium"
 
 SELENIUM_HUB_HOST ?= 127.0.0.1
 SELENIUM_HUB_PORT ?= 4444
-# Running locally
 PYTEST_BASE_URL ?= http://localhost:8866
-# Running selenium inside docker
+# For selenium running in Docker to access the host
 # PYTEST_BASE_URL ?= http://host.docker.internal:8866
 
 
@@ -46,6 +45,7 @@ upload-test:  ## Upload package to test PyPI
 
 
 cleanpython:  ## Clean Python build files
+	rm -rf .pytest_cache
 	cd $(CURDIR)/python; rm -rf build dist htmlcov .pytest_cache test-results .eggs
 	cd $(CURDIR)/python; rm -f .coverage coverage.xml jupyter_flex/_generated_version.py
 	find . -type f -name '*.py[co]' -delete
@@ -54,9 +54,9 @@ cleanpython:  ## Clean Python build files
 	rm -rf site docs/examples
 	rm -f examples/*.html examples/**/*.html
 
+
 # ------------------------------------------------------------------------------
 # Javascript
-
 
 npm-i: npm-install
 npm-install:  ## Install JS dependencies
@@ -203,9 +203,8 @@ examples-clear-output:  ## Clear output of notebooks
 # ------------------------------------------------------------------------------
 # Other
 
-
 cleanall: cleanpython cleanjs  ## Clean everything
-	rm -rf *.egg-info
+	cd $(CURDIR)/python; rm -rf *.egg-info
 	cd $(CURDIR)/js/; rm -rf node_modules
 
 

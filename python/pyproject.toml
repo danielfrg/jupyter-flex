@@ -1,18 +1,28 @@
 [tool.poetry]
 name = "jupyter-flex"
-version = "0.8.0-dev"
-description = "Dashboards for Jupyter"
-authors = ["Daniel Rodriguez <daniel@danielfrg.com>"]
+version = "1.0.0"
+packages = [{ include = "jupyter_flex" }]
+homepage = "https://github.com/danielfrg/jupyter-flex"
+repository = "https://github.com/danielfrg/jupyter-flex"
+documentation = "https://github.com/danielfrg/jupyter-flex"
+description = "Build dashboards using Jupyter Notebooks"
+authors = ["Daniel Rodriguez"]
+maintainers = ["Daniel Rodriguez"]
+license = "Apache License, Version 2.0"
+readme = "README.md"
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering",
+]
 
-[build-system]
-requires = ["setuptools>=42", "setuptools_scm[toml]>=3.4", "wheel"]
-
-# [tool.setuptools_scm]
-# root = "../"
-# write_to = "python/jupyter_flex/_generated_version.py"
-
+# I am just using Poetry dependencies for the CI system
+# When Mac supports the dependencies we can use it for dev
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.7.1,<4"
 voila = ">=0.2.0,<0.3"
 nbconvert = ">=6.0.0,<7"
 ipykernel = ">=6.4.1<7"
@@ -47,8 +57,17 @@ pytest-image-diff = "^0.0.6"
 
 
 [tool.pytest.ini_options]
-norecursedirs = ".git,dist,build,env,venv,.venv"
-addopts = "jupyter_flex/tests -s -vv --cov-config=pyproject.toml --cov=jupyter_flex --cov-report term-missing"
+addopts = [
+  "-s", "-vv",
+  "--ignore=site-packages",
+  "--ignore=dist-packages",
+  "--ignore=dist",
+  "--strict-markers",
+  "--cov=jupyter_flex",
+  "--cov-report=term-missing",
+  "--cov-config=pyproject.toml",
+]
+xfail_strict = true
 markers = [
     "base: marks tests as base (deselect with '-m \"not base\"')",
     "layouts: mark all layout tests",
@@ -60,35 +79,29 @@ filterwarnings = [
     "ignore::DeprecationWarning",
 ]
 
+[tool.coverage.run]
+parallel = true
+branch = true
+
 [tool.coverage.report]
-omit = ["jupyter_flex/_generated_version.py", "jupyter_flex/tests/*"]
+omit = ["jupyter_flex/tests/*"]
 
 [tool.black]
-target-version = ["py37", "py38"]
-exclude = '''
-(
-    asv_bench/env
-  | \.egg
-  | \.git
-  | \.hg
-  | \.mypy_cache
-  | \.nox
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-  | _generated_version.py
-  | node_modules
-)
-'''
+line_length = 79
+skip_string_normalization = true
 
 [tool.isort]
-# https://black.readthedocs.io/en/stable/the_black_code_style.html#how-black-wraps-lines
+ensure_newline_before_comments = true
+line_length = 79
 multi_line_output = 3
-lines_after_imports = 2
-force_grid_wrap = 0
-include_trailing_comma = "true"
-use_parentheses = "true"
-line_length = 88
+include_trailing_comma = true
+profile = "black"
+
+[tool.pydocstyle]
+inherit = false
+convention = "numpy"
+match_dir = "jupyter_flex"
+add_ignore = ["D100", "D101", "D102", "D103", "D104", "D105"]
+
+[build-system]
+requires = ["setuptools>=42", "setuptools_scm[toml]>=3.4", "wheel"]

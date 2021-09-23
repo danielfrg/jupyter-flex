@@ -22,4 +22,5 @@ except ImportError:
         __version__ = None
 
 from .exporter import FlexExporter  # noqa
+
 # from .exporter_illusionist import FlexIllusionistExporter  # noqa

@@ -73,13 +73,14 @@ def image_diff_reference_dir():
 @pytest.fixture(scope="function")
 def _image_diff_info(request, image_diff_reference_dir, image_diff_dir):
     import os
+
     from pytest_image_diff.helpers import get_test_info
     from pytest_image_diff.plugin import DiffInfo
 
     def _factory(image, suffix=None):
         test_info = get_test_info(request)
         class_name = test_info.class_name
-        test_name = test_info.test_name
+        # test_name = test_info.test_name
         if suffix is None:
             # Todo enumerate every call
             suffix = ""
@@ -91,7 +92,9 @@ def _image_diff_info(request, image_diff_reference_dir, image_diff_dir):
         image_name = os.path.join(screenshot_dir, suffix + "-screenshot.png")
         diff_name = os.path.join(screenshot_dir, suffix + "-diff.png")
         return DiffInfo(
-            diff_name=diff_name, image_name=image_name, reference_name=reference_name
+            diff_name=diff_name,
+            image_name=image_name,
+            reference_name=reference_name,
         )
 
     return _factory
