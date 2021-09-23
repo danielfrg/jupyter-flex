@@ -55,7 +55,6 @@ pytest-image-diff = "^0.0.6"
 # Pygments = "^2.10.0"
 # pymdown-extensions = "^8.2"
 
-
 [tool.pytest.ini_options]
 addopts = [
   "-s", "-vv",
@@ -72,10 +71,10 @@ markers = [
     "base: marks tests as base (deselect with '-m \"not base\"')",
     "layouts: mark all layout tests",
     "examples: marks all example tests",
-    "plots: mark all plotting library tests",
-    "apps: mark all apps library tests",
+    "plots: mark all plotting tests",
+    "apps: mark all apps tests",
     "widgets: marks all widget tests",
-    "docs: mark all plotting library tests",
+    "docs: mark all docs tests",
     "illusionist: marks all illusionist tests",
 ]
 filterwarnings = [
