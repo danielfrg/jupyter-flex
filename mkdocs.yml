@@ -28,6 +28,7 @@ theme:
     - navigation.indexes
 
 extra_css:
+  - assets/css/material-pygments.css
   - assets/css/custom.css
 
 extra_javascript:

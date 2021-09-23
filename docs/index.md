@@ -11,7 +11,7 @@ Build dashboard using Jupyter Notebooks.
 ## Installation
 
 <p class="code-header">Terminal</p>
-```
+```shell
 $ pip install jupyter-flex
 ```
 

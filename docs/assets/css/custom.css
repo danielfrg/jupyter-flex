@@ -57,19 +57,7 @@ a:hover {
         flex-direction: row;
     }
     .image-grid .image-card {
-        width: 225px;
-    }
-    .image-grid img {
-        padding-bottom: 0;
-    }
-}
-
-@media (min-width: 1024px) {
-    .image-grid {
-        flex-direction: row;
-    }
-    .image-grid .image-card {
-        width: 250px;
+        width: 33%;
     }
     .image-grid img {
         padding-bottom: 0;
@@ -78,14 +66,15 @@ a:hover {
 
 /* Terminal */
 p.code-header {
-    color: #3c3c3c;
-    background-color: rgba(219, 219, 219, 0.8);
+    background-color: #263238;
+    color: #fff;
     margin: 1em 0 -1.2em;
     padding: 0.1em 1em;
     font-size: 0.8em;
     font-family: "Roboto Mono", "Courier New", Courier, monospace;
 }
 
+/* Code blocks */
 pre {
     overflow: auto;
 }
@@ -96,4 +85,15 @@ pre .code-noselect {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+/* For highlighted blocks */
+.codehilite pre code {
+    background-color: #263238;
+}
+
+/* For non highlighted blocks */
+.md-typeset pre code {
+    background-color: #263238;
+    color: #fff;
 }
