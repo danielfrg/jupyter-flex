@@ -18,7 +18,7 @@ PYTEST_BASE_URL ?= http://localhost:8866
 first: help
 
 
-all: download-assets npm-build build-python  ## Build everything
+all: npm-build build-python  ## Build everything
 
 
 # ------------------------------------------------------------------------------

@@ -11,7 +11,7 @@ git tag ${VERSION}.a0
 
 # Optional reset
 make cleanall
-make npm-install
+make download-assets npm-install
 
 # Build
 make all
@@ -42,7 +42,7 @@ export VERSION=1.0.0
 
 # Optional reset
 make cleanall
-make npm-install
+make download-assets npm-install
 
 git commit -am "Release ${VERSION}" --allow-empty
 git tag ${VERSION}
