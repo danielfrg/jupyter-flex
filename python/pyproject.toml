@@ -71,9 +71,11 @@ xfail_strict = true
 markers = [
     "base: marks tests as base (deselect with '-m \"not base\"')",
     "layouts: mark all layout tests",
+    "apps: mark all apps library tests",
     "plots: mark all plotting library tests",
     "widgets: marks all widget tests",
-    "examples: marks all example tests"
+    "illusionist: marks illusionist tests",
+    "examples: marks all example tests",
 ]
 filterwarnings = [
     "ignore::DeprecationWarning",

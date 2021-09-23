@@ -92,8 +92,12 @@ jobs:
           path: python/.venv
           key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/pyproject.toml', '**/requirements*.txt') }}
 
+      - name: Ensure cache is healthy
+        if: steps.cached-poetry-dependencies.outputs.cache-hit == 'true'
+        shell: bash
+        run: poetry run python --version || rm -rf python/.venv
+
       - name: Install Python dependencies
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: |
           cd python
           poetry install --no-interaction --no-root
