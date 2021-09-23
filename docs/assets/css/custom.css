@@ -57,6 +57,18 @@ a:hover {
         flex-direction: row;
     }
     .image-grid .image-card {
+        width: 225px;
+    }
+    .image-grid img {
+        padding-bottom: 0;
+    }
+}
+
+@media (min-width: 1024px) {
+    .image-grid {
+        flex-direction: row;
+    }
+    .image-grid .image-card {
         width: 250px;
     }
     .image-grid img {
