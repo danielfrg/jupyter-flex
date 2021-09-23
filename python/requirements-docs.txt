@@ -1,6 +1,6 @@
 mkdocs>=1.1.0,<2
-mkdocs-material>7.1.0
-mkdocs-jupyter>=0.17.0
+mkdocs-material>=7.3.0
+mkdocs-jupyter>=0.17.4
 mkdocs-minify-plugin
 pygments
 pymdown-extensions
