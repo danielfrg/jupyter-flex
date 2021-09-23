@@ -14,7 +14,7 @@
 {%- endmacro -%}
 
 {# Output text if it starts with prefix (removes the prefix) #}
-{%- macro startswith_remove_prefix(text, prefix) -%}
+{%- macro startswith_and_strip(text, prefix) -%}
 {%- if text.startswith(prefix) -%}
 {{ text[prefix | length:] | trim }}
 {%- endif -%}
@@ -24,7 +24,7 @@
 {%- macro join_all_items_with_prefix(list, prefix, join_char=" ") -%}
 {%- set matches = [] -%}
 {%- for item in list -%}
-    {%- set has_prefix = startswith_remove_prefix(item, "class=") -%}
+    {%- set has_prefix = startswith_and_strip(item, "class=") -%}
     {%- if has_prefix | length -%}
         {%- set _ = matches.append(has_prefix) -%}
     {%- endif -%}
@@ -115,7 +115,7 @@
             {%- continue -%}
         {%- endif -%}
 
-        {%- set h1_title = startswith_remove_prefix(cell_source, "# ") -%}
+        {%- set h1_title = startswith_and_strip(cell_source, "# ") -%}
         {%- if h1_title -%}
             {#- Define a new page -#}
 
@@ -140,7 +140,7 @@
             {%- set _ = vars.update({"current_card": {} }) -%}
         {%- endif -%}
 
-        {%- set h2_title = startswith_remove_prefix(cell_source, "## ") -%}
+        {%- set h2_title = startswith_and_strip(cell_source, "## ") -%}
         {%- if h2_title -%}
             {#- Define a new section -#}
 
@@ -155,7 +155,7 @@
             {%- endif -%}
 
             {#- Add current section to current page -#}
-            {%- if vars.current_section -%}
+            {%- if vars.current_section and vars.current_section.cards -%}
                 {%- set _ = vars.current_page["sections"].append(vars.current_section) -%}
             {%- endif -%}
 
@@ -164,7 +164,7 @@
             {%- set _ = vars.update({"current_card": {} }) -%}
         {%- endif -%}
 
-        {%- set h3_title = startswith_remove_prefix(cell_source, "### ") -%}
+        {%- set h3_title = startswith_and_strip(cell_source, "### ") -%}
         {%- if h3_title -%}
             {#- Define a new card -#}
 
@@ -235,9 +235,15 @@
 {%- endfor -%}
 
 {#- End of the notebook: Add final components to the parents -#}
-{%- set _ = vars.current_section["cards"].append(vars.current_card) -%}
+{%- if vars.current_card -%}
+    {%- set _ = vars.current_section["cards"].append(vars.current_card) -%}
+{%- endif -%}
+{%- if vars.current_section and vars.current_section.cards -%}
 {%- set _ = vars.current_page["sections"].append(vars.current_section) -%}
+{%- endif -%}
+{%- if vars.current_page and vars.current_page.sections -%}
 {%- set _ = dashboard["pages"].append(vars.current_page) -%}
+{%- endif -%}
 
 {#----------------------------------------------------------------------------#}
 {#- Macros to get formated output form this file   -#}

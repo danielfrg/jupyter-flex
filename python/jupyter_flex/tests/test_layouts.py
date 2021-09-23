@@ -44,6 +44,8 @@ def test_voila(browser, screenshot_regression, name, path):
         "sidebar-global-and-pages",
         "sidebar-global",
         "sidebar-pages",
+        "test-empty-sections",
+        "test-empty-pages",
     ],
 )
 def test_layouts(browser, screenshot_regression, nb_name):
