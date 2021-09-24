@@ -56,13 +56,14 @@ pytest-image-diff = "^0.0.6"
 # pymdown-extensions = "^8.2"
 
 [tool.pytest.ini_options]
+testpaths = ["jupyter_flex/tests"]
 addopts = [
   "-s", "-vv",
   "--ignore=dist",
   "--ignore=site-packages",
   "--strict-markers",
   "--cov=jupyter_flex",
-  "--cov-report=term-missing",
+  "--cov-report=term",
   "--cov-config=pyproject.toml",
 ]
 xfail_strict = true
