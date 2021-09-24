@@ -153,14 +153,14 @@ jobs:
           make pytest-all
           make report
 
-      - name: Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          file: python/coverage.xml
-
       - name: Upload test restuls
         uses: actions/upload-artifact@v1
         if: always()
         with:
           name: test-results
           path: python/test-results
+
+      - name: Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          file: python/coverage.xml
