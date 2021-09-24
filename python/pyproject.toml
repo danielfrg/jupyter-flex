@@ -58,9 +58,8 @@ pytest-image-diff = "^0.0.6"
 [tool.pytest.ini_options]
 addopts = [
   "-s", "-vv",
-  "--ignore=site-packages",
-  "--ignore=dist-packages",
   "--ignore=dist",
+  "--ignore=site-packages",
   "--strict-markers",
   "--cov=jupyter_flex",
   "--cov-report=term-missing",
@@ -82,12 +81,23 @@ filterwarnings = [
 ]
 
 [tool.coverage.run]
-parallel = true
 branch = true
+parallel = true
 
 [tool.coverage.report]
+show_missing = true
+ignore_errors = false
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError"
+]
 omit = ["jupyter_flex/tests/*"]
 
+[tool.coverage.paths]
+source = [
+    "jupyter_flex",
+    ".venv/lib/python*/site-packages/jupyter_flex",
+]
 [tool.black]
 line_length = 79
 skip_string_normalization = true
