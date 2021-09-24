@@ -111,6 +111,7 @@ jobs:
           which pip
           python --version
           pip --version
+          pip freeze
 
       - name: Build Python
         run: |
