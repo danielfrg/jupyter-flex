@@ -97,7 +97,7 @@ omit = ["jupyter_flex/tests/*"]
 [tool.coverage.paths]
 source = [
     "jupyter_flex",
-    ".venv/lib/python*/site-packages/jupyter_flex",
+  ".venv/lib/python*/site-packages/jupyter_flex",
 ]
 [tool.black]
 line_length = 79
