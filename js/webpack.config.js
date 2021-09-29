@@ -8,13 +8,10 @@ const pythonPkgStatic = path.resolve(
     __dirname,
     "..",
     "python",
-    "share",
-    "jupyter",
-    "nbconvert",
+    "jupyter_flex",
     "templates",
     "flex",
-    "static",
-    "dist"
+    "assets"
 );
 
 const extractPlugin = {
@@ -30,6 +27,7 @@ module.exports = (env, argv) => {
         output: {
             path: path.resolve(__dirname, "dist"),
             filename: "jupyter-flex-embed.js",
+            publicPath: "",
         },
         module: {
             rules: [
@@ -81,6 +79,7 @@ module.exports = (env, argv) => {
         entry: path.resolve(__dirname, "src", "styles/index.scss"),
         output: {
             path: path.resolve(__dirname, "lib", "styles"),
+            publicPath: "",
         },
         module: {
             rules: [

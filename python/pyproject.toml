@@ -24,21 +24,23 @@ classifiers = [
 [tool.poetry.dependencies]
 python = ">=3.7.1,<4"
 voila = ">=0.2.0,<0.3"
-nbconvert = ">=6.0.0,<7"
+nbconvert = ">=6.2.0,<7"
 ipykernel = ">=6.4.1,<7"
 jinja2 = ">=3.0.1,<4"
 illusionist = "^0.3.0"
 
-[tool.poetry.dev-dependencies]
-# pylint = "^2.10.2"
-# black = "^21.8b0"
-# isort = "^5.9.3"
-# flake8 = "^3.9.2"
-# twine = "^3.4.2"
+[tool.poetry.group.dev]
+optional = true
+[tool.poetry.group.dev.dependencies]
+pylint = "^2.10.2"
+black = "^21.8b0"
+isort = "^5.9.3"
+flake8 = "^3.9.2"
+twine = "^3.4.2"
 
-# [tool.poetry.group.test]
-# optional = true
-# [tool.poetry.group.test.dependencies]
+[tool.poetry.group.test]
+optional = true
+[tool.poetry.group.test.dependencies]
 pytest = "^6.2.5"
 pytest-cov = "^2.12.1"
 pytest-html = "^3.1.1"
@@ -100,6 +102,7 @@ source = [
     "jupyter_flex",
     ".venv/lib/python*/site-packages/jupyter_flex",
 ]
+
 [tool.black]
 line_length = 79
 skip_string_normalization = true
@@ -117,5 +120,16 @@ convention = "numpy"
 inherit = false
 match_dir = "juptyer_flex"
 
+[tool.poetry.plugins]
+[tool.poetry.plugins."console_scripts"]
+jupyter-flex = "jupyter_flex.app:main"
+[tool.poetry.plugins."nbconvert.exporters"]
+flex = "jupyter_flex:FlexExporter"
+flex-illusionist = "jupyter_flex:FlexIllusionistExporter"
+
+[tool.poetry-version-plugin]
+source = "init"
+
 [build-system]
-requires = ["setuptools>=42", "setuptools_scm[toml]>=3.4", "wheel"]
+requires = ["poetry>=1.1", "setuptools>=57,<58"]
+build-backend = "poetry.masonry.api"

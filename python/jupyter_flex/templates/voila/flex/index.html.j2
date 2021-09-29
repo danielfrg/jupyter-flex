@@ -1,4 +1,4 @@
-{% extends 'nbconvert/templates/flex/index.html.j2' %}
+{% extends "nbconvert/flex/index.html.j2" %}
 
 {%- block favicon %}
 	{%- set custom_favicon = flex.get_favicon() %}
@@ -11,7 +11,7 @@
 
 {% block html_head_css -%}
 	{%- block flex_embed_css %}
-	{{ resources.include_css("static/dist/jupyter-flex-embed.css") }}
+	{{ resources.include_css("static/jupyter-flex-embed.css") }}
 	{%- endblock flex_embed_css -%}
 
 	{%- block flex_custom_css %}
@@ -94,12 +94,12 @@
 
 {% block body_end_js -%}
 	{%- block body_end_js_requirejs %}
-	{{ resources.include_js("static/dist/require.min.js") }}
+	{{ resources.include_js("static/require.min.js") }}
 	<script>
 		requirejs.config({ baseUrl: '{{resources.base_url}}voila/static/', waitSeconds: 30})
 	</script>
 	{%- endblock body_end_js_requirejs %}
 
-	{{ resources.include_js("static/dist/jupyter-flex-embed.js") }}
+	{{ resources.include_js("static/jupyter-flex-embed.js") }}
 {%- endblock body_end_js %}
 
