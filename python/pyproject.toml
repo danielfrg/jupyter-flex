@@ -56,7 +56,7 @@ mkdocs-material = "^7.3.0"
 mkdocs-jupyter = "^0.18.0"
 mkdocs-minify-plugin = "^0.4.0"
 Pygments = "^2.10.0"
-pymdown-extensions = "^8.2"
+pymdown-extensions = "^8.2.0"
 
 [tool.pytest.ini_options]
 testpaths = ["jupyter_flex/tests"]

@@ -1,4 +1,5 @@
 var path = require("path");
+const webpack = require("webpack");
 const FileManagerPlugin = require("filemanager-webpack-plugin");
 const FixStyleOnlyEntriesPlugin = require("webpack-fix-style-only-entries");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -11,7 +12,7 @@ const pythonPkgStatic = path.resolve(
     "jupyter_flex",
     "templates",
     "flex",
-    "assets"
+    "static"
 );
 
 const extractPlugin = {
@@ -46,6 +47,18 @@ module.exports = (env, argv) => {
                     test: /\.(eot|ttf|woff|woff2|svg|png|gif|jpe?g)$/,
                     loader: require.resolve("url-loader"),
                 },
+                {
+                    test: /node_modules\/vfile\/core\.js/,
+                    use: [
+                        {
+                            loader: "imports-loader",
+                            options: {
+                                type: "commonjs",
+                                imports: ["single process/browser process"],
+                            },
+                        },
+                    ],
+                },
             ],
         },
         plugins: [
@@ -64,6 +77,9 @@ module.exports = (env, argv) => {
                         ],
                     },
                 },
+            }),
+            new webpack.ProvidePlugin({
+                process: "process/browser",
             }),
             // new BundleAnalyzerPlugin(),
         ],

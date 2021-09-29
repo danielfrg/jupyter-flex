@@ -18,7 +18,7 @@
     {%- if dev_mode %}
     <link rel="stylesheet" type="text/css" href="http://localhost:8866/voila/assets/jupyter-flex-embed.css" />
     {%- else %}
-    {{ resources.include_css("nbconvert/flex/assets/jupyter-flex-embed.css") }}
+    {{ resources.include_css("nbconvert/flex/static/jupyter-flex-embed.css") }}
     {%- endif -%}
     {%- endblock flex_embed_css -%}
 
@@ -81,7 +81,7 @@
     {%- if dev_mode %}
     <script src="http://localhost:8866/voila/assets/jupyter-flex-embed.js"></script>
     {%- else -%}
-    {{ resources.include_js("nbconvert/flex/assets/jupyter-flex-embed.js") }}
+    {{ resources.include_js("nbconvert/flex/static/jupyter-flex-embed.js") }}
     {%- endif %}
     {%- endblock body_end_js %}
 </body>
