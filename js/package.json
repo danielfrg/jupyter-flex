@@ -1,6 +1,6 @@
 {
     "name": "@danielfrg/jupyter-flex",
-    "version": "0.7.4",
+    "version": "0.8.0",
     "description": "Build dashboards using Jupyter Notebooks",
     "author": "Daniel Rodriguez",
     "license": "Apache-2.0",
