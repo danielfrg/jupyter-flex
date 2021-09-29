@@ -33,7 +33,7 @@ develop:  ## Install package for development
 
 
 build-python:  ## Build Python package
-	cd $(CURDIR)/python; python setup.py sdist
+	cd $(CURDIR)/python; poetry build
 
 
 check:  ## Check linting
