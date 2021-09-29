@@ -55,20 +55,23 @@ jobs:
       - name: Install Poetry
         uses: snok/install-poetry@v1
         with:
+          version: 1.2.0a2
           virtualenvs-create: true
           virtualenvs-in-project: true
 
       - name: Load cached venv
-        id: cached-poetry-dependencies
+        id: cached-python-env
         uses: actions/cache@v2
         with:
           path: python/.venv
-          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/pyproject.toml', '**/requirements*.txt') }}
+          key: venv-docs-${{ runner.os }}-py${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock', '**/requirements*.txt') }}
 
       - name: Ensure cache is healthy
-        if: steps.cached-poetry-dependencies.outputs.cache-hit == 'true'
+        if: steps.cached-python-env.outputs.cache-hit == 'true'
         shell: bash
-        run: poetry run python --version || rm -rf python/.venv
+        run: |
+          cd python
+          poetry run python --version || rm -rf .venv
 
       - name: Install Python dependencies
         run: |
