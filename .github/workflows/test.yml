@@ -165,6 +165,13 @@ jobs:
           name: test-results-py${{ matrix.python-version }}
           path: python/test-results
 
+      - name: Upload package
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: pkg-py${{ matrix.python-version }}
+          path: python/dist
+
       - name: Codecov
         uses: codecov/codecov-action@v2
         with:

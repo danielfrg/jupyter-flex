@@ -116,7 +116,7 @@ selenium-docker:  ## Run selenium in docker
 
 
 voila-examples:  ## Serve examples using voila
-	voila --template flex --no-browser --port 8866 --VoilaConfiguration.file_whitelist '.*' $(CURDIR)/examples
+	jupyter-flex $(CURDIR)/examples --VoilaConfiguration.file_whitelist '.*'
 
 
 pytest-%:  ## Run tests

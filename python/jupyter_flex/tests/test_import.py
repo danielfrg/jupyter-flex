@@ -16,7 +16,7 @@ def test_import():
 
 
 def test_assets_included():
-    nbconvert = os.path.join(settings.templates_dir, "nbconvert")
+    nbconvert = os.path.join(settings.templates_dir, "nbconvert", "flex")
     assert os.path.exists(os.path.join(nbconvert, "conf.json"))
     assert os.path.exists(os.path.join(nbconvert, "flex.j2"))
     assert os.path.exists(os.path.join(nbconvert, "index.html.j2"))
@@ -29,7 +29,7 @@ def test_assets_included():
     assert os.path.exists(os.path.join(static, "qgrid.js"))
     assert os.path.exists(os.path.join(static, "require.min.js"))
 
-    voila = os.path.join(settings.templates_dir, "voila")
+    voila = os.path.join(settings.templates_dir, "voila", "flex")
     assert os.path.exists(os.path.join(voila, "404.html"))
     assert os.path.exists(os.path.join(voila, "browser-open.html"))
     assert os.path.exists(os.path.join(voila, "error.html"))
