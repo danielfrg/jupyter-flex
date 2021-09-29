@@ -133,7 +133,7 @@ jobs:
           build_directory: site
 
       - name: Upload docs
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         if: always()
         with:
           name: docs

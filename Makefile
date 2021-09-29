@@ -167,12 +167,12 @@ docs-serve:  ## Docs: Serve
 
 docs-examples-html:  ## Docs: Convert examples to HTML dashboards
 	rm -rf $(CURDIR)/docs/examples;
-	# cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb 						--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
-	# cd $(CURDIR)/examples && jupyter-nbconvert docs/*.ipynb	 				--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
-	# cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb 				--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
-	# cd $(CURDIR)/examples && jupyter-nbconvert layouts/customize/*.ipynb 	--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
-	# cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb 				--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
-	# cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb 				--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb 						--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
+	cd $(CURDIR)/examples && jupyter-nbconvert docs/*.ipynb	 				--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert layouts/*.ipynb 				--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert layouts/customize/*.ipynb 	--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb 				--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb 				--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert illusionist/*.ipynb 			--output-dir=$(CURDIR)/docs/examples/illusionist --to=flex-illusionist --execute --ExecutePreprocessor.store_widget_state=True
 
 
