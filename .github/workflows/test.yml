@@ -59,7 +59,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: js/node_modules
-          key: node_modules-${{ runner.os }}-${{ hashFiles('js/package*.json') }}
+          key: node_modules-${{ runner.os }}-${{ matrix.node-version }}-${{ hashFiles('js/package*.json') }}
 
       - name: Install JS deps
         if: steps.cached-node_modules-dependencies.outputs.cache-hit != 'true'
@@ -108,12 +108,12 @@ jobs:
         run: |
           source python/.venv/bin/activate
           which python
-          which pip
           python --version
+          which pip
           pip --version
           pip freeze
 
-      - name: Build Python
+      - name: Build Python Package
         run: |
           source python/.venv/bin/activate
           make build-python
@@ -153,7 +153,7 @@ jobs:
           make pytest-all
           make report
 
-      - name: Upload test restuls
+      - name: Upload test results
         uses: actions/upload-artifact@v1
         if: always()
         with:
