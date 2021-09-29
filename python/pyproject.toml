@@ -131,5 +131,5 @@ flex-illusionist = "jupyter_flex:FlexIllusionistExporter"
 source = "init"
 
 [build-system]
-requires = ["poetry>=1.1", "setuptools>=57,<58"]
+requires = ["poetry>=1.2.0a2", "setuptools>=57,<58"]
 build-backend = "poetry.masonry.api"
