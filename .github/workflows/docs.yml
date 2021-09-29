@@ -68,16 +68,17 @@ jobs:
 
       - name: Ensure cache is healthy
         id: cache-reset
+        continue-on-error: true
         if: steps.cached-python-env.outputs.cache-hit == 'true'
-        shell: bash
         run: |
           cd python
-          poetry run python --version || rm -rf .venv
+          poetry run python --version
 
       - name: Install Python dependencies
-        if: steps.cached-python-env.outputs.cache-hit != 'true' || steps.cache-reset.conclusion == 'success'
+        if: steps.cached-python-env.outputs.cache-hit != 'true' || steps.cache-reset.conclusion != 'success'
         run: |
           cd python
+          rm -rf .venv || true
           poetry install --no-interaction --no-root --with docs
           source .venv/bin/activate
           pip install -r requirements-examples.txt
