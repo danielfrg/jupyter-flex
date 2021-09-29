@@ -12,7 +12,7 @@ def include_external_file(ctx, name):
     """Include a file relative to the notebook"""
     with open(os.path.abspath(name), "r") as f:
         content = f.read()
-    return jinja2.Markup(content)
+    return jinja2.utils.Markup(content)
 
 
 class FlexExporter(HTMLExporter):

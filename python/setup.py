@@ -93,7 +93,7 @@ setup(
     entry_points={
         "nbconvert.exporters": [
             "flex = jupyter_flex:FlexExporter",
-            # "flex-illusionist = jupyter_flex:FlexIllusionistExporter",
+            "flex-illusionist = jupyter_flex:FlexIllusionistExporter",
         ]
     },
     options={"bdist_wheel": {"universal": "1"}},

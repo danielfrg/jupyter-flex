@@ -3,26 +3,17 @@ import os
 import jinja2
 from nbconvert.exporters.html import HTMLExporter
 from traitlets import default
-
-try:
-    from illusionist.preprocessor import IllusionistPreprocessor
-except ImportError:
-    IllusionistPreprocessor = False
+from illusionist.preprocessor import IllusionistPreprocessor
 
 from .utils import DEV_MODE
 
 
-@jinja2.contextfunction
+@jinja2.pass_context
 def include_external_file(ctx, name):
     """Include a file relative to the notebook"""
     with open(os.path.abspath(name), "r") as f:
         content = f.read()
-    return jinja2.Markup(content)
-
-
-preprocessors = []
-if IllusionistPreprocessor:
-    preprocessors.append(IllusionistPreprocessor)
+    return jinja2.utils.Markup(content)
 
 
 class FlexIllusionistExporter(HTMLExporter):
@@ -30,7 +21,7 @@ class FlexIllusionistExporter(HTMLExporter):
     export_from_notebook = "Flex Dashboard (Illusionist)"
 
     # Add illusionist (if installed)
-    preprocessors = preprocessors
+    preprocessors = [IllusionistPreprocessor]
 
     @default("template_name")
     def _template_name_default(self):
