@@ -1,4 +1,4 @@
-{%- import "flex.j2" as flex with context -%}
+{%- import "nbconvert/flex/flex.j2" as flex with context -%}
 
 {%- block header -%}
 <html>
@@ -16,9 +16,9 @@
     {% block html_head_css -%}
     {%- block flex_embed_css -%}
     {%- if dev_mode %}
-    <link rel="stylesheet" type="text/css" href="http://localhost:8866/voila/static/dist/jupyter-flex-embed.css" />
+    <link rel="stylesheet" type="text/css" href="http://localhost:8866/voila/assets/jupyter-flex-embed.css" />
     {%- else %}
-    {{ resources.include_css("static/dist/jupyter-flex-embed.css") }}
+    {{ resources.include_css("nbconvert/flex/static/jupyter-flex-embed.css") }}
     {%- endif -%}
     {%- endblock flex_embed_css -%}
 
@@ -79,9 +79,9 @@
     {%- endblock body_end_js_requirejs -%}
 
     {%- if dev_mode %}
-    <script src="http://localhost:8866/voila/static/dist/jupyter-flex-embed.js"></script>
+    <script src="http://localhost:8866/voila/assets/jupyter-flex-embed.js"></script>
     {%- else -%}
-    {{ resources.include_js("./static/dist/jupyter-flex-embed.js") }}
+    {{ resources.include_js("nbconvert/flex/static/jupyter-flex-embed.js") }}
     {%- endif %}
     {%- endblock body_end_js %}
 </body>

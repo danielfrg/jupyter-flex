@@ -18,26 +18,30 @@ classifiers = [
   "Programming Language :: Python :: 3",
   "Topic :: Scientific/Engineering",
 ]
+include = ["jupyter_flex/**/static/*"]
 
-# I am just using Poetry dependencies for the CI system
-# When Mac supports the dependencies we can use it for dev
+# Poetry dependencies are only used for CI
+# When Mac M1 supports the dependencies we can use it for dev
 [tool.poetry.dependencies]
 python = ">=3.7.1,<4"
 voila = ">=0.2.0,<0.3"
-nbconvert = ">=6.0.0,<7"
+nbconvert = ">=6.2.0,<7"
 ipykernel = ">=6.4.1,<7"
 jinja2 = ">=3.0.1,<4"
+illusionist = "^0.3.0"
 
-[tool.poetry.dev-dependencies]
-# pylint = "^2.10.2"
-# black = "^21.8b0"
-# isort = "^5.9.3"
-# flake8 = "^3.9.2"
-# twine = "^3.4.2"
+[tool.poetry.group.dev]
+optional = true
+[tool.poetry.group.dev.dependencies]
+pylint = "^2.10.2"
+black = "^21.8b0"
+isort = "^5.9.3"
+flake8 = "^3.9.2"
+twine = "^3.4.2"
 
-# [tool.poetry.group.test]
-# optional = true
-# [tool.poetry.group.test.dependencies]
+[tool.poetry.group.test]
+optional = true
+[tool.poetry.group.test.dependencies]
 pytest = "^6.2.5"
 pytest-cov = "^2.12.1"
 pytest-html = "^3.1.1"
@@ -45,15 +49,15 @@ pytest-selenium = "^2.0.1"
 pytest-splinter = "^3.3.1"
 pytest-image-diff = "^0.0.6"
 
-# [tool.poetry.group.docs]
-# optional = true
-# [tool.poetry.group.docs.dependencies]
-# mkdocs = ">=1.1.0,<2"
-# mkdocs-material = "7.1.0"
-# mkdocs-jupyter = ">=0.17.0"
-# mkdocs-minify-plugin = "^0.4.0"
-# Pygments = "^2.10.0"
-# pymdown-extensions = "^8.2"
+[tool.poetry.group.docs]
+optional = true
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.1.0"
+mkdocs-material = "^7.3.0"
+mkdocs-jupyter = "^0.18.0"
+mkdocs-minify-plugin = "^0.4.0"
+Pygments = "^2.10.0"
+pymdown-extensions = "^8.2.0"
 
 [tool.pytest.ini_options]
 testpaths = ["jupyter_flex/tests"]
@@ -99,22 +103,34 @@ source = [
     "jupyter_flex",
     ".venv/lib/python*/site-packages/jupyter_flex",
 ]
+
 [tool.black]
 line_length = 79
 skip_string_normalization = true
 
 [tool.isort]
 ensure_newline_before_comments = true
+include_trailing_comma = true
 line_length = 79
 multi_line_output = 3
-include_trailing_comma = true
 profile = "black"
 
 [tool.pydocstyle]
-inherit = false
-convention = "numpy"
-match_dir = "jupyter_flex"
 add_ignore = ["D100", "D101", "D102", "D103", "D104", "D105"]
+convention = "numpy"
+inherit = false
+match_dir = "juptyer_flex"
+
+[tool.poetry.plugins]
+[tool.poetry.plugins."console_scripts"]
+jupyter-flex = "jupyter_flex.app:main"
+[tool.poetry.plugins."nbconvert.exporters"]
+flex = "jupyter_flex:FlexExporter"
+flex-illusionist = "jupyter_flex:FlexIllusionistExporter"
+
+[tool.poetry-version-plugin]
+source = "init"
 
 [build-system]
-requires = ["setuptools>=42", "setuptools_scm[toml]>=3.4", "wheel"]
+requires = ["poetry>=1.2.0a2", "setuptools>=57,<58"]
+build-backend = "poetry.masonry.api"

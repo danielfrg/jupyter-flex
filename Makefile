@@ -6,7 +6,7 @@ MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
 PYTEST_K ?= ""
-TEST_MARKERS ?= "not selenium"
+PYTEST_MARKERS ?= "not selenium"
 
 SELENIUM_HUB_HOST ?= 127.0.0.1
 SELENIUM_HUB_PORT ?= 4444
@@ -18,13 +18,13 @@ PYTEST_BASE_URL ?= http://localhost:8866
 first: help
 
 
-all: npm-build build-python  ## Build everything
+all: npm-build build-python  ## Build Build JS and Python
 
 
 # ------------------------------------------------------------------------------
 # Python
 
-env:  ## Create virtualenv
+env:  ## Create Python env
 	cd $(CURDIR)/python; mamba env create
 
 
@@ -32,27 +32,39 @@ develop:  ## Install package for development
 	cd $(CURDIR)/python; python -m pip install --no-build-isolation -e .
 
 
-build-python:  ## Build package
-	cd $(CURDIR)/python; python setup.py sdist
+build-python:  ## Build Python package
+	cd $(CURDIR)/python; poetry build
+
+
+check:  ## Check linting
+	cd $(CURDIR)/python; isort . --check-only --diff
+	cd $(CURDIR)/python; black . --check
+	cd $(CURDIR)/python; flake8
+
+
+fmt:  ## Format source
+	cd $(CURDIR)/python; isort .
+	cd $(CURDIR)/python; black .
 
 
 upload-pypi:  ## Upload package to PyPI
 	cd $(CURDIR)/python; twine upload dist/*.tar.gz
 
 
-upload-test:  ## Upload package to test PyPI
-	cd $(CURDIR)/python; twine upload --repository test dist/*.tar.gz
-
-
 cleanpython:  ## Clean Python build files
-	rm -rf .pytest_cache
-	cd $(CURDIR)/python; rm -rf build dist htmlcov .pytest_cache test-results .eggs
+	cd $(CURDIR)/python; rm -rf .eggs .pytest_cache dist htmlcov test-results
 	cd $(CURDIR)/python; rm -f .coverage coverage.xml jupyter_flex/_generated_version.py
 	find . -type f -name '*.py[co]' -delete
 	find . -type d -name __pycache__ -exec rm -rf {} +
 	find . -type d -name .ipynb_checkpoints -exec rm -rf {} +
-	rm -rf site docs/examples
-	rm -f examples/*.html examples/**/*.html
+
+
+resetpython: cleanpython  ## Reset Python
+	cd $(CURDIR)/python; rm -rf .venv
+
+
+download-testdata:  ## Download test data
+	bokeh sampledata
 
 
 # ------------------------------------------------------------------------------
@@ -77,38 +89,23 @@ npm-publish:  ## Publish NPM
 
 
 cleanjs:  ## Clean JS build files
-	cd $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/; find . ! -name '.gitignore' -type f -exec rm -f {} +
-	cd $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/; rm -rf qgrid.js
-	cd $(CURDIR)/js/; rm -rf .cache dist lib
+	cd $(CURDIR)/js; npm run clean
+	cd $(CURDIR)/python/jupyter_flex/templates/nbconvert/flex/static/; rm -rf *.js* *.css* *.txt
 
 
-# ------------------------------------------------------------------------------
-# Other
+resetjs:  ## Reset JS
+	cd $(CURDIR)/js; npm run reset
+
 
 download-assets:  ## Download .css/.js assets
-	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/dist/require.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
+	curl -o $(CURDIR)/python/jupyter_flex/templates/nbconvert/flex/static/require.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
 	# We need to include qgrid because of: http://github.com/quantopian/qgrid/pull/325
 	# We need to put it directly on `static` so requireJS can find it
-	curl -o $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/qgrid.js https://unpkg.com/qgrid2@1.1.3/dist/index.js
-
-
-download-testdata:  ## Download test data
-	bokeh sampledata
+	curl -o $(CURDIR)/python/jupyter_flex/templates/nbconvert/flex/static/qgrid.js https://unpkg.com/qgrid2@1.1.3/dist/index.js
 
 
 # ------------------------------------------------------------------------------
 # Testing
-
-check:  ## Check linting
-	cd $(CURDIR)/python; isort . --check-only --diff
-	cd $(CURDIR)/python; black . --check
-	cd $(CURDIR)/python; flake8
-
-
-fmt:  ## Format source
-	cd $(CURDIR)/python; isort .
-	cd $(CURDIR)/python; black .
-
 
 selenium:  ## Run selenium
 	selenium-server -port 4444
@@ -119,7 +116,7 @@ selenium-docker:  ## Run selenium in docker
 
 
 voila-examples:  ## Serve examples using voila
-	voila --template flex --no-browser --port 8866 --VoilaConfiguration.file_whitelist '.*' $(CURDIR)/examples
+	jupyter-flex $(CURDIR)/examples --VoilaConfiguration.file_whitelist '.*'
 
 
 pytest-%:  ## Run tests
@@ -156,25 +153,19 @@ nbconvert-example:
 # ------------------------------------------------------------------------------
 # Docs
 
-docs:  ## Make docs
-	rm -rf $(CURDIR)/site;
-	$(MAKE) docs-exec-nbs
-	$(MAKE) docs-examples-to-html
+docs:  ## Docs: Build
+	$(MAKE) docs-examples-html
 	mkdocs build
 	# This one after building
 	$(MAKE) docs-example-exec-nbs
 .PHONY: docs
 
 
-docs-serve:  ## Serve docs
+docs-serve:  ## Docs: Serve
 	mkdocs serve
 
 
-docs-exec-nbs:  ## Docs: Execute notebooks used as docs pages
-	cd $(CURDIR)/docs; jupyter-nbconvert *.ipynb --inplace --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
-
-
-docs-examples-to-html:  ## Docs: Convert examples to HTML dashboards
+docs-examples-html:  ## Docs: Convert examples to HTML dashboards
 	rm -rf $(CURDIR)/docs/examples;
 	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb 						--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
 	cd $(CURDIR)/examples && jupyter-nbconvert docs/*.ipynb	 				--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
@@ -182,10 +173,10 @@ docs-examples-to-html:  ## Docs: Convert examples to HTML dashboards
 	cd $(CURDIR)/examples && jupyter-nbconvert layouts/customize/*.ipynb 	--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb 				--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb 				--output-dir=$(CURDIR)/docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
-	# cd $(CURDIR)/examples && jupyter-nbconvert illusionist/*.ipynb 			--output-dir=$(CURDIR)/docs/examples/illusionist --to=flex-illusionist --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert illusionist/*.ipynb 			--output-dir=$(CURDIR)/docs/examples/illusionist --to=flex-illusionist --execute --ExecutePreprocessor.store_widget_state=True
 
 
-docs-example-exec-nbs:  ## Execute examples notebooks output them into docs
+docs-example-exec-nbs:  ## Docs: Execute examples and output them into docs
 	rm -rf $(CURDIR)/site/examples/notebooks
 	cd $(CURDIR)/examples && jupyter-nbconvert *.ipynb 		      		  	--output-dir=$(CURDIR)/site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
 	cd $(CURDIR)/examples && jupyter-nbconvert docs/*.ipynb 				--output-dir=$(CURDIR)/site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
@@ -193,7 +184,7 @@ docs-example-exec-nbs:  ## Execute examples notebooks output them into docs
 	cd $(CURDIR)/examples && jupyter-nbconvert layouts/customize/*.ipynb	--output-dir=$(CURDIR)/site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert plots/*.ipynb 				--output-dir=$(CURDIR)/site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
 	cd $(CURDIR)/examples && jupyter-nbconvert widgets/*.ipynb 				--output-dir=$(CURDIR)/site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
-	# cd $(CURDIR)/examples && jupyter-nbconvert illusionist/*.ipynb 			--output-dir=$(CURDIR)/site/examples/notebooks/illusionist --to=illusionist-nb --execute --ExecutePreprocessor.store_widget_state=True
+	cd $(CURDIR)/examples && jupyter-nbconvert illusionist/*.ipynb 			--output-dir=$(CURDIR)/site/examples/notebooks/illusionist --to=illusionist-nb --execute --ExecutePreprocessor.store_widget_state=True
 
 
 examples-clear-output:  ## Clear output of notebooks
@@ -204,8 +195,8 @@ examples-clear-output:  ## Clear output of notebooks
 # Other
 
 cleanall: cleanpython cleanjs  ## Clean everything
-	cd $(CURDIR)/python; rm -rf *.egg-info
-	cd $(CURDIR)/js/; rm -rf node_modules
+	rm -rf site $(CURDIR)/docs/examples
+	rm -f $(CURDIR)/examples/*.html $(CURDIR)/examples/**/*.html
 
 
 help:  ## Show this help menu

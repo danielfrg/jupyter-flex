@@ -55,25 +55,31 @@ jobs:
       - name: Install Poetry
         uses: snok/install-poetry@v1
         with:
+          version: 1.2.0a2
           virtualenvs-create: true
           virtualenvs-in-project: true
 
       - name: Load cached venv
-        id: cached-poetry-dependencies
+        id: cached-python-env
         uses: actions/cache@v2
         with:
           path: python/.venv
-          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/pyproject.toml', '**/requirements*.txt') }}
+          key: venv-docs-${{ runner.os }}-py${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock', '**/requirements*.txt') }}
 
       - name: Ensure cache is healthy
-        if: steps.cached-poetry-dependencies.outputs.cache-hit == 'true'
-        shell: bash
-        run: poetry run python --version || rm -rf python/.venv
-
-      - name: Install Python dependencies
+        id: cache-reset
+        continue-on-error: true
+        if: steps.cached-python-env.outputs.cache-hit == 'true'
         run: |
           cd python
-          poetry install --no-interaction --no-root
+          poetry run python --version
+
+      - name: Install Python dependencies
+        if: steps.cached-python-env.outputs.cache-hit != 'true' || steps.cache-reset.conclusion != 'success'
+        run: |
+          cd python
+          rm -rf .venv || true
+          poetry install --no-interaction --no-root --with docs
           source .venv/bin/activate
           pip install -r requirements-examples.txt
 
@@ -85,7 +91,7 @@ jobs:
           python --version
           pip --version
 
-      - name: Build Python
+      - name: Build Python package
         run: |
           source python/.venv/bin/activate
           make build-python
@@ -100,10 +106,10 @@ jobs:
       # ------------------------------------------------------------------------
       # Docs
 
-      - name: Install docs dependecies
+      - name: Install other dependencies
         run: |
           source python/.venv/bin/activate
-          pip install -r python/requirements-docs.txt
+          make download-testdata
 
       - name: Build docs
         run: |
@@ -128,7 +134,7 @@ jobs:
           build_directory: site
 
       - name: Upload docs
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         if: always()
         with:
           name: docs

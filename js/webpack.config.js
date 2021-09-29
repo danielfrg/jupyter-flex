@@ -1,20 +1,19 @@
 var path = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const webpack = require("webpack");
 const FileManagerPlugin = require("filemanager-webpack-plugin");
 const FixStyleOnlyEntriesPlugin = require("webpack-fix-style-only-entries");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 const pythonPkgStatic = path.resolve(
     __dirname,
     "..",
     "python",
-    "share",
-    "jupyter",
-    "nbconvert",
+    "jupyter_flex",
     "templates",
+    "nbconvert",
     "flex",
-    "static",
-    "dist"
+    "static"
 );
 
 const extractPlugin = {
@@ -24,10 +23,81 @@ const extractPlugin = {
 module.exports = (env, argv) => {
     const IS_PRODUCTION = argv.mode === "production";
 
+    // Create a bundle of JS and CSS
+    const config_dist = {
+        entry: path.resolve(__dirname, "src", "embed.js"),
+        output: {
+            path: path.resolve(__dirname, "dist"),
+            filename: "jupyter-flex-embed.js",
+            publicPath: "",
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.(js)$/,
+                    exclude: /node_modules/,
+                    use: ["babel-loader"],
+                },
+                {
+                    test: /\.s?[ac]ss$/,
+                    use: [extractPlugin, "css-loader", "sass-loader"],
+                    // use: ["null-loader"],
+                },
+                // Bundle Jupyter Widgets and Font Awesome in the CSS
+                {
+                    test: /\.(eot|ttf|woff|woff2|svg|png|gif|jpe?g)$/,
+                    loader: require.resolve("url-loader"),
+                },
+                // Polyfill process
+                // {
+                //     test: /node_modules\/vfile\/core\.js/,
+                //     use: [
+                //         {
+                //             loader: "imports-loader",
+                //             options: {
+                //                 type: "commonjs",
+                //                 imports: ["single process/browser process"],
+                //             },
+                //         },
+                //     ],
+                // },
+            ],
+        },
+        plugins: [
+            new MiniCssExtractPlugin({
+                filename: "jupyter-flex-embed.css",
+            }),
+            // Copy the output to the Python package
+            new FileManagerPlugin({
+                events: {
+                    onEnd: {
+                        copy: [
+                            {
+                                source: "./dist/*.*",
+                                destination: pythonPkgStatic,
+                            },
+                        ],
+                    },
+                },
+            }),
+            new webpack.ProvidePlugin({
+                process: "process/browser.js",
+            }),
+            // new BundleAnalyzerPlugin(),
+        ],
+        resolve: {
+            fallback: { path: false },
+        },
+        mode: IS_PRODUCTION ? "production" : "development",
+        devtool: "source-map",
+    };
+
+    // Compile the CSS to lib/styles
     const config_lib_css = {
         entry: path.resolve(__dirname, "src", "styles/index.scss"),
         output: {
             path: path.resolve(__dirname, "lib", "styles"),
+            publicPath: "",
         },
         module: {
             rules: [
@@ -52,58 +122,6 @@ module.exports = (env, argv) => {
         optimization: {
             minimize: false,
         },
-        mode: IS_PRODUCTION ? "production" : "development",
-        devtool: "source-map",
-    };
-
-    // Config to create a bundle of JS and CSS
-    const config_dist = {
-        entry: path.resolve(__dirname, "src", "embed.js"),
-        output: {
-            path: path.resolve(__dirname, "dist"),
-            filename: "jupyter-flex-embed.js",
-        },
-        module: {
-            rules: [
-                {
-                    test: /\.(js)$/,
-                    exclude: /node_modules/,
-                    use: ["babel-loader"],
-                },
-                {
-                    test: /\.s?[ac]ss$/,
-                    use: [extractPlugin, "css-loader", "sass-loader"],
-                    // use: ["null-loader"],
-                },
-                // Bundle Jupyter Widgets and Font Awesome in the CSS
-                {
-                    test: /\.(eot|ttf|woff|woff2|svg|png|gif|jpe?g)$/,
-                    loader: require.resolve("url-loader"),
-                    // loader: require.resolve("file-loader"),
-                    // options: {
-                    //     name: "[name].[ext]?[hash]",
-                    // outputPath: "assets/",
-                    // },
-                },
-            ],
-        },
-        plugins: [
-            new MiniCssExtractPlugin({
-                filename: "jupyter-flex-embed.css",
-            }),
-            // Copy the output to the Python Package
-            new FileManagerPlugin({
-                onEnd: {
-                    copy: [
-                        {
-                            source: "./dist/*.*",
-                            destination: pythonPkgStatic,
-                        },
-                    ],
-                },
-            }),
-            // new BundleAnalyzerPlugin(),
-        ],
         mode: IS_PRODUCTION ? "production" : "development",
         devtool: "source-map",
     };
