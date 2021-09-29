@@ -67,6 +67,7 @@ jobs:
           key: venv-docs-${{ runner.os }}-py${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock', '**/requirements*.txt') }}
 
       - name: Ensure cache is healthy
+        id: cache-reset
         if: steps.cached-python-env.outputs.cache-hit == 'true'
         shell: bash
         run: |
@@ -74,9 +75,10 @@ jobs:
           poetry run python --version || rm -rf .venv
 
       - name: Install Python dependencies
+        if: steps.cached-python-env.outputs.cache-hit != 'true' || steps.cache-reset.conclusion == 'success'
         run: |
           cd python
-          poetry install --no-interaction --no-root
+          poetry install --no-interaction --no-root --with docs
           source .venv/bin/activate
           pip install -r requirements-examples.txt
 
@@ -88,7 +90,7 @@ jobs:
           python --version
           pip --version
 
-      - name: Build Python
+      - name: Build Python package
         run: |
           source python/.venv/bin/activate
           make build-python
@@ -103,10 +105,10 @@ jobs:
       # ------------------------------------------------------------------------
       # Docs
 
-      - name: Install docs dependecies
+      - name: Install other dependencies
         run: |
           source python/.venv/bin/activate
-          pip install -r python/requirements-docs.txt
+          make download-testdata
 
       - name: Build docs
         run: |

@@ -118,7 +118,7 @@ jobs:
           pip --version
           pip freeze
 
-      - name: Build Python Package
+      - name: Build Python package
         run: |
           source python/.venv/bin/activate
           make build-python
