@@ -1,11 +1,11 @@
 import os
+
 import pytest
 
 import jupyter_flex
 from jupyter_flex.config import settings
 
-
-pytestmark = [pytest.mark.nondestructive, pytest.mark.base]
+pytestmark = [pytest.mark.nondestructive, pytest.mark.pkg]
 
 
 def test_import():

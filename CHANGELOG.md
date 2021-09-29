@@ -1,6 +1,13 @@
 # jupyter-flex Change Log
 
-## 0.7.2 - unreleased
+## 0.8.0
+
+- Relocate templates out of $prefix/share and into the package itself, removes duplicated assets
+- Create out own jupyter-flex entrypoint for overwriting Voila template paths
+- Move to poetry for deps and building
+- Update JS deps
+
+## 0.7.3
 
 - Better handling of empty pages and sections (#96)
 

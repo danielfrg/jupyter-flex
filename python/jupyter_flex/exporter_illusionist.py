@@ -1,8 +1,8 @@
 import os
 
 import jinja2
-from nbconvert.exporters.html import HTMLExporter
 from illusionist.preprocessor import IllusionistPreprocessor
+from nbconvert.exporters.html import HTMLExporter
 
 from jupyter_flex.config import settings
 

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jupyter-flex"
-version = "1.0.0"
+version = "0.8.0"
 packages = [{ include = "jupyter_flex" }]
 homepage = "https://github.com/danielfrg/jupyter-flex"
 repository = "https://github.com/danielfrg/jupyter-flex"
@@ -65,14 +65,14 @@ addopts = [
   "-s", "-vv",
   "--ignore=dist",
   "--ignore=site-packages",
-  "--strict-markers",
+  # "--strict-markers",
   "--cov=jupyter_flex",
   "--cov-report=term",
   "--cov-config=pyproject.toml",
 ]
 xfail_strict = true
 markers = [
-    "base: marks tests as base (deselect with '-m \"not base\"')",
+    "pkg: marks tests as pkg (deselect with '-m \"not pkg\"')",
     "layouts: mark all layout tests",
     "examples: marks all example tests",
     "plots: mark all plotting tests",

@@ -2,11 +2,11 @@
 # Monkeypatch
 
 import os
-import voila.paths as voila_paths
-from jupyter_flex.utils import uncache
 
+import voila.paths as voila_paths
 
 from jupyter_flex.config import settings
+from jupyter_flex.utils import uncache
 
 
 def monkey_collect_template_paths(

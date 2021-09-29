@@ -1,55 +1,27 @@
 # Releasing
 
-## Upload to test PyPI
-
-```shell
-export VERSION=1.0.0
-git checkout -b release-${VERSION}
-
-git commit -am "Release ${VERSION}.a0" --allow-empty
-git tag ${VERSION}.a0
-
-# Optional reset
-make cleanall
-make download-assets npm-install
-
-# Build
-make all
-
-# Upload to test pypi
-make upload-test
-
-# Create venv and install alpha version
-pip install --extra-index-url=https://test.pypi.org/simple 'jupyter-flex[test]'==${VERSION}a0
-
-# Change to the examples directory and run voila, verify things look ok
-voila --template flex --debug
-
-# Delete alpha tag
-git tag -d ${VERSION}.a0
-```
-
-Merge branch when CI passes
-
 ## Upload to PyPI
 
+- Update version on `__init__.py`
+- Update version on `pyproject.toml`
 - Update `CHANGELOG.md`
-- Update `README.md` and docs:
+- Update `README.md` and docs
     - Links to Binder should use the new version
 
 ```shell
 export VERSION=1.0.0
 
 # Optional reset
-make cleanall
+make cleanall resetjs
 make download-assets npm-install
-
-git commit -am "Release ${VERSION}" --allow-empty
-git tag ${VERSION}
 
 # Build
 make all
 make upload-pypi
+
+git commit -am "Release ${VERSION}" --allow-empty
+git tag ${VERSION}
+
 git push origin ${VERSION}
 git push
 ```
