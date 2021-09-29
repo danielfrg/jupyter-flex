@@ -11,6 +11,7 @@ const pythonPkgStatic = path.resolve(
     "python",
     "jupyter_flex",
     "templates",
+    "nbconvert",
     "flex",
     "static"
 );
@@ -47,18 +48,19 @@ module.exports = (env, argv) => {
                     test: /\.(eot|ttf|woff|woff2|svg|png|gif|jpe?g)$/,
                     loader: require.resolve("url-loader"),
                 },
-                {
-                    test: /node_modules\/vfile\/core\.js/,
-                    use: [
-                        {
-                            loader: "imports-loader",
-                            options: {
-                                type: "commonjs",
-                                imports: ["single process/browser process"],
-                            },
-                        },
-                    ],
-                },
+                // Polyfill process
+                // {
+                //     test: /node_modules\/vfile\/core\.js/,
+                //     use: [
+                //         {
+                //             loader: "imports-loader",
+                //             options: {
+                //                 type: "commonjs",
+                //                 imports: ["single process/browser process"],
+                //             },
+                //         },
+                //     ],
+                // },
             ],
         },
         plugins: [
@@ -79,7 +81,7 @@ module.exports = (env, argv) => {
                 },
             }),
             new webpack.ProvidePlugin({
-                process: "process/browser",
+                process: "process/browser.js",
             }),
             // new BundleAnalyzerPlugin(),
         ],

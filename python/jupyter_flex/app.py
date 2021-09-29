@@ -34,8 +34,6 @@ def monkey_collect_template_paths(
 def monkey_collect_static_paths(
     app_names, template_name='default', prune=False, root_dirs=None
 ):
-    print("MONKEY STATIC")
-
     original = voila_paths.collect_paths(
         app_names,
         template_name,

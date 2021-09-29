@@ -100,7 +100,7 @@ resetjs:  ## Reset JS
 download-assets:  ## Download .css/.js assets
 	curl -o $(CURDIR)/python/jupyter_flex/templates/nbconvert/flex/static/require.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
 	# We need to include qgrid because of: http://github.com/quantopian/qgrid/pull/325
-	# We need to put it directly on `assets` so requireJS can find it
+	# We need to put it directly on `static` so requireJS can find it
 	curl -o $(CURDIR)/python/jupyter_flex/templates/nbconvert/flex/static/qgrid.js https://unpkg.com/qgrid2@1.1.3/dist/index.js
 
 
