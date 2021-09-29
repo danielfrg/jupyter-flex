@@ -102,7 +102,7 @@ jobs:
           poetry run python --version || rm -rf .venv
 
       - name: Install Python dependencies
-        if: steps.cache-reset.conclusion == 'success'
+        if: steps.cached-python-env.outputs.cache-hit == 'false' || steps.cache-reset.conclusion == 'success'
         run: |
           cd python
           poetry install --no-interaction --no-root --with test
