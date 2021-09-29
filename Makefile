@@ -18,21 +18,17 @@ PYTEST_BASE_URL ?= http://localhost:8866
 first: help
 
 
-all: npm-build build-python  ## Build Build JS and Python
+all: npm-build build-python  ## Build JS and Python
 
 
 # ------------------------------------------------------------------------------
 # Python
 
 env:  ## Create Python env
-	cd $(CURDIR)/python; mamba env create
+	cd $(CURDIR)/python; poetry install --with dev --with test
 
 
-develop:  ## Install package for development
-	cd $(CURDIR)/python; python -m pip install --no-build-isolation -e .
-
-
-build-python:  ## Build Python package
+build-python:  ## Build package
 	cd $(CURDIR)/python; poetry build
 
 
@@ -53,7 +49,7 @@ upload-pypi:  ## Upload package to PyPI
 
 cleanpython:  ## Clean Python build files
 	cd $(CURDIR)/python; rm -rf .eggs .pytest_cache dist htmlcov test-results
-	cd $(CURDIR)/python; rm -f .coverage coverage.xml jupyter_flex/_generated_version.py
+	cd $(CURDIR)/python; rm -f .coverage coverage.xml
 	find . -type f -name '*.py[co]' -delete
 	find . -type d -name __pycache__ -exec rm -rf {} +
 	find . -type d -name .ipynb_checkpoints -exec rm -rf {} +
@@ -70,30 +66,30 @@ download-testdata:  ## Download test data
 # ------------------------------------------------------------------------------
 # Javascript
 
+npm-install:  ## JS: Install dependencies
+	cd $(CURDIR)/js; npm install
 npm-i: npm-install
-npm-install:  ## Install JS dependencies
-	cd $(CURDIR)/js/; npm install
 
 
-npm-build:  ## Build JS
-	cd $(CURDIR)/js/; npm run build:all
+npm-build:  ## JS: Build
+	cd $(CURDIR)/js; npm run build:all
 
 
-npm-dev:  ## Build JS with watch
-	cd $(CURDIR)/js/; npm run dev
+npm-dev:  ## JS: Build dev mode
+	cd $(CURDIR)/js; npm run dev
 
 
-npm-publish:  ## Publish NPM
-	cd $(CURDIR)/js/; npm version
-	cd $(CURDIR)/js/; npm publish
+npm-publish:  ## JS: Publish to NPM
+	cd $(CURDIR)/js; npm version
+	cd $(CURDIR)/js; npm publish
 
 
-cleanjs:  ## Clean JS build files
+cleanjs:  ## JS: Clean build files
 	cd $(CURDIR)/js; npm run clean
 	cd $(CURDIR)/python/jupyter_flex/templates/nbconvert/flex/static/; rm -rf *.js* *.css* *.txt
 
 
-resetjs:  ## Reset JS
+resetjs:  ## JS: Reset
 	cd $(CURDIR)/js; npm run reset
 
 
@@ -194,7 +190,7 @@ examples-clear-output:  ## Clear output of notebooks
 # ------------------------------------------------------------------------------
 # Other
 
-cleanall: cleanpython cleanjs  ## Clean everything
+cleanall: cleanjs cleanpython  ## Clean everything
 	rm -rf site $(CURDIR)/docs/examples
 	rm -f $(CURDIR)/examples/*.html $(CURDIR)/examples/**/*.html
 

@@ -20,14 +20,12 @@ classifiers = [
 ]
 include = ["jupyter_flex/**/static/*"]
 
-# Poetry dependencies are only used for CI
-# When Mac M1 supports the dependencies we can use it for dev
 [tool.poetry.dependencies]
 python = ">=3.7.1,<4"
 voila = ">=0.2.0,<0.3"
-nbconvert = ">=6.2.0,<7"
-ipykernel = ">=6.4.1,<7"
-jinja2 = ">=3.0.1,<4"
+nbconvert = "^6.2.0"
+ipykernel = "^6.4.1,"
+jinja2 = "^3.0.1"
 illusionist = "^0.3.0"
 
 [tool.poetry.group.dev]

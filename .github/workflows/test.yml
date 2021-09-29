@@ -55,14 +55,14 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Load cached node_modules
-        id: cached-node_modules-dependencies
+        id: cached-node_modules
         uses: actions/cache@v2
         with:
           path: js/node_modules
-          key: node_modules-${{ runner.os }}-${{ matrix.node-version }}-${{ hashFiles('js/package*.json') }}
+          key: node_modules-${{ runner.os }}-node${{ matrix.node-version }}-${{ hashFiles('js/package*.json') }}
 
       - name: Install JS deps
-        if: steps.cached-node_modules-dependencies.outputs.cache-hit != 'true'
+        if: steps.cached-node_modules.outputs.cache-hit != 'true'
         run: |
           make npm-install
 
@@ -159,19 +159,19 @@ jobs:
           make pytest-all
           make report
 
-      - name: Upload test results
-        uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: test-results-py${{ matrix.python-version }}
-          path: python/test-results
-
       - name: Upload package
         uses: actions/upload-artifact@v2
         if: always()
         with:
           name: pkg-py${{ matrix.python-version }}
           path: python/dist
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: test-results-py${{ matrix.python-version }}
+          path: python/test-results
 
       - name: Codecov
         uses: codecov/codecov-action@v2

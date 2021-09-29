@@ -28,11 +28,11 @@
         "dist"
     ],
     "scripts": {
-        "dev": "npm run clean && webpack --mode=development --watch",
         "build": "npm run clean && webpack --mode=production",
         "build:lib": "babel src/ --out-dir lib",
         "build:all": "npm run build && npm run build:lib",
         "build:watch": "npm run clean && webpack --mode=production --watch",
+        "dev": "npm run clean && webpack --mode=development --watch",
         "fmt": "prettier --write \"src/**/*.{js,jsx}\"",
         "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
         "clean": "rm -rf .cache/ dist/ lib/",
@@ -78,7 +78,7 @@
         "style-loader": "^1.2.1",
         "styled-components": "^5.2.0",
         "url-loader": "^4.1.0",
-        "webpack": "^5.0.0",
+        "webpack": "^5.35.1",
         "webpack-bundle-analyzer": "^3.9.0",
         "webpack-cli": "^4.8.0",
         "webpack-fix-style-only-entries": "^0.5.1"
