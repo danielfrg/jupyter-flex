@@ -28,6 +28,8 @@ git push
 
 ### NPM release
 
+- Update version in `package.json`
+
 ```shell
 export VERSION=1.0.0
 
