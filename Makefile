@@ -18,7 +18,7 @@ PYTEST_BASE_URL ?= http://localhost:8866
 first: help
 
 
-all: npm-build build-python  ## Build JS and Python
+all: npm-build pkg  ## Build JS and Python
 
 
 # ------------------------------------------------------------------------------
@@ -28,7 +28,7 @@ env:  ## Create Python env
 	cd $(CURDIR)/python; poetry install --with dev --with test
 
 
-build-python:  ## Build package
+pkg:  ## Build package
 	cd $(CURDIR)/python; poetry build
 
 
@@ -48,7 +48,7 @@ upload-pypi:  ## Upload package to PyPI
 
 
 cleanpython:  ## Clean Python build files
-	cd $(CURDIR)/python; rm -rf .eggs .pytest_cache dist htmlcov test-results
+	cd $(CURDIR)/python; rm -rf .pytest_cache dist htmlcov test-results
 	cd $(CURDIR)/python; rm -f .coverage coverage.xml
 	find . -type f -name '*.py[co]' -delete
 	find . -type d -name __pycache__ -exec rm -rf {} +
@@ -103,27 +103,27 @@ download-assets:  ## Download .css/.js assets
 # ------------------------------------------------------------------------------
 # Testing
 
-selenium:  ## Run selenium
+selenium:  ## Test: Run selenium
 	selenium-server -port 4444
 
 
-selenium-docker:  ## Run selenium in docker
+selenium-docker:  ## Test:  Run selenium in docker
 	docker-compose up
 
 
-voila-examples:  ## Serve examples using voila
+voila-examples:  ## Test: Serve examples using voila
 	jupyter-flex $(CURDIR)/examples --VoilaConfiguration.file_whitelist '.*'
 
 
-pytest-%:  ## Run tests
+test-%:  ## Run tests
 	cd $(CURDIR)/python; PYTEST_BASE_URL=$(PYTEST_BASE_URL) \
-	pytest -k $(PYTEST_K) -m $(subst pytest-,,$@) \
+	pytest -k $(PYTEST_K) -m $(subst test-,,$@) \
 		--splinter-webdriver remote \
 		--splinter-remote-url $(SELENIUM_HUB_HOST) \
 		--html=test-results/report.html --self-contained-html
 
 
-pytest-all:  ## Run all tests
+test-all:  ## Run all tests
 	cd $(CURDIR)/python; PYTEST_BASE_URL=$(PYTEST_BASE_URL) \
 	pytest \
 		--splinter-webdriver remote \
