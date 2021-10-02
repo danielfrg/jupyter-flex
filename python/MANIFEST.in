@@ -1,3 +1,0 @@
-# We add these files here because they are not tracked in git (listed on .gitignore)
-
-include share/jupyter/voila/templates/flex/static/*

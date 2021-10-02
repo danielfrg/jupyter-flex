@@ -22,19 +22,19 @@ include = ["jupyter_flex/**/static/*"]
 
 [tool.poetry.dependencies]
 python = ">=3.7.1,<4"
-voila = ">=0.2.0,<0.3"
-nbconvert = "^6.2.0"
-ipykernel = "^6.4.1,"
-jinja2 = "^3.0.1"
 illusionist = "^0.3.0"
+ipykernel = "^6.4.1"
+jinja2 = "^3.0.1"
+nbconvert = "^6.2.0"
+voila = ">=0.2.0,<0.3"
 
 [tool.poetry.group.dev]
 optional = true
 [tool.poetry.group.dev.dependencies]
-pylint = "^2.10.2"
-black = "^21.8b0"
-isort = "^5.9.3"
+black = "^21.9b0"
 flake8 = "^3.9.2"
+isort = "^5.9.3"
+pylint = "^2.11.1"
 twine = "^3.4.2"
 
 [tool.poetry.group.test]
