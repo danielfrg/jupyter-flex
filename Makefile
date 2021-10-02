@@ -63,6 +63,10 @@ download-testdata:  ## Download test data
 	bokeh sampledata
 
 
+example:  ## Dev: Run nbconvert on one example
+	cd $(CURDIR)/examples && jupyter-nbconvert illusionist/widget-gallery.ipynb --output-dir=$(CURDIR)/docs/examples/illusionist --to=flex-illusionist --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
+
+
 # ------------------------------------------------------------------------------
 # Javascript
 
