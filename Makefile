@@ -76,7 +76,7 @@ npm-i: npm-install
 
 
 npm-build:  ## JS: Build
-	cd $(CURDIR)/js; npm run build:all
+	cd $(CURDIR)/js; npm run build
 
 
 npm-dev:  ## JS: Build dev mode
