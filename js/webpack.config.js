@@ -56,8 +56,13 @@ module.exports = (env, argv) => {
             ],
         },
         plugins: [
+            // Extract CSS
             new MiniCssExtractPlugin({
                 filename: "styles.css",
+            }),
+            // Fix for underlying deps
+            new webpack.ProvidePlugin({
+                process: "process/browser.js",
             }),
         ],
         resolve: {
@@ -107,8 +112,13 @@ module.exports = (env, argv) => {
             ],
         },
         plugins: [
+            // Extract CSS
             new MiniCssExtractPlugin({
                 filename: "jupyter-flex-embed.css",
+            }),
+            // Fix for underlying deps
+            new webpack.ProvidePlugin({
+                process: "process/browser.js",
             }),
             // Copy the output to the Python package
             new FileManagerPlugin({
@@ -123,10 +133,6 @@ module.exports = (env, argv) => {
                     },
                 },
             }),
-            // Fix for underlyind deps
-            // new webpack.ProvidePlugin({
-            //     process: "process/browser.js",
-            // }),
             // new BundleAnalyzerPlugin(),
         ],
         resolve: {
@@ -142,7 +148,7 @@ module.exports = (env, argv) => {
     let config = [];
     if (IS_PRODUCTION) {
         config.push(config_bundle);
-        // config.push(config_lib);
+        config.push(config_lib);
     } else {
         config.push(config_bundle);
     }

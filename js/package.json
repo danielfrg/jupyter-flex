@@ -1,6 +1,6 @@
 {
     "name": "@danielfrg/jupyter-flex",
-    "version": "0.8.0",
+    "version": "0.8.1",
     "description": "Build dashboards using Jupyter Notebooks",
     "author": "Daniel Rodriguez",
     "license": "Apache-2.0",
@@ -73,6 +73,7 @@
         "mini-css-extract-plugin": "^2.3.0",
         "null-loader": "^4.0.1",
         "prettier": "^2.4.1",
+        "process": "^0.11.10",
         "sass": "^1.42.1",
         "sass-loader": "^12.1.0",
         "style-loader": "^3.3.0",
