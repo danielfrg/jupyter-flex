@@ -10,8 +10,7 @@ Build dashboard using Jupyter Notebooks.
 
 ## Installation
 
-<p class="code-header">Terminal</p>
-```shell
+```shell title="Terminal"
 $ pip install jupyter-flex
 ```
 

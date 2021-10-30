@@ -4,6 +4,7 @@ SHELL := bash
 .DELETE_ON_ERROR:
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
+.DEFAULT_GOAL := help
 
 PYTEST_K ?= ""
 PYTEST_MARKERS ?= "not selenium"
@@ -13,9 +14,6 @@ SELENIUM_HUB_PORT ?= 4444
 PYTEST_BASE_URL ?= http://localhost:8866
 # For selenium running in Docker to access the host
 # PYTEST_BASE_URL ?= http://host.docker.internal:8866
-
-
-first: help
 
 
 all: npm-build pkg  ## Build JS and Python

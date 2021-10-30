@@ -64,16 +64,6 @@ a:hover {
     }
 }
 
-/* Terminal */
-p.code-header {
-    background-color: #263238;
-    color: #fff;
-    margin: 1em 0 -1.2em;
-    padding: 0.1em 1em;
-    font-size: 0.8em;
-    font-family: "Roboto Mono", "Courier New", Courier, monospace;
-}
-
 /* Code blocks */
 pre {
     overflow: auto;
@@ -85,6 +75,11 @@ pre .code-noselect {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.highlight .filename {
+    background-color: #263238 !important;
+    color: #fff !important;
 }
 
 /* For highlighted blocks */
