@@ -82,6 +82,18 @@ pre .code-noselect {
     color: #fff !important;
 }
 
+button.md-clipboard {
+    color: #aaa;
+}
+
+button.md-clipboard:hover {
+    color: #ccc;
+}
+
+:hover > button.md-clipboard {
+    color: #fff;
+}
+
 /* For highlighted blocks */
 .codehilite pre code {
     background-color: #263238;
