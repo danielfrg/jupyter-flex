@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/danielfrg/jupyter-flex/main/docs/assets/img/logo.png">
+  <img src="https://raw.githubusercontent.com/danielfrg/jupyter-flex/main/docs/assets/img/logo.png" width="450px">
 <h1 align="center">Build dashboards using Jupyter Notebooks</h1>
 </p>
 
