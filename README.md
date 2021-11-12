@@ -1,9 +1,6 @@
 <p align="center">
   <img src="https://raw.githubusercontent.com/danielfrg/jupyter-flex/main/docs/assets/img/logo.png">
-</p>
-
-<p align="center">
-<h1>Build dashboards using Jupyter Notebooks</h1>
+<h1 align="center">Build dashboards using Jupyter Notebooks</h1>
 </p>
 
 [![pypi](https://badge.fury.io/py/jupyter-flex.svg)](https://pypi.org/project/jupyter-flex/)
