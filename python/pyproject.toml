@@ -46,6 +46,7 @@ pytest-html = "^3.1.1"
 pytest-selenium = "^2.0.1"
 pytest-splinter = "^3.3.1"
 pytest-image-diff = "^0.0.6"
+coverage = {version = "^6.1.2", extras = ["toml"]}
 
 [tool.poetry.group.docs]
 optional = true
