@@ -29,11 +29,7 @@
   <a href="#installation">Installation</a>
 </p>
 
-<p align="center">
-    <h1 align="center"></h1>
-</p>
-
-## Build dashboards using Jupyter Notebooks
+# Build dashboards using Jupyter Notebooks
 
 - Use Markdown headers and Jupyter Notebook cell tags to define the dashboard layout and its components
 - Flexible and easy way to specify row and column based layouts
