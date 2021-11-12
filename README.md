@@ -2,7 +2,9 @@
   <img src="https://raw.githubusercontent.com/danielfrg/jupyter-flex/main/docs/assets/img/logo.png">
 </p>
 
-# jupyter-flex: Dashboards for Jupyter
+<p align="center">
+<h1>Build dashboards using Jupyter Notebooks</h1>
+</p>
 
 [![pypi](https://badge.fury.io/py/jupyter-flex.svg)](https://pypi.org/project/jupyter-flex/)
 [![build](https://github.com/danielfrg/jupyter-flex/workflows/test/badge.svg)](https://github.com/danielfrg/jupyter-flex/actions/workflows/test.yml)
@@ -11,7 +13,7 @@
 [![license](https://img.shields.io/:license-Apache%202-blue.svg)](https://github.com/danielfrg/jupyter-flex/blob/main/LICENSE.txt)
 [![binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.8.0?urlpath=voila%2Ftree%2Fexamples)
 
-Build dashboard using Jupyter Notebooks.
+## Overview
 
 - Use Markdown headers and Jupyter Notebook cell tags to define the dashboard layout and its components
 - Flexible and easy way to specify row and column based layouts
