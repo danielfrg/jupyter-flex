@@ -1,6 +1,6 @@
 # Jupyter-flex: Dashboards for Jupyter
 
-Build dashboard using Jupyter Notebooks.
+<img src="/assets/img/logo-square.png" alt="jupyter-flex">
 
 - Use markdown headers and Jupyter Notebook cell tags to define the dashboard components
 - Flexible way to specify row and column based layouts
@@ -109,7 +109,7 @@ realtime computation and how to use [Jupyter widgets](https://ipywidgets.readthe
 !!! info
     Source for all examples can be found [on Github](https://github.com/danielfrg/jupyter-flex/tree/master/examples).
 
-## Some apps developed using Jupyter-flex
+## Apps developed using Jupyter-flex
 
--  Investment Flow Type Classification: [App](https://flow-classification.herokuapp.com/) - [Source](https://github.com/unkletam/Investment_Flow_Type_Classification)
+- Investment Flow Type Classification: [App](https://flow-classification.herokuapp.com/) - [Source](https://github.com/unkletam/Investment_Flow_Type_Classification)
 - John Hunter - Excellence in Plotting Context: [App](https://mybinder.org/v2/gh/sbonaretti/Hunter_viz_2020/master?urlpath=%2Fvoila%2Frender%2Fopen_literature_flex.ipynb) - [Source](https://github.com/sbonaretti/Hunter_viz_2020)
