@@ -111,9 +111,9 @@ jobs:
         run: |
           cd python
           rm -rf .venv || true
-          poetry install --no-interaction --no-root --with test
+          poetry install --no-interaction --no-root --with test --with examples
           source .venv/bin/activate
-          pip install -r requirements-examples.txt
+          # pip install -r requirements-examples.txt
 
       - name: Print Python info
         run: |

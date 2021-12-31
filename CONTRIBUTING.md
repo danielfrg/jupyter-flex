@@ -19,28 +19,21 @@ Install dependencies
 make npm-install
 ```
 
-### 2. Python:
+### 2. Python
 
 Create Python env
 
 ```shell
 make env
-conda activate jupyter-flex
+
+# Activate env
+source ./python/.venv/bin/activate
 ```
-
-Install package for development
-
-```shell
-make develop
-```
-
-This generates symlinks to the `<env>/share/jupyter/` directory.
 
 ### 3. Download external assets and test data
 
 ```shell
-make download-assets
-make download-testdata
+make download-assets download-testdata
 ```
 
 ### Iteration cycle
@@ -79,13 +72,13 @@ brew install --cask google-chrome
 
 ```shell
 # Run a group of tests
-make pytest-{marker}
+make test-{marker}
 
 # Run all tests
-make pytest-all
+make test-all
 
 # Run a specific test
-make pytest PYTEST_K=ipysheet
+make PYTEST_K=ipysheet test-layout
 ```
 
 To generate/update the test baselines just run the tests

@@ -23,7 +23,7 @@ all: npm-build pkg  ## Build JS and Python
 # Python
 
 env:  ## Create Python env
-	cd $(CURDIR)/python; poetry install --with dev --with test
+	cd $(CURDIR)/python; poetry install --with dev --with test --with examples
 
 
 pkg:  ## Build package
@@ -195,6 +195,9 @@ examples-clear-output:  ## Clear output of notebooks
 cleanall: cleanjs cleanpython  ## Clean everything
 	rm -rf site $(CURDIR)/docs/examples
 	rm -f $(CURDIR)/examples/*.html $(CURDIR)/examples/**/*.html
+
+
+resetall: resetjs resetpython  ## Reset environment
 
 
 help:  ## Show this help menu
