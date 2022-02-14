@@ -164,11 +164,10 @@ jobs:
           make test-all
           make report
 
-      # - name: Upload package to GitHub
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: pkg-py${{ matrix.python-version }}
-      #     path: python/dist
+      - name: Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          file: python/coverage.xml
 
       - name: Upload test results to GitHub
         uses: actions/upload-artifact@v2
@@ -176,8 +175,3 @@ jobs:
         with:
           name: test-results-py${{ matrix.python-version }}
           path: python/test-results
-
-      - name: Codecov
-        uses: codecov/codecov-action@v2
-        with:
-          file: python/coverage.xml
