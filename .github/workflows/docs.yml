@@ -95,7 +95,7 @@ jobs:
           pip --version
 
       # ------------------------------------------------------------------------
-      # Docs
+      # Build docs
 
       - name: Build Python package
         run: |
@@ -119,22 +119,24 @@ jobs:
           source python/.venv/bin/activate
           make docs
 
-      - name: Push docs to Netlify (prod)
-        uses: jsmrcaga/action-netlify-deploy@v1.6.0
-        if: (github.event_name != 'pull_request') && endsWith(github.ref, '/main')
-        with:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NETLIFY_DEPLOY_TO_PROD: true
-          build_directory: site
+      # ------------------------------------------------------------------------
+      # Release
 
-      - name: Push docs to Netlify (preview)
-        uses: jsmrcaga/action-netlify-deploy@v1.6.0
-        if: github.event_name == 'pull_request'
+      - name: Staging - Upload to Netlify
+        uses: netlify/actions/cli@master
         with:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          args: deploy --dir=site
+        env:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          build_directory: site
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+
+      - name: Prod - Upload to Netlify
+        uses: netlify/actions/cli@master
+        with:
+          args: deploy --dir=site --prod
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
 
       - name: Upload artifact to GitHub
         uses: actions/upload-artifact@v2
