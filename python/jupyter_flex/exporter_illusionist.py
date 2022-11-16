@@ -1,7 +1,6 @@
 import os
 
 import jinja2
-from illusionist.preprocessor import IllusionistPreprocessor
 from nbconvert.exporters.html import HTMLExporter
 
 from jupyter_flex.config import settings
@@ -22,7 +21,7 @@ class FlexIllusionistExporter(HTMLExporter):
     template_file = "nbconvert/flex/index.html.j2"
 
     # Add illusionist
-    preprocessors = [IllusionistPreprocessor]
+    preprocessors = ["illusionist.preprocessor.IllusionistPreprocessor"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
