@@ -11,6 +11,7 @@ class CustomHook(BuildHookInterface):
         if version != "editable":
             return
 
+        # Load the patch script, and format it into a site hook.
         input_path = THIS_DIR / "patch-voila-paths.py"
         hook_contents = f"import sys; exec({input_path.read_text()!r})"
 
