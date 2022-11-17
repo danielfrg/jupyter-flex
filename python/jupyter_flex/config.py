@@ -8,8 +8,5 @@ class Settings:
             dev_mode = False if _ in ["", "0"] else True
         self.dev_mode = dev_mode
 
-        this_dir = os.path.dirname(os.path.realpath(__file__))
-        self.templates_dir = os.path.join(this_dir, "templates")
-
 
 settings = Settings()

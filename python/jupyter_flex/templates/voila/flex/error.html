@@ -1,0 +1,16 @@
+{% extends "page.html" %}
+
+{% block title %}Voila Home{% endblock %}
+
+{% block body %}
+
+<main role="main" class="voila-wrapper">
+        <div class="text-center">
+            <h1>{{ status_code }}: {{ status_message }}</h1>
+            {% block error_detail %}
+            {% endblock %}
+        </div>
+    </div>
+</main>
+
+{% endblock %}

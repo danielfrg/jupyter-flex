@@ -1,0 +1,270 @@
+{#----------------------------------------------------------------------------#}
+{#- Helper marcos -#}
+{#----------------------------------------------------------------------------#}
+
+{# Iterate list and print the first value that starts with a prefix #}
+{%- macro find_item_startswith(list, prefix, default="") -%}
+{%- for item in list -%}
+    {%- if item.startswith(prefix) -%}
+        {{ item }}
+        {%- break -%}
+    {%- endif -%}
+{%- endfor -%}
+{{ default }}
+{%- endmacro -%}
+
+{# Output text if it starts with prefix (removes the prefix) #}
+{%- macro startswith_and_strip(text, prefix) -%}
+{%- if text.startswith(prefix) -%}
+{{ text[prefix | length:] | trim }}
+{%- endif -%}
+{%- endmacro -%}
+
+{# Output joined text with all items that startswith a prefix #}
+{%- macro join_all_items_with_prefix(list, prefix, join_char=" ") -%}
+{%- set matches = [] -%}
+{%- for item in list -%}
+    {%- set has_prefix = startswith_and_strip(item, "class=") -%}
+    {%- if has_prefix | length -%}
+        {%- set _ = matches.append(has_prefix) -%}
+    {%- endif -%}
+{%- endfor -%}
+{{ matches | join(join_char) }}
+{%- endmacro -%}}
+
+{# Update the props based on a cell #}
+{%- macro update_props(cell) -%}
+{%- for line in cell["source"].split("\n") -%}
+    {%- if line | trim | length -%}
+        {%- if line.startswith("flex_") -%}
+            {%- if line.split("=") | length == 2 -%}
+                {%- set key = line.split("=")[0] | trim  -%}
+                {#- Remove prefix -#}
+                {%- set key = key["flex_" | length:]  -%}
+                {%- set value = line.split("=")[1] | replace("\\\"", "|?|") | replace("\"", " ") | replace("|?|", "\"") | trim -%}
+
+                {#- Check booleans -#}
+                {%- if value == "True" -%}
+                {%- set value = true -%}
+                {%- elif value == "frue" -%}
+                {%- set value = false -%}
+                {%- endif -%}
+
+                {%- set _ = props.update({key: value})  -%}
+            {%- endif -%}
+        {%- endif -%}
+    {%- endif -%}
+{%- endfor -%}
+{%- endmacro -%}
+
+{#----------------------------------------------------------------------------#}
+{#- Creates a dashboard structure by iterating the notebook cells -#}
+{#----------------------------------------------------------------------------#}
+
+{#- Default parameters for the dashboard -#}
+{%- set default_title = nb.metadata.get("title", "") or resources["metadata"]["name"] -%}
+{%- set props = {"title": default_title, "show_source": false} -%}
+
+{%- set dashboard = {} -%}
+{%- set _ = dashboard.update({"props": props, "meta": [], "pages": [] }) -%}
+
+{#- Create default variables -#}
+{%- set vars = {} -%}
+{%- set _ = vars.update({"current_page": {} }) -%}
+{%- set _ = vars.update({"current_section": {} }) -%}
+{%- set _ = vars.update({"current_card": {} }) -%}
+
+{%- for cell in nb.cells -%}
+    {%- set cell_type = cell["cell_type"] -%}
+    {%- set cell_source = cell["source"] -%}
+    {%- set cell_tags = cell.get("metadata", {}).get("tags", []) -%}
+
+    {%- if cell_type == "markdown" -%}
+
+        {#- Tagged cells have priority over layout headers -#}
+        {%- set is_body = find_item_startswith(cell_tags, "body") -%}
+        {%- set is_info = find_item_startswith(cell_tags, "info") or find_item_startswith(cell_tags, "help") -%}
+        {%- set is_footer = find_item_startswith(cell_tags, "footer") -%}
+
+        {%- if is_body or is_info or is_footer -%}
+            {#- Check if current_* objects are created -#}
+            {#- Used when the notebook starts with tagged cell -#}
+            {%- if not vars.current_page -%}
+                {%- set _ = vars.update({"current_page": {"title": "", "sections": [], "tags": [] } }) -%}
+            {%- endif -%}
+            {%- if not vars.current_section -%}
+                {%- set _ = vars.update({"current_section": {"title": "", "cards": [], "tags": []}}) -%}
+            {%- endif -%}
+            {%- if not vars.current_card -%}
+                {%- set _ = vars.update({"current_card": {"title": "", "body": [], "footer": [], "info": [], "tags": []}}) -%}
+            {%- endif -%}
+        {%- endif -%}
+
+        {%- if is_body -%}
+            {%- set _ = vars.current_card.body.append(cell) -%}
+            {%- continue -%}
+        {%- endif -%}
+
+        {%- if is_footer -%}
+            {%- set _ = vars.current_card.footer.append(cell) -%}
+            {%- continue -%}
+        {%- endif -%}
+
+        {%- if is_info -%}
+            {%- set _ = vars.current_card.info.append(cell) -%}
+            {%- continue -%}
+        {%- endif -%}
+
+        {%- set h1_title = startswith_and_strip(cell_source, "# ") -%}
+        {%- if h1_title -%}
+            {#- Define a new page -#}
+
+            {#- Add current card to current section -#}
+            {%- if vars.current_card -%}
+                {%- set _ = vars.current_section["cards"].append(vars.current_card) -%}
+            {%- endif -%}
+
+            {#- Add current section to current page -#}
+            {%- if vars.current_section -%}
+                {%- set _ = vars.current_page["sections"].append(vars.current_section) -%}
+            {%- endif -%}
+
+            {#- Add current page to dashboard -#}
+            {%- if vars.current_page and vars.current_page.sections -%}
+                {%- set _ = dashboard["pages"].append(vars.current_page) -%}
+            {%- endif -%}
+
+            {#- Create new Page: Define all new current_* objects -#}
+            {%- set _ = vars.update({"current_page": {"title": h1_title, "sections": [], "tags": cell_tags } }) -%}
+            {%- set _ = vars.update({"current_section": {} }) -%}
+            {%- set _ = vars.update({"current_card": {} }) -%}
+        {%- endif -%}
+
+        {%- set h2_title = startswith_and_strip(cell_source, "## ") -%}
+        {%- if h2_title -%}
+            {#- Define a new section -#}
+
+            {#- Check for when the notebook starts with h2 -> create first page -#}
+            {%- if not vars.current_page -%}
+                {%- set _ = vars.update({"current_page": {"title": "", "sections": [], "tags": [] } }) -%}
+            {%- endif -%}
+
+            {#- Add current card to current section -#}
+            {%- if vars.current_card -%}
+                {%- set _ = vars.current_section["cards"].append(vars.current_card) -%}
+            {%- endif -%}
+
+            {#- Add current section to current page -#}
+            {%- if vars.current_section and vars.current_section.cards -%}
+                {%- set _ = vars.current_page["sections"].append(vars.current_section) -%}
+            {%- endif -%}
+
+            {#- Create new section: Define new current_* objects -#}
+            {%- set _ = vars.update({"current_section": {"title": h2_title, "cards": [], "tags": cell_tags}}) -%}
+            {%- set _ = vars.update({"current_card": {} }) -%}
+        {%- endif -%}
+
+        {%- set h3_title = startswith_and_strip(cell_source, "### ") -%}
+        {%- if h3_title -%}
+            {#- Define a new card -#}
+
+            {#- Check for when the notebook starts with h3 -> create first page and section -#}
+            {%- if not vars.current_page -%}
+                {%- set _ = vars.update({"current_page": {"title": "", "sections": [], "tags": [] } }) -%}
+            {%- endif -%}
+            {%- if not vars.current_section -%}
+                {%- set _ = vars.update({"current_section": {"title": "", "cards": [], "tags": []} }) -%}
+            {%- endif -%}
+
+            {#- Add current card to current section -#}
+            {%- if vars.current_card -%}
+                {%- set _ = vars.current_section["cards"].append(vars.current_card) -%}
+            {%- endif -%}
+
+            {#- Create new card with values from this cell -#}
+            {%- set _ = vars.update({"current_card": {"title": h3_title, "body": [], "footer": [], "info": [], "tags": cell_tags}}) -%}
+        {%- endif -%}
+
+    {%- elif cell_type == "code" -%}
+        {%- set is_params = find_item_startswith(cell_tags, "parameters") or find_item_startswith(cell_tags, "params") -%}
+        {%- set is_body = find_item_startswith(cell_tags, "body") -%}
+        {%- set is_info = find_item_startswith(cell_tags, "info") or find_item_startswith(cell_tags, "help") -%}
+        {%- set is_footer = find_item_startswith(cell_tags, "footer") -%}
+        {%- set is_meta = find_item_startswith(cell_tags, "meta") -%}
+        {%- set is_source = find_item_startswith(cell_tags, "source") -%}
+
+        {%- if is_body or is_info or is_footer or is_source -%}
+            {#- Check if current_* objects are created -#}
+            {#- Used when the notebook starts with tagged cell -#}
+            {%- if not vars.current_page -%}
+                {%- set _ = vars.update({"current_page": {"title": "", "sections": [] } }) -%}
+            {%- endif -%}
+            {%- if not vars.current_section -%}
+                {%- set _ = vars.update({"current_section": {"title": "", "cards": [], "tags": []}}) -%}
+            {%- endif -%}
+            {%- if not vars.current_card -%}
+                {%- set _ = vars.update({"current_card": {"title": "", "body": [], "footer": [], "info": [], "tags": []}}) -%}
+            {%- endif -%}
+        {%- endif -%}
+
+        {%- if is_params -%}
+            {{ update_props(cell) }}
+        {%- elif is_body -%}
+            {%- set _ = vars.current_card.body.append(cell) -%}
+        {%- elif is_source and props.show_source -%}
+            {#- We just want to include the source for this cell, remove the outputs -#}
+            {%- set _ = cell.pop("outputs") -%}
+            {%- set _ = vars.current_card.body.append(cell) -%}
+        {%- elif is_info -%}
+            {%- set _ = vars.current_card.info.append(cell) -%}
+        {%- elif is_footer -%}
+            {%- set _ = vars.current_card.footer.append(cell) -%}
+        {%- elif is_meta -%}
+            {#- Metadata cells dont create section or pages -#}
+            {%- set _ = dashboard.meta.append(cell) -%}
+        {%- endif -%}
+
+        {#- Remove source -#}
+        {#
+        {%- if not props.flex_show_source and cell.source -%}
+            {%- set _ = cell.pop("source") -%}
+        {%- endif -%}
+        #}
+    {%- endif -%}
+
+{%- endfor -%}
+
+{#- End of the notebook: Add final components to the parents -#}
+{%- if vars.current_card -%}
+    {%- set _ = vars.current_section["cards"].append(vars.current_card) -%}
+{%- endif -%}
+{%- if vars.current_section and vars.current_section.cards -%}
+{%- set _ = vars.current_page["sections"].append(vars.current_section) -%}
+{%- endif -%}
+{%- if vars.current_page and vars.current_page.sections -%}
+{%- set _ = dashboard["pages"].append(vars.current_page) -%}
+{%- endif -%}
+
+{#----------------------------------------------------------------------------#}
+{#- Macros to get formated output form this file   -#}
+{#----------------------------------------------------------------------------#}
+
+{%- macro get_props() -%}
+{{ props | tojson }}
+{%- endmacro -%}
+
+{%- macro get_title() -%}
+{{ props.get("title", "Jupyter-flex dashboard") }}
+{%- endmacro -%}
+
+{%- macro get_favicon() -%}
+{{ props.get("favicon", "") }}
+{%- endmacro -%}
+
+{%- macro get_custom_css() -%}
+{{ props.get("custom_css", "") }}
+{%- endmacro -%}
+
+{%- macro get_dashboard() -%}
+{{ dashboard | tojson }}
+{%- endmacro -%}

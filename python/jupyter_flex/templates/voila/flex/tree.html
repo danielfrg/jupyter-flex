@@ -1,0 +1,33 @@
+{% extends "page.html" %}
+
+{% block title %}Voila Home{% endblock %}
+
+{% block body %}
+
+    <main role="main" class="voila-wrapper">
+        <div class="filetree">
+            <h6>Select Notebook</h6>
+
+            <div class="list-group">
+                {% if breadcrumbs | length > 1: %}
+                    <a class="list-group-item" href="{{ breadcrumbs[-2][0] }}"><i class="material-icons">folder</i>../</a>
+                {% endif %}
+
+                {% set files = contents.content | list %}
+
+                {% for content in files | sort(attribute="name") %}
+                    {% if content.type == "directory" %}
+                        <a class="list-group-item" href="{{ base_url }}voila/tree/{{ content.path }}"><i class="material-icons">folder</i>{{ content.name }}</a>
+                    {% endif %}
+                    {% endfor %}
+                {% for content in files | sort(attribute="name") %}
+                    {% if content.type in ["notebook", "file"] %}
+                        <a class="list-group-item" href="{{ base_url }}voila/render/{{ content.path }}"><i class="material-icons">code</i>{{ content.name }}</a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+  </main>
+
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "page.html" %}
+
+{% block title %} Opening voila {% endblock %}
+
+{% block meta %}
+    <meta http-equiv="refresh" content="0;url={{ open_url }}" />
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid d-flex flex-row loading">
+        <div class="text-center">
+            <h1>Opening Voila-Flex</h1>
+            <p>
+                This page should redirect you to your app.
+                If it doesn't, <a href="{{ open_url }}">click here</a>.
+            </p>
+        </div>
+    </div>
+{% endblock %}
