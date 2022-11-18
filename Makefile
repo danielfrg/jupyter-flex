@@ -88,7 +88,7 @@ npm-publish:  ## JS: Publish to NPM
 
 cleanjs:  ## JS: Clean build files
 	cd $(CURDIR)/js; npm run clean
-	cd $(CURDIR)/python/jupyter_flex/templates/nbconvert/flex/static/; rm -rf *.js* *.css* *.txt
+	cd $(CURDIR)/python/share/jupyter/nbconvert/templates/flex/static/; rm -rf *.js* *.css* *.txt
 
 
 resetjs:  ## JS: Reset
