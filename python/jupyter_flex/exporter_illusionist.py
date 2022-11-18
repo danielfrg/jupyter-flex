@@ -2,8 +2,8 @@ import os
 
 import jinja2
 from nbconvert.exporters.html import HTMLExporter
-
 from jupyter_flex.config import settings
+from traitlets import default
 
 
 @jinja2.pass_context
