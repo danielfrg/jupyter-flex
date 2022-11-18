@@ -9,9 +9,10 @@ const pythonPkgStatic = path.resolve(
     __dirname,
     "..",
     "python",
-    "jupyter_flex",
-    "templates",
+    "share",
+    "jupyter",
     "nbconvert",
+    "templates",
     "flex",
     "static"
 );

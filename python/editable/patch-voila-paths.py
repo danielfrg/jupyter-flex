@@ -3,6 +3,7 @@
 
 import os
 import voila.paths as voila_paths
+import textwrap
 
 
 templates_path = "@@@TEMPLATE_PATH@@@"
@@ -20,10 +21,12 @@ def monkey_collect_template_paths(
     )
 
     flex_voila_templates = os.path.join(
-        templates_path, "voila", "templates", "flex"
+        templates_path, "voila", "templates"
     )
     flex_templates = [templates_path, flex_voila_templates]
-
+    print(r"Jupyter Flex: patching template paths for editable install of "
+            "jupyter-flex to include:")
+    print(f"              {flex_voila_templates}")
     return flex_templates + original
 
 
@@ -40,11 +43,15 @@ def monkey_collect_static_paths(
     )
 
     flex_nbconvert_templates = os.path.join(
-        templates_path, "nbconvert", "templates", "flex"
+        templates_path, "nbconvert", "templates"
     )
     flex_nbconvert_static = os.path.join(
-        flex_nbconvert_templates, "static"
+        flex_nbconvert_templates, "flex", "static"
     )
+    print(r"Jupyter Flex: patching static paths for editable install of "
+            "jupyter-flex to include:")
+    print(f"              {flex_nbconvert_templates}")
+    print(f"              {flex_nbconvert_static}")
 
     flex_static_templates = [flex_nbconvert_templates, flex_nbconvert_static]
 
