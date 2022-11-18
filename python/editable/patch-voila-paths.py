@@ -50,6 +50,5 @@ def monkey_collect_static_paths(
     return flex_static_templates + original
 
 
-def patch_editable_paths():
-    voila_paths.collect_template_paths = monkey_collect_template_paths
-    voila_paths.collect_static_paths = monkey_collect_static_paths
+voila_paths.collect_template_paths = monkey_collect_template_paths
+voila_paths.collect_static_paths = monkey_collect_static_paths
