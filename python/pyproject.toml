@@ -1,3 +1,18 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = ["jupyter_flex"]
+
+[tool.hatch.build.targets.sdist]
+artifacts = ["jupyter_flex/templates"]
+include = ["editable"]
+
+[tool.hatch.build.targets.wheel]
+shared-data = { "share" = "share" }
+# Add a custom build hook that injects template paths in editable mode
+hooks.custom.path = "editable/hook.py"
 
 [project]
 # PEP 621 project metadata
@@ -98,21 +113,6 @@ convention = "numpy"
 inherit = false
 match_dir = "jupyter_flex"
 
-[tool.hatch.build]
-include = ["jupyter_flex"]
-
-[tool.hatch.build.targets.sdist]
-artifacts = ["jupyter_flex/templates"]
-include = ["editable"]
-
-[tool.hatch.build.targets.wheel]
-shared-data = { "share" = "share" }
-# Add a custom build hook that injects template paths in editable mode
-hooks.custom.path = "editable/hook.py"
-
 
 [tool.pdm]
 [tool.pdm.dev-dependencies]
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
