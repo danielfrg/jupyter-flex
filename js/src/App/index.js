@@ -116,21 +116,23 @@ class JupyterFlex extends React.Component {
                         kernel.dispose();
                     });
 
-                    widgetManager.models = await widgetManager._build_models();
+                    await widgetManager._loadFromKernel();
 
                     // We add this function to Voila's Widget Manager
                     widgetManager.renderWidget = async function (modelId) {
                         const viewEl = document.body.querySelector(
                             `div[id="${modelId}"]`
                         );
-                        const model = widgetManager.models[modelId];
+                        const model = await widgetManager.get_model(modelId);
 
                         viewEl.innerHTML = "";
                         // eslint-disable-next-line no-unused-vars
-                        const view = await widgetManager.display_model(
+                        const options =  { el: viewEl };
+                        const view = await widgetManager.create_view(model, options);
+                        await widgetManager.display_view(
                             undefined,
-                            model,
-                            { el: viewEl }
+                            view,
+                            options
                         );
                         ``;
                     };
