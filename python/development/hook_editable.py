@@ -1,9 +1,13 @@
+# This hook is used by hatch when installing the package in editable mode
+# It creates a patch-voila-path.pth file in site-package that execs
+# patch-voila-paths.py
+# See: https://docs.python.org/3/library/site.html
+
 import tempfile
 import pathlib
 from hatchling.builders.hooks.plugin.interface import BuildHookInterface
 
 THIS_DIR = pathlib.Path(__file__).parent
-
 
 HOOK_CONTENTS = [
     "import sys, types",
@@ -20,7 +24,7 @@ class CustomHook(BuildHookInterface):
 
         # Load the patch script, and format it into a site hook.
         input_path = THIS_DIR / "patch-voila-paths.py"
-        hook_contents = ";".join(HOOK_CONTENTS).format(
+        hook_contents = ";\n".join(HOOK_CONTENTS).format(
             module_body=input_path.read_text()
         )
 

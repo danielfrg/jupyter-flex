@@ -1,0 +1,48 @@
+version: "3"
+
+env:
+  SELENIUM_HUB_HOST: 127.0.0.1
+  SELENIUM_HUB_PORT: 4444
+  PYTEST_BASE_URL: http://localhost:8866
+  PYTEST_K: ""
+
+tasks:
+  # ----------------------------------------------------------------------------
+  # Python
+
+  env:
+    dir: python
+    cmds:
+      - hatch env create
+
+  # Download .css/.js assets
+  download-assets:
+    cmds:
+      - curl -o python/share/jupyter/nbconvert/templates/flex/static/require.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
+      # We need to include qgrid because of: http://github.com/quantopian/qgrid/pull/325
+      # We need to put it directly on `static` so requireJS can find it
+      - curl -o python/share/jupyter/nbconvert/templates/flex/static/qgrid.js https://unpkg.com/qgrid2@1.1.3/dist/index.js
+
+  download-testdata:
+    dir: python
+    cmds:
+      - bokeh sampledata
+
+  ## Test: Serve examples using voila
+  voila-examples:
+    dir: examples
+    cmds:
+      - voila --template flex --VoilaConfiguration.file_whitelist '.*'
+
+  pytest:
+    dir: python
+    cmds:
+      - pytest -k "$PYTEST_K" --splinter-webdriver remote --splinter-remote-url $SELENIUM_HUB_HOST --html=test-results/report.html --self-contained-html
+
+  selenium-server:
+    cmds:
+      - selenium-server standalone --port $SELENIUM_HUB_PORT --host 0.0.0.0
+
+  selenium-docker:
+    cmds:
+      - docker-compose up

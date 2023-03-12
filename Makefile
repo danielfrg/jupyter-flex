@@ -106,7 +106,7 @@ download-assets:  ## Download .css/.js assets
 # Testing
 
 selenium:  ## Test: Run selenium
-	selenium-server -port 4444
+	selenium-server standalone --port 4444
 
 
 selenium-docker:  ## Test:  Run selenium in docker
