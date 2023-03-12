@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: test-${{ github.head_ref }}
+  group: docs-${{ github.head_ref }}
   cancel-in-progress: true
 
 env:
@@ -81,7 +81,6 @@ jobs:
 
       - name: Print Python info
         run: |
-          tree
           source python/.venv/jupyter-flex/bin/activate
           which python
           python --version
