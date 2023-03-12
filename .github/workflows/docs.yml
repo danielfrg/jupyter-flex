@@ -6,18 +6,33 @@ on:
   pull_request:
   workflow_dispatch:
 
+concurrency:
+  group: docs-${{ github.head_ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONUNBUFFERED: "1"
+  FORCE_COLOR: "1"
+
 jobs:
   docs:
-    runs-on: ubuntu-20.04
+    name: Build docs
+
+    runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
-        python-version: [3.8]
+        os: [ubuntu-20.04]
+        python-version: ["3.10"]
         node-version: ["16"]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: git fetch --prune --unshallow
+
+      - name: Install Task
+        uses: arduino/setup-task@v1
 
       # ------------------------------------------------------------------------
       # JS
@@ -37,87 +52,66 @@ jobs:
       - name: Install JS deps
         if: steps.cached-node_modules.outputs.cache-hit != 'true'
         run: |
-          make npm-install
+          cd js
+          npm install
 
       - name: Build JS
         run: |
-          make download-assets
-          make npm-build
+          task download-assets
+          cd js
+          npm run build
 
       # ------------------------------------------------------------------------
-      #  Python
+      # Python
 
-      - name: Setup Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+      - name: Python - Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-        with:
-          version: 1.2.0a2
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-
-      - name: Load cached venv
-        id: cached-python-env
-        uses: actions/cache@v2
-        with:
-          path: python/.venv
-          key: venv-docs-${{ runner.os }}-py${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock', '**/requirements*.txt') }}
-
-      - name: Ensure cache is healthy
-        id: cached-python-env-check
-        continue-on-error: true
-        if: steps.cached-python-env.outputs.cache-hit == 'true'
+      - name: Install Hatch
         run: |
-          .venv/bin/activate/bin/python --version
-          # poetry run python --version
+          pip install --upgrade hatch
+          hatch config set dirs.env.virtual .venv
 
-      - name: Debug options
-        run: |
-          echo ${{ steps.cached-python-env.outputs.cache-hit }}
-          echo ${{ steps.cached-python-env-check.outcome }}
-
-      - name: Install Python dependencies
-        if: steps.cached-python-env.outputs.cache-hit != 'true' || steps.cached-python-env-check.outcome != 'success'
+      - name: Install dependencies
         run: |
           cd python
-          rm -rf .venv || true
-          poetry install --no-interaction --no-root --with docs --with examples
+          hatch env create
+
+      - name: Install other dependencies
+        run: |
+          source python/.venv/jupyter-flex/bin/activate
+          task download-testdata
 
       - name: Print Python info
         run: |
-          source python/.venv/bin/activate
+          source python/.venv/jupyter-flex/bin/activate
           which python
-          which pip
           python --version
+          which pip
           pip --version
+          pip freeze
 
       # ------------------------------------------------------------------------
       # Build docs
 
       - name: Build Python package
-        run: |
-          source python/.venv/bin/activate
-          make pkg
+        run: task build
 
       - name: Install package
         run: |
-          source python/.venv/bin/activate
+          source python/.venv/jupyter-flex/bin/activate
           cd python
-          pip install dist/*.tar.gz
+          # remove editable version
+          pip uninstall -y jupyter-flex
+          pip install dist/*.whl
           pip freeze
-
-      - name: Install other dependencies
-        run: |
-          source python/.venv/bin/activate
-          make download-testdata
 
       - name: Build docs
         run: |
-          source python/.venv/bin/activate
-          make docs
+          source python/.venv/jupyter-flex/bin/activate
+          task docs
 
       # ------------------------------------------------------------------------
       # Release

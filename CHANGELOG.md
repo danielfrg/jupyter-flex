@@ -1,5 +1,11 @@
 # jupyter-flex Change Log
 
+## Unreleased
+
+- Remove support for qgrid (it's no longer maintained)
+- Support nbconvert 7
+- Move from poetry to hatch for building the package
+
 ## 0.8.0
 
 - Relocate templates out of $prefix/share and into the package itself, removes duplicated assets

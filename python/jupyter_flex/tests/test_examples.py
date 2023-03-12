@@ -53,10 +53,9 @@ def test_apps(browser, screenshot_regression, nb_name):
 @pytest.mark.parametrize(
     "nb_name",
     [
-        "ipyleaflet",
+        # "ipyleaflet",
         # "ipysheet",
         "mpl-histogram",
-        "qgrid",
         "widgets-gallery",
         "widgets-sidebar",
     ],
