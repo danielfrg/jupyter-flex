@@ -51,9 +51,6 @@ homepage = "https://github.com/danielfrg/jupyter-flex"
 repository = "https://github.com/danielfrg/jupyter-flex"
 documentation = "https://github.com/danielfrg/jupyter-flex"
 
-[project.entry-points.console_scripts]
-jupyter-flex = "jupyter_flex.app:main"
-
 [project.entry-points."nbconvert.exporters"]
 flex = "jupyter_flex:FlexExporter"
 flex-illusionist = "jupyter_flex:FlexIllusionistExporter"

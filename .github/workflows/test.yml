@@ -110,7 +110,6 @@ jobs:
 
       - name: Print Python info
         run: |
-          tree
           source python/.venv/jupyter-flex/bin/activate
           which python
           python --version
@@ -128,6 +127,7 @@ jobs:
         run: |
           source python/.venv/jupyter-flex/bin/activate
           cd python
+          pip uninstall -y jupyter-flex  # remove editable version
           pip install dist/*.whl
           pip freeze
 

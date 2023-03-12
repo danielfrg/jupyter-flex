@@ -10,10 +10,10 @@ tasks:
   # ----------------------------------------------------------------------------
   # Python
 
-  env:
+  pkg:
     dir: python
     cmds:
-      - hatch env create
+      - hatch build
 
   # Download .css/.js assets
   download-assets:
