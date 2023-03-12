@@ -28,7 +28,8 @@ jobs:
       matrix:
         # os: [ubuntu-latest, windows-latest, macos-latest]
         os: [ubuntu-20.04]
-        python-version: [3.7, 3.8, 3.9]
+        python-version: ["3.10"]
+        # python-version: [3.8, 3.9, "3.10", 3.11]
         node-version: ["16"]
 
     services:
@@ -80,12 +81,14 @@ jobs:
       - name: Install JS deps
         if: steps.cached-node_modules.outputs.cache-hit != 'true'
         run: |
-          make npm-install
+          cd js
+          npm install
 
       - name: Build JS
         run: |
-          make download-assets
-          make npm-build
+          task download-assets
+          cd js
+          npm run build
 
       # ------------------------------------------------------------------------
       # Python
