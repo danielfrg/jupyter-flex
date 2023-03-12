@@ -21,13 +21,14 @@ classifiers = [
 requires-python = ">=3.8"
 dependencies = [
     "ipykernel>=6.21.3",
-    "jinja2<4.0.0,>=3.0.1",
+    "jinja2<3.1.0,>=3.0.3",
     "nbconvert>=7.2.9",
     "voila<0.5,>=0.4.0",
 ]
 dynamic = ["version"]
 
 [project.optional-dependencies]
+# illusionist = ["illusionist"]
 test = [
     "coverage[toml]",
     "pytest",
@@ -40,7 +41,7 @@ test = [
 docs = [
     "mkdocs",
     "mkdocs-material",
-    "mkdocs-jupyter",
+    "mkdocs-jupyter>=0.23.0",
     "mkdocs-minify-plugin",
     "Pygments",
     "pymdown-extensions",
@@ -53,7 +54,7 @@ documentation = "https://github.com/danielfrg/jupyter-flex"
 
 [project.entry-points."nbconvert.exporters"]
 flex = "jupyter_flex:FlexExporter"
-flex-illusionist = "jupyter_flex:FlexIllusionistExporter"
+# flex-illusionist = "jupyter_flex:FlexIllusionistExporter"
 
 [build-system]
 requires = ["hatchling"]

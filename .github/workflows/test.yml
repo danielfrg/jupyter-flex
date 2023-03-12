@@ -121,13 +121,14 @@ jobs:
       # Tests
 
       - name: Build Python package
-        run: task pkg
+        run: task build
 
       - name: Install package
         run: |
           source python/.venv/jupyter-flex/bin/activate
           cd python
-          pip uninstall -y jupyter-flex  # remove editable version
+          # remove editable version
+          pip uninstall -y jupyter-flex
           pip install dist/*.whl
           pip freeze
 

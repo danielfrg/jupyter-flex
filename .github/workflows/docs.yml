@@ -92,26 +92,26 @@ jobs:
       # Build docs
 
       - name: Build Python package
-        run: |
-          source python/.venv/bin/activate
-          make pkg
+        run: task build
 
       - name: Install package
         run: |
-          source python/.venv/bin/activate
+          source python/.venv/jupyter-flex/bin/activate
           cd python
-          pip install dist/*.tar.gz
+          # remove editable version
+          pip uninstall -y jupyter-flex
+          pip install dist/*.whl
           pip freeze
 
       - name: Install other dependencies
         run: |
           source python/.venv/bin/activate
-          make download-testdata
+          task download-testdata
 
       - name: Build docs
         run: |
           source python/.venv/bin/activate
-          make docs
+          task docs
 
       # ------------------------------------------------------------------------
       # Release

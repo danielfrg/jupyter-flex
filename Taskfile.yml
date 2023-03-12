@@ -11,7 +11,7 @@ tasks:
   # ----------------------------------------------------------------------------
   # Python
 
-  pkg:
+  build:
     dir: python
     cmds:
       - hatch build
@@ -34,6 +34,9 @@ tasks:
     dir: examples
     cmds:
       - voila --template flex --VoilaConfiguration.file_whitelist '.*'
+
+  # ----------------------------------------------------------------------------
+  # Testing
 
   pytest:
     dir: python
@@ -58,3 +61,38 @@ tasks:
   selenium-docker:
     cmds:
       - docker-compose up
+
+    # ----------------------------------------------------------------------------
+    # Docs
+
+  docs:
+    cmds:
+      # - task: docs-examples-html
+      # - mkdocs build
+      - task: docs-example-exec-nbs
+
+  # Convert examples to HTML dashboards and saves them into the docs source directory
+  docs-examples-html:
+    dir: examples
+    cmds:
+      - rm -rf ../docs/examples;
+      - jupyter-nbconvert *.ipynb 						   --output-dir=../docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
+      - jupyter-nbconvert docs/*.ipynb	 				  --output-dir=../docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
+      - jupyter-nbconvert layouts/*.ipynb 				--output-dir=../docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
+      - jupyter-nbconvert layouts/customize/*.ipynb 	--output-dir=../docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
+      - jupyter-nbconvert plots/*.ipynb 				    --output-dir=../docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
+      - jupyter-nbconvert widgets/*.ipynb 				  --output-dir=../docs/examples --to=flex --execute --ExecutePreprocessor.store_widget_state=True
+      # - jupyter-nbconvert illusionist/*.ipynb 			--output-dir=../docs/examples/illusionist --to=flex-illusionist --execute --ExecutePreprocessor.store_widget_state=True
+
+  # Execute examples notebooks and saves them into the docs output directory
+  docs-example-exec-nbs:
+    dir: examples
+    cmds:
+      - rm -rf ../site/examples/notebooks
+      - jupyter-nbconvert *.ipynb 		      		  	--output-dir=$../site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True --ExecutePreprocessor.allow_errors=True
+      - jupyter-nbconvert docs/*.ipynb 				--output-dir=$../site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
+      - jupyter-nbconvert layouts/*.ipynb 				--output-dir=$../site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
+      - jupyter-nbconvert layouts/customize/*.ipynb	--output-dir=$../site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
+      - jupyter-nbconvert plots/*.ipynb 				--output-dir=$../site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
+      - jupyter-nbconvert widgets/*.ipynb 				--output-dir=$../site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
+      # - jupyter-nbconvert illusionist/*.ipynb 			--output-dir=$../site/examples/notebooks/illusionist --to=illusionist-nb --execute --ExecutePreprocessor.store_widget_state=True
