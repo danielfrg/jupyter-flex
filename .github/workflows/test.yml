@@ -108,6 +108,11 @@ jobs:
           cd python
           hatch env create
 
+      - name: Install other dependencies
+        run: |
+          source python/.venv/jupyter-flex/bin/activate
+          task download-testdata
+
       - name: Print Python info
         run: |
           source python/.venv/jupyter-flex/bin/activate
@@ -131,11 +136,6 @@ jobs:
           pip uninstall -y jupyter-flex
           pip install dist/*.whl
           pip freeze
-
-      - name: Install other dependencies
-        run: |
-          source python/.venv/jupyter-flex/bin/activate
-          task download-testdata
 
       - name: Verify Selenium Hub
         run: |
