@@ -39,6 +39,17 @@ tasks:
     cmds:
       - pytest -k "$PYTEST_K" --splinter-webdriver remote --splinter-remote-url $SELENIUM_HUB_HOST --html=test-results/report.html --self-contained-html
 
+  pytest-all:
+    dir: python
+    cmds:
+      - pytest --splinter-webdriver remote --splinter-remote-url $SELENIUM_HUB_HOST --html=test-results/report.html --self-contained-html
+
+  pytest-report:
+    dir: python
+    cmds:
+      - coverage xml
+      - coverage html
+
   selenium-server:
     cmds:
       - selenium-server standalone --port $SELENIUM_HUB_PORT --host 0.0.0.0

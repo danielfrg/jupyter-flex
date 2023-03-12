@@ -104,6 +104,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          cd python
           hatch env create
 
       - name: Print Python info
