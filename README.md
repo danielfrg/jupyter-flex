@@ -4,7 +4,10 @@
 
 <p align="center">
     <a href="https://pypi.org/project/jupyter-flex/">
-        <img src="https://badge.fury.io/py/jupyter-flex.svg">
+        <img src="https://img.shields.io/pypi/v/jupyter-flex.svg">
+    </a>
+    <a href="https://pypi.org/project/mkdocs-jupyter">
+        <img src="https://img.shields.io/pypi/pyversions/jupyter-flex.svg">
     </a>
     <a href="https://github.com/danielfrg/jupyter-flex/actions/workflows/test.yml">
         <img src="https://github.com/danielfrg/jupyter-flex/workflows/test/badge.svg">
