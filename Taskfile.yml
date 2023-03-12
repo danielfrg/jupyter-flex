@@ -67,8 +67,8 @@ tasks:
 
   docs:
     cmds:
-      # - task: docs-examples-html
-      # - mkdocs build
+      - task: docs-examples-html
+      - mkdocs build
       - task: docs-example-exec-nbs
 
   # Convert examples to HTML dashboards and saves them into the docs source directory
