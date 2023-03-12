@@ -101,6 +101,7 @@ jobs:
       - name: Install Hatch
         run: |
           pip install --upgrade hatch
+          hatch config set dirs.env.virtual .venv
 
       - name: Install dependencies
         run: |
