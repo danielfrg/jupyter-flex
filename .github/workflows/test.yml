@@ -108,7 +108,7 @@ jobs:
 
       - name: Print Python info
         run: |
-          hatch shell
+          source python/.venv/jupyter-flex/bin/activate
           which python
           python --version
           which pip
@@ -123,14 +123,14 @@ jobs:
 
       - name: Install package
         run: |
-          hatch shell
+          source python/.venv/jupyter-flex/bin/activate
           cd python
           pip install dist/*.whl
           pip freeze
 
       - name: Install other dependencies
         run: |
-          hatch shell
+          source python/.venv/jupyter-flex/bin/activate
           task download-testdata
 
       - name: Verify Selenium Hub
@@ -139,7 +139,7 @@ jobs:
 
       - name: Serve Voila
         run: |
-          hatch shell
+          source python/.venv/jupyter-flex/bin/activate
           task voila-examples &
 
       - name: Verify Voila
@@ -149,9 +149,9 @@ jobs:
 
       - name: Run tests
         run: |
-          hatch shell
+          source python/.venv/jupyter-flex/bin/activate
           task pytest-all
-          task pyreport
+          task pytest-report
 
       - name: Codecov
         uses: codecov/codecov-action@v2
