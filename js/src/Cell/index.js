@@ -14,6 +14,7 @@ import {
     StreamText,
     KernelOutputError,
 } from "@nteract/outputs";
+import Markdown from "./markdown";
 import { Provider as MathJaxProvider } from "@nteract/mathjax";
 
 import Widget from "./widget";
@@ -59,7 +60,7 @@ class DashboardCell extends React.Component {
         if (cell_type == "markdown") {
             contentEl = (
                 <Cell className={`md-cell ${classNames}`}>
-                    <Media.Markdown className={classNames} data={source} />
+                    <Markdown className={classNames} data={source} />
                 </Cell>
             );
         } else if (cell_type == "code") {
@@ -108,7 +109,7 @@ class DashboardCell extends React.Component {
                                         <Media.JavaScript />
                                         <Media.Json />
                                         <Media.LaTeX />
-                                        <Media.Markdown />
+                                        <Markdown />
                                         <Media.Plain />
                                     </RichMedia>
                                 );
