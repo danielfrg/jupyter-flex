@@ -56,7 +56,6 @@ def test_apps(browser, screenshot_regression, nb_name):
         "ipyleaflet",
         # "ipysheet",
         "mpl-histogram",
-        "qgrid",
         "widgets-gallery",
         "widgets-sidebar",
     ],

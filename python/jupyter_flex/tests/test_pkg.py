@@ -26,7 +26,6 @@ def test_assets_included():
     assert os.path.exists(os.path.join(static, "jupyter-flex-embed.css"))
     assert os.path.exists(os.path.join(static, "jupyter-flex-embed.js"))
     assert os.path.exists(os.path.join(static, "jupyter-flex-embed.js.map"))
-    assert os.path.exists(os.path.join(static, "qgrid.js"))
     assert os.path.exists(os.path.join(static, "require.min.js"))
 
     voila = os.path.join(jupyter_dir, "voila", "templates", "flex")
