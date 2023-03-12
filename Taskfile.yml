@@ -4,6 +4,7 @@ env:
   SELENIUM_HUB_HOST: 127.0.0.1
   SELENIUM_HUB_PORT: 4444
   PYTEST_BASE_URL: http://localhost:8866
+  PYTEST_M: ""
   PYTEST_K: ""
 
 tasks:
@@ -37,7 +38,7 @@ tasks:
   pytest:
     dir: python
     cmds:
-      - pytest -k "$PYTEST_K" --splinter-webdriver remote --splinter-remote-url $SELENIUM_HUB_HOST --html=test-results/report.html --self-contained-html
+      - pytest -k "$PYTEST_K" -m "$PYTEST_M" --splinter-webdriver remote --splinter-remote-url $SELENIUM_HUB_HOST --html=test-results/report.html --self-contained-html
 
   pytest-all:
     dir: python

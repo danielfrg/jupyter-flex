@@ -1,22 +1,22 @@
 import os
-
-import pytest
+import sys
 
 import jupyter_flex
+import pytest
 from jupyter_flex.config import settings
 
 pytestmark = [pytest.mark.nondestructive, pytest.mark.pkg]
 
 
 def test_import():
-
     assert jupyter_flex.__version__ is not None
     assert jupyter_flex.__version__ != "0.0.0"
     assert len(jupyter_flex.__version__) > 0
 
 
 def test_assets_included():
-    nbconvert = os.path.join(settings.templates_dir, "nbconvert", "flex")
+    jupyter_dir = os.path.join(sys.prefix, "share", "jupyter")
+    nbconvert = os.path.join(jupyter_dir, "nbconvert", "templates", "flex")
     assert os.path.exists(os.path.join(nbconvert, "conf.json"))
     assert os.path.exists(os.path.join(nbconvert, "flex.j2"))
     assert os.path.exists(os.path.join(nbconvert, "index.html.j2"))
@@ -29,7 +29,7 @@ def test_assets_included():
     assert os.path.exists(os.path.join(static, "qgrid.js"))
     assert os.path.exists(os.path.join(static, "require.min.js"))
 
-    voila = os.path.join(settings.templates_dir, "voila", "flex")
+    voila = os.path.join(jupyter_dir, "voila", "templates", "flex")
     assert os.path.exists(os.path.join(voila, "404.html"))
     assert os.path.exists(os.path.join(voila, "browser-open.html"))
     assert os.path.exists(os.path.join(voila, "error.html"))
