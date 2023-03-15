@@ -69,7 +69,7 @@
         "eslint-plugin-react": "^7.26.1",
         "eslint-plugin-react-hooks": "^4.2.0",
         "file-loader": "^6.2.0",
-        "filemanager-webpack-plugin": "^6.1.7",
+        "filemanager-webpack-plugin": "^8.0.0",
         "mini-css-extract-plugin": "^2.3.0",
         "null-loader": "^4.0.1",
         "prettier": "^2.4.1",
