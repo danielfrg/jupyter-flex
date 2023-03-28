@@ -11,14 +11,14 @@ Dependencies:
 
 - Node.js
 - Python
+- Optional: [Task](https://taskfile.dev)
 
 ### 1. Javascript
 
 Install dependencies
 
 ```shell
-cd js
-npm install
+task js-install
 ```
 
 ### 2. Python
@@ -32,7 +32,7 @@ hatch env create
 hatch shell
 ```
 
-### 3. Download external assets and test data
+### 3. Download 3rd-party assets and test data
 
 ```shell
 task download-assets download-testdata
@@ -46,11 +46,12 @@ With both environments ready we can have a nice iteration cycle between JS and P
    nbconvert and voila static directories.
 
 ```shell
-cd js
-npm run dev
+task js-dev
 ```
 
-2. Now you can just start Voila and iterate quickly on the JS or Python code. For example, to start the Voila in the examples directory:
+2. Now you can start the Voila server and iterate quickly on the JS or Python code.
+
+Start the Voila in the examples directory:
 
 ```shell
 task voila-examples
@@ -77,7 +78,7 @@ task pytest-all
 
 To generate/update the test baselines just run the tests
 
-### Install Selenium and the Chrome driver on mac
+### Installing Selenium and the Chrome driver on mac
 
 ```shell
 brew install chromedriver
@@ -88,6 +89,6 @@ brew install --cask google-chrome
 ## Docs
 
 ```shell
-make docs
-make serve-docs
+task docs
+task docs-serve
 ```

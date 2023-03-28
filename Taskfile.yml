@@ -51,7 +51,7 @@ tasks:
     cmds:
       - voila --template flex --VoilaConfiguration.file_whitelist '.*'
 
-  # Download .css/.js assets
+  # Download 3rd-party assets
   download-assets:
     cmds:
       - curl -o python/share/jupyter/nbconvert/templates/flex/static/require.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
@@ -96,6 +96,10 @@ tasks:
       - task: docs-examples-html
       - mkdocs build
       - task: docs-example-exec-nbs
+
+  docs-serve:
+    cmds:
+      - mkdocs serve
 
   # Convert examples to HTML dashboards and saves them into the docs source directory
   docs-examples-html:
