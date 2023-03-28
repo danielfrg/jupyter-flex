@@ -4,7 +4,6 @@ import sys
 import pytest
 
 import jupyter_flex
-from jupyter_flex.config import settings
 
 pytestmark = [pytest.mark.nondestructive, pytest.mark.pkg]
 
