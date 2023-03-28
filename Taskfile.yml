@@ -34,7 +34,8 @@ tasks:
   lockfiles:
     dir: python
     cmds:
-      - pip-compile -q --resolver=backtracking -o requirements/pyproject.txt pyproject.toml --extra=test --extra=docs
+      - pip-compile -q --resolver=backtracking -o requirements/pyproject.txt pyproject.toml --extra=test
+      - pip-compile -q --resolver=backtracking -o requirements/pyproject-docs.txt pyproject.toml --extra=test --extra=docs
       - pip-compile -q --resolver=backtracking -o requirements/linting.txt requirements/linting.in
       - pip-compile -q --resolver=backtracking -o requirements/examples.txt requirements/examples.in
 
