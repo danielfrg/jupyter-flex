@@ -21,7 +21,7 @@
     <a href="https://github.com/danielfrg/jupyter-flex/blob/main/LICENSE.txt">
         <img src="https://img.shields.io/:license-Apache%202-blue.svg">
     </a>
-    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.9.0?urlpath=voila%2Ftree%2Fexamples">
+    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/main?urlpath=voila%2Ftree%2Fexamples">
         <img src="https://mybinder.org/badge_logo.svg">
     </a>
 </p>
@@ -40,7 +40,7 @@
 - Use [Voila](https://github.com/voila-dashboards/voila) to start a live Jupyter Kernel for fully dynamic applications
 - Support for [Jupyter widgets](https://ipywidgets.readthedocs.io/en/latest/)
 
-<a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.9.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fmovie-explorer.ipynb"><img src="https://jupyter-flex.danielfrg.com/assets/img/screenshots/jupyter_flex.tests.test_examples/apps_movie-explorer-reference.png" alt="Jupyter-flex: Movie Explorer"  width=270></a>
+<a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/main?urlpath=%2Fvoila%2Frender%2Fexamples%2Fmovie-explorer.ipynb"><img src="https://jupyter-flex.danielfrg.com/assets/img/screenshots/jupyter_flex.tests.test_examples/apps_movie-explorer-reference.png" alt="Jupyter-flex: Movie Explorer"  width=270></a>
 <a href="https://jupyter-flex.danielfrg.com/examples/nba-scoring.html"><img src="https://jupyter-flex.danielfrg.com/assets/img/screenshots/jupyter_flex.tests.test_examples/apps_nba-scoring-reference.png" alt="Jupyter-flex: NBA Scoring" width=270></a>
 <a href="https://jupyter-flex.danielfrg.com/examples/altair.html"><img src="https://jupyter-flex.danielfrg.com/assets/img/screenshots/jupyter_flex.tests.test_examples/plots_altair-reference.png" alt="Jupyter-flex: Bokeh plots"  width=270></a>
 
