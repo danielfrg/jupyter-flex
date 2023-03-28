@@ -1,6 +1,6 @@
 # jupyter-flex Change Log
 
-## Unreleased
+## 0.9.0
 
 - Remove support for qgrid (it's no longer maintained)
 - Support nbconvert 7

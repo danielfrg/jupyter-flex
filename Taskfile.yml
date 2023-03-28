@@ -161,12 +161,6 @@ tasks:
     cmds:
       - npm install
 
-  js-publish:
-    dir: js
-    cmds:
-      - npm version
-      - npm publish
-
   js-clean:
     cmds:
       - task: js-clean-1
