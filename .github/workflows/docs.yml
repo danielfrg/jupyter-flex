@@ -66,7 +66,7 @@ jobs:
       # ------------------------------------------------------------------------
       # Python
 
-            - name: Python - Set up Python ${{ matrix.python-version }}
+      - name: Python - Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
