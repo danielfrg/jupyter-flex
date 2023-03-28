@@ -71,6 +71,7 @@ path = "jupyter_flex/__about__.py"
 [tool.hatch.envs.default]
 features = ["test", "docs"]
 dependencies = [
+    # Linting
     "black",
     "flake8",
     "isort",
