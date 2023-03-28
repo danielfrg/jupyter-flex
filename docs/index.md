@@ -1,6 +1,6 @@
 # Jupyter-flex: Dashboards for Jupyter
 
-<img src="/assets/img/logo-square.png" alt="jupyter-flex">
+<img src="/assets/img/logo.png" alt="jupyter-flex">
 
 - Use markdown headers and Jupyter Notebook cell tags to define the dashboard components
 - Flexible way to specify row and column based layouts
@@ -70,35 +70,35 @@ realtime computation and how to use [Jupyter widgets](https://ipywidgets.readthe
     </figure>
   </a>
 
-  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.8.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwidgets%2Fwidgets-gallery.ipynb">
+  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.9.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwidgets%2Fwidgets-gallery.ipynb">
     <figure>
       <img src="/assets/img/screenshots/jupyter_flex.tests.test_examples/widgets_widgets-gallery-reference.png">
       <figcaption>jupyter-widgets-gallery (runs in mybinder.org)</figcaption>
     </figure>
   </a>
 
-  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.8.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fplots%2Fbqplot.ipynb">
+  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.9.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fplots%2Fbqplot.ipynb">
     <figure>
       <img src="/assets/img/screenshots/jupyter_flex.tests.test_examples/plots_bqplot-reference.png" alt="Jupyter-flex: bqplot">
       <figcaption>bqplot plots (runs in mybinder.org)</figcaption>
     </figure>
   </a>
 
-  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.8.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fmovie-explorer.ipynb">
+  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.9.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fmovie-explorer.ipynb">
     <figure>
       <img src="/assets/img/screenshots/jupyter_flex.tests.test_examples/apps_movie-explorer-reference.png" alt="Jupyter-flex: Movie Explorer">
       <figcaption>Movie Explorer (runs in mybinder.org)</figcaption>
     </figure>
   </a>
 
-  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.8.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
+  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.9.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
     <figure>
       <img src="/assets/img/screenshots/jupyter_flex.tests.test_examples/apps_wealth-of-nations-reference.png" alt="Jupyter-flex: Wealth of Nations">
       <figcaption>Wealth of Nations (runs in mybinder.org)</figcaption>
     </figure>
   </a>
 
-  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.8.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
+  <a class="image-card" href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.9.0?urlpath=%2Fvoila%2Frender%2Fexamples%2Fwealth-of-nations.ipynb">
     <figure>
       <img src="/assets/img/screenshots/jupyter_flex.tests.test_examples/apps_iris-clustering-reference.png" alt="Jupyter-flex: Iris Clustering">
       <figcaption>Iris clustering (runs in mybinder.org)</figcaption>

@@ -4,7 +4,10 @@
 
 <p align="center">
     <a href="https://pypi.org/project/jupyter-flex/">
-        <img src="https://badge.fury.io/py/jupyter-flex.svg">
+        <img src="https://img.shields.io/pypi/v/jupyter-flex.svg">
+    </a>
+    <a href="https://pypi.org/project/mkdocs-jupyter">
+        <img src="https://img.shields.io/pypi/pyversions/jupyter-flex.svg">
     </a>
     <a href="https://github.com/danielfrg/jupyter-flex/actions/workflows/test.yml">
         <img src="https://github.com/danielfrg/jupyter-flex/workflows/test/badge.svg">
@@ -18,7 +21,7 @@
     <a href="https://github.com/danielfrg/jupyter-flex/blob/main/LICENSE.txt">
         <img src="https://img.shields.io/:license-Apache%202-blue.svg">
     </a>
-    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.8.0?urlpath=voila%2Ftree%2Fexamples">
+    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.9.0?urlpath=voila%2Ftree%2Fexamples">
         <img src="https://mybinder.org/badge_logo.svg">
     </a>
 </p>

@@ -78,7 +78,7 @@ jobs:
           key: >
             node_modules
             ${{ runner.os }}
-            node${{ matrix.node-version }}
+            node-${{ matrix.node-version }}
             ${{ hashFiles('js/package*.json') }}
 
       - name: Install JS deps
@@ -111,9 +111,9 @@ jobs:
           key: >
             hatch-venv
             ${{ runner.os }}
-            py${{ matrix.python-version }}
-            ${{ hashFiles('pyproject.toml') }}
-            ${{ hashFiles('requirements/*') }}
+            python-${{ matrix.python-version }}
+            ${{ hashFiles('python/pyproject.toml') }}
+            ${{ hashFiles('python/requirements/*') }}
 
       - name: Ensure cache is healthy
         id: cached-python-env-check

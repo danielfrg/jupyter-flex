@@ -1,4 +1,3 @@
--r ./pyproject-all.txt
--r ./docs.txt
+-r ./pyproject.txt
 -r ./linting.txt
--r ./testing.txt
+-r ./examples.txt

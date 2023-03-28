@@ -21,7 +21,7 @@
     <a href="https://github.com/danielfrg/jupyter-flex/blob/main/LICENSE.txt">
         <img src="https://img.shields.io/:license-Apache%202-blue.svg">
     </a>
-    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.8.0?urlpath=voila%2Ftree%2Fexamples">
+    <a href="https://mybinder.org/v2/gh/danielfrg/jupyter-flex/0.9.0?urlpath=voila%2Ftree%2Fexamples">
         <img src="https://mybinder.org/badge_logo.svg">
     </a>
 </p>
