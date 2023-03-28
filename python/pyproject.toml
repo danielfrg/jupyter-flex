@@ -15,6 +15,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: Implementation :: CPython",
     "Operating System :: OS Independent",
+    'Intended Audience :: Developers',
     "Intended Audience :: Science/Research",
     "Topic :: Scientific/Engineering",
 ]
@@ -70,11 +71,10 @@ path = "jupyter_flex/__about__.py"
 features = ["test", "docs"]
 dependencies = [
     "black",
-    "coverage[toml]",
     "flake8",
     "isort",
-    "pylint",
-    "twine",
+    "pip-tools",
+    "ruff",
     # Examples
     "altair>=4.2.0",
     "bokeh>=2.4.2",

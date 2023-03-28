@@ -20,17 +20,40 @@ tasks:
   download-assets:
     cmds:
       - curl -o python/share/jupyter/nbconvert/templates/flex/static/require.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
+
   download-testdata:
     dir: python
     cmds:
       - bokeh sampledata
 
-  ## Test: Serve examples using voila
+  # Test: Serve examples using voila
   voila-examples:
     dir: examples
     cmds:
       - voila --template flex --VoilaConfiguration.file_whitelist '.*'
 
+  lockfiles:
+    dir: python
+    cmds:
+      - pip-compile -o requirements/pyproject.txt pyproject.toml --extra=test --extra=docs
+      - pip-compile -o requirements/linting.txt requirements/linting.in
+      - pip-compile -o requirements/examples.txt requirements/examples.in
+
+  check:
+    dir: python
+    cmds:
+      - isort . --check-only --diff
+      - black . --check
+      - ruff check jupyter_flex
+      # - flake8
+
+  fmt:
+    dir: python
+    cmds:
+      - isort .
+      - black .
+      - ruff check --fix jupyter_flex
+      # - flake8
   # ----------------------------------------------------------------------------
   # Testing
 

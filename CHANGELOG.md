@@ -5,6 +5,7 @@
 - Remove support for qgrid (it's no longer maintained)
 - Support nbconvert 7
 - Move from poetry to hatch for building the package
+- Remove jupyter-flex entrypoint, use voila directly with --template
 
 ## 0.8.0
 

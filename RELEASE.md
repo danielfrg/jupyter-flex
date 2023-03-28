@@ -12,12 +12,12 @@
 export VERSION=1.0.0
 
 # Optional reset
-make cleanall resetjs
-make download-assets npm-install
+task cleanall resetjs
+task download-assets npm-install
 
 # Build
-make all
-make upload-pypi
+task all
+task upload-pypi
 
 git commit -am "Release ${VERSION}" --allow-empty
 git tag ${VERSION}

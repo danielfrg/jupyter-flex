@@ -66,13 +66,13 @@ A system based on docker is provided and it's the same the CI system runs.
 
 ```shell
 # Run a group of tests
-make test-{marker}
-
-# Run all tests
-make test-all
+PYTEST_M=layouts task pytest
 
 # Run a specific test
-make PYTEST_K=ipysheet test-layout
+PYTEST_K=ipysheet task pytest
+
+# Run all tests
+task pytest-all
 ```
 
 To generate/update the test baselines just run the tests

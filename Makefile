@@ -22,14 +22,6 @@ all: npm-build pkg  ## Build JS and Python
 # ------------------------------------------------------------------------------
 # Python
 
-env:  ## Create Python env
-	cd $(CURDIR)/python; poetry install --with dev --with test --with examples
-
-
-pkg:  ## Build package
-	cd $(CURDIR)/python; poetry build
-
-
 check:  ## Check linting
 	cd $(CURDIR)/python; isort . --check-only --diff
 	cd $(CURDIR)/python; black . --check
