@@ -20,7 +20,13 @@ classifiers = [
     "Topic :: Scientific/Engineering",
 ]
 requires-python = ">=3.8"
-dependencies = ["ipykernel>=6.21.3", "nbconvert>=7.2.9", "voila>=0.4.0"]
+dependencies = [
+    "ipykernel>=6.21.3",
+    "jinja2>=3.1.2",
+    "MarkupSafe>=2.0.1",
+    "nbconvert>=7.2.9",
+    "voila>=0.4.0",
+]
 dynamic = ["version"]
 
 [project.optional-dependencies]
@@ -165,3 +171,24 @@ add_ignore = ["D100", "D101", "D102", "D103", "D104", "D105"]
 convention = "numpy"
 inherit = false
 match_dir = "jupyter_flex"
+name = "jupyter-flex"
+description = "Build dashboards using Jupyter Notebooks"
+readme = "README.md"
+license = "Apache-2.0"
+keywords = ["jupyter", "jupyterlab", "notebooks", "voila", "dashboards"]
+authors = [{ name = "Daniel Rodriguez", email = "daniel@danielfrg.com" }]
+maintainers = [{ name = "Daniel Rodriguez", email = "daniel@danielfrg.com" }]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Operating System :: OS Independent",
+    'Intended Audience :: Developers',
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering",
+]
+requires-python = ">=3.8"

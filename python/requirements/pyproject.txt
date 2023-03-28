@@ -91,8 +91,9 @@ ipython==8.11.0
     # via ipykernel
 jedi==0.18.2
     # via ipython
-jinja2==3.0.3
+jinja2==3.1.2
     # via
+    #   jupyter-flex (pyproject.toml)
     #   jupyter-server
     #   jupyterlab-server
     #   mkdocs
@@ -143,6 +144,7 @@ markdown-it-py==2.2.0
 markupsafe==2.1.2
     # via
     #   jinja2
+    #   jupyter-flex (pyproject.toml)
     #   nbconvert
 matplotlib-inline==0.1.6
     # via

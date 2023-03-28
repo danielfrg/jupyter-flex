@@ -1,6 +1,7 @@
 import os
 
 import jinja2
+import markupsafe
 from nbconvert.exporters.html import HTMLExporter
 from traitlets import default
 
@@ -12,7 +13,7 @@ def include_external_file(ctx, name):
     """Include a file relative to the notebook"""
     with open(os.path.abspath(name), "r") as f:
         content = f.read()
-    return jinja2.utils.Markup(content)
+    return markupsafe.Markup(content)
 
 
 class FlexIllusionistExporter(HTMLExporter):
