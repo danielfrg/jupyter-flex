@@ -1,23 +1,27 @@
 # Releasing
 
-## Upload to PyPI
-
-- Update version on `__init__.py`
-- Update version on `pyproject.toml`
+- Update version in `__about__.py`
 - Update `CHANGELOG.md`
 - Update `README.md` and docs
-    - Links to Binder should use the new version
+  - Links to Binder should use the new version
+- Update root `requirements.txt` to use the new version
+
+## Upload to PyPI
 
 ```shell
 export VERSION=1.0.0
 
 # Optional reset
-make cleanall resetjs
-make download-assets npm-install
+task resetjs
+task download-assets js-install
 
-# Build
-make all
-make upload-pypi
+# Clean and install JS
+task cleanall
+task js-build
+
+# Build Python and publish
+task build
+hatch publish
 
 git commit -am "Release ${VERSION}" --allow-empty
 git tag ${VERSION}

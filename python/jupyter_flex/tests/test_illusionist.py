@@ -12,6 +12,7 @@ pytestmark = [
 ]
 base_url = os.environ.get("PYTEST_BASE_URL", "http://localhost:8866")
 
+
 @pytest.mark.parametrize(
     "nb_name", ["linked", "matplotlib", "multiplier", "widget-gallery"]
 )

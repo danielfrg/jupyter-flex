@@ -16,20 +16,50 @@ tasks:
     cmds:
       - hatch build
 
-  # Download .css/.js assets
-  download-assets:
-    cmds:
-      - curl -o python/share/jupyter/nbconvert/templates/flex/static/require.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
-  download-testdata:
+  check:
     dir: python
     cmds:
-      - bokeh sampledata
+      - isort . --check-only --diff
+      - black . --check
+      - ruff check jupyter_flex
+      # - flake8
 
-  ## Test: Serve examples using voila
+  fmt:
+    dir: python
+    cmds:
+      - isort .
+      - black .
+      - ruff check --fix jupyter_flex
+
+  lockfiles:
+    dir: python
+    cmds:
+      - pip-compile -o requirements/pyproject.txt pyproject.toml --extra=test --extra=docs
+      - pip-compile -o requirements/linting.txt requirements/linting.in
+      - pip-compile -o requirements/examples.txt requirements/examples.in
+
+  # Convert one notebook using nbconvert
+  nbconvert-example:
+    cmds:
+      - jupyter-nbconvert examples/layouts/customize/classes-colors.ipynb --to=flex --output-dir docs/examples/layouts/customize --execute
+      # --ExecutePreprocessor.store_widget_state=True
+      # --ExecutePreprocessor.allow_errors=True
+
+  # Serve examples using voila
   voila-examples:
     dir: examples
     cmds:
       - voila --template flex --VoilaConfiguration.file_whitelist '.*'
+
+  # Download 3rd-party assets
+  download-assets:
+    cmds:
+      - curl -o python/share/jupyter/nbconvert/templates/flex/static/require.min.js https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js
+
+  download-testdata:
+    dir: python
+    cmds:
+      - bokeh sampledata
 
   # ----------------------------------------------------------------------------
   # Testing
@@ -58,14 +88,18 @@ tasks:
     cmds:
       - docker-compose up
 
-    # ----------------------------------------------------------------------------
-    # Docs
+  # ----------------------------------------------------------------------------
+  # Docs
 
   docs:
     cmds:
       - task: docs-examples-html
       - mkdocs build
       - task: docs-example-exec-nbs
+
+  docs-serve:
+    cmds:
+      - mkdocs serve
 
   # Convert examples to HTML dashboards and saves them into the docs source directory
   docs-examples-html:
@@ -92,3 +126,65 @@ tasks:
       - jupyter-nbconvert plots/*.ipynb 				--output-dir=$../site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
       - jupyter-nbconvert widgets/*.ipynb 				--output-dir=$../site/examples/notebooks --to=notebook --execute --ExecutePreprocessor.store_widget_state=True
       # - jupyter-nbconvert illusionist/*.ipynb 			--output-dir=$../site/examples/notebooks/illusionist --to=illusionist-nb --execute --ExecutePreprocessor.store_widget_state=True
+
+  cleanall:
+    cmds:
+      - task: py-clean
+      - task: js-clean
+      - rm -rf site
+      - rm -rf docs/examples
+
+  py-clean:
+    dir: python
+    cmds:
+      - rm -rf .pytest_cache dist htmlcov test-results .ruff_cache
+      - rm -f .coverage coverage.xml
+      - find . -type f -name '*.py[co]' -delete
+      - find . -type d -name __pycache__ -exec rm -rf {} +
+      - find . -type d -name .ipynb_checkpoints -exec rm -rf {} +
+
+  # ----------------------------------------------------------------------------
+  # Javascript
+
+  js-build:
+    dir: js
+    cmds:
+      - npm run build
+
+  js-dev:
+    dir: js
+    cmds:
+      - npm run dev
+
+  js-install:
+    dir: js
+    cmds:
+      - npm install
+
+  js-publish:
+    dir: js
+    cmds:
+      - npm version
+      - npm publish
+
+  js-clean:
+    cmds:
+      - task: js-clean-1
+      - task: js-clean-2
+
+  js-clean-1:
+    dir: js
+    cmds:
+      - npm run clean
+
+  js-clean-2:
+    dir: python
+    cmds:
+      - cd share/jupyter/nbconvert/templates/flex/static
+      - cd share/jupyter/nbconvert/templates/flex/static; rm -rf *.js* *.css* *.eot* *.woff* *.svg *.ttf *.txt
+
+  js-reset:
+    dir: js
+    cmds:
+      - task: js-clean
+      - rm -rf node_modules
