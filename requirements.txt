@@ -1,3 +1,3 @@
 # This file is for mybinder.org
-jupyter-flex==0.9.0
+jupyter-flex==0.9.1
 -r python/requirements/examples.txt
