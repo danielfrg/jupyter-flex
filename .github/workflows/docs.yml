@@ -29,7 +29,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - run: git fetch --prune --unshallow
+        with:
+          fetch-depth: 0
 
       - name: Install Task
         uses: arduino/setup-task@v1
@@ -119,7 +120,7 @@ jobs:
           task docs
 
       # ------------------------------------------------------------------------
-      # Release
+      # Publish
 
       - name: Staging - Upload to Netlify
         uses: netlify/actions/cli@master
