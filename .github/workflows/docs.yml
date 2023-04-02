@@ -11,34 +11,29 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PYTHONUNBUFFERED: "1"
-  FORCE_COLOR: "1"
+  PYTHONUNBUFFERED: 1
+  FORCE_COLOR: 1
 
 jobs:
   docs:
     name: Build docs
 
-    runs-on: ${{ matrix.os }}
-
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04]
-        python-version: ["3.10"]
-        node-version: ["18"]
+        python-version: [3.11]
+        node-version: [18]
+
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Install Task
-        uses: arduino/setup-task@v1
+      - uses: arduino/setup-task@v1
 
       # ------------------------------------------------------------------------
       # JS
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
@@ -67,7 +62,7 @@ jobs:
       # ------------------------------------------------------------------------
       # Python
 
-      - name: Python - Set up Python ${{ matrix.python-version }}
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
