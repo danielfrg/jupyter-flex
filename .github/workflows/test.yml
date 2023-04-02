@@ -28,7 +28,7 @@ jobs:
         python-version: [3.8, 3.9, "3.10", 3.11]
         node-version: ["18"]
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     services:
       selenium-hub:
