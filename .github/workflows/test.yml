@@ -19,17 +19,16 @@ env:
 
 jobs:
   test:
-    name: Test ${{ matrix.python-version }} on ${{ startsWith(matrix.os, 'macos-') && 'macOS' || startsWith(matrix.os, 'windows-') && 'Windows' || 'Linux' }}
-
-    runs-on: ${{ matrix.os }}
+    name: test / py${{ matrix.python-version }}
 
     strategy:
       fail-fast: false
       matrix:
         # os: [ubuntu-latest, windows-latest, macos-latest]
-        os: [ubuntu-20.04]
         python-version: [3.8, 3.9, "3.10", 3.11]
         node-version: ["18"]
+
+    runs-on: ubuntu-latest
 
     services:
       selenium-hub:
@@ -60,14 +59,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install Task
-        uses: arduino/setup-task@v1
+      - uses: arduino/setup-task@v1
 
       # ------------------------------------------------------------------------
       # JS
 
       - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 

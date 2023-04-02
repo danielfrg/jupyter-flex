@@ -1,5 +1,7 @@
+from jupyter_flex.__about__ import __version__
+
 from .exporter import FlexExporter  # noqa
 
-# from .exporter_illusionist import FlexIllusionistExporter  # noqa
-
-__version__ = "0.8.0"
+__all__ = [
+    "__version__",
+]

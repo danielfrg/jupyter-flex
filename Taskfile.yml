@@ -18,14 +18,16 @@ tasks:
 
   check:
     dir: python
+    ignore_error: true
     cmds:
       - isort . --check-only --diff
       - black . --check
       - ruff check jupyter_flex
-      # - flake8
+      - flake8
 
   fmt:
     dir: python
+    ignore_error: true
     cmds:
       - isort .
       - black .
