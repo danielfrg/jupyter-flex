@@ -16,7 +16,7 @@ env:
 
 jobs:
   docs:
-    name: Build docs
+    name: docs
 
     strategy:
       fail-fast: false
