@@ -246,7 +246,7 @@ pygments==2.14.0
     #   mkdocs-jupyter
     #   mkdocs-material
     #   nbconvert
-pymdown-extensions==9.10
+pymdown-extensions==10.0
     # via
     #   jupyter-flex (pyproject.toml)
     #   mkdocs-material
