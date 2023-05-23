@@ -232,7 +232,7 @@ pyzmq==25.0.2
     #   ipykernel
     #   jupyter-client
     #   jupyter-server
-requests==2.28.2
+requests==2.31.0
     # via
     #   jupyterlab-server
     #   pytest-base-url
