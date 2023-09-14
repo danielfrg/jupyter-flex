@@ -1,0 +1,15 @@
+{
+    "projects": {
+        "default": "danielfrg-com"
+    },
+    "targets": {
+        "danielfrg-com": {
+            "hosting": {
+                "jupyter-flex": [
+                    "jupyter-flex"
+                ]
+            }
+        }
+    },
+    "etags": {}
+}

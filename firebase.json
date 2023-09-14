@@ -1,0 +1,7 @@
+{
+    "hosting": {
+        "target": "jupyter-flex",
+        "public": "dist",
+        "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+    }
+}

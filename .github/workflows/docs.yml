@@ -10,14 +10,18 @@ concurrency:
   group: docs-${{ github.head_ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  id-token: write
+  pull-requests: write
+  checks: write
+
 env:
   PYTHONUNBUFFERED: 1
   FORCE_COLOR: 1
 
 jobs:
   build:
-    name: build 
-
     strategy:
       fail-fast: false
       matrix:
@@ -114,21 +118,22 @@ jobs:
         run: |
           task docs
 
-      # ------------------------------------------------------------------------
-      # Publish
-
-      - name: Staging - Upload to Netlify
-        uses: netlify/actions/cli@master
+      - name: Cache website
+        id: cache-build
+        uses: actions/cache@v3
         with:
-          args: deploy --dir=site
-        env:
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          path: dist
+          key: >
+            dist
+            ${{ github.run_id }}
+            ${{ github.run_attempt }}
 
-      - name: Prod - Upload to Netlify
-        uses: netlify/actions/cli@master
-        with:
-          args: deploy --dir=site --prod
-        env:
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+  firebase:
+    uses: ./.github/workflows/deploy-firebase.yml
+    needs: [build]
+    secrets: inherit
+
+  post-deploy:
+    uses: ./.github/workflows/deploy-cloudflare.yml
+    needs: [firebase]
+    secrets: inherit

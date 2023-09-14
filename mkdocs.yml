@@ -6,6 +6,7 @@ copyright: Copyright 2019 - 2023 Daniel Rodriguez
 repo_name: danielfrg/jupyter-flex
 repo_url: https://github.com/danielfrg/jupyter-flex
 edit_uri: ""
+site_dir: dist
 
 nav:
   - Home: index.md
