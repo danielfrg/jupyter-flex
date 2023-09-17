@@ -124,7 +124,7 @@ jobs:
         with:
           path: dist
           key: >
-            dist
+            website
             ${{ github.run_id }}
             ${{ github.run_attempt }}
 
