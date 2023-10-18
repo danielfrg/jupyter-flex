@@ -210,7 +210,7 @@ traittypes==0.2.1
     # via
     #   bqplot
     #   ipyleaflet
-urllib3==1.26.17
+urllib3==1.26.18
     # via requests
 vega-datasets==0.9.0
     # via -r examples.in
