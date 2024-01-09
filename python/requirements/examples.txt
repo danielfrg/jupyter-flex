@@ -40,7 +40,7 @@ entrypoints==0.4
     # via altair
 executing==1.2.0
     # via stack-data
-fonttools==4.39.3
+fonttools==4.43.0
     # via matplotlib
 idna==3.4
     # via requests
