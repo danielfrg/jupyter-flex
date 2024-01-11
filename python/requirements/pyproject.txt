@@ -81,7 +81,7 @@ ipython==8.11.0
     # via ipykernel
 jedi==0.18.2
     # via ipython
-jinja2==3.1.2
+jinja2==3.1.3
     # via
     #   jupyter-flex (pyproject.toml)
     #   jupyter-server
