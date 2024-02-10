@@ -31,20 +31,20 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: arduino/setup-task@v1
+      - uses: actions/checkout@v4
+      - uses: arduino/setup-task@v2
 
       # ------------------------------------------------------------------------
       # JS
 
       - name: Set up Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
       - name: Load cached node_modules
         id: cached-node_modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: js/node_modules
           key: >
@@ -67,11 +67,11 @@ jobs:
       # Python
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         id: cached-python-env
         with:
           path: ${{ env.pythonLocation }}
@@ -120,7 +120,7 @@ jobs:
 
       - name: Cache website
         id: cache-build
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: dist
           key: >
