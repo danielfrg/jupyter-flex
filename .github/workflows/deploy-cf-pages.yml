@@ -38,7 +38,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: illusionist-danielfrg-com
+          projectName: jupyter-flex-danielfrg-com
           directory: dist
 
       - name: Comment deploy url
