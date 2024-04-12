@@ -66,7 +66,7 @@ fastjsonschema==2.16.3
     # via nbformat
 h11==0.14.0
     # via wsproto
-idna==3.4
+idna==3.7
     # via
     #   anyio
     #   requests

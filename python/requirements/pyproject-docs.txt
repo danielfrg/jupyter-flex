@@ -77,7 +77,7 @@ h11==0.14.0
     # via wsproto
 htmlmin2==0.1.13
     # via mkdocs-minify-plugin
-idna==3.4
+idna==3.7
     # via
     #   anyio
     #   requests
