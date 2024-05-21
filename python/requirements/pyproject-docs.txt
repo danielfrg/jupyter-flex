@@ -302,7 +302,7 @@ pyzmq==25.0.2
     #   jupyter-server
 regex==2023.3.23
     # via mkdocs-material
-requests==2.31.0
+requests==2.32.0
     # via
     #   jupyterlab-server
     #   mkdocs-material
